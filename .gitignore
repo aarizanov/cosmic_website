@@ -1,2 +1,7 @@
-/wp-content/uploads/*
-wp-config.php
+wp-content/updraft/*
+wp-content/uploads/*
+wp-content/upgrade-temp-backup/*
+wp-content/upgrade/*
+wp-content/ai1wm-backups/*
+wp-content/wflogs/*
+wp-content/debug.log
