@@ -1,0 +1,23 @@
+a {
+	color: $color_primary;
+	text-decoration: none;
+	transition: 300ms all;
+	&:hover,
+	&:focus,
+	&:active {
+		color: $color__link-hover;
+		text-decoration: underline;
+		transition: 300ms all;
+	}
+	&:focus {
+		outline: none;
+	}
+	&:hover,
+	&:active {
+		outline: 0;
+	}
+}
+
+.post a {
+	color: $color_blue;
+}

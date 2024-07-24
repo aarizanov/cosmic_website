@@ -1,0 +1,29 @@
+.widget_cosmic_google_maps {
+	.cosmic-maps-wrap {
+		display: block;
+		min-height: 250px;
+	}
+	&.boxed_map {
+		box-shadow: 0px 1px 5px rgba(0,0,0,0.2);
+		.map_box {
+			padding: 20px;
+			min-height: 150px;
+			.title {
+				h5 {
+					font-size: 18px;
+					text-transform: uppercase;
+					margin: 0 0 15px 0;
+				}
+			}
+			.content {
+				.content-inner {
+					line-height: 19px;
+				}
+			}
+		}
+		iframe {
+			display: block;
+			margin: 0 auto;
+		}
+	}
+}

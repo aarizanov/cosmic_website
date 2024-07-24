@@ -1,0 +1,19 @@
+{
+  "name": "cosmic_site",
+  "version": "1.0.0",
+  "description": "Compile script made for cosmic site",
+  "main": "scripts.js",
+  "scripts": {
+    "sass": "node-sass --watch sass/style.scss style.css --output-style compressed --source-map true",
+    "js": "simplifyify 'js/*' --outfile 'js/dist/*.min.js' --minify --watch",
+    "watch": "concurrently \"npm run sass\" \"npm run js\""
+  },
+  "author": "Grcic Marko",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^3.6.1",
+    "node-sass": "^4.9.2",
+    "npm": "^6.4.1",
+    "simplifyify": "^4.0.3"
+  }
+}

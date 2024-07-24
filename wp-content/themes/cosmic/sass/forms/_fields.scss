@@ -1,0 +1,114 @@
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="range"],
+input[type="date"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="color"],
+textarea {
+	color: $color__text-input;
+	border: 2px solid $color__border-input;
+	border-radius: 0;
+	padding: 5px 10px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	transition: 300ms all;
+	&:focus {
+		color: $color__text-input-focus;
+		box-shadow: none;
+		outline: none;
+		border-color: darken( $color__border-input, 20% );
+		transition: 300ms all;
+	}
+	&::-webkit-input-placeholder {
+	  color: #bdbdbd;
+	}
+	&::-moz-placeholder {
+	  color: #bdbdbd;
+	}
+	&:-ms-input-placeholder {
+	  color: #bdbdbd;
+	}
+	&:-moz-placeholder {
+	  color: #bdbdbd;
+	}
+}
+
+select {
+	border: 1px solid $color__border-input;
+}
+
+textarea {
+	width: 100%;
+}
+
+
+.webinar_p {
+	width: 401px;
+	height: auto;
+	border-radius: 8px !important;
+	background-color: #ebeff2;
+  }
+  
+.webinar_text {
+	width: 401px;
+	height: auto;
+	border-radius: 8px !important;
+	background-color: #ebeff2;
+  }
+
+  .register {
+	width: 448px;
+	border-radius: 15px;
+	filter: drop-shadow(0 0 8.5px rgba(0,69,133,0.1));
+	background-color: #ffffff;
+	}
+
+  .register .vc_column-inner .wpb_wrapper .wpcf7 .wpcf7-form .wpcf7-validation-errors  {
+	color: red;
+	background: #ffd7d7;
+	border: 2px solid #ff9393;
+  }
+
+  .register .vc_column-inner .wpb_wrapper .wpcf7 .wpcf7-form .wpcf7-mail-sent-ok  {
+
+	color: #32af0b;
+    background: #89f05045;
+    border: 2px solid #32af0b;
+  }
+	  
+.lending_p {
+	width: 502px;
+	height: auto;
+	border-radius: 8px !important;
+	background-color: #ebeff2;
+  }
+
+
+  @media only screen and (max-width: 767px)  {
+	.webinar_p {
+		width: 314px;
+	}
+	.lending_p {
+		width: 314px;
+	}
+
+
+	.webinar_text {
+		width: 314px;
+		}
+
+		.register {
+			margin-left: -18%;
+		 width: 128%;
+	 }
+}

@@ -1,0 +1,85 @@
+/* MailChimp for WP styles
+----------------------------------------------------------------- */
+form.mc4wp-form {
+	position:relative;
+	padding-right: 7em;
+}
+form.mc4wp-form .mc4wp-form-fields input[type="email"] {
+	width: 100%;
+	vertical-align:top;
+  height: 63px;
+  line-height: normal !important;
+  padding-top: 5px;
+  padding-bottom: 5px;
+	@include border-box;
+}
+form.mc4wp-form .mc4wp-form-fields input[type="submit"] {
+	@include abs-rt;
+	max-width:8em;
+	vertical-align:top;
+  height: 63px;
+  line-height: normal !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+	padding-left: 2em;
+	padding-right: 2em;
+  @include transition-all;
+}
+
+form.mc4wp-form .mc4wp-alert {
+	margin: 1.5em 0;
+	padding: 1em;
+	line-height:1.5em;
+}
+
+form.mc4wp-form p {
+	margin: 0;
+}
+
+form.mc4wp-form p + p,
+form.mc4wp-form input + p {
+	margin-top: 1em;
+}
+
+/*Form on single post*/
+.single-post form.mc4wp-form {
+  padding-right: 0;
+}
+.post-form .form-desc {
+  max-width: 555px;
+  margin: 0 auto 2.4rem !important;
+}
+.post-form {
+  padding: 5.7rem 4rem 5.1rem;
+  text-align: center;
+}
+.post-form.dark-form {
+  background-color: #052036;
+  background-image: url(images/mc-bg.png);
+  background-size: cover;
+  @include  border-radius(5px);
+  margin-top: 2.2rem;
+}
+.post-form.dark-form .form-title {
+  color: #ffffff;
+  margin-top: 0;
+}
+.post-form.dark-form .form-desc {
+  color: #9d9aad;
+}
+.post-form.dark-form input[type="email"] {
+  background-color: #033254 !important;
+  border-color: #306088 !important;
+  color: #ffffff !important;
+}
+.form-content {
+  position: relative;
+  padding-right: 10.8rem;
+  max-width: 291px;
+  margin: auto;
+}
+form.mc4wp-form .mc4wp-form-fields .form-content input[type="submit"] {
+  max-width: 12em;
+  padding-left: 3.05rem;
+  padding-right: 3.05rem;
+}

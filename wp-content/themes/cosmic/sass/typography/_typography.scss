@@ -1,0 +1,44 @@
+body,
+button,
+input,
+select,
+optgroup,
+textarea {
+	color: $color__text-main;
+	font-family: $font__main;
+	@include font-size(1.0);
+	line-height: $font__line-height-body;
+}
+
+.text-center {
+	text-align: center;
+}
+.post ol.schema-how-to-steps,
+.post ul.schema-how-to-steps {
+	font-size: 2.4rem;
+	color: #1a486d;
+	.schema-how-to-step-text {
+		font-size: 20px;
+		color: #404040;
+	}
+}
+.schema-how-to-step-text a {
+	&:last-of-type {
+		margin-top: -30px;
+		display: block;
+		text-align: center;
+		font-size: 13px;
+		font-family: "Source Sans Pro", sans-serif;
+		line-height: 19.5px;
+	}
+}
+.schema-faq-question {
+	font-size: 2.4rem;
+	color: #1a486d;
+}
+.schema-faq-answer {
+	font-size: 20px;
+}
+@import "headings";
+
+@import "copy";

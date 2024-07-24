@@ -1,0 +1,92 @@
+.widget_cosmic_team_quote_boxes {
+	.widget-inner {
+		.team_members {
+			margin-bottom: 40px;
+			.team_members-inner {
+				display: flex;
+				.image {
+					margin-right: 5px;
+					.image-inner {
+						overflow: hidden;
+						.bg {
+							width: 130px;
+							height: 130px;
+							display: block;
+							border-radius: 100%;
+							background-position: center center;
+							background-size: cover;
+							background-repeat: no-repeat;
+							border: 2px solid #fff;
+							box-shadow: 0px 2px 8px -1px rgba(0,0,0,0.5);
+							margin-right: 2px;
+						}
+					}
+				}
+				.content {
+					color: #1a486d;
+					.title_area {
+						margin-bottom: 5px;
+						.title_area-inner {
+							h5 {
+								display: inline-block;
+								margin: 0;
+								&.position {
+									font-weight: 400;
+								}
+							}
+						}
+					}
+					.quote_area {
+						i {
+							font-size: 16px;
+							margin: 0;
+							&.quote_author {
+								font-weight: 600;
+							}
+						}
+					}
+				}
+			}
+			&:nth-of-type(even) {
+				.team_members-inner {
+					justify-content: space-between;
+				}
+				.image {
+					margin-right: 0px;
+					order: 2;
+					.bg {
+						float: right;
+					}
+				}
+				.content {
+					order: 1;
+				}
+			}
+		}
+	}
+}
+@media only screen and ( max-width: 767px )  {
+	.widget_cosmic_team_quote_boxes {
+		.widget-inner {
+			.team_members {
+				.team_members-inner {
+					flex-wrap: wrap;
+					justify-content: center;
+					.image {
+						order: 1 !important;
+						margin: 0 !important;
+						width: 100%;
+						.bg {
+							float: none !important;
+							margin: 0 auto !important;
+						}
+					}
+					.content {
+						order: 2 !important;
+						text-align: center;
+					}
+				}
+			}
+		}
+	}
+}

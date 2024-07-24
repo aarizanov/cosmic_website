@@ -1,0 +1,103 @@
+/* Blog layout: Excerpt 
+------------------------- */
+.post_layout_excerpt {
+  position:relative;
+  margin-bottom:0;
+    padding: 10px !important;
+    @include border-radius(5px);
+}
+.post_layout_excerpt.has-post-thumbnail,
+.post_layout_excerpt.post_format_image {
+  text-align: center;
+}
+.post_layout_excerpt + .post_layout_excerpt {
+  margin-top: 2.2rem;
+}
+.post_layout_excerpt:not(.sticky) + .post_layout_excerpt:not(.sticky) {
+  padding-top: 0;
+  border-top: none;
+}
+.post_layout_excerpt.sticky {
+  padding: 3em;
+}
+.post_layout_excerpt .post_featured {
+  display: inline-block;
+    @include border-radius(5px);
+    margin-bottom: 0;
+}
+.post_content.post_content_single>p {
+    margin-bottom: 0;
+}
+.post_content.post_content_single > p + * {
+    margin-top: 1.6em;
+}
+
+
+
+
+.post_layout_excerpt.post_format_audio .post_featured.without_thumb,
+.post_layout_excerpt.post_format_gallery .post_featured.without_thumb {
+  display:block;
+}
+.post_layout_excerpt .post_header,
+.post_meta_quote {
+  margin: 0;
+  padding: 0 1.8rem;
+  position:relative;
+  text-align: left;
+}
+.post_layout_excerpt .post_header .post_price {
+  width: auto;
+  @include abs-rt;
+  @include font(2.5em, 1.5em);
+}
+.post_layout_excerpt .post_title {
+  margin: 0;
+    padding-top: 1.8rem;
+}
+.post_layout_excerpt.post_format_quote .post_title {
+  padding-top: 1.8rem;
+  padding-bottom: 1.8rem;
+}
+.post_layout_excerpt .post_meta {
+    padding: 1.8rem 0;
+}
+.post_layout_excerpt .post_title+.post_meta {
+  padding: 0 0 1.8rem;
+}
+.post_layout_excerpt .post_meta {
+  margin-top:0.35rem;
+}
+.post_layout_excerpt .post_header + .post_content {
+  margin-top:0;
+}
+.post_layout_excerpt .swiper-pagination-bullets {
+  display: none;
+}
+.post_layout_excerpt blockquote {
+  margin: 0;
+}
+
+.post_author_before,
+.post_layout_excerpt .post_meta .post_meta_item .post_author_avatar,
+.post_meta .post_meta_item .post_author_avatar {
+  display: none;
+}
+.post_layout_excerpt .post_author_before,
+.post_author_before {
+  display: inline-block;
+}
+
+.post_layout_excerpt blockquote {
+  text-align: center;
+}
+.post_item.post_layout_excerpt.post_format_gallery .slider_container {
+  max-height: 421px;
+}
+
+
+// First post large in the Classic and Masonry
+body[class*="blog_style_classic"] .post_layout_excerpt,
+body[class*="blog_style_masonry"] .post_layout_excerpt {
+  margin-bottom: 3em;
+}

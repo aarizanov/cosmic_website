@@ -1,0 +1,600 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lktags - Linkedin Insight Tags\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-06-17 13:14+0000\n"
+"PO-Revision-Date: 2019-06-20 10:49+0700\n"
+"Last-Translator: admin <key7i@yahoo.com>\n"
+"Language-Team: \n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && n"
+"%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"X-Loco-Version: 2.3.0; wp-5.1.1\n"
+
+#: lktags-linkedin-insight-tags-admin.php:456
+msgid "*Please read more details about Linkedin Event in FAQ"
+msgstr ""
+"* Пожалуйста, прочитайте более подробную информацию о Linkedin Event в FAQ"
+
+#: lktags-linkedin-insight-tags-admin.php:95
+#, php-format
+msgid "<a href=\"%s\">Get Pro version</a> to enable"
+msgstr "<a href=\"%s\">Перейти к Pro версии</a>, чтобы подключить"
+
+#: lktags-linkedin-insight-tags-admin.php:439
+msgid "Add Event-specific image pixel*"
+msgstr "Добавить специфичный для события пиксель изображения *"
+
+#: inc/faq.php:24
+msgid "Add to cart."
+msgstr "Добавить в корзину."
+
+#: inc/seo-recommendations.php:16 inc/seo-recommendations.php:18
+msgid "Analyse my site"
+msgstr "Анализ моего сайта"
+
+#: inc/seo-recommendations.php:27
+msgid ""
+"Analyse your Google ranking with keywords, traffic and more (REGISTER TO GET "
+"10 FREE REQUESTS)"
+msgstr ""
+"Проанализируйте свой рейтинг Google по ключевым словам, трафику и т.д. "
+"(РЕГИСТРИРУЙТЕСЬ, ЧТОБЫ ПОЛУЧИТЬ 10 БЕСПЛАТНЫХ ЗАПРОСОВ)"
+
+#: inc/sidebar.php:31
+msgid ""
+"Auto optimize all image alt texts (including Woocommerce online store), of "
+"your pages, posts & product, from Yoast SEO optimization settings (keywords) "
+"and/or Post title."
+msgstr ""
+"Автоматическая оптимизация всех текстов изображений и изображений (включая "
+"интернет-магазин Woocommerce), ваших страниц, сообщений и продукта, с "
+"помощью настроек оптимизации Yoast (ключевые слова) и/или заголовка "
+"сообщения."
+
+#: inc/seo-recommendations.php:90
+msgid "Bing Webmaster tool"
+msgstr "Инструмент Bing Webmaster"
+
+#: lktags-linkedin-insight-tags-admin.php:307
+msgid "Boost your Alt texts"
+msgstr "Увеличьте свои тексты Alt"
+
+#: inc/sidebar.php:24
+msgid "BOOST YOUR RANKING"
+msgstr "Увеличить ваш рейтинг"
+
+#: lktags-linkedin-insight-tags-admin.php:270
+msgid "Boost your ranking on Search engines"
+msgstr "Повысьте свой рейтинг в поисковых системах"
+
+#: lktags-linkedin-insight-tags-admin.php:319
+msgid "Boost your ranking with optimized Alt tags"
+msgstr "Повысьте свой рейтинг с помощью оптимизированных тэгов Alt"
+
+#: inc/seo-recommendations.php:48 inc/seo-recommendations.php:50
+msgid "Check my links"
+msgstr "Проверьте мои ссылки"
+
+#: lktags-linkedin-insight-tags-admin.php:260
+msgid "Checking this box will remove all settings when you deactivate plugin."
+msgstr ""
+"Установка этого флажка приведет к удалению всех настроек при отключении "
+"плагина."
+
+#: lktags-linkedin-insight-tags-admin.php:287
+#, php-format
+msgid ""
+"Click <a href=\"%s\" target=\"_blank\">HERE</a> to Install <a href=\"%2s\" "
+"target=\"_blank\">Better Robots.txt plugin</a> to boost your robots.txt"
+msgstr ""
+"Нажмите <a href=\"%s\" target=\"_blank\">ЗДЕСЬ</a>чтобы установить <a href="
+"\"%2s\" target=\"_blank\">плагин Better Robots.txt </a> чтобы улучшить свой "
+"robots.txt"
+
+#: lktags-linkedin-insight-tags-admin.php:324
+#, php-format
+msgid ""
+"Click <a href=\"%s\" target=\"_blank\">HERE</a> to Install <a href=\"%2s\" "
+"target=\"_blank\">BIALTY Wordpress plugin</a> & auto-optimize all your alt "
+"texts for FREE"
+msgstr ""
+"Нажмите на <a href=\"%s\" target=\"_blank\"> ЗДЕСЬ </a>,чтобы установить <a "
+"href=\"%2s\" target=\"_blank\">плагин BIALTY Wordpress</a> и автоматически "
+"оптимизировать все ваши настройки текста бесплатно"
+
+#: inc/faq.php:53
+msgid "Create an Ad Account."
+msgstr "Создайте рекламный аккаунт."
+
+#: inc/seo-recommendations.php:44
+msgid "Dead links"
+msgstr "Мертвые ссылки"
+
+#: inc/seo-recommendations.php:45
+msgid ""
+"Dead links, 404 errors, 503 errors, ... all bad links that could hurt your "
+"website ranking."
+msgstr ""
+"Мертвые ссылки, 404 ошибки, 503 ошибки, ... все плохие ссылки, которые могут "
+"повредить вашему сайту."
+
+#: lktags-linkedin-insight-tags-admin.php:246
+msgid "Delete Settings"
+msgstr "Удалить настройки"
+
+#: inc/faq.php:25
+msgid "Download."
+msgstr "Скачать."
+
+#: inc/notices.php:16 inc/sidebar.php:13
+msgid "Email address"
+msgstr "Электронный адрес"
+
+#: lktags-linkedin-insight-tags-admin.php:134
+msgid "Enable LinkedIn Insight Tag"
+msgstr "Включить тег LinkedIn Insight"
+
+#: lktags-linkedin-insight-tags-admin.php:184
+msgid "Enable Linkedin Insight Tag on your store"
+msgstr "Включите тег Linkedin Insight в своем магазине"
+
+#: lktags-linkedin-insight-tags-admin.php:158
+msgid "Enter LinkedIn Insight TAG ID"
+msgstr "Введите идентификатор тега LinkedIn Insight"
+
+#: inc/sidebar.php:8
+#, php-format
+msgid ""
+"Enter your email to get our SEO best practice guide AND a 10% coupon code on "
+"Linkedin Insight Tag PRO plugin."
+msgstr ""
+"Введите адрес электронной почты, чтобы получить наше руководство по SEO и "
+"код купона 10% c на плагин Linkedin Insight Tag PRO."
+
+#: inc/faq.php:50
+msgid ""
+"First, head to the LinkedIn Marketing Solutions page. From the “Advertising” "
+"dropdown menu, we’ll want to select “Sign in to Campaign Manager.” If you "
+"don’t have a LinkedIn business account, then sign up for one now. Once "
+"that’s complete, head into the Campaign Manager!"
+msgstr ""
+"Сначала перейдите на страницу маркетинговых решений LinkedIn. В "
+"раскрывающемся меню «Реклама» мы хотим выбрать «Войти в Campaign Manager». "
+"Если у вас нет бизнес-аккаунта в LinkedIn, зарегистрируйтесь сейчас. Как "
+"только это будет завершено, зайдите в Менеджер кампании!"
+
+#: inc/notices.php:10
+msgid "Get 10&#37; OFF on Pinterest Conversion Tag PRO if you subscribe here:"
+msgstr ""
+"Получите скидку 10&#37; на тег конверсии Pinterest, если подпишитесь здесь:"
+
+#: inc/seo-recommendations.php:59
+msgid ""
+"Get a simple and professional-quality SEO audit of your website for FREE"
+msgstr ""
+"Получите простой и профессиональный качественный SEO аудит вашего сайта "
+"БЕСПЛАТНО"
+
+#: inc/sidebar.php:32
+msgid "Get BIALTY by Pagup &raquo;"
+msgstr "Получите BIALTY от Pagup &raquo;"
+
+#: inc/seo-recommendations.php:13
+msgid ""
+"Get insight on how well your site loads with actionable recommendations on "
+"how to optimize it."
+msgstr ""
+"Узнайте о том, насколько хорошо ваш сайт загружается с помощью полезных "
+"рекомендаций по его оптимизации."
+
+#: inc/sidebar.php:38
+msgid "Get PCTAGS by Pagup &raquo;"
+msgstr "Получите BIALTY от Pagup &raquo;"
+
+#: inc/faq.php:61
+msgid "Get the LinkedIn Data Partner ID."
+msgstr "Получите ID партнера LinkedIn."
+
+#: inc/seo-recommendations.php:26
+msgid "Google Ranking"
+msgstr "Рейтинг Google"
+
+#: inc/seo-recommendations.php:82
+msgid "Google Search Console"
+msgstr "Google Search Console"
+
+#: lktags-linkedin-insight-tags.php:85
+#, php-format
+msgid ""
+"Hey %1$s, %2$s Click on Allow & Continue to activate Linkedin Insight Tag on "
+"your website :)! The Linkedin tag (with base & event codes) allows you to "
+"track actions people take on your website. %2$s Never miss an important "
+"update -- opt-in to our security and feature updates notifications. %2$s See "
+"you on the other side."
+msgstr ""
+"Привет %1$s, %2$s Нажмите «Разрешить и продолжить», чтобы активировать тег "
+"Linkedin Insight на своем сайте :)! Тег Linkedin (с базовыми кодами и кодами "
+"событий) позволяет вам отслеживать действия людей на вашем сайте. %2$s "
+"Никогда не пропустите важное обновление - подпишитесь на наши уведомления о "
+"безопасности и обновлениях функций. %2$s Увидимся на другой стороне."
+
+#: inc/faq.php:16
+msgid "How to create an «event»?"
+msgstr "Как создать «событие»?"
+
+#: inc/faq.php:42
+msgid "How to find the Linkedin Insight ID (partner ID) ?"
+msgstr "Как найти Linkedin Insight ID (идентификатор партнера)?"
+
+#: inc/faq.php:72
+msgid "How to make sure that the LinkedIn tag is properly added?"
+msgstr "Как убедиться, что тег LinkedIn добавлен правильно?"
+
+#. Author URI of the plugin
+msgid "https://pagup.com/"
+msgstr "https://pagup.com/"
+
+#: inc/faq.php:20
+msgid ""
+"If you want to measure events or conversions on your website, you need to "
+"add an Insight tag to the “Thank You” page or by clicking a link or other "
+"ways. LinkedIn allows you to measure the following types of events:"
+msgstr ""
+"Если вы хотите измерять события или переходы на своем веб-сайте, вам нужно "
+"добавить тег Insight на страницу «Спасибо» или щелкнув ссылку или другим "
+"способом. LinkedIn позволяет измерять следующие типы событий:"
+
+#: inc/seo-recommendations.php:88
+msgid "Index your Website (Bing)"
+msgstr "Индексируйте свой сайт (Bing)"
+
+#: inc/seo-recommendations.php:80
+msgid "Index Your Website (Google)"
+msgstr "Индекс вашего сайта (Google)"
+
+#: inc/faq.php:65
+msgid ""
+"Inside of the Campaign Manager for the given Ad Account, open the “Account "
+"Assets” dropdown Menu. From there, select “Insight Tag” and move on to the "
+"specific tag! In the code that makes up the tag, find the variable named "
+"“_linkedin_data_partner_id” and get the number from that. In our case, it "
+"would be \"21653\" (for example) - however, make sure to use the number "
+"given directly inside of the tag! "
+msgstr ""
+"Внутри менеджера кампании для данной рекламной учетной записи откройте "
+"раскрывающееся меню «Активы учетной записи». Оттуда выберите «Insight Tag» и "
+"перейдите к определенному тегу! В коде, который составляет тег, найдите "
+"переменную с именем «_linkedin_data_partner_id» и получите из нее число. В "
+"нашем случае это будет «21653» (например) - однако, обязательно используйте "
+"номер, указанный непосредственно внутри тега!"
+
+#: inc/faq.php:26
+msgid "Install."
+msgstr "Установить."
+
+#: lktags-linkedin-insight-tags-admin.php:172
+msgid ""
+"It seems you enabled LinkedIn Insight tag above but forgot to enter TAG ID. "
+"Please make sure to enter TAG ID otherwise it won't work."
+msgstr ""
+"Кажется, вы включили тег LinkedIn Insight выше, но забыли ввести "
+"идентификатор TAG. Пожалуйста, не забудьте ввести TAG ID, иначе он не будет "
+"работать."
+
+#: inc/faq.php:27
+msgid "Lead."
+msgstr "Вести."
+
+#: lktags-linkedin-insight-tags-admin.php:124
+#, php-format
+msgid ""
+"LinkedIn Insight tag (or pixel) allows you to measure the activity of users "
+"on your website and track conversion to help you understand which campaign "
+"or ad is driving the most conversions. You can also build audiences using "
+"the tag, such as people who visited a specific page on your site, or build "
+"an audience of people who converted in the past to create a remarketing ad "
+"for them. Don't forget to check on your pages to find META BOX feature under "
+"WordPress post editor (for Event pixel). If you have any doubt, please refer "
+"to <a href=\"%s\" target=\"_blank\">Linkedin documentation</a>. Enjoy."
+msgstr ""
+"Тег (или пиксель) LinkedIn Insight позволяет измерять активность "
+"пользователей на вашем веб-сайте и отслеживать конверсию, чтобы понять, "
+"какая кампания или реклама вызывают наибольшее количество конверсий. Вы "
+"также можете создать аудиторию с помощью тега, например, людей, которые "
+"посетили определенную страницу на вашем сайте, или создать аудиторию людей, "
+"которые конвертировали в прошлом, чтобы создать для них рекламу "
+"ремаркетинга. Не забудьте проверить на своих страницах, чтобы найти функцию "
+"META BOX в редакторе сообщений WordPress (для пикселя события). Если у вас "
+"есть какие-либо сомнения, обратитесь к <a href=\"%s\" target=\"_blank"
+"\">документации Linkedin</a>. Наслаждайтесь."
+
+#: lktags-linkedin-insight-tags-admin.php:179
+msgid "LINKEDIN INSIGHT TAG ON WOOCOMMERCE"
+msgstr "LINKEDIN INSIGHT TAG НА ВУКОММЕРЦЕ"
+
+#: lktags-linkedin-insight-tags-admin.php:123
+msgid "Linkedin Insight tag, how does it work?"
+msgstr "Тег Linkedin Insight, как это работает?"
+
+#: lktags-linkedin-insight-tags-admin.php:128
+msgid "LINKEDIN INSIGHT TAGS"
+msgstr "Внутренний тэг Linkedin"
+
+#. Name of the plugin
+msgid "Lktags - Linkedin Insight Tags"
+msgstr "Lktags - Теги Linkedin Insight"
+
+#: lktags-linkedin-insight-tags-admin.php:221
+msgid "Lktags on Woocommerce product pages."
+msgstr "Lktags на страницах продуктов Woocommerce."
+
+#: inc/seo-recommendations.php:12
+msgid "Loading performance"
+msgstr "Производительность загрузки"
+
+#: inc/faq.php:46
+msgid "Log into the LinkedIn Campaign Manager."
+msgstr "Войдите в Менеджер кампании LinkedIn."
+
+#: inc/seo-recommendations.php:30 inc/seo-recommendations.php:32
+msgid "My Google Ranking"
+msgstr "Мой рейтинг Google"
+
+#: inc/seo-recommendations.php:62 inc/seo-recommendations.php:64
+msgid "My SEO profile"
+msgstr "Мой профиль SEO"
+
+#: inc/faq.php:57
+msgid ""
+"Next, create an Ad Account in order to access the LinkedIn Insight Tag. It "
+"will ask for some currency information, but no payment is currently required "
+"to access the Insight Tag. Once the Ad Account is created, it’s time to find "
+"the tag."
+msgstr ""
+"Затем создайте рекламный аккаунт для доступа к тегу LinkedIn Insight. Он "
+"запросит некоторую информацию о валюте, но в настоящее время не требуется "
+"никакой оплаты для доступа к тегу Insight. После создания рекламного "
+"аккаунта пришло время найти тег."
+
+#: lktags-linkedin-insight-tags-admin.php:196
+#: lktags-linkedin-insight-tags-admin.php:211
+msgid "NO"
+msgstr "НЕТ"
+
+#: lktags-linkedin-insight-tags-admin.php:447
+msgid "No"
+msgstr "Нет"
+
+#: lktags-linkedin-insight-tags-admin.php:455
+msgid ""
+"Note: Make sure to choose Yes and then copy-paste code in textarea. If you "
+"plan to use a Linkedin Pixel event on this page, make sure to disable "
+"Linkedin insight tag feature on settings page."
+msgstr ""
+"Примечание. Обязательно выберите «Да», а затем скопируйте и вставьте код в "
+"textarea. Если вы планируете использовать событие Pixed Linkedin на этой "
+"странице, обязательно отключите функцию тега проникновения Linkedin на "
+"странице настроек."
+
+#: lktags-linkedin-insight-tags-admin.php:380
+msgid ""
+"Note: once the codes are added, make sure to clear your cache. Then, you "
+"must add the domain for approval. To do this, go to the Insight Tag page, "
+"and on the right side, you must add your domain. WWW is not required. Once "
+"users enter your website, the tag will recognize and start running. At this "
+"point, you will see that LinkedIn has confirmed your domain."
+msgstr ""
+"Примечание. После добавления кодов обязательно очистите кэш. Затем вы должны "
+"добавить домен для утверждения. Для этого перейдите на страницу Insight Tag, "
+"и справа вы должны добавить свой домен. WWW не требуется. Как только "
+"пользователи войдут в ваш сайт, тег распознает и начнет работать. На этом "
+"этапе вы увидите, что LinkedIn подтвердил ваш домен."
+
+#: lktags-linkedin-insight-tags-admin.php:282
+msgid "Optimize site's crawlability with an optimized robots.txt"
+msgstr ""
+"Оптимизируйте возможность сканирования сайта с помощью оптимизированного "
+"файла robots.txt."
+
+#: inc/sidebar.php:30
+msgid "Optimize your ALT TEXT"
+msgstr "Оптимизируйте свой ALT TEXT"
+
+#: inc/sidebar.php:25
+msgid ""
+"Optimize your Robots.txt with Better Robots.txt (made by PAGUP) & Boost your "
+"ranking on search engines."
+msgstr ""
+"Оптимизируйте свой Robots.txt с помощью Better Robots.txt (сделанного PAGUP) "
+"и повышайте свой рейтинг в поисковых системах."
+
+#: inc/faq.php:34
+msgid ""
+"OR, for some specific needs, you can also add your Linkedin insight tag on "
+"all your web pages (with our main feature) and add a custom event pixel on a "
+"dedicated page with our Post META Box feature"
+msgstr ""
+"ИЛИ, для некоторых конкретных нужд, вы также можете добавить свой тег "
+"Linkedin Insight на все свои веб-страницы (с нашей основной функцией) и "
+"добавить пользовательский пиксель события на выделенную страницу с нашей "
+"функцией Post META Box."
+
+#. Author of the plugin
+msgid "Pagup"
+msgstr "Pagup"
+
+#: inc/sidebar.php:37
+msgid ""
+"Pinterest conversion tags plugin allows to add strategically your Pinterest "
+"TAG ID on all your webpages (with the base code). No need to edit your theme "
+"files!"
+msgstr ""
+"Плагин тегов конверсии Pinterest позволяет стратегически добавить ваш "
+"идентификатор TAG Pinterest на все ваши веб-страницы (с базовым кодом) Не "
+"нужно редактировать файлы вашей темы!"
+
+#: inc/sidebar.php:36
+msgid "Pinterest event tracking"
+msgstr "Отслеживание событий Pinterest"
+
+#: lktags-linkedin-insight-tags-admin.php:163
+msgid ""
+"Please refer to FAQ section : How to find your TAG ID - Please do NOT enter "
+"anything else BUT your TAG ID"
+msgstr ""
+"Пожалуйста, обратитесь к разделу часто задаваемых вопросов: Как найти свой "
+"TAG ID - Пожалуйста, НЕ вводите ничего, НО ваш TAG ID"
+
+#: inc/seo-recommendations.php:5
+msgid "Premium Feature"
+msgstr "Премиум функция"
+
+#: inc/faq.php:28
+msgid "Purchase."
+msgstr "Купить."
+
+#: lktags-linkedin-insight-tags-admin.php:377
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: inc/seo-recommendations.php:58
+msgid "SEO Score"
+msgstr "Оценка SEO"
+
+#: inc/seo-recommendations.php:1
+msgid "SEO tools recommended by Linkedin Insight Tags:"
+msgstr "SEO инструменты, рекомендованные Pinterest Теги конверсии:"
+
+#: lktags-linkedin-insight-tags-admin.php:102
+msgid "Settings"
+msgstr "Натсройки"
+
+#: lktags-linkedin-insight-tags-admin.php:90
+msgid "Settings saved."
+msgstr "Настройки сохранены"
+
+#: inc/notices.php:35
+#, php-format
+msgid ""
+"Show support for Bialty - Bulk Image Alt Text (Alt tag, Alt Attribute) with "
+"Yoast SEO + WooCommerce with a 5-star rating » <a href=\"%s\" target=\"_blank"
+"\">Click here</a>"
+msgstr ""
+"Показать поддержку Bialty - Alt Text для группового изображения (Alt tag, "
+"Alt Attribute) с Yoast SEO + WooCommerce с 5-звездочным рейтингом » <a href="
+"\"%s\" target=\"_blank\">Нажмите здесь</a>"
+
+#: inc/faq.php:29
+msgid "Sign up."
+msgstr "Зарегистрироваться."
+
+#: lktags-linkedin-insight-tags-admin.php:232
+#, php-format
+msgid ""
+"Specific \"Event pixels\" are managed with a &nbsp;<a href=\"%s\" target="
+"\"_blank\">META BOX feature</a>"
+msgstr ""
+"Определенные «пиксели события» управляются с помощью &nbsp;<a href=\"%s\" "
+"target=\"_blank\">функции META BOX </a>"
+
+#: inc/seo-recommendations.php:89
+msgid ""
+"Submit your website to Bing Webmaster tool and enjoy the real benefit of "
+"Better Robots.txt"
+msgstr ""
+"Отправьте свой сайт на инструмент Bing Webmaster и получите реальную выгоду "
+"от Better Robots.txt"
+
+#: inc/seo-recommendations.php:81
+msgid ""
+"Submit your website to Google Search Console and enjoy the real benefit of "
+"Better Robots.txt"
+msgstr ""
+"Отправьте свой сайт в Google Search Console и получите реальную выгоду от "
+"Better Robots.txt"
+
+#: inc/notices.php:19 inc/sidebar.php:16
+msgid "Subscribe"
+msgstr "Подписатсья"
+
+#: inc/sidebar.php:7
+msgid "Subscribe & get a 10% OFF"
+msgstr "Подпишитесь и получите 10% скидку"
+
+#. Description of the plugin
+msgid ""
+"The linkedin conversion Tracking plugin allows to add strategically your "
+"linkedin TAG ID on all your webpages (with the base code). No need to edit "
+"your theme files!"
+msgstr ""
+"Плагин отслеживания конверсии linkedin позволяет стратегически добавлять ваш "
+"идентификатор TAG на все ваши веб-страницы (с базовым кодом) Не нужно "
+"редактировать файлы вашей темы!"
+
+#: inc/faq.php:9
+msgid ""
+"The LinkedIn Insight Tag is a piece of lightweight JavaScript code you can "
+"easily drop on your website. It’s quick and easy to install, and unlocks "
+"robust campaign reporting, retargeting, and deeper insights about visitors."
+msgstr ""
+"Тег LinkedIn Insight - это фрагмент легкого кода JavaScript, который можно "
+"легко добавить на свой веб-сайт. Он быстр и прост в установке, а также "
+"обеспечивает надежную отчетность по кампаниям, ретаргетинг и более глубокое "
+"понимание посетителей."
+
+#: lktags-linkedin-insight-tags-admin.php:215
+#, php-format
+msgid ""
+"This feature will add a \"addtocart\" event on your <a href=\"%s\" target="
+"\"_blank\">CART PAGE</a>, just after your base code"
+msgstr ""
+"Эта функция добавит событие «addtocart» на <a href=\"%s\" target=\"_blank"
+"\">странице корзины</a>, сразу после базового кода"
+
+#: lktags-linkedin-insight-tags-admin.php:148
+msgid "This feature will add the Linkedin base code to all pages"
+msgstr "Эта функция добавит базовый код Linkedin на все страницы"
+
+#: lktags-linkedin-insight-tags-admin.php:200
+msgid ""
+"This feature will add your Linkedin insight tag your all your product pages, "
+"including Cart & Checkout pages"
+msgstr ""
+"Эта функция добавит ваш тег Linkedin Insight для всех ваших страниц "
+"продукта, включая страницы корзины и оформления заказа"
+
+#: inc/faq.php:76
+msgid ""
+"To ensure that the LinkedIn tag has been properly implemented, you must add "
+"the domain for approval. To do this, go to the Insight Tag page, and on the "
+"right side, you must add your domain. WWW is not required. Once users enter "
+"your website, the tag will recognize and start running. At this point, you "
+"will see that LinkedIn has confirmed your domain."
+msgstr ""
+"Чтобы убедиться, что тег LinkedIn был правильно реализован, необходимо "
+"добавить домен для утверждения. Для этого перейдите на страницу Insight Tag, "
+"и справа вы должны добавить свой домен. WWW не требуется. Как только "
+"пользователи войдут в ваш сайт, тег распознает и начнет работать. На этом "
+"этапе вы увидите, что LinkedIn подтвердил ваш домен."
+
+#: inc/sidebar.php:26
+msgid "Try Better Robots.txt &raquo;"
+msgstr "Попробуйте лучше Robots.txt&raquo;"
+
+#: inc/faq.php:5
+msgid "What is the Linkedin insight tag ?"
+msgstr "Что такое тег Insight Linkedin?"
+
+#: lktags-linkedin-insight-tags-admin.php:193
+#: lktags-linkedin-insight-tags-admin.php:208
+msgid "YES"
+msgstr "ДА"
+
+#: lktags-linkedin-insight-tags-admin.php:444
+msgid "Yes"
+msgstr "Да"

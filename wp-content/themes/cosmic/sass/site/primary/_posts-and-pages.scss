@@ -1,0 +1,39 @@
+.sticky {
+	display: block;
+}
+
+.hentry {
+	margin: 0 0 0;
+}
+
+.updated:not(.published) {
+	display: none;
+}
+
+.page-content,
+.entry-content,
+.entry-summary {
+	margin: 0;
+	overflow: hidden;
+}
+
+
+.post .entry-content {
+	margin-top: 55px;
+}
+
+.page-links {
+	clear: both;
+	margin: 0 0 1.5em;
+}
+
+.privacyPolicy{
+	position: absolute;
+}
+
+//#page {
+//	padding-top: 115px;
+//}
+
+@import "single";
+@import "projects";

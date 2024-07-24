@@ -1,0 +1,59 @@
+.entry-content > .vc_row {
+	margin-left: 0;
+	margin-right: 0;
+}
+.vc_container {
+	max-width: 1400px;
+	display: block;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	padding-left: 15px;
+	padding-right: 15px;
+	.vc_container {
+		padding: 0 !important;
+	}
+}
+.vc_display_invert {
+	position: relative;
+	&>div {
+		position: static;
+	}
+}
+.hidden-xl {
+	display: none;
+}
+@media only screen and ( max-width: 1199px )  {
+	.hidden-xl {
+		display: block;
+	}
+}
+
+// As vc full height works with js, add opacity 0
+// and via js add opacity 1
+.vc_row-o-full-height {
+	opacity: 0;
+	transition: 300ms all;
+}
+.careers-spacer {
+	height: 15vh !important;
+}
+@media only screen and ( max-height: 700px )  {
+	.careers-spacer {
+		height: 20vh !important;
+	}
+}
+@media only screen and ( max-height: 650px )  {
+	.careers-spacer {
+		height: 30vh !important;
+	}
+}
+@media only screen and ( max-height: 600px )  {
+	.careers-spacer {
+		height: 40vh !important;
+	}
+}
+@media only screen and ( max-height: 520px )  {
+	.careers-spacer {
+		height: 50vh !important;
+	}
+}

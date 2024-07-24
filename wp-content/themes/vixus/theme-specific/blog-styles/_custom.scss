@@ -1,0 +1,25 @@
+/* Blog layout: Custom
+------------------------- */
+.post_layout_custom {
+	position:relative;
+}
+.post_layout_custom .post_featured img {
+	width: 100%;
+}
+.post_layout_custom .post_header {
+	padding-top:0.01px;	  // Incapsulate margins inside the block without 'overflow: hidden'
+}
+
+
+/*Blog*/
+.fullpost-hide,
+.post_meta_quote {
+  display: none;
+}
+.post_format-post-format-quote .fullpost-hide,
+.post_format-post-format-quote .post_meta_quote {
+  display: block;
+}
+.post_item .post_counters_item:before {
+  vertical-align: baseline !important;
+}

@@ -1,0 +1,270 @@
+/*
+Theme Name: Vixus Child
+Theme URI: http://vixus.themerex.net/
+Description: Vixus - excellent WordPress theme with many different blog and header layouts
+Author: ThemeREX
+Author URI: http://themerex.net/
+Template: vixus
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+*/
+
+
+
+
+/* =Theme customization starts here
+-------------------------------------------------------------- */
+
+.sc_price_item_details{
+	margin: 2.8rem 1rem 1rem 3rem;
+}
+
+.sc_price_item_details ul{
+	min-width:280px;
+}
+
+.sc_testimonials_item_author_avatar {
+  width: 80% !important;
+  height: 80% !important;
+  margin: 0 1em 0 0 !important;
+}
+
+/*#dedicated-why-us{
+  background: 
+    -webkit-linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.0) 0%),
+    -webkit-linear-gradient(80deg, rgba(5, 32, 54, 1) 60%, rgba(255, 255, 255, 1) 61%);
+}*/
+#dedicated-why-us{
+  background: #052036;
+}
+.sc_googlemap_title{
+  padding-top:20px;
+}
+
+.slider-company .slider_container.slider_type_images .slider-slide::before{
+  background: none;
+}
+
+.job-position-info{
+  text-align: left !important;
+}
+
+.job-position-info hr {
+  margin: 20px 0;
+}
+
+.job_position{
+  border-top: 3px solid #052036;
+}
+.full-width-el{
+  width: 100%;
+}
+
+.post_type_job_position .mc4wp-form{
+  width:100%;
+}
+
+.scheme_default #page_preloader, .scheme_default .page_content_wrap, .scheme_default .custom-background .content_wrap > .content, .scheme_default .page_banner_wrap ~ .content_wrap > .content{
+  background-color: #fff;
+}
+.hero-fullwidth{
+  background: #001B31;
+}
+.scheme_dark strong{
+  color: #000;
+}
+
+.scheme_dark.footer_wrap h5{
+  color: #000;
+}
+.apply-form{
+  width:50%;
+  margin: 0 auto;
+}
+.apply-form input{
+  margin-bottom:10px;
+}
+.center-text{
+  text-align: center;
+  margin-left:auto;
+  margin-right: auto;
+}
+
+
+/* file upload button */
+.wpcf7-form  input[type="file"]::file-selector-button {
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 40px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 16px;
+  transition: background-color 200ms;
+  color: #06263f;
+}
+
+/* file upload button hover state */
+.wpcf7-form  input[type="file"]::file-selector-button:hover {
+  background-color: #f3f4f6;
+}
+
+/* file upload button active state */
+.wpcf7-form  input[type="file"]::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+
+.wpcf7-form  input, .wpcf7-form  textarea{
+  margin-bottom:10px;
+}
+
+.wpcf7-form  input[type="url"]{
+  width:100%;
+}
+/* ------------------------ */
+
+.wpcf7-form  .att-text{
+  font-size:12px;
+}
+
+.elementor-testimonial__image{
+/*  width: 100%;*/
+}
+
+.elementor-widget-testimonial-carousel .elementor-testimonial__image img{
+  width: 140px !important;
+  height:auto !important;
+}
+.elementor-testimonial__image img{
+  border-radius: 0 !important;
+}
+
+.sc_googlemap_wrap p, #post-7793 p, #post-2344 p{
+  color: #474747;
+  font-size: 16px;
+}
+
+header .elementor-button-link {
+  background-color: #e20074 !important;
+}
+
+.contacts_logo img{
+  max-height:56px !important;
+}
+.elementor-2 .elementor-element.elementor-element-6138967 .elementor-testimonial__text{
+  padding: 0 300px;
+}
+.elementor-2 .elementor-element.elementor-element-6138967.elementor-arrows-yes .elementor-main-swiper{
+    width: 100% !important;
+  }
+
+footer .widget .widget_title, .widget .widgettitle{
+  margin-bottom: 2.5rem;
+}
+
+.single-post .post_title {
+  font-size:30px;
+  line-height: 34px;
+  font-family: "Lato", sans-serif;
+}
+.single-post h2{
+  font-size: 24px;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  line-height: 26px;
+}
+.single-post h3{
+  font-size: 22px;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  line-height: 24px;
+}
+.single-post h4{
+  font-size: 20px;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  line-height: 22px;
+}
+.single-post h5, .single-post h6{
+  font-size: 18px;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  line-height: 20px;
+}
+.single-post p, .single-post ul, .single-post ol{
+  font-family: "Lato", sans-serif;
+  font-size:16px !important;
+  color: rgb(71, 71, 71);
+  line-height:21px;
+}
+.post_content.post_content_single > p + *{
+  margin-top: 0.75rem;
+}
+.wp-block-separator{
+  margin:0;
+}
+.post_content > figure.alignnone, .post_content > figure.aligncenter, .wp-block-group.has-background .wp-block-group__inner-container p, .wp-block-group.has-background .wp-block-group__inner-container .wp-block-button, .post_content > [class*="wp-block"]{
+  margin-bottom:0.5rem;
+}
+
+.sc_testimonials_item_author_avatar
+{
+  width: 4em;
+  height: 4em;
+  -webkit-border-radius: 0%;
+  -ms-border-radius: 0%;
+  border-radius: 0%;
+}
+
+.sc_item_title + .sc_item_descr, .sc_item_subtitle + .sc_item_descr{
+  min-height:100px;
+}
+
+.sc_layouts_column_icons_position_left .elementor-section-height-default{
+  min-height: 130px;
+}
+
+#contact_page_form {
+  background-color: #001B31;
+  padding: 0;
+}
+#contact_page_form h3{
+  color: #fff;
+  font-size:26px;
+  text-align: left;
+}
+#contact_page_form input, #contact_page_form textarea{
+  background-color: #0B3250;
+}
+
+#contact_page_form textarea:focus, #contact_page_form input:focus, #contact_page_form textarea, #contact_page_form input {
+    color: #ffffff;
+}
+
+.sc_form_field_checkbox .wpcf7-form-control-wrap, .sc_form_field_checkbox .wpcf7-form-control {
+  display: inline;
+}
+
+@media only screen and (max-width: 767px) {
+  .apply-form{
+    width:100%;
+  }
+
+  .elementor-section.elementor-section-boxed > .elementor-container{
+    max-width:100% !important;
+  }
+
+  .elementor-2 .elementor-element.elementor-element-6138967 .elementor-testimonial__text{
+    padding: 0;
+  }
+
+  .elementor-widget-testimonial-carousel .elementor-testimonial__image img{
+    width: 90px !important;
+    height:auto !important;
+  }
+
+}
+

@@ -1,0 +1,45 @@
+.widget_cosmic_gallery_slider {
+	.gallery_slide {
+		min-height: 200px;
+		width: 100%;
+		position: relative;
+		.bg {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-position: center;
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+	}
+	&.center_slider {
+		.gallery_slide {
+			min-height: 250px;
+			margin-top: 100px;
+			transition: 300ms all;
+			box-shadow: 0px -1px 11px rgba(0,0,0,0.2);
+			&.slick-active {
+				min-height: 300px;
+				margin-top: 50px;
+				transition: 300ms all;
+			}
+			&.slick-current {
+				min-height: 350px;
+				margin-top: 0;
+				transition: 300ms all;
+			}
+		}
+	}
+	.hidden {
+		display: none;
+		.fa {
+			text-align: center;
+			font-size: 75px;
+			display: block;
+			color: $color_secondary;
+			margin: 120px 0;
+		}
+	}
+}

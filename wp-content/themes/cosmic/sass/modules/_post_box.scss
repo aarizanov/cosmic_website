@@ -1,0 +1,60 @@
+.post_box {
+	box-shadow: 0px 1px 5px rgba(0,0,0,0.15);
+	transition: 500ms all;
+	margin-bottom: 30px;
+	&.hentry {
+		margin-bottom: 30px;
+	}
+	.featured-image {
+		display: block;
+		width: 100%;
+		height: 190px;
+		margin: 0;
+		position: relative;
+		.img {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-position: center;
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+	}
+	.content {
+		padding: 15px 23px;
+		min-height: 150px;
+		background-color: #fff;
+		a {
+			color: darken( $color_secondary, 20% );
+			&:hover,
+			&:active,
+			&:focus {
+				color: $color_primary;
+				text-decoration: none;
+			}
+		}
+		.posted {
+			display: block;
+			margin-bottom: 8px;
+			a {
+				font-weight: 600;
+				&:hover,
+				&:active,
+				&:focus {
+					text-decoration: underline;
+				}
+			}
+		}
+		.title {
+			margin-bottom: 0;
+		}
+	}
+	&:hover,
+	&:active,
+	&:focus {
+		box-shadow: 0px 1px 5px rgba(0,0,0,0.35);
+		transition: 500ms all;
+	}
+}

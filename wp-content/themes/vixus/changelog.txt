@@ -1,0 +1,101 @@
+Version 1.0.12
+    Added:
+        - WP 6.2.2 compatibility
+    Fixed:
+        - Update plugins to their latest versions
+        - Improve theme styles
+    Changed:
+        - Update demo data
+
+Version 1.0.11
+    Fixed:
+        - Import Essential Grid 3.0.17+ plugin
+
+Version 1.0.10
+    Fixed:
+        - Update plugins to their latest versions
+        - Improve theme styles
+        - Update scripts  libraries
+    Changed:
+        - Update demo data
+
+Version 1.0.9
+    Added:
+        - WP 6.1 compatibility
+    Fixed:
+        - Update plugins to their latest versions
+        - Improve theme styles
+    Changed:
+        - Update demo data
+
+Version 1.0.8
+    Added:
+    - WP 5.9 compatibility
+
+    Fixed:
+    - Theme styles
+
+    Changed:
+    - Theme content
+
+Version 1.0.7
+  Added:
+	- Elementor Timeline Widget Addon
+  Remove:
+	- Content timeline plugin
+  Fixed: 
+	- Update plugins to their latest versions
+
+Version 1.0.6
+        Added:
+            - Compatibility with Elementor 3.1+
+        Fixed:
+            - Update scripts  libraries
+            - Update plugins to their latest versions
+            - Improve theme styles
+
+Version 1.0.5
+        Added:
+            - Compatibility with WP 5.5
+        Fixed:
+            - Update plugins to their latest versions
+
+        Changed:
+            - Update demo data
+
+Version 1.0.4
+    Fixed:
+       - Themerex Addons vulnarability fixed
+
+Version 1.0.3
+    	Added:
+    		- Compatibility with WP 5.3
+    		- Compatibility with PHP7.3.3
+            - Compatibility with ThemeREX Updater
+
+        Fixed:
+            - Video on mobile devices
+            - Update plugins to their latest versions
+
+        Changed:
+    		- Update demo data
+
+Version 1.0.2
+	Fixed:
+	- Elementor styles
+	- Update scripts  libraries
+
+Version – v.1.0.1
+
+Changed:
+- Changed portfolio blog
+- Update demo data
+- Update animation on homepages
+
+Fixed:
+- Compatibility with WP 5.1
+- Update plugins to their latest versions
+- Improve theme styles
+- Scripts libraries updated
+
+Release – v.1.0

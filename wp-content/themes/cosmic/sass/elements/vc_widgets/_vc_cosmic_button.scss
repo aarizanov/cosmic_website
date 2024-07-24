@@ -1,0 +1,48 @@
+.widget_cosmic_button {
+	display: inline-block;
+	.widget-inner {
+		a {
+			display: block;
+			margin-bottom: 22px;
+		}
+	}
+}
+
+// Button container
+.widget_cosmic_button_container {
+	&.align_left {
+		.widget-inner {
+			justify-content: flex-start;
+		}
+	}
+	&.align_center {
+		.widget-inner {
+			justify-content: center;
+		}
+	}
+	&.align_right {
+		.widget-inner {
+			justify-content: flex-end;
+		}
+	}
+	&.space_normal {
+		.widget-inner .widget_cosmic_button {
+			margin: 0 0.25em;
+		}
+	}
+	&.space_large {
+		.widget-inner .widget_cosmic_button {
+			margin: 0 1em;
+		}
+	}
+	&.space_huge {
+		.widget-inner .widget_cosmic_button {
+			margin: 0 2em;
+		}
+	}
+	.widget-inner {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+}

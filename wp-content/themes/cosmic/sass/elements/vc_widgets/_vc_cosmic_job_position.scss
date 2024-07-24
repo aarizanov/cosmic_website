@@ -1,0 +1,111 @@
+.widget_job_positions_preview {
+	.job_position {
+		margin-bottom: 30px;
+		.job_position-inner {
+			background-color: #fff;
+			border: 1px solid #ededed;
+			border-top: 5px solid $color_blue;
+			height: 100%;
+			box-shadow: 1px 1px 6px rgba(0,0,0,0.15);
+			border-radius: 3px;
+			padding: 22px 19px;
+			.title-area {
+				display: flex;
+				flex-wrap: wrap;
+				border-bottom: 1px solid #ebebeb;
+				padding-bottom: 6px;
+				margin-bottom: 16px;
+				.icon {
+					width: 72px;
+					font-size: 38px;
+					color: $color_blue;
+					text-align: center;
+				}
+				.data {
+					.title {
+						margin: 0 0 11px 0;
+						a {
+							color: #5a5a5a;
+							&:hover,
+							&:active,
+							&:focus {
+								color: $color_primary;
+								text-decoration: none;
+							}
+						}
+					}
+					.tags {
+						display: flex;
+						flex-wrap: wrap;
+						span {
+							background-color: #cfdde7;
+							color: #757575;
+							font-size: 13px;
+							padding: 3px 7px;
+							margin-right: 6px;
+							margin-bottom: 6px;
+							border-radius: 4px;
+							text-transform: uppercase;
+						}
+					}
+				}
+			}
+			.content-area {
+				.content {
+					color: #5a5a5a;
+					font-size: 18px;
+					padding-bottom: 17px;
+					border-bottom: 1px solid #ebebeb;
+					margin-bottom: 15px;
+				}
+				.meta {
+					display: flex;
+					.meta-list,
+					.link {
+						width: 50%;
+						ul {
+							list-style: none;
+							margin: 0;
+							padding: 0;
+							li {
+								margin-bottom: 6px;
+								p,
+								span {
+									display: inline-block;
+								}
+								p {
+									color: #cccccc;
+									margin: 0;
+									margin-right: 5px;
+								}
+								b {
+									color: #5a5a5a;
+									text-transform: capitalize;
+								}
+							}
+						}
+					}
+					.link {
+						text-align: right;
+						a {
+							color: $color_blue;
+							font-size: 18px;
+							&:hover,
+							&:active,
+							&:focus {
+								color: $color_primary;
+								text-decoration: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	// No positions text
+	.default {
+		text-align: center;
+		margin-bottom: 40px;
+		width: 100%;
+	}
+}

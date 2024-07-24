@@ -1,0 +1,49 @@
+.back_to_top {
+	.back_to_top-inner {
+		a {
+			background-color: #ccc;
+			border-radius: 100%;
+			border: 2px solid #ccc;
+			opacity: 0.6;
+			width: 60px;
+			height: 60px;
+			position: fixed;
+			right: 70px;
+			bottom: 100px;
+			text-align: center;
+			visibility: visible;
+			transition: 500ms all;
+			cursor: pointer;
+			z-index: 99999;
+			i {
+				color: #fff;
+				font-size: 31px;
+				line-height: 52px;
+			}
+			&:hover,
+			&:active,
+			&:focus {
+				opacity: 0.9;
+			}
+		}
+	}
+	&.hidden {
+		a {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			transition: 500ms all;
+		}
+	}
+}
+
+@media screen and ( max-width: 991px ) {
+	.back_to_top {
+		.back_to_top-inner {
+			a {
+				right: 24px;
+				bottom: 50px;
+			}
+		}
+	}
+}

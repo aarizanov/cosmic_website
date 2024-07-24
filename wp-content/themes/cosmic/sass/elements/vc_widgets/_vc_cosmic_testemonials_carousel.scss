@@ -1,0 +1,103 @@
+.cosmic_widgets.widget_cosmic_testemonials_carousel {
+	.cosmic_slider {
+		.slider_item {
+			outline: none;
+			margin: auto 55px;
+			.content {
+				text-align: center;
+				color: inherit;
+				p {
+					text-align: justify;
+				}
+			}
+			.devider {
+				.img {
+					height: 50px;
+					width: 100%;
+					display: block;
+					background-position: center;
+					background-repeat: no-repeat;
+				}
+			}
+			.name {
+				text-align: center;
+				h5 {
+					color: inherit;
+					display: inline-block;
+					margin-right: 5px;
+				}
+				span {
+					display: inline-block;
+				}
+			}
+			.person_image {
+				width: 100px;
+				height: 100px;
+				position: relative;
+				margin: 0 auto 20px auto;
+				border-radius: 100%;
+				background-color: #fff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				outline: none;
+				.img {
+					display: block;
+					width: 96%;
+					height: 96%;
+					background-position: center;
+					background-size: cover;
+					border-radius: 100%;
+				}
+			}
+			.company_logo {
+				width: 120px;
+				position: relative;
+				margin: 0 auto 20px auto;
+				display: block;
+				outline: none;
+				img {
+					display: block;
+					filter: opacity(0.5) grayscale(100%) drop-shadow(0 0 0 #fff);
+				}
+			}
+			opacity: 0.5;
+			transition: 500ms all;
+			&.slick-current{
+				opacity: 1;
+				transition: 500ms all;
+			}
+		}
+		.slick-prev {
+			left: 30%;
+		}
+		.slick-next {
+			right: 30%;
+		}
+		.slick-prev,
+		.slick-next {
+			z-index: 10;
+			&:hover {
+				i {
+					color: $color_primary !important;
+				}
+			}
+			&:active,
+			&:focus {
+				background-color: transparent;
+				i {
+					color: inherit;
+				}
+			}
+		}
+	}
+}
+@media only screen and ( max-width: 767px )  {
+	.cosmic_widgets.widget_cosmic_testemonials_carousel {
+		.cosmic_slider {
+			.slider_item {
+				margin: auto 20px;
+			}
+		}
+	}
+}

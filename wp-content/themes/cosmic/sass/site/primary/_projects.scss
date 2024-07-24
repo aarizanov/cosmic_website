@@ -1,0 +1,57 @@
+.single-project {
+	article {
+		margin-bottom: 100px;
+		header {
+			.description {
+				text-align: center;
+				color: #666666;
+				margin-top: -40px;
+				margin-bottom: 50px;
+			}
+			.submitter {
+				margin-top: -30px;
+				margin-bottom: 10px;
+				.submitter-inner {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 23px;
+				}
+			}
+		}
+		.entry-content {
+			.vc_col-md-8 {
+//				padding: 0 5px;
+			}
+		}
+		.votes {
+			display: flex;
+			clear: both;
+			align-items: center;
+			justify-content: space-between;
+			margin: -10px 0 40px 0;
+			.votes_button {
+				a {
+					position: relative;
+					display: inline-block;
+					right: auto;
+					bottom: auto;
+				}
+			}
+		}
+		footer {
+			.video {
+				.video-inner {
+					padding: 0 11px;
+					& > iframe,
+					& > div {
+						width: 100%;
+					}
+					iframe {
+						background-color: #000;
+					}
+				}
+			}
+		}
+	}
+}

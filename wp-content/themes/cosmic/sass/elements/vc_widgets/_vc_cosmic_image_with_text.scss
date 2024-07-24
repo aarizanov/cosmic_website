@@ -1,0 +1,38 @@
+.widget_cosmic_image_with_text {
+	&.align_center {
+		text-align: center;
+	}
+	&.align_left {
+		text-align: left;
+	}
+	&.align_right {
+		text-align: right;
+	}
+	.widget-inner {
+		.image {
+			margin-bottom: 10px;
+		}
+		.title {
+			text-transform: uppercase;
+			h1, h2, h3, h4, h5 {
+				margin-bottom: 5px;
+				font-weight: 700;
+			}
+		}
+		.text {
+			p {
+				margin-top: 0;
+			}
+		}
+	}
+	a {
+		&:hover,
+		&:active,
+		&:focus {
+			text-decoration: none;
+			h5 {
+				text-decoration: underline;
+			}
+		}
+	}
+}

@@ -1,0 +1,17 @@
+.widget_cosmic_posts_carousel {
+	margin-bottom: 50px;
+	.cosmic_slider {
+		.slider_item {
+			outline: none;
+			.slider_item-inner {
+				padding: 0 15px;
+				.posted {
+					color: darken( $color_secondary, 20% );
+				}
+			}
+		}
+		.slick-dots {
+			bottom: -20px;
+		}
+	}
+}

@@ -1,0 +1,17 @@
+.widget_cosmic_jump_arrow {
+	height: 40px;
+	width: 100%;
+	.widget-inner {
+		a {
+			position: absolute;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			text-align: center;
+			bottom: 0;
+			z-index: 90;
+			font-size: 45px;
+			width: 40px;
+		}
+	}
+}

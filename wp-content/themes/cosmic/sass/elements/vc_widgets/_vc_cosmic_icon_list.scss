@@ -1,0 +1,25 @@
+.widget_cosmic_icon_list {
+	.list-unstyled {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.list_item {
+		.icon,
+		.text {
+			display: inline-block;
+		}
+		.icon {
+			margin-right: 1em;
+		}
+		.text {
+			h1, h2, h3, h4, h5, h6, p, b, a, i, ul {
+				display: inline-block;
+				color: inherit;
+			}
+		}
+		&.div_list_item {
+			text-align: center;
+		}
+	}
+}
