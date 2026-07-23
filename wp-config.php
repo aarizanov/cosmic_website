@@ -26,13 +26,13 @@ define( 'DISALLOW_FILE_EDIT', true ); // Disable File Editor - Security > Settin
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'cosmic');
+define('DB_NAME', 'cosmic_db');
 
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', 'cosmicdb');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'hzYS#thB=sQ687E!');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
@@ -92,8 +92,8 @@ define( 'WP_DEBUG_LOG', true );
 define( 'WP_DEBUG_DISPLAY', false );
 
 
-define('WP_HOME', 'http://cosmic.local/');
-define('WP_SITEURL', 'http://cosmic.local/');
+define('WP_HOME', 'https://www.cosmicdevelopment.com/');
+define('WP_SITEURL', 'https://www.cosmicdevelopment.com/');
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
