@@ -87,9 +87,11 @@ $table_prefix  = 'wp_';
 define('WP_MEMORY_LIMIT', '256M');
 define('FS_METHOD', 'direct');
 
-define('WP_DEBUG', true);
-define( 'WP_DEBUG_LOG', true );
-define( 'WP_DEBUG_DISPLAY', false );
+define('WP_DEBUG', false);
+define('WP_DEBUG_LOG', false);
+define('WP_DEBUG_DISPLAY', false);
+
+@ini_set('display_errors', 0);
 
 
 define('WP_HOME', 'https://www.cosmicdevelopment.com/');
