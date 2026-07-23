@@ -26,7 +26,7 @@ define( 'DISALLOW_FILE_EDIT', true ); // Disable File Editor - Security > Settin
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'cosmic_db');
+define('DB_NAME', 'cosmic_development');
 
 /** MySQL database username */
 define('DB_USER', 'cosmicdb');
