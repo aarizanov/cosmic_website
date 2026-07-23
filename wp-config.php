@@ -32,7 +32,7 @@ define('DB_NAME', 'cosmic_development');
 define('DB_USER', 'cosmicdb');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'hzYS#thB=sQ687E!');
+define('DB_PASSWORD', 'A^C#jhg#$%762vL8@pK');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');
