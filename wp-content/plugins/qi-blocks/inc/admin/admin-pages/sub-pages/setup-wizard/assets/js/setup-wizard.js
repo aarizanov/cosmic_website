@@ -194,7 +194,7 @@
 					success: function ( data ) {
 						const response = $.parseJSON( data );
 
-						// Wait a little for thank you popup visibility
+						// Wait a little for thank you popup visibility.
 						setTimeout(
 							function () {
 								document.body.classList.add( 'qodef-setup-wizard--ajax-finished' );

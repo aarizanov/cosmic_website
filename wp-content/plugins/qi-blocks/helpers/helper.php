@@ -1,7 +1,9 @@
 <?php
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
 
 if ( ! function_exists( 'qi_blocks_extend_block_categories' ) ) {
 	/**
@@ -48,7 +50,7 @@ if ( ! function_exists( 'qi_blocks_get_ajax_status' ) ) {
 			'redirect' => ! empty( $redirect ) ? esc_url( $redirect ) : '',
 		);
 
-		$output = json_encode( $response );
+		$output = wp_json_encode( $response );
 
 		exit( $output ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
@@ -78,6 +80,8 @@ if ( ! function_exists( 'qi_blocks_is_installed' ) ) {
 				return defined( 'WPFORMS_VERSION' );
 			case 'full_site_editing':
 				return get_theme_support( 'block-templates' );
+			case 'wpml':
+				return defined( 'ICL_SITEPRESS_VERSION' );
 			default:
 				return apply_filters( 'qi_blocks_is_plugin_installed', false, $plugin );
 
@@ -96,7 +100,7 @@ if ( ! function_exists( 'qi_blocks_execute_template_with_params' ) ) {
 	 */
 	function qi_blocks_execute_template_with_params( $template, $params ) {
 		if ( ! empty( $template ) && file_exists( $template ) ) {
-			// Extract params so they could be used in template
+			// Extract params so they could be used in template.
 			if ( is_array( $params ) && count( $params ) ) {
 				extract( $params, EXTR_SKIP ); // @codingStandardsIgnoreLine
 			}
@@ -109,6 +113,27 @@ if ( ! function_exists( 'qi_blocks_execute_template_with_params' ) ) {
 		} else {
 			return '';
 		}
+	}
+}
+
+if ( ! function_exists( 'qi_blocks_sanitize_module_template_part' ) ) {
+	/**
+	 * Sanitize module template part.
+	 *
+	 * @param string $template temp path to file that is being loaded
+	 *
+	 * @return string - string with template path
+	 */
+	function qi_blocks_sanitize_module_template_part( $template ) {
+		$available_characters = '/[^A-Za-z0-9\_\-\/]/';
+
+		if ( ! empty( $template ) && is_scalar( $template ) ) {
+			$template = preg_replace( $available_characters, '', $template );
+		} else {
+			$template = '';
+		}
+
+		return $template;
 	}
 }
 
@@ -125,6 +150,8 @@ if ( ! function_exists( 'qi_blocks_get_template_with_slug' ) ) {
 		$template = '';
 
 		if ( ! empty( $temp ) ) {
+			$slug = qi_blocks_sanitize_module_template_part( $slug );
+
 			if ( ! empty( $slug ) ) {
 				$template = "$temp-$slug.php";
 
@@ -152,19 +179,8 @@ if ( ! function_exists( 'qi_blocks_get_template_part' ) ) {
 	 * @return string - string containing html of template
 	 */
 	function qi_blocks_get_template_part( $module, $template, $slug = '', $params = array() ) {
-		$available_characters = '/[^A-Za-z0-9\_\-\/]/';
-
-		if ( is_scalar( $module ) ) {
-			$module = preg_replace( $available_characters, '', $module );
-		} else {
-			$module = '';
-		}
-
-		if ( is_scalar( $template ) ) {
-			$template = preg_replace( $available_characters, '', $template );
-		} else {
-			$template = '';
-		}
+		$module   = qi_blocks_sanitize_module_template_part( $module );
+		$template = qi_blocks_sanitize_module_template_part( $template );
 
 		$temp = QI_BLOCKS_INC_PATH . '/' . $module . '/' . $template;
 
@@ -184,6 +200,7 @@ if ( ! function_exists( 'qi_blocks_template_part' ) ) {
 	 * @param array  $params array of parameters to pass to template
 	 */
 	function qi_blocks_template_part( $module, $template, $slug = '', $params = array() ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_blocks_get_template_part( $module, $template, $slug, $params );
 	}
 }
@@ -201,6 +218,9 @@ if ( ! function_exists( 'qi_blocks_get_block_list_template_part' ) ) {
 	 */
 	function qi_blocks_get_block_list_template_part( $module, $template, $slug = '', $params = array() ) {
 		$temp_in_variation = false;
+		$module            = qi_blocks_sanitize_module_template_part( $module );
+		$template          = qi_blocks_sanitize_module_template_part( $template );
+		$slug              = qi_blocks_sanitize_module_template_part( $slug );
 
 		/* In order to use this way of templating, option for list item layout must be called layoyt */
 		if ( isset( $params['layout'] ) ) {
@@ -236,6 +256,7 @@ if ( ! function_exists( 'qi_blocks_class_attribute' ) ) {
 	 * @see qi_blocks_get_class_attribute()
 	 */
 	function qi_blocks_class_attribute( $value ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_blocks_get_class_attribute( $value );
 	}
 }
@@ -264,6 +285,7 @@ if ( ! function_exists( 'qi_blocks_id_attribute' ) ) {
 	 * @see qi_blocks_get_id_attribute()
 	 */
 	function qi_blocks_id_attribute( $value ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_blocks_get_id_attribute( $value );
 	}
 }
@@ -291,6 +313,7 @@ if ( ! function_exists( 'qi_blocks_inline_attrs' ) ) {
 	 * @param bool  $allow_zero_values
 	 */
 	function qi_blocks_inline_attrs( $attrs, $allow_zero_values = false ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_blocks_get_inline_attrs( $attrs, $allow_zero_values );
 	}
 }
@@ -336,6 +359,14 @@ if ( ! function_exists( 'qi_blocks_get_inline_attr' ) ) {
 	 * @return string generated html attribute
 	 */
 	function qi_blocks_get_inline_attr( $value, $attr, $glue = '', $allow_zero_values = false ) {
+		$properties = '';
+
+		// Leave only allowed characters in attr.
+		preg_match( '/[-_a-z0-9]+/', $attr, $attr_matches );
+
+		$single_attr_key = $attr_matches[0];
+
+		// Concatenate values in one variable and check for zero values.
 		if ( $allow_zero_values ) {
 			if ( '' !== $value ) {
 
@@ -344,8 +375,6 @@ if ( ! function_exists( 'qi_blocks_get_inline_attr' ) ) {
 				} else {
 					$properties = $value;
 				}
-
-				return $attr . '="' . esc_attr( $properties ) . '"';
 			}
 		} else {
 			if ( ! empty( $value ) ) {
@@ -357,12 +386,22 @@ if ( ! function_exists( 'qi_blocks_get_inline_attr' ) ) {
 				} else {
 					return '';
 				}
-
-				return $attr . '="' . esc_attr( $properties ) . '"';
 			}
 		}
 
-		return '';
+		if ( empty( $properties ) || empty( $attr_matches[0] ) ) {
+			return '';
+		}
+
+		// Remove not allowed js events.
+		if ( 'on' === substr( $single_attr_key, 0, 2 ) || 'href' === $single_attr_key || 'on' === substr( $properties, 0, 2 ) || 'href' === $properties ) {
+			return '';
+		}
+
+		$sanitized_properties = esc_attr( sanitize_text_field( html_entity_decode( $properties ) ) );
+		$clean_properties     = preg_replace( '/<[^>]*>|#x3[ce];|&lt;|&gt;/i', '', $sanitized_properties );
+
+		return $attr . '="' . $clean_properties . '"';
 	}
 }
 
@@ -472,7 +511,7 @@ if ( ! function_exists( 'qi_blocks_get_svg_icon' ) ) {
 if ( ! function_exists( 'qi_blocks_get_block_option_typography_attributes' ) ) {
 	/**
 	 * Function that return block option typography attributes
-	 * 
+	 *
 	 * @param string $option_name
 	 *
 	 * @return array
@@ -484,123 +523,123 @@ if ( ! function_exists( 'qi_blocks_get_block_option_typography_attributes' ) ) {
 		}
 
 		return array(
-			esc_attr( $option_name ) . 'FontFamily'                 => array(
+			esc_attr( $option_name ) . 'FontFamily'        => array(
 				'type'    => 'string',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'FontSize'                   => array(
+			esc_attr( $option_name ) . 'FontSize'          => array(
 				'type'    => 'number',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'FontSizeUnit'               => array(
-				'type'    => 'string',
-				'default' => 'px',
-			),
-			esc_attr( $option_name ) . 'FontSizeDecimal'            => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'FontSizeTablet'             => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'FontSizeMobile'             => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'FontSizeUnitTablet'         => array(
+			esc_attr( $option_name ) . 'FontSizeUnit'      => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
-			esc_attr( $option_name ) . 'FontSizeUnitMobile'         => array(
+			esc_attr( $option_name ) . 'FontSizeDecimal'   => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'FontSizeTablet'    => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'FontSizeMobile'    => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'FontSizeUnitTablet' => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
-			esc_attr( $option_name ) . 'FontSizeDecimalTablet'      => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'FontSizeDecimalMobile'      => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'FontWeight'                 => array(
-				'type'    => 'string',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'TextTransform'              => array(
-				'type'    => 'string',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'FontStyle'                  => array(
-				'type'    => 'string',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'TextDecoration'             => array(
-				'type'    => 'string',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'LineHeight'                 => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'LineHeightUnit'             => array(
+			esc_attr( $option_name ) . 'FontSizeUnitMobile' => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
-			esc_attr( $option_name ) . 'LineHeightDecimal'          => array(
+			esc_attr( $option_name ) . 'FontSizeDecimalTablet' => array(
 				'type'    => 'number',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'LineHeightTablet'           => array(
+			esc_attr( $option_name ) . 'FontSizeDecimalMobile' => array(
 				'type'    => 'number',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'LineHeightMobile'           => array(
+			esc_attr( $option_name ) . 'FontWeight'        => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'TextTransform'     => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'FontStyle'         => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'TextDecoration'    => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'LineHeight'        => array(
 				'type'    => 'number',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'LineHeightUnitTablet'       => array(
+			esc_attr( $option_name ) . 'LineHeightUnit'    => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
-			esc_attr( $option_name ) . 'LineHeightUnitMobile'       => array(
+			esc_attr( $option_name ) . 'LineHeightDecimal' => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'LineHeightTablet'  => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'LineHeightMobile'  => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'LineHeightUnitTablet' => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
-			esc_attr( $option_name ) . 'LineHeightDecimalTablet'    => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'LineHeightDecimalMobile'    => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'LetterSpacing'              => array(
-				'type'    => 'number',
-				'default' => '',
-			),
-			esc_attr( $option_name ) . 'LetterSpacingUnit'          => array(
+			esc_attr( $option_name ) . 'LineHeightUnitMobile' => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
-			esc_attr( $option_name ) . 'LetterSpacingDecimal'       => array(
+			esc_attr( $option_name ) . 'LineHeightDecimalTablet' => array(
 				'type'    => 'number',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'LetterSpacingTablet'        => array(
+			esc_attr( $option_name ) . 'LineHeightDecimalMobile' => array(
 				'type'    => 'number',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'LetterSpacingMobile'        => array(
+			esc_attr( $option_name ) . 'LetterSpacing'     => array(
 				'type'    => 'number',
 				'default' => '',
 			),
-			esc_attr( $option_name ) . 'LetterSpacingUnitTablet'    => array(
+			esc_attr( $option_name ) . 'LetterSpacingUnit' => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
-			esc_attr( $option_name ) . 'LetterSpacingUnitMobile'    => array(
+			esc_attr( $option_name ) . 'LetterSpacingDecimal' => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'LetterSpacingTablet' => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'LetterSpacingMobile' => array(
+				'type'    => 'number',
+				'default' => '',
+			),
+			esc_attr( $option_name ) . 'LetterSpacingUnitTablet' => array(
+				'type'    => 'string',
+				'default' => 'px',
+			),
+			esc_attr( $option_name ) . 'LetterSpacingUnitMobile' => array(
 				'type'    => 'string',
 				'default' => 'px',
 			),
@@ -624,796 +663,796 @@ if ( ! function_exists( 'qi_blocks_get_block_container_attributes' ) ) {
 	 */
 	function qi_blocks_get_block_container_attributes() {
 		return array(
-			'marginTop' => array(
-				'type' => 'number',
+			'marginTop'                                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginTopTablet' => array(
-				'type' => 'number',
+			'marginTopTablet'                          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginTopMobile' => array(
-				'type' => 'number',
+			'marginTopMobile'                          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginTopDecimal' => array(
-				'type' => 'number',
+			'marginTopDecimal'                         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginTopDecimalTablet' => array(
-				'type' => 'number',
+			'marginTopDecimalTablet'                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginTopDecimalMobile' => array(
-				'type' => 'number',
+			'marginTopDecimalMobile'                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginRight' => array(
-				'type' => 'number',
+			'marginRight'                              => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginRightTablet' => array(
-				'type' => 'number',
+			'marginRightTablet'                        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginRightMobile' => array(
-				'type' => 'number',
+			'marginRightMobile'                        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginRightDecimal' => array(
-				'type' => 'number',
+			'marginRightDecimal'                       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginRightDecimalTablet' => array(
-				'type' => 'number',
+			'marginRightDecimalTablet'                 => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginRightDecimalMobile' => array(
-				'type' => 'number',
+			'marginRightDecimalMobile'                 => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginBottom' => array(
-				'type' => 'number',
+			'marginBottom'                             => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginBottomTablet' => array(
-				'type' => 'number',
+			'marginBottomTablet'                       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginBottomMobile' => array(
-				'type' => 'number',
+			'marginBottomMobile'                       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginBottomDecimal' => array(
-				'type' => 'number',
+			'marginBottomDecimal'                      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginBottomDecimalTablet' => array(
-				'type' => 'number',
+			'marginBottomDecimalTablet'                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginBottomDecimalMobile' => array(
-				'type' => 'number',
+			'marginBottomDecimalMobile'                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginLeft' => array(
-				'type' => 'number',
+			'marginLeft'                               => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginLeftTablet' => array(
-				'type' => 'number',
+			'marginLeftTablet'                         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginLeftMobile' => array(
-				'type' => 'number',
+			'marginLeftMobile'                         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginLeftDecimal' => array(
-				'type' => 'number',
+			'marginLeftDecimal'                        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginLeftDecimalTablet' => array(
-				'type' => 'number',
+			'marginLeftDecimalTablet'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginLeftDecimalMobile' => array(
-				'type' => 'number',
+			'marginLeftDecimalMobile'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'marginUnit' => array(
-				'type' => 'string',
+			'marginUnit'                               => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'marginUnitTablet' => array(
-				'type' => 'string',
+			'marginUnitTablet'                         => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'marginUnitMobile' => array(
-				'type' => 'string',
+			'marginUnitMobile'                         => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'paddingTop' => array(
-				'type' => 'number',
+			'paddingTop'                               => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingTopTablet' => array(
-				'type' => 'number',
+			'paddingTopTablet'                         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingTopMobile' => array(
-				'type' => 'number',
+			'paddingTopMobile'                         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingTopDecimal' => array(
-				'type' => 'number',
+			'paddingTopDecimal'                        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingTopDecimalTablet' => array(
-				'type' => 'number',
+			'paddingTopDecimalTablet'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingTopDecimalMobile' => array(
-				'type' => 'number',
+			'paddingTopDecimalMobile'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingRight' => array(
-				'type' => 'number',
+			'paddingRight'                             => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingRightTablet' => array(
-				'type' => 'number',
+			'paddingRightTablet'                       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingRightMobile' => array(
-				'type' => 'number',
+			'paddingRightMobile'                       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingRightDecimal' => array(
-				'type' => 'number',
+			'paddingRightDecimal'                      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingRightDecimalTablet' => array(
-				'type' => 'number',
+			'paddingRightDecimalTablet'                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingRightDecimalMobile' => array(
-				'type' => 'number',
+			'paddingRightDecimalMobile'                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingBottom' => array(
-				'type' => 'number',
+			'paddingBottom'                            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingBottomTablet' => array(
-				'type' => 'number',
+			'paddingBottomTablet'                      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingBottomMobile' => array(
-				'type' => 'number',
+			'paddingBottomMobile'                      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingBottomDecimal' => array(
-				'type' => 'number',
+			'paddingBottomDecimal'                     => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingBottomDecimalTablet' => array(
-				'type' => 'number',
+			'paddingBottomDecimalTablet'               => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingBottomDecimalMobile' => array(
-				'type' => 'number',
+			'paddingBottomDecimalMobile'               => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingLeft' => array(
-				'type' => 'number',
+			'paddingLeft'                              => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingLeftTablet' => array(
-				'type' => 'number',
+			'paddingLeftTablet'                        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingLeftMobile' => array(
-				'type' => 'number',
+			'paddingLeftMobile'                        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingLeftDecimal' => array(
-				'type' => 'number',
+			'paddingLeftDecimal'                       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingLeftDecimalTablet' => array(
-				'type' => 'number',
+			'paddingLeftDecimalTablet'                 => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingLeftDecimalMobile' => array(
-				'type' => 'number',
+			'paddingLeftDecimalMobile'                 => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'paddingUnit' => array(
-				'type' => 'string',
+			'paddingUnit'                              => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'paddingUnitTablet' => array(
-				'type' => 'string',
+			'paddingUnitTablet'                        => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'paddingUnitMobile' => array(
-				'type' => 'string',
+			'paddingUnitMobile'                        => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'zIndex' => array(
-				'type' => 'number',
+			'zIndex'                                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'cssId' => array(
-				'type' => 'string',
+			'cssId'                                    => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'cssClasses' => array(
-				'type' => 'string',
+			'cssClasses'                               => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'entranceAnimation' => array(
-				'type' => 'string',
+			'entranceAnimation'                        => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'entranceAnimationDuration' => array(
-				'type' => 'string',
+			'entranceAnimationDuration'                => array(
+				'type'    => 'string',
 				'default' => 'normal',
 			),
-			'entranceAnimationDelay' => array(
-				'type' => 'number',
+			'entranceAnimationDelay'                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundType' => array(
-				'type' => 'string',
+			'advancedBackgroundType'                   => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundColor' => array(
-				'type' => 'string',
+			'advancedBackgroundColor'                  => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundImage' => array(
-				'type' => 'object',
+			'advancedBackgroundImage'                  => array(
+				'type'    => 'object',
 				'default' => array(
-					'id' => NULL,
+					'id'  => null,
 					'url' => '',
 					'alt' => '',
 				),
 			),
-			'advancedBackgroundImageTablet' => array(
-				'type' => 'object',
+			'advancedBackgroundImageTablet'            => array(
+				'type'    => 'object',
 				'default' => array(
-					'id' => NULL,
+					'id'  => null,
 					'url' => '',
 					'alt' => '',
 				),
 			),
-			'advancedBackgroundImageMobile' => array(
-				'type' => 'object',
+			'advancedBackgroundImageMobile'            => array(
+				'type'    => 'object',
 				'default' => array(
-					'id' => NULL,
+					'id'  => null,
 					'url' => '',
 					'alt' => '',
 				),
 			),
-			'advancedBackgroundPosition' => array(
-				'type' => 'string',
+			'advancedBackgroundPosition'               => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundPositionTablet' => array(
-				'type' => 'string',
+			'advancedBackgroundPositionTablet'         => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundPositionMobile' => array(
-				'type' => 'string',
+			'advancedBackgroundPositionMobile'         => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundXPosition' => array(
-				'type' => 'number',
+			'advancedBackgroundXPosition'              => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundXPositionUnit' => array(
-				'type' => 'string',
+			'advancedBackgroundXPositionUnit'          => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBackgroundXPositionDecimal' => array(
-				'type' => 'number',
+			'advancedBackgroundXPositionDecimal'       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundXPositionTablet' => array(
-				'type' => 'number',
+			'advancedBackgroundXPositionTablet'        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundXPositionMobile' => array(
-				'type' => 'number',
+			'advancedBackgroundXPositionMobile'        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundXPositionUnitTablet' => array(
-				'type' => 'string',
+			'advancedBackgroundXPositionUnitTablet'    => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBackgroundXPositionUnitMobile' => array(
-				'type' => 'string',
+			'advancedBackgroundXPositionUnitMobile'    => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
 			'advancedBackgroundXPositionDecimalTablet' => array(
-				'type' => 'number',
+				'type'    => 'number',
 				'default' => '',
 			),
 			'advancedBackgroundXPositionDecimalMobile' => array(
-				'type' => 'number',
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundYPosition' => array(
-				'type' => 'number',
+			'advancedBackgroundYPosition'              => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundYPositionUnit' => array(
-				'type' => 'string',
+			'advancedBackgroundYPositionUnit'          => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBackgroundYPositionDecimal' => array(
-				'type' => 'number',
+			'advancedBackgroundYPositionDecimal'       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundYPositionTablet' => array(
-				'type' => 'number',
+			'advancedBackgroundYPositionTablet'        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundYPositionMobile' => array(
-				'type' => 'number',
+			'advancedBackgroundYPositionMobile'        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundYPositionUnitTablet' => array(
-				'type' => 'string',
+			'advancedBackgroundYPositionUnitTablet'    => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBackgroundYPositionUnitMobile' => array(
-				'type' => 'string',
+			'advancedBackgroundYPositionUnitMobile'    => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
 			'advancedBackgroundYPositionDecimalTablet' => array(
-				'type' => 'number',
+				'type'    => 'number',
 				'default' => '',
 			),
 			'advancedBackgroundYPositionDecimalMobile' => array(
-				'type' => 'number',
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundAttachment' => array(
-				'type' => 'string',
+			'advancedBackgroundAttachment'             => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundRepeat' => array(
-				'type' => 'string',
+			'advancedBackgroundRepeat'                 => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundRepeatTablet' => array(
-				'type' => 'string',
+			'advancedBackgroundRepeatTablet'           => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundRepeatMobile' => array(
-				'type' => 'string',
+			'advancedBackgroundRepeatMobile'           => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundSize' => array(
-				'type' => 'string',
+			'advancedBackgroundSize'                   => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundSizeTablet' => array(
-				'type' => 'string',
+			'advancedBackgroundSizeTablet'             => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundSizeMobile' => array(
-				'type' => 'string',
+			'advancedBackgroundSizeMobile'             => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundSizeWidth' => array(
-				'type' => 'number',
+			'advancedBackgroundSizeWidth'              => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundSizeWidthUnit' => array(
-				'type' => 'string',
+			'advancedBackgroundSizeWidthUnit'          => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBackgroundSizeWidthDecimal' => array(
-				'type' => 'number',
+			'advancedBackgroundSizeWidthDecimal'       => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundSizeWidthTablet' => array(
-				'type' => 'number',
+			'advancedBackgroundSizeWidthTablet'        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundSizeWidthMobile' => array(
-				'type' => 'number',
+			'advancedBackgroundSizeWidthMobile'        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundSizeWidthUnitTablet' => array(
-				'type' => 'string',
+			'advancedBackgroundSizeWidthUnitTablet'    => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBackgroundSizeWidthUnitMobile' => array(
-				'type' => 'string',
+			'advancedBackgroundSizeWidthUnitMobile'    => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
 			'advancedBackgroundSizeWidthDecimalTablet' => array(
-				'type' => 'number',
+				'type'    => 'number',
 				'default' => '',
 			),
 			'advancedBackgroundSizeWidthDecimalMobile' => array(
-				'type' => 'number',
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundGradientColor1' => array(
-				'type' => 'string',
+			'advancedBackgroundGradientColor1'         => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundGradientLocation1' => array(
-				'type' => 'number',
+			'advancedBackgroundGradientLocation1'      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundGradientColor2' => array(
-				'type' => 'string',
+			'advancedBackgroundGradientColor2'         => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBackgroundGradientLocation2' => array(
-				'type' => 'number',
+			'advancedBackgroundGradientLocation2'      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundGradientType' => array(
-				'type' => 'string',
+			'advancedBackgroundGradientType'           => array(
+				'type'    => 'string',
 				'default' => 'linear',
 			),
-			'advancedBackgroundGradientTypeAngle' => array(
-				'type' => 'number',
+			'advancedBackgroundGradientTypeAngle'      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBackgroundGradientTypePosition' => array(
-				'type' => 'string',
+			'advancedBackgroundGradientTypePosition'   => array(
+				'type'    => 'string',
 				'default' => 'center center',
 			),
-			'advancedBorderStyle' => array(
-				'type' => 'string',
+			'advancedBorderStyle'                      => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBorderColor' => array(
-				'type' => 'string',
+			'advancedBorderColor'                      => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBorderWidthTop' => array(
-				'type' => 'number',
+			'advancedBorderWidthTop'                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthTopTablet' => array(
-				'type' => 'number',
+			'advancedBorderWidthTopTablet'             => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthTopMobile' => array(
-				'type' => 'number',
+			'advancedBorderWidthTopMobile'             => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthRight' => array(
-				'type' => 'number',
+			'advancedBorderWidthRight'                 => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthRightTablet' => array(
-				'type' => 'number',
+			'advancedBorderWidthRightTablet'           => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthRightMobile' => array(
-				'type' => 'number',
+			'advancedBorderWidthRightMobile'           => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthBottom' => array(
-				'type' => 'number',
+			'advancedBorderWidthBottom'                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthBottomTablet' => array(
-				'type' => 'number',
+			'advancedBorderWidthBottomTablet'          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthBottomMobile' => array(
-				'type' => 'number',
+			'advancedBorderWidthBottomMobile'          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthLeft' => array(
-				'type' => 'number',
+			'advancedBorderWidthLeft'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthLeftTablet' => array(
-				'type' => 'number',
+			'advancedBorderWidthLeftTablet'            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthLeftMobile' => array(
-				'type' => 'number',
+			'advancedBorderWidthLeftMobile'            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderWidthUnit' => array(
-				'type' => 'string',
+			'advancedBorderWidthUnit'                  => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBorderWidthUnitTablet' => array(
-				'type' => 'string',
+			'advancedBorderWidthUnitTablet'            => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBorderWidthUnitMobile' => array(
-				'type' => 'string',
+			'advancedBorderWidthUnitMobile'            => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBorderRadiusTop' => array(
-				'type' => 'number',
+			'advancedBorderRadiusTop'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusTopTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusTopTablet'            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusTopMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusTopMobile'            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusTopDecimal' => array(
-				'type' => 'number',
+			'advancedBorderRadiusTopDecimal'           => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusTopDecimalTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusTopDecimalTablet'     => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusTopDecimalMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusTopDecimalMobile'     => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusRight' => array(
-				'type' => 'number',
+			'advancedBorderRadiusRight'                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusRightTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusRightTablet'          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusRightMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusRightMobile'          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusRightDecimal' => array(
-				'type' => 'number',
+			'advancedBorderRadiusRightDecimal'         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusRightDecimalTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusRightDecimalTablet'   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusRightDecimalMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusRightDecimalMobile'   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusBottom' => array(
-				'type' => 'number',
+			'advancedBorderRadiusBottom'               => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusBottomTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusBottomTablet'         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusBottomMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusBottomMobile'         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusBottomDecimal' => array(
-				'type' => 'number',
+			'advancedBorderRadiusBottomDecimal'        => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusBottomDecimalTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusBottomDecimalTablet'  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusBottomDecimalMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusBottomDecimalMobile'  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusLeft' => array(
-				'type' => 'number',
+			'advancedBorderRadiusLeft'                 => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusLeftTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusLeftTablet'           => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusLeftMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusLeftMobile'           => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusLeftDecimal' => array(
-				'type' => 'number',
+			'advancedBorderRadiusLeftDecimal'          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusLeftDecimalTablet' => array(
-				'type' => 'number',
+			'advancedBorderRadiusLeftDecimalTablet'    => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusLeftDecimalMobile' => array(
-				'type' => 'number',
+			'advancedBorderRadiusLeftDecimalMobile'    => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBorderRadiusUnit' => array(
-				'type' => 'string',
+			'advancedBorderRadiusUnit'                 => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBorderRadiusUnitTablet' => array(
-				'type' => 'string',
+			'advancedBorderRadiusUnitTablet'           => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBorderRadiusUnitMobile' => array(
-				'type' => 'string',
+			'advancedBorderRadiusUnitMobile'           => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'advancedBoxShadowColor' => array(
-				'type' => 'string',
+			'advancedBoxShadowColor'                   => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'advancedBoxShadowHorizontal' => array(
-				'type' => 'number',
+			'advancedBoxShadowHorizontal'              => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBoxShadowVertical' => array(
-				'type' => 'number',
+			'advancedBoxShadowVertical'                => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBoxShadowBlur' => array(
-				'type' => 'number',
+			'advancedBoxShadowBlur'                    => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBoxShadowSpread' => array(
-				'type' => 'number',
+			'advancedBoxShadowSpread'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'advancedBoxShadowPosition' => array(
-				'type' => 'string',
+			'advancedBoxShadowPosition'                => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'blockWidth' => array(
-				'type' => 'string',
+			'blockWidth'                               => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'blockWidthTablet' => array(
-				'type' => 'string',
+			'blockWidthTablet'                         => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'blockWidthMobile' => array(
-				'type' => 'string',
+			'blockWidthMobile'                         => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'blockCustomWidth' => array(
-				'type' => 'number',
+			'blockCustomWidth'                         => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'blockCustomWidthUnit' => array(
-				'type' => 'string',
+			'blockCustomWidthUnit'                     => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'blockCustomWidthDecimal' => array(
-				'type' => 'number',
+			'blockCustomWidthDecimal'                  => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'blockCustomWidthTablet' => array(
-				'type' => 'number',
+			'blockCustomWidthTablet'                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'blockCustomWidthMobile' => array(
-				'type' => 'number',
+			'blockCustomWidthMobile'                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'blockCustomWidthUnitTablet' => array(
-				'type' => 'string',
+			'blockCustomWidthUnitTablet'               => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'blockCustomWidthUnitMobile' => array(
-				'type' => 'string',
+			'blockCustomWidthUnitMobile'               => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'blockCustomWidthDecimalTablet' => array(
-				'type' => 'number',
+			'blockCustomWidthDecimalTablet'            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'blockCustomWidthDecimalMobile' => array(
-				'type' => 'number',
+			'blockCustomWidthDecimalMobile'            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'blockPosition' => array(
-				'type' => 'string',
+			'blockPosition'                            => array(
+				'type'    => 'string',
 				'default' => '',
 			),
-			'positionHorizontalOrientation' => array(
-				'type' => 'string',
+			'positionHorizontalOrientation'            => array(
+				'type'    => 'string',
 				'default' => 'left',
 			),
-			'positionHorizontalOffset' => array(
-				'type' => 'number',
+			'positionHorizontalOffset'                 => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionHorizontalOffsetUnit' => array(
-				'type' => 'string',
+			'positionHorizontalOffsetUnit'             => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'positionHorizontalOffsetDecimal' => array(
-				'type' => 'number',
+			'positionHorizontalOffsetDecimal'          => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionHorizontalOffsetTablet' => array(
-				'type' => 'number',
+			'positionHorizontalOffsetTablet'           => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionHorizontalOffsetMobile' => array(
-				'type' => 'number',
+			'positionHorizontalOffsetMobile'           => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionHorizontalOffsetUnitTablet' => array(
-				'type' => 'string',
+			'positionHorizontalOffsetUnitTablet'       => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'positionHorizontalOffsetUnitMobile' => array(
-				'type' => 'string',
+			'positionHorizontalOffsetUnitMobile'       => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'positionHorizontalOffsetDecimalTablet' => array(
-				'type' => 'number',
+			'positionHorizontalOffsetDecimalTablet'    => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionHorizontalOffsetDecimalMobile' => array(
-				'type' => 'number',
+			'positionHorizontalOffsetDecimalMobile'    => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionVerticalOrientation' => array(
-				'type' => 'string',
+			'positionVerticalOrientation'              => array(
+				'type'    => 'string',
 				'default' => 'top',
 			),
-			'positionVerticalOffset' => array(
-				'type' => 'number',
+			'positionVerticalOffset'                   => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionVerticalOffsetUnit' => array(
-				'type' => 'string',
+			'positionVerticalOffsetUnit'               => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'positionVerticalOffsetDecimal' => array(
-				'type' => 'number',
+			'positionVerticalOffsetDecimal'            => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionVerticalOffsetTablet' => array(
-				'type' => 'number',
+			'positionVerticalOffsetTablet'             => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionVerticalOffsetMobile' => array(
-				'type' => 'number',
+			'positionVerticalOffsetMobile'             => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionVerticalOffsetUnitTablet' => array(
-				'type' => 'string',
+			'positionVerticalOffsetUnitTablet'         => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'positionVerticalOffsetUnitMobile' => array(
-				'type' => 'string',
+			'positionVerticalOffsetUnitMobile'         => array(
+				'type'    => 'string',
 				'default' => 'px',
 			),
-			'positionVerticalOffsetDecimalTablet' => array(
-				'type' => 'number',
+			'positionVerticalOffsetDecimalTablet'      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'positionVerticalOffsetDecimalMobile' => array(
-				'type' => 'number',
+			'positionVerticalOffsetDecimalMobile'      => array(
+				'type'    => 'number',
 				'default' => '',
 			),
-			'hideOnDesktop' => array(
-				'type' => 'boolean',
+			'hideOnDesktop'                            => array(
+				'type'    => 'boolean',
 				'default' => false,
 			),
-			'hideOnTablet' => array(
-				'type' => 'boolean',
+			'hideOnTablet'                             => array(
+				'type'    => 'boolean',
 				'default' => false,
 			),
-			'hideOnMobile' => array(
-				'type' => 'boolean',
+			'hideOnMobile'                             => array(
+				'type'    => 'boolean',
 				'default' => false,
 			),
 		);
@@ -1433,7 +1472,7 @@ if ( ! function_exists( 'qi_blocks_get_block_container_html_attributes_string' )
 		$container_classes = ! empty( $attributes['blockContainerClasses'] ) ? $attributes['blockContainerClasses'] : '';
 		$container_data    = isset( $attributes['blockContainerData'] ) && ! empty( $attributes['blockContainerData'] ) ? json_decode( $attributes['blockContainerData'], true ) : '';
 
-		$animation = ! empty( $container_data ) && isset( $container_data['data-animation'] ) ? $container_data['data-animation'] : '';
+		$animation = ! empty( $container_data ) && isset( $container_data['data-animation'] ) ? sanitize_text_field( $container_data['data-animation'] ) : '';
 
 		$html_attributes  = qi_blocks_get_id_attribute( $container_ids );
 		$html_attributes .= ' ' . qi_blocks_get_class_attribute( $container_classes );
@@ -1522,10 +1561,10 @@ if ( ! function_exists( 'qi_blocks_get_slider_data' ) ) {
 			$partial_value = 0;
 		}
 
-		$sliderNavigationPosition = isset( $atts['sliderNavigationPosition'] ) ? $atts['sliderNavigationPosition'] : '';
-		$sliderPaginationPosition = isset( $atts['sliderPaginationPosition'] ) ? $atts['sliderPaginationPosition'] : '';
+		$slider_navigation_position = isset( $atts['sliderNavigationPosition'] ) ? $atts['sliderNavigationPosition'] : '';
+		$slider_pagination_position = isset( $atts['sliderPaginationPosition'] ) ? $atts['sliderPaginationPosition'] : '';
 
-		if ( ( 'outside' === $sliderNavigationPosition || 'together' === $sliderNavigationPosition ) || 'outside' === $sliderPaginationPosition ) {
+		if ( ( 'outside' === $slider_navigation_position || 'together' === $slider_navigation_position ) || 'outside' === $slider_pagination_position ) {
 			$data['unique'] = isset( $atts['uniqueClass'] ) ? $atts['uniqueClass'] : '';
 		}
 
@@ -1555,7 +1594,7 @@ if ( ! function_exists( 'qi_blocks_get_slider_data' ) ) {
 			$data['slidesPerView480']  = ! empty( $atts['sliderColumns480'] ) ? $atts['sliderColumns480'] : $atts['sliderColumns'];
 		}
 
-		return json_encode( $data );
+		return wp_json_encode( $data );
 	}
 }
 
@@ -1591,6 +1630,7 @@ if ( ! function_exists( 'qi_blocks_get_additional_query_args' ) ) {
 			}
 
 			if ( ! empty( $atts['tax'] ) && ! empty( $taxonomy_values ) ) {
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				$args['tax_query'] = array( array_merge( array( 'taxonomy' => $atts['tax'] ), $taxonomy_values ) );
 			}
 		}
@@ -1616,14 +1656,15 @@ if ( ! function_exists( 'qi_blocks_framework_get_attachment_id_from_url' ) ) {
 		$attachment_id = '';
 
 		if ( '' !== $attachment_url ) {
-
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid=%s", $attachment_url ) );
 
-			// Additional check for undefined reason when guid is not image src
+			// Additional check for undefined reason when guid is not image src.
 			if ( empty( $attachment_id ) ) {
 				$modified_url = substr( $attachment_url, strrpos( $attachment_url, '/' ) + 1 );
 
-				//get attachment id
+				// get attachment id.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wp_attached_file' AND meta_value LIKE %s", '%' . $modified_url . '%' ) );
 			}
 		}
@@ -1684,33 +1725,33 @@ if ( ! function_exists( 'qi_blocks_framework_resize_image' ) ) {
 
 			if ( ! empty( $attachment_id ) && ( isset( $width ) && isset( $height ) ) ) {
 
-				//get file path of the attachment
+				// Get file path of the attachment.
 				$img_path = get_attached_file( $attachment_id );
 
-				//get attachment url
+				// Get attachment url.
 				$img_url = wp_get_attachment_url( $attachment_id );
 
-				//break down img path to array, so we can use its components in building thumbnail path
+				// Break down img path to array, so we can use its components in building thumbnail path.
 				$img_path_array = pathinfo( $img_path );
 
-				//build thumbnail path
+				// build thumbnail path.
 				$new_img_path = $img_path_array['dirname'] . '/' . $img_path_array['filename'] . '-' . $width . 'x' . $height . '.' . $img_path_array['extension'];
 
-				//build thumbnail url
+				// build thumbnail url.
 				$new_img_url = str_replace( $img_path_array['filename'], $img_path_array['filename'] . '-' . $width . 'x' . $height, $img_url );
 
-				//check if thumbnail exists by its path
+				// check if thumbnail exists by its path.
 				if ( ! file_exists( $new_img_path ) ) {
-					//get image manipulation object
+					// get image manipulation object.
 					$image_object = wp_get_image_editor( $img_path );
 
 					if ( ! is_wp_error( $image_object ) ) {
-						//resize image and save it new to path
+						// resize image and save it new to path.
 						$image_object->resize( $width, $height, $crop );
 						$image_object->save( $new_img_path );
 
-						//get sizes of newly created thumbnail.
-						///we don't use $width and $height because those might differ from end result based on $crop parameter
+						// get sizes of newly created thumbnail.
+						// we don't use $width and $height because those might differ from end result based on $crop parameter.
 						$image_sizes = $image_object->get_size();
 
 						$width  = $image_sizes['width'];
@@ -1718,16 +1759,16 @@ if ( ! function_exists( 'qi_blocks_framework_resize_image' ) ) {
 					}
 				}
 
-				//generate data to be returned
+				// generate data to be returned.
 				$return_array = array(
 					'img_url'    => $new_img_url,
 					'img_width'  => $width,
 					'img_height' => $height,
 				);
 
-				//attachment wasn't found in gallery, but it is not empty
+				// attachment wasn't found in gallery, but it is not empty.
 			} elseif ( '' !== $attachment && ( isset( $width ) && isset( $height ) ) ) {
-				//generate data to be returned
+				// generate data to be returned.
 				$return_array = array(
 					'img_url'    => $attachment,
 					'img_width'  => $width,
@@ -1821,7 +1862,6 @@ if ( ! function_exists( 'qi_blocks_main_editor_additional_dependencies' ) ) {
 	 * @param array $dependency
 	 *
 	 * @return array
-	 *
 	 */
 	function qi_blocks_main_editor_additional_dependencies( $dependency ) {
 		global $pagenow;
@@ -1834,4 +1874,38 @@ if ( ! function_exists( 'qi_blocks_main_editor_additional_dependencies' ) ) {
 	}
 
 	add_filter( 'qi_blocks_filter_main_editor_dependencies', 'qi_blocks_main_editor_additional_dependencies' );
+}
+
+if ( ! function_exists( 'qi_blocks_escape_title_tag' ) ) {
+	/**
+	 * Function that escape title tag variable for modules
+	 *
+	 * @param string $title_tag
+	 *
+	 * @return string
+	 */
+	function qi_blocks_escape_title_tag( $title_tag ) {
+		$allowed_tags = array(
+			'h1',
+			'h2',
+			'h3',
+			'h4',
+			'h5',
+			'h6',
+			'p',
+			'span',
+			'ul',
+			'ol',
+			'div',
+		);
+
+		$escaped_title_tag = '';
+		$title_tag         = strtolower( sanitize_key( $title_tag ) );
+
+		if ( in_array( $title_tag, $allowed_tags, true ) ) {
+			$escaped_title_tag = $title_tag;
+		}
+
+		return $escaped_title_tag;
+	}
 }

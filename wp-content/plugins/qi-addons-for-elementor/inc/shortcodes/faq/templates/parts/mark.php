@@ -1,4 +1,12 @@
-<?php if ( 'accordion' === $behavior ) { ?>
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
+if ( 'accordion' === $behavior ) {
+	?>
 	<span class="qodef-e-mark">
 		<span class="qodef-icon--plus">
 			<?php

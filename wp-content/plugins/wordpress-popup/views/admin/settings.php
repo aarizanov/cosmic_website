@@ -37,6 +37,12 @@ $sections = array(
 			'settings' => Hustle_Settings_Admin::get_recaptcha_settings(),
 		),
 	),
+	'turnstile'     => array(
+		'label' => __( 'Cloudflare Turnstile', 'hustle' ),
+		'data'  => array(
+			'settings' => Hustle_Settings_Admin::get_turnstile_settings(),
+		),
+	),
 	'accessibility' => array(
 		'label' => __( 'Accessibility', 'hustle' ),
 		'data'  => array(
@@ -90,9 +96,9 @@ $sections = array(
 
 		<div class="sui-sidenav-hide-lg">
 
-			<label class="sui-label"><?php esc_html_e( 'Navigate', 'hustle' ); ?></label>
+			<label class="sui-label" id="sui-wizard-navigation-label"><?php esc_html_e( 'Navigate', 'hustle' ); ?></label>
 
-			<select class="sui-mobile-nav" style="margin-bottom: 20px;">
+			<select class="sui-mobile-nav" style="margin-bottom: 20px;" aria-labelledby="sui-wizard-navigation-label">
 				<?php
 				foreach ( $sections as $key => $value ) {
 

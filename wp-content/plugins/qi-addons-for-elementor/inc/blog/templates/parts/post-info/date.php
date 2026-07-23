@@ -1,8 +1,16 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $show_info_icons = isset( $show_info_icons ) && ! empty( $show_info_icons ) ? $show_info_icons : 'no';
 $date_link       = empty( get_the_title() ) && ! is_single() ? get_the_permalink() : get_month_link( get_the_time( 'Y' ), get_the_time( 'm' ) );
 $classes         = '';
-if ( is_single() || is_page() || is_archive() ) { // This check is to prevent classes for Gutenberg block
+
+// This check is to prevent classes for Gutenberg block.
+if ( is_single() || is_page() || is_archive() ) {
 	$classes = 'published updated';
 }
 ?>

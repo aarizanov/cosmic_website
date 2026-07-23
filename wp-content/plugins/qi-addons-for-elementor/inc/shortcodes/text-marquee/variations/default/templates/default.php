@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $holder_classes ); ?>>
 	<div class="qodef-m-content">
 		<div class="qodef-m-text qodef-text--original">
@@ -6,11 +13,11 @@
 				$item_class = 'qodef-m-text-item elementor-repeater-item-' . $item['_id'];
 				?>
 				<span <?php qi_addons_for_elementor_framework_class_attribute( $item_class ); ?> ><?php echo wp_kses( $item['item_text'], array( 'span' => array( 'style' => true ) ) ); ?></span>
-                <?php
-                if ( isset( $separator_icon ) && ! empty( $separator_icon['value'] ) ) {
+				<?php
+				if ( isset( $separator_icon ) && ! empty( $separator_icon['value'] ) ) {
 					qi_addons_for_elementor_template_part( 'shortcodes/text-marquee', 'templates/parts/icon', '', $params );
 				}
-                ?>
+				?>
 			<?php } ?>
 		</div>
 		<div class="qodef-m-text qodef-text--copy">
@@ -19,7 +26,7 @@
 				$item_class = 'qodef-m-text-item elementor-repeater-item-' . $item['_id'];
 				?>
 				<span <?php qi_addons_for_elementor_framework_class_attribute( $item_class ); ?> ><?php echo wp_kses( $item['item_text'], array( 'span' => array( 'style' => true ) ) ); ?></span>
-                <?php
+				<?php
 				if ( isset( $separator_icon ) && ! empty( $separator_icon['value'] ) ) {
 					qi_addons_for_elementor_template_part( 'shortcodes/text-marquee', 'templates/parts/icon', '', $params );
 				}

@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( 'no' !== $slider_pagination ) {
 
 	$pagination_classes = '';

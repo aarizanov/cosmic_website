@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_cards_gallery_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,12 +25,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_cards_gallery_shortcode' ) 
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Cards_Gallery_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/cards-gallery' );
 			$this->set_base( 'qi_addons_for_elementor_cards_gallery' );
 			$this->set_name( esc_html__( 'Cards Gallery', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds cards gallery holder', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Creative', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/cards-gallery/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#cards_gallery' );
@@ -50,7 +59,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -125,7 +134,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 			$scale_selectors = array();
-			for ( $i = 9; $i > 0; $i -- ) {
+			for ( $i = 9; $i > 0; $i-- ) {
 				$scale_selectors[ '{{WRAPPER}} .qodef-orientation--one-side .qodef-m-card:nth-last-child(' . $i . ')' ] = 'transform: scale(calc(1 - ' . ( $i - 1 ) . ' * {{SIZE}}));';
 				$scale_selectors[ '{{WRAPPER}} .qodef-orientation--both .qodef-m-card:nth-last-child(' . $i . ')' ]     = 'transform: scale(calc(1 - ' . floor( $i / 2 ) . ' * {{SIZE}}));';
 			}
@@ -152,7 +161,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 			$offset_selectors = array();
-			for ( $i = 10; $i > 0; $i -- ) {
+			for ( $i = 10; $i > 0; $i-- ) {
 				$offset_selectors[ '{{WRAPPER}} .qodef-orientation--one-side .qodef-m-card:nth-last-child(' . $i . ')' ] = '{{orientation.VALUE}}: calc( -1 * ' . ( $i - 1 ) . ' * {{SIZE}}%);';
 
 				if ( $i % 2 ) {

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_call_to_action_variation_standard' ) ) {
 	/**
 	 * Function that add variation layout for this module

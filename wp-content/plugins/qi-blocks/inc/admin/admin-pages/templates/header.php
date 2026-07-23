@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-admin-header">
 	<div class="qodef-header-left">
 		<div class="qodef-header-left-inner">

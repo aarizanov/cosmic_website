@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-admin-sidebar-box qodef-help-center-box">
 	<div class="qodef-admin-sidebar-box-content">
 		<h3><?php esc_html_e( 'Help Center', 'qi-addons-for-elementor' ); ?></h3>

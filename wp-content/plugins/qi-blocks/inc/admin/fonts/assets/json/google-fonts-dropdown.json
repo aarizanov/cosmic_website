@@ -42,6 +42,9 @@
     "family": "Afacad"
   },
   {
+    "family": "Afacad Flux"
+  },
+  {
     "family": "Agbalumo"
   },
   {
@@ -228,10 +231,16 @@
     "family": "Angkor"
   },
   {
+    "family": "Annapurna SIL"
+  },
+  {
     "family": "Annie Use Your Telescope"
   },
   {
     "family": "Anonymous Pro"
+  },
+  {
+    "family": "Anta"
   },
   {
     "family": "Antic"
@@ -244,6 +253,9 @@
   },
   {
     "family": "Anton"
+  },
+  {
+    "family": "Anton SC"
   },
   {
     "family": "Antonio"
@@ -301,6 +313,9 @@
   },
   {
     "family": "Arsenal"
+  },
+  {
+    "family": "Arsenal SC"
   },
   {
     "family": "Artifika"
@@ -480,6 +495,9 @@
     "family": "Baskervville"
   },
   {
+    "family": "Baskervville SC"
+  },
+  {
     "family": "Battambang"
   },
   {
@@ -496,6 +514,9 @@
   },
   {
     "family": "Bebas Neue"
+  },
+  {
+    "family": "Beiruti"
   },
   {
     "family": "Belanosima"
@@ -612,10 +633,16 @@
     "family": "Bodoni Moda"
   },
   {
+    "family": "Bodoni Moda SC"
+  },
+  {
     "family": "Bokor"
   },
   {
     "family": "Bona Nova"
+  },
+  {
+    "family": "Bona Nova SC"
   },
   {
     "family": "Bonbon"
@@ -687,6 +714,9 @@
     "family": "Bungee Spice"
   },
   {
+    "family": "Bungee Tint"
+  },
+  {
     "family": "Butcherman"
   },
   {
@@ -700,6 +730,9 @@
   },
   {
     "family": "Cabin Sketch"
+  },
+  {
+    "family": "Cactus Classical Serif"
   },
   {
     "family": "Caesar Dressing"
@@ -856,6 +889,9 @@
   },
   {
     "family": "Chivo Mono"
+  },
+  {
+    "family": "Chocolate Classical Sans"
   },
   {
     "family": "Chokokutai"
@@ -1023,6 +1059,9 @@
     "family": "Dancing Script"
   },
   {
+    "family": "Danfo"
+  },
+  {
     "family": "Dangrek"
   },
   {
@@ -1110,6 +1149,9 @@
     "family": "DotGothic16"
   },
   {
+    "family": "Doto"
+  },
+  {
     "family": "Dr Sugiyama"
   },
   {
@@ -1138,6 +1180,21 @@
   },
   {
     "family": "Eczar"
+  },
+  {
+    "family": "Edu AU VIC WA NT Arrows"
+  },
+  {
+    "family": "Edu AU VIC WA NT Dots"
+  },
+  {
+    "family": "Edu AU VIC WA NT Guides"
+  },
+  {
+    "family": "Edu AU VIC WA NT Hand"
+  },
+  {
+    "family": "Edu AU VIC WA NT Pre"
   },
   {
     "family": "Edu NSW ACT Foundation"
@@ -1231,6 +1288,9 @@
   },
   {
     "family": "Explora"
+  },
+  {
+    "family": "Faculty Glyphic"
   },
   {
     "family": "Fahkwang"
@@ -1365,6 +1425,9 @@
     "family": "Freehand"
   },
   {
+    "family": "Freeman"
+  },
+  {
     "family": "Fresca"
   },
   {
@@ -1380,6 +1443,15 @@
     "family": "Fuggles"
   },
   {
+    "family": "Funnel Display"
+  },
+  {
+    "family": "Funnel Sans"
+  },
+  {
+    "family": "Fustat"
+  },
+  {
     "family": "Fuzzy Bubbles"
   },
   {
@@ -1387,6 +1459,9 @@
   },
   {
     "family": "GFS Neohellenic"
+  },
+  {
+    "family": "Ga Maamli"
   },
   {
     "family": "Gabarito"
@@ -1423,6 +1498,12 @@
   },
   {
     "family": "Gayathri"
+  },
+  {
+    "family": "Geist"
+  },
+  {
+    "family": "Geist Mono"
   },
   {
     "family": "Gelasio"
@@ -1671,7 +1752,13 @@
     "family": "Honk"
   },
   {
+    "family": "Host Grotesk"
+  },
+  {
     "family": "Hubballi"
+  },
+  {
+    "family": "Hubot Sans"
   },
   {
     "family": "Hurricane"
@@ -1818,13 +1905,64 @@
     "family": "Itim"
   },
   {
+    "family": "Jacquard 12"
+  },
+  {
+    "family": "Jacquard 12 Charted"
+  },
+  {
+    "family": "Jacquard 24"
+  },
+  {
+    "family": "Jacquard 24 Charted"
+  },
+  {
+    "family": "Jacquarda Bastarda 9"
+  },
+  {
+    "family": "Jacquarda Bastarda 9 Charted"
+  },
+  {
     "family": "Jacques Francois"
   },
   {
     "family": "Jacques Francois Shadow"
   },
   {
+    "family": "Jaini"
+  },
+  {
+    "family": "Jaini Purva"
+  },
+  {
     "family": "Jaldi"
+  },
+  {
+    "family": "Jaro"
+  },
+  {
+    "family": "Jersey 10"
+  },
+  {
+    "family": "Jersey 10 Charted"
+  },
+  {
+    "family": "Jersey 15"
+  },
+  {
+    "family": "Jersey 15 Charted"
+  },
+  {
+    "family": "Jersey 20"
+  },
+  {
+    "family": "Jersey 20 Charted"
+  },
+  {
+    "family": "Jersey 25"
+  },
+  {
+    "family": "Jersey 25 Charted"
   },
   {
     "family": "JetBrains Mono"
@@ -1911,6 +2049,9 @@
     "family": "Kalnia"
   },
   {
+    "family": "Kalnia Glaze"
+  },
+  {
     "family": "Kameron"
   },
   {
@@ -1924,6 +2065,12 @@
   },
   {
     "family": "Karla"
+  },
+  {
+    "family": "Karla Tamil Inclined"
+  },
+  {
+    "family": "Karla Tamil Upright"
   },
   {
     "family": "Karma"
@@ -1989,6 +2136,9 @@
     "family": "Kodchasan"
   },
   {
+    "family": "Kode Mono"
+  },
+  {
     "family": "Koh Santepheap"
   },
   {
@@ -2041,6 +2191,12 @@
   },
   {
     "family": "Kurale"
+  },
+  {
+    "family": "LXGW WenKai Mono TC"
+  },
+  {
+    "family": "LXGW WenKai TC"
   },
   {
     "family": "La Belle Aurore"
@@ -2283,6 +2439,9 @@
     "family": "Mada"
   },
   {
+    "family": "Madimi One"
+  },
+  {
     "family": "Magra"
   },
   {
@@ -2302,6 +2461,9 @@
   },
   {
     "family": "Mallanna"
+  },
+  {
+    "family": "Maname"
   },
   {
     "family": "Mandali"
@@ -2359,6 +2521,9 @@
   },
   {
     "family": "Mate SC"
+  },
+  {
+    "family": "Matemasie"
   },
   {
     "family": "Material Icons"
@@ -2439,6 +2604,12 @@
     "family": "Michroma"
   },
   {
+    "family": "Micro 5"
+  },
+  {
+    "family": "Micro 5 Charted"
+  },
+  {
     "family": "Milonga"
   },
   {
@@ -2481,6 +2652,9 @@
     "family": "Modern Antiqua"
   },
   {
+    "family": "Moderustic"
+  },
+  {
     "family": "Mogra"
   },
   {
@@ -2494,6 +2668,9 @@
   },
   {
     "family": "Molle"
+  },
+  {
+    "family": "Mona Sans"
   },
   {
     "family": "Monda"
@@ -2607,6 +2784,9 @@
     "family": "Nabla"
   },
   {
+    "family": "Namdhinggo"
+  },
+  {
     "family": "Nanum Brush Script"
   },
   {
@@ -2635,6 +2815,9 @@
   },
   {
     "family": "Neuton"
+  },
+  {
+    "family": "New Amsterdam"
   },
   {
     "family": "New Rocker"
@@ -3300,6 +3483,9 @@
     "family": "Noto Traditional Nushu"
   },
   {
+    "family": "Noto Znamenny Musical Notation"
+  },
+  {
     "family": "Nova Cut"
   },
   {
@@ -3346,6 +3532,9 @@
   },
   {
     "family": "Oi"
+  },
+  {
+    "family": "Ojuju"
   },
   {
     "family": "Old Standard TT"
@@ -3471,6 +3660,9 @@
     "family": "Parisienne"
   },
   {
+    "family": "Parkinsans"
+  },
+  {
     "family": "Passero One"
   },
   {
@@ -3522,6 +3714,9 @@
     "family": "Petrona"
   },
   {
+    "family": "Phetsarath"
+  },
+  {
     "family": "Philosopher"
   },
   {
@@ -3546,6 +3741,9 @@
     "family": "Plaster"
   },
   {
+    "family": "Platypi"
+  },
+  {
     "family": "Play"
   },
   {
@@ -3564,10 +3762,166 @@
     "family": "Playpen Sans"
   },
   {
+    "family": "Playwrite AR"
+  },
+  {
+    "family": "Playwrite AT"
+  },
+  {
+    "family": "Playwrite AU NSW"
+  },
+  {
+    "family": "Playwrite AU QLD"
+  },
+  {
+    "family": "Playwrite AU SA"
+  },
+  {
+    "family": "Playwrite AU TAS"
+  },
+  {
+    "family": "Playwrite AU VIC"
+  },
+  {
+    "family": "Playwrite BE VLG"
+  },
+  {
+    "family": "Playwrite BE WAL"
+  },
+  {
+    "family": "Playwrite BR"
+  },
+  {
+    "family": "Playwrite CA"
+  },
+  {
+    "family": "Playwrite CL"
+  },
+  {
+    "family": "Playwrite CO"
+  },
+  {
+    "family": "Playwrite CU"
+  },
+  {
+    "family": "Playwrite CZ"
+  },
+  {
+    "family": "Playwrite DE Grund"
+  },
+  {
+    "family": "Playwrite DE LA"
+  },
+  {
+    "family": "Playwrite DE SAS"
+  },
+  {
+    "family": "Playwrite DE VA"
+  },
+  {
+    "family": "Playwrite DK Loopet"
+  },
+  {
+    "family": "Playwrite DK Uloopet"
+  },
+  {
+    "family": "Playwrite ES"
+  },
+  {
+    "family": "Playwrite ES Deco"
+  },
+  {
+    "family": "Playwrite FR Moderne"
+  },
+  {
+    "family": "Playwrite FR Trad"
+  },
+  {
+    "family": "Playwrite GB J"
+  },
+  {
+    "family": "Playwrite GB S"
+  },
+  {
+    "family": "Playwrite HR"
+  },
+  {
+    "family": "Playwrite HR Lijeva"
+  },
+  {
+    "family": "Playwrite HU"
+  },
+  {
+    "family": "Playwrite ID"
+  },
+  {
+    "family": "Playwrite IE"
+  },
+  {
+    "family": "Playwrite IN"
+  },
+  {
+    "family": "Playwrite IS"
+  },
+  {
+    "family": "Playwrite IT Moderna"
+  },
+  {
+    "family": "Playwrite IT Trad"
+  },
+  {
+    "family": "Playwrite MX"
+  },
+  {
+    "family": "Playwrite NG Modern"
+  },
+  {
+    "family": "Playwrite NL"
+  },
+  {
+    "family": "Playwrite NO"
+  },
+  {
+    "family": "Playwrite NZ"
+  },
+  {
+    "family": "Playwrite PE"
+  },
+  {
+    "family": "Playwrite PL"
+  },
+  {
+    "family": "Playwrite PT"
+  },
+  {
+    "family": "Playwrite RO"
+  },
+  {
+    "family": "Playwrite SK"
+  },
+  {
+    "family": "Playwrite TZ"
+  },
+  {
+    "family": "Playwrite US Modern"
+  },
+  {
+    "family": "Playwrite US Trad"
+  },
+  {
+    "family": "Playwrite VN"
+  },
+  {
+    "family": "Playwrite ZA"
+  },
+  {
     "family": "Plus Jakarta Sans"
   },
   {
     "family": "Podkova"
+  },
+  {
+    "family": "Poetsen One"
   },
   {
     "family": "Poiret One"
@@ -3583,6 +3937,9 @@
   },
   {
     "family": "Pompiere"
+  },
+  {
+    "family": "Ponnala"
   },
   {
     "family": "Pontano Sans"
@@ -3699,6 +4056,9 @@
     "family": "Radio Canada"
   },
   {
+    "family": "Radio Canada Big"
+  },
+  {
     "family": "Radley"
   },
   {
@@ -3769,6 +4129,15 @@
   },
   {
     "family": "Redacted Script"
+  },
+  {
+    "family": "Reddit Mono"
+  },
+  {
+    "family": "Reddit Sans"
+  },
+  {
+    "family": "Reddit Sans Condensed"
   },
   {
     "family": "Redressed"
@@ -3984,6 +4353,9 @@
     "family": "STIX Two Text"
   },
   {
+    "family": "SUSE"
+  },
+  {
     "family": "Sacramento"
   },
   {
@@ -4015,6 +4387,9 @@
   },
   {
     "family": "Sancreek"
+  },
+  {
+    "family": "Sankofa Display"
   },
   {
     "family": "Sansita"
@@ -4066,6 +4441,12 @@
   },
   {
     "family": "Secular One"
+  },
+  {
+    "family": "Sedan"
+  },
+  {
+    "family": "Sedan SC"
   },
   {
     "family": "Sedgwick Ave"
@@ -4170,6 +4551,9 @@
     "family": "Sixtyfour"
   },
   {
+    "family": "Sixtyfour Convergence"
+  },
+  {
     "family": "Skranji"
   },
   {
@@ -4246,6 +4630,9 @@
   },
   {
     "family": "Sorts Mill Goudy"
+  },
+  {
+    "family": "Sour Gummy"
   },
   {
     "family": "Source Code Pro"
@@ -4389,6 +4776,9 @@
     "family": "Syne Tactile"
   },
   {
+    "family": "Tac One"
+  },
+  {
     "family": "Tai Heritage Pro"
   },
   {
@@ -4408,6 +4798,9 @@
   },
   {
     "family": "Taviraj"
+  },
+  {
+    "family": "Teachers"
   },
   {
     "family": "Teko"
@@ -4459,6 +4852,9 @@
   },
   {
     "family": "Tinos"
+  },
+  {
+    "family": "Tiny5"
   },
   {
     "family": "Tiro Bangla"
@@ -4540,6 +4936,12 @@
   },
   {
     "family": "Ubuntu Mono"
+  },
+  {
+    "family": "Ubuntu Sans"
+  },
+  {
+    "family": "Ubuntu Sans Mono"
   },
   {
     "family": "Uchen"
@@ -4680,6 +5082,9 @@
     "family": "Wire One"
   },
   {
+    "family": "Wittgenstein"
+  },
+  {
     "family": "Wix Madefor Display"
   },
   {
@@ -4702,6 +5107,18 @@
   },
   {
     "family": "Yantramanav"
+  },
+  {
+    "family": "Yarndings 12"
+  },
+  {
+    "family": "Yarndings 12 Charted"
+  },
+  {
+    "family": "Yarndings 20"
+  },
+  {
+    "family": "Yarndings 20 Charted"
   },
   {
     "family": "Yatra One"
@@ -4765,6 +5182,9 @@
   },
   {
     "family": "ZCOOL XiaoWei"
+  },
+  {
+    "family": "Zain"
   },
   {
     "family": "Zen Antique"

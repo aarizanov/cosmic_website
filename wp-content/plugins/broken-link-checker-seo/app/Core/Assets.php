@@ -148,8 +148,8 @@ class Assets {
 		$tag = str_replace( $src, $this->normalizeAssetsHost( $src ), $tag );
 
 		// Remove the type and re-add it as module.
-		$tag = preg_replace( '/type=[\'"].*?[\'"]/', '', $tag );
-		$tag = preg_replace( '/<script/', '<script type="module"', $tag );
+		$tag = preg_replace( '/type=[\'"].*?[\'"]/', '', (string) $tag );
+		$tag = preg_replace( '/<script/', '<script type="module"', (string) $tag );
 
 		return $tag;
 	}
@@ -163,18 +163,39 @@ class Assets {
 	 * @return void
 	 */
 	private function jsPreloadImports( $asset ) {
+		static $urls = []; // Prevent script from being loaded multiple times.
+
 		$res = '';
 		foreach ( $this->importsUrls( $asset ) as $url ) {
-			$res .= '<link rel="modulepreload" href="' . $url . "\">\n";
+			if ( isset( $urls[ $url ] ) ) {
+				continue;
+			}
+
+			$urls[ $url ] = true;
+
+			$res .= '<link rel="modulepreload" href="' . esc_attr( $url ) . "\">\n";
 		}
 
+		$allowedHtml = [
+			'link' => [
+				'rel'  => [],
+				'href' => []
+			]
+		];
+
 		if ( ! empty( $res ) ) {
-			add_action( 'admin_head', function () use ( &$res ) {
-				echo $res; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			} );
-			add_action( 'wp_head', function () use ( &$res ) {
-				echo $res; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			} );
+			if ( ! function_exists( 'wp_enqueue_script_module' ) ) {
+				add_action( 'admin_head', function () use ( &$res, $allowedHtml ) {
+					echo wp_kses( $res, $allowedHtml );
+				} );
+				add_action( 'wp_head', function () use ( &$res, $allowedHtml ) {
+					echo wp_kses( $res, $allowedHtml );
+				} );
+			} else {
+				add_action( 'admin_print_footer_scripts', function () use ( &$res, $allowedHtml ) {
+					echo wp_kses( $res, $allowedHtml );
+				}, 1000 );
+			}
 		}
 	}
 
@@ -405,7 +426,9 @@ class Assets {
 		}
 
 		$manifestJson = ''; // This is set in the view.
-		require_once $this->manifestFile;
+		if ( file_exists( $this->manifestFile ) ) {
+			require_once $this->manifestFile;
+		}
 
 		$file = json_decode( $manifestJson, true );
 
@@ -503,7 +526,7 @@ class Assets {
 			return $this->shouldLoadDevScripts;
 		}
 
-		set_error_handler( function() {} );
+		set_error_handler( function() {} ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler
 		$connection = fsockopen( $this->domain, $this->port ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 		restore_error_handler();
 
@@ -576,7 +599,7 @@ class Assets {
 		// what's in site_url() for our assets or they won't load.
 		$siteUrl        = site_url();
 		$siteUrlEscaped = aioseoBrokenLinkChecker()->helpers->escapeRegex( $siteUrl );
-		if ( preg_match( "/^$siteUrlEscaped/i", $path ) ) {
+		if ( preg_match( "/^$siteUrlEscaped/i", (string) $path ) ) {
 			$paths[ $path ] = $path;
 
 			return apply_filters( 'aioseo_blc_normalize_assets_host', $paths[ $path ] );
@@ -588,19 +611,19 @@ class Assets {
 		$host           = aioseoBrokenLinkChecker()->helpers->escapeRegex( str_replace( 'www.', '', $siteUrlParsed['host'] ) );
 		$scheme         = aioseoBrokenLinkChecker()->helpers->escapeRegex( $siteUrlParsed['scheme'] );
 
-		$siteUrlHasWww = preg_match( "/^{$scheme}:\/\/www\.$host/", $siteUrl );
-		$pathHasWww    = preg_match( "/^{$scheme}:\/\/www\.$host/", $path );
+		$siteUrlHasWww = preg_match( "/^{$scheme}:\/\/www\.$host/", (string) $siteUrl );
+		$pathHasWww    = preg_match( "/^{$scheme}:\/\/www\.$host/", (string) $path );
 
 		// Check if the path contains www.
 		if ( $pathHasWww && ! $siteUrlHasWww ) {
 			// If the path contains www., we want to strip it out.
-			$newPath = preg_replace( "/^({$scheme}:\/\/)(www\.)($host)/", '$1$3', $path );
+			$newPath = preg_replace( "/^({$scheme}:\/\/)(www\.)($host)/", '$1$3', (string) $path );
 		}
 
 		// Check if the site_url contains www.
 		if ( $siteUrlHasWww && ! $pathHasWww ) {
 			// If the site_url contains www., we want to add it in to the path.
-			$newPath = preg_replace( "/^({$scheme}:\/\/)($host)/", '$1www.$2', $path );
+			$newPath = preg_replace( "/^({$scheme}:\/\/)($host)/", '$1www.$2', (string) $path );
 		}
 
 		$paths[ $path ] = $newPath;

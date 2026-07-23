@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $premium_block = isset( $block['type'] ) && 'premium' === $block['type'];
 $item_classes  = array();
 

@@ -1,4 +1,11 @@
-<?php if ( 'no' !== $sliderNavigation ) {
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
+if ( 'no' !== $sliderNavigation ) {
 	$nav_next_classes = '';
 	$nav_prev_classes = '';
 

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Ask for some love.
  *
@@ -124,6 +128,7 @@ class MonsterInsights_Review {
 					<?php
 					echo wp_kses(
 						sprintf(
+							/* translators: %1$s: plugin name (MonsterInsights). */
 							__( 'Hey - we noticed you\'ve been using %1$s for a while - that\'s great! Could you do us a BIG favor and give it a 5-star review on WordPress to help us spread the word and boost our motivation?', 'google-analytics-for-wordpress' ),
 							'<strong>MonsterInsights</strong>'
 						),
@@ -132,14 +137,11 @@ class MonsterInsights_Review {
 					?>
 				</p>
 				<p>
-					<strong><?php echo wp_kses( __( '~ Syed Balkhi<br>Co-Founder of MonsterInsights', 'google-analytics-for-wordpress' ), array( 'br' => array() ) ); ?></strong>
-				</p>
-				<p>
 					<a
-						href="https://wordpress.org/support/plugin/google-analytics-for-wordpress/reviews/?filter=5#new-post"
-					   	class="monsterinsights-dismiss-review-notice monsterinsights-review-out"
+						href="https://wordpress.org/support/plugin/google-analytics-for-wordpress/reviews/#new-post"
+						   class="monsterinsights-dismiss-review-notice monsterinsights-review-out"
 						target="_blank"
-					   	rel="noopener noreferrer"
+						   rel="noopener noreferrer"
 					>
 						<?php esc_html_e( 'Ok, you deserve it', 'google-analytics-for-wordpress' ); ?>
 					</a>
@@ -147,7 +149,7 @@ class MonsterInsights_Review {
 					<a
 						href="#"
 						class="monsterinsights-dismiss-review-notice monsterinsights-review-later"
-					   	rel="noopener noreferrer"
+						   rel="noopener noreferrer"
 					>
 						<?php esc_html_e( 'Nope, maybe later', 'google-analytics-for-wordpress' ); ?>
 					</a>
@@ -155,7 +157,7 @@ class MonsterInsights_Review {
 					<a
 						href="#"
 						class="monsterinsights-dismiss-review-notice"
-					   	rel="noopener noreferrer"
+						   rel="noopener noreferrer"
 					>
 						<?php esc_html_e( 'I already did', 'google-analytics-for-wordpress' ); ?>
 					</a>
@@ -163,18 +165,19 @@ class MonsterInsights_Review {
 			</div>
 		</div>
 		<script type="text/javascript">
-            jQuery(document).ready(function ($) {
-                $(document).on('click', '.monsterinsights-dismiss-review-notice', function (event) {
-                    if (!$(this).hasClass('monsterinsights-review-out')) {
-                        event.preventDefault();
-                    }
-                    $.post(ajaxurl, {
-                        action: 'monsterinsights_review_dismiss',
-                        review_later: $(this).hasClass('monsterinsights-review-later')
-                    });
-                    $('.monsterinsights-review-notice').remove();
-                });
-            });
+			jQuery(document).ready(function ($) {
+				$(document).on('click', '.monsterinsights-dismiss-review-notice', function (event) {
+					if (!$(this).hasClass('monsterinsights-review-out')) {
+						event.preventDefault();
+					}
+					$.post(ajaxurl, {
+						action: 'monsterinsights_review_dismiss',
+						nonce: '<?php echo esc_js( wp_create_nonce( 'monsterinsights-review-dismiss' ) ); ?>',
+						review_later: $(this).hasClass('monsterinsights-review-later')
+					});
+					$('.monsterinsights-review-notice').remove();
+				});
+			});
 		</script>
 		<?php
 	}
@@ -185,6 +188,13 @@ class MonsterInsights_Review {
 	 * @since 7.0.7
 	 */
 	public function review_dismiss() {
+
+		check_ajax_referer( 'monsterinsights-review-dismiss', 'nonce' );
+
+		if ( ! current_user_can( 'monsterinsights_save_settings' ) ) {
+			wp_die();
+		}
+
 		$review              = get_option( 'monsterinsights_review', array() );
 		$review['time']      = time();
 		$review['dismissed'] = true;

@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-e-icon-holder">
 	<div class="qodef-e-icon">
 		<?php if ( isset( $icon_type ) && ! empty( $icon_type['value'] ) ) { ?>

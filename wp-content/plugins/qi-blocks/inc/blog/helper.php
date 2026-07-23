@@ -1,7 +1,9 @@
 <?php
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
 
 if ( ! function_exists( 'qi_blocks_get_blog_list_holder_classes' ) ) {
 	/**
@@ -56,7 +58,7 @@ if ( ! function_exists( 'qi_blocks_get_blog_list_masonry_classes' ) ) {
 	 * @return string
 	 */
 	function qi_blocks_get_blog_list_masonry_classes( $atts ) {
-		$classes   = array(
+		$classes = array(
 			'qodef-gutenberg-section',
 			'qodef-gutenberg-masonry-layout',
 			'qodef--masonry',

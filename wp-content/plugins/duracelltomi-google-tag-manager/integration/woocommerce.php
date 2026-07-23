@@ -15,7 +15,7 @@ define( 'GTM4WP_WPFILTER_EEC_ORDER_DATA', 'gtm4wp_eec_order_data' );
 define( 'GTM4WP_WPFILTER_ECC_PURCHASE_DATALAYER', 'gtm4wp_purchase_datalayer' );
 define( 'GTM4WP_WPFILTER_EEC_DATALAYER_PAGELOAD', 'gtm4wp_woocommerce_datalayer_on_pageload' );
 
-require_once dirname( __FILE__ ) . '/ecommerce-generic.php';
+require_once __DIR__ . '/ecommerce-generic.php';
 
 $gtm4wp_product_counter   = 0;
 $gtm4wp_last_widget_title = 'Sidebar Products';
@@ -36,6 +36,7 @@ function gtm4wp_woocommerce_add_global_vars( $return ) {
 	$return['gtm4wp_currency']               = get_woocommerce_currency();
 	$return['gtm4wp_product_per_impression'] = (int) ( $gtm4wp_options[ GTM4WP_OPTION_INTEGRATE_WCPRODPERIMPRESSION ] );
 	$return['gtm4wp_clear_ecommerce']        = (bool) ( $gtm4wp_options[ GTM4WP_OPTION_INTEGRATE_WCCLEARECOMMERCEDL ] );
+	$return['gtm4wp_datalayer_max_timeout']  = (int) ( $gtm4wp_options[ GTM4WP_OPTION_INTEGRATE_WCDLMAXTIMEOUT ] );
 
 	return $return;
 }
@@ -49,7 +50,7 @@ function gtm4wp_woocommerce_add_global_vars( $return ) {
  * @param WP_Product $product An instance of WP_Product that needs to be transformed into an enhanced ecommerce product object.
  * @param array      $additional_product_attributes Any key-value pair that needs to be added into the enhanced ecommerce product object.
  * @param string     $attributes_used_for The placement ID of the product that is passed to the apply_filters hook so that 3rd party code can be notified where this product data is being used.
- * @return array The enhanced ecommerce product object of the WooCommerce product.
+ * @return array|false The enhanced ecommerce product object of the WooCommerce product, or false if the product does not exist.
  */
 function gtm4wp_woocommerce_process_product( $product, $additional_product_attributes, $attributes_used_for ) {
 	global $gtm4wp_options;
@@ -89,6 +90,10 @@ function gtm4wp_woocommerce_process_product( $product, $additional_product_attri
 		'stockstatus'              => $product->get_stock_status(),
 		'google_business_vertical' => $gtm4wp_options[ GTM4WP_OPTION_INTEGRATE_WCBUSINESSVERTICAL ],
 	);
+
+	if ( 'variation' === $product_type ) {
+		$_temp_productdata['item_group_id'] = $parent_product_id;
+	}
 
 	if ( 1 === count( $product_cat_parts ) ) {
 		$_temp_productdata['item_category'] = $product_cat_parts[0];
@@ -231,60 +236,60 @@ function gtm4wp_woocommerce_get_raw_order_datalayer( $order, $order_items ) {
 			'order_number'         => $order->get_order_number(),
 			'order_key'            => $order->get_order_key(),
 
-			'payment_method'       => esc_js( $order->get_payment_method() ),
-			'payment_method_title' => esc_js( $order->get_payment_method_title() ),
+			'payment_method'       => $order->get_payment_method(),
+			'payment_method_title' => $order->get_payment_method_title(),
 
-			'shipping_method'      => esc_js( $order->get_shipping_method() ),
+			'shipping_method'      => $order->get_shipping_method(),
 
-			'status'               => esc_js( $order->get_status() ),
+			'status'               => $order->get_status(),
 
 			'coupons'              => implode( ', ', $order->get_coupon_codes() ),
 		),
 		'totals'     => array(
-			'currency'       => esc_js( $order->get_currency() ),
-			'discount_total' => esc_js( $order->get_discount_total() ),
-			'discount_tax'   => esc_js( $order->get_discount_tax() ),
-			'shipping_total' => esc_js( $order->get_shipping_total() ),
-			'shipping_tax'   => esc_js( $order->get_shipping_tax() ),
-			'cart_tax'       => esc_js( $order->get_cart_tax() ),
-			'total'          => esc_js( $order->get_total() ),
-			'total_tax'      => esc_js( $order->get_total_tax() ),
-			'total_discount' => esc_js( $order->get_total_discount() ),
-			'subtotal'       => esc_js( $order->get_subtotal() ),
+			'currency'       => $order->get_currency(),
+			'discount_total' => $order->get_discount_total(),
+			'discount_tax'   => $order->get_discount_tax(),
+			'shipping_total' => $order->get_shipping_total(),
+			'shipping_tax'   => $order->get_shipping_tax(),
+			'cart_tax'       => $order->get_cart_tax(),
+			'total'          => $order->get_total(),
+			'total_tax'      => $order->get_total_tax(),
+			'total_discount' => $order->get_total_discount(),
+			'subtotal'       => $order->get_subtotal(),
 			'tax_totals'     => $order->get_tax_totals(),
 		),
 		'customer'   => array(
 			'id'       => $order->get_customer_id(),
 
 			'billing'  => array(
-				'first_name'      => esc_js( $order->get_billing_first_name() ),
-				'first_name_hash' => esc_js( $billing_first_hash ),
-				'last_name'       => esc_js( $order->get_billing_last_name() ),
-				'last_name_hash'  => esc_js( $billing_last_hash ),
-				'company'         => esc_js( $order->get_billing_company() ),
-				'address_1'       => esc_js( $order->get_billing_address_1() ),
-				'address_2'       => esc_js( $order->get_billing_address_2() ),
-				'city'            => esc_js( $order->get_billing_city() ),
-				'state'           => esc_js( $order->get_billing_state() ),
-				'postcode'        => esc_js( $order->get_billing_postcode() ),
-				'country'         => esc_js( $order->get_billing_country() ),
-				'email'           => esc_js( $order->get_billing_email() ),
-				'emailhash'       => esc_js( $billing_email_hash ), // deprecated.
-				'email_hash'      => esc_js( $billing_email_hash ),
-				'phone'           => esc_js( $order->get_billing_phone() ),
-				'phone_hash'      => esc_js( $billing_phone_hash ),
+				'first_name'      => $order->get_billing_first_name(),
+				'first_name_hash' => $billing_first_hash,
+				'last_name'       => $order->get_billing_last_name(),
+				'last_name_hash'  => $billing_last_hash,
+				'company'         => $order->get_billing_company(),
+				'address_1'       => $order->get_billing_address_1(),
+				'address_2'       => $order->get_billing_address_2(),
+				'city'            => $order->get_billing_city(),
+				'state'           => $order->get_billing_state(),
+				'postcode'        => $order->get_billing_postcode(),
+				'country'         => $order->get_billing_country(),
+				'email'           => $order->get_billing_email(),
+				'emailhash'       => $billing_email_hash, // deprecated.
+				'email_hash'      => $billing_email_hash,
+				'phone'           => $order->get_billing_phone(),
+				'phone_hash'      => $billing_phone_hash,
 			),
 
 			'shipping' => array(
-				'first_name' => esc_js( $order->get_shipping_first_name() ),
-				'last_name'  => esc_js( $order->get_shipping_last_name() ),
-				'company'    => esc_js( $order->get_shipping_company() ),
-				'address_1'  => esc_js( $order->get_shipping_address_1() ),
-				'address_2'  => esc_js( $order->get_shipping_address_2() ),
-				'city'       => esc_js( $order->get_shipping_city() ),
-				'state'      => esc_js( $order->get_shipping_state() ),
-				'postcode'   => esc_js( $order->get_shipping_postcode() ),
-				'country'    => esc_js( $order->get_shipping_country() ),
+				'first_name' => $order->get_shipping_first_name(),
+				'last_name'  => $order->get_shipping_last_name(),
+				'company'    => $order->get_shipping_company(),
+				'address_1'  => $order->get_shipping_address_1(),
+				'address_2'  => $order->get_shipping_address_2(),
+				'city'       => $order->get_shipping_city(),
+				'state'      => $order->get_shipping_state(),
+				'postcode'   => $order->get_shipping_postcode(),
+				'country'    => $order->get_shipping_country(),
 			),
 
 		),
@@ -296,8 +301,9 @@ function gtm4wp_woocommerce_get_raw_order_datalayer( $order, $order_items ) {
 	 * Can be used to add custom order or even product data into the data layer.
 	 *
 	 * @param array  $order_data An associative array containing all data (head data and products) about the currently placed order.
+	 * @param WC_Order $order       The WooCommerce order object.
 	 */
-	return apply_filters( GTM4WP_WPFILTER_EEC_ORDER_DATA, $order_data );
+	return apply_filters( GTM4WP_WPFILTER_EEC_ORDER_DATA, $order_data, $order );
 }
 /**
  * Takes a WooCommerce order and order items and generates the standard/classic and
@@ -354,8 +360,9 @@ function gtm4wp_woocommerce_get_purchase_datalayer( $order, $order_items = null 
 	 * Can be used to add custom data to the data layer when the purhcase ecommerce action is included.
 	 *
 	 * @param array $data_layer An associative array containing the full data layer including purchase header attributes.
+	 * @param WC_Order $order The WooCommerce order that needs to be transformed into an enhanced ecommerce data layer.
 	 */
-	return apply_filters( GTM4WP_WPFILTER_ECC_PURCHASE_DATALAYER, $data_layer );
+	return apply_filters( GTM4WP_WPFILTER_ECC_PURCHASE_DATALAYER, $data_layer, $order );
 }
 
 /**
@@ -486,6 +493,24 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 				case 'variable':
 					$data_layer['productIsVariable'] = 1;
 
+					if ( true === $gtm4wp_options[ GTM4WP_OPTION_INTEGRATE_WCVIEWITEMONPARENT ] ) {
+						$gtm4wp_currency = get_woocommerce_currency();
+						unset( $eec_product_array['internal_id'] );
+
+						gtm4wp_datalayer_push(
+							'view_item',
+							array(
+								'ecommerce' => array(
+									'currency' => $gtm4wp_currency,
+									'value'    => $eec_product_array['price'],
+									'items'    => array(
+										$eec_product_array,
+									),
+								),
+							)
+						);
+					}
+
 					break;
 
 				case 'grouped':
@@ -555,16 +580,19 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 				$gtm4wp_cart_total     += $eec_product_array['price'] * $eec_product_array['quantity'];
 			}
 
-			gtm4wp_datalayer_push(
-				'view_cart',
-				array(
-					'ecommerce' => array(
-						'currency' => $gtm4wp_currency,
-						'value'    => $gtm4wp_cart_total,
-						'items'    => $gtm4wp_cart_products,
-					),
-				)
-			);
+			// Do not fire GTM event if no products are in the cart.
+			if ( count( $gtm4wp_cart_products ) > 0 ) {
+				gtm4wp_datalayer_push(
+					'view_cart',
+					array(
+						'ecommerce' => array(
+							'currency' => $gtm4wp_currency,
+							'value'    => $gtm4wp_cart_total,
+							'items'    => $gtm4wp_cart_products,
+						),
+					)
+				);
+			}
 		}
 	} elseif ( is_order_received_page() ) {
 		// Order received page data layer content.
@@ -573,7 +601,7 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 
 		// Supressing 'Processing form data without nonce verification.' message as there is no nonce accesible in this case.
 		$order_id = filter_var( wp_unslash( isset( $_GET['order'] ) ? $_GET['order'] : '' ), FILTER_VALIDATE_INT ); // phpcs:ignore
-		if ( ! $order_id & isset( $wp->query_vars['order-received'] ) ) {
+		if ( ! $order_id && isset( $wp->query_vars['order-received'] ) ) {
 			$order_id = $wp->query_vars['order-received'];
 		}
 		$order_id = absint( $order_id );
@@ -591,6 +619,7 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 			$order = wc_get_order( $order_id );
 
 			if ( $order instanceof WC_Order ) {
+
 				$this_order_key = $order->get_order_key();
 
 				if ( $this_order_key !== $order_key ) {
@@ -680,7 +709,7 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 
 			// Check whether this order has been already tracked before in this browser.
 			let gtm4wp_order_already_tracked = false;
-			if ( gtm4wp_orderid_tracked && ( ' . esc_js( $order->get_order_number() ) . ' == gtm4wp_orderid_tracked ) ) {
+			if ( gtm4wp_orderid_tracked && ( "' . esc_js( $order->get_order_number() ) . '" == gtm4wp_orderid_tracked ) ) {
 				gtm4wp_order_already_tracked = true;
 			}
 
@@ -689,15 +718,15 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 
 			$after_purchase_dl_push = '
 			}
-
+			
 			// Store order ID to prevent tracking this purchase again.
 			if ( !window.localStorage ) {
 				var gtm4wp_orderid_cookie_expire = new Date();
 				gtm4wp_orderid_cookie_expire.setTime( gtm4wp_orderid_cookie_expire.getTime() + (365*24*60*60*1000) );
 				var gtm4wp_orderid_cookie_expires_part = "expires=" + gtm4wp_orderid_cookie_expire.toUTCString();
-				document.cookie = "gtm4wp_orderid_tracked=" + ' . esc_js( $order->get_order_number() ) . ' + ";" + gtm4wp_orderid_cookie_expires_part + ";path=/";
+				document.cookie = "gtm4wp_orderid_tracked=" + "' . esc_js( $order->get_order_number() ) . '" + ";" + gtm4wp_orderid_cookie_expires_part + ";path=/";
 			} else {
-				window.localStorage.setItem( "gtm4wp_orderid_tracked", ' . esc_js( $order->get_order_number() ) . ' );
+				window.localStorage.setItem( "gtm4wp_orderid_tracked", "' . esc_js( $order->get_order_number() ) . '" );
 			}';
 
 			gtm4wp_datalayer_push(
@@ -752,22 +781,43 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
 				$gtm4wp_checkout_total     += $eec_product_array['quantity'] * $eec_product_array['price'];
 			} // end foreach cart item
 
-			gtm4wp_datalayer_push(
-				'begin_checkout',
-				array(
-					'ecommerce' => array(
-						'currency' => $gtm4wp_currency,
-						'value'    => $gtm4wp_checkout_total,
-						'items'    => $gtm4wp_checkout_products,
-					),
-				)
-			);
+			// Do not fire GTM event if no products are in the cart.
+			if ( count( $gtm4wp_checkout_products ) > 0 ) {
+				gtm4wp_datalayer_push(
+					'begin_checkout',
+					array(
+						'ecommerce' => array(
+							'currency' => $gtm4wp_currency,
+							'value'    => $gtm4wp_checkout_total,
+							'items'    => $gtm4wp_checkout_products,
+						),
+					)
+				);
+			}
 
-			wc_enqueue_js(
-				'
-				window.gtm4wp_checkout_products = ' . wp_json_encode( $gtm4wp_checkout_products ) . ';
-				window.gtm4wp_checkout_value    = ' . (float) $gtm4wp_checkout_total . ';'
-			);
+			$gtm4wp_checkout_js = '
+				window.gtm4wp_checkout_products = ' . wp_json_encode( $gtm4wp_checkout_products, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_APOS ) . ';
+				window.gtm4wp_checkout_value    = ' . (float) $gtm4wp_checkout_total . ';';
+
+			/*
+			 * wc_enqueue_js() is deprecated since WooCommerce 10.4 in favour of
+			 * wp_add_inline_script(), so prefer the WordPress function.
+			 *
+			 * An inline script can only be attached while its handle has not been
+			 * printed yet. This code runs on wp_head priority 10, after
+			 * wp_print_head_scripts() (priority 9), so on a site that filters the
+			 * tracker into the <head> instead of the footer the attach would come
+			 * too late and the checkout data would be lost. wp_add_inline_script()
+			 * also returns false when the handle is not registered at all. Fall
+			 * back to the WooCommerce queue in both cases: it is deprecated but
+			 * still supported, and it always prints in the footer.
+			 */
+			if (
+				wp_script_is( 'gtm4wp-woocommerce', 'done' )
+				|| ! wp_add_inline_script( 'gtm4wp-woocommerce', $gtm4wp_checkout_js, 'before' )
+			) {
+				wc_enqueue_js( $gtm4wp_checkout_js );
+			}
 		}
 	}
 
@@ -822,7 +872,11 @@ function gtm4wp_woocommerce_datalayer_filter_items( $data_layer ) {
  * @return void
  */
 function gtm4wp_woocommerce_thankyou( $order_id ) {
-	global $gtm4wp_options, $gtm4wp_datalayer_name, $gtm4wp_woocommerce_purchase_data_pushed;
+	global $gtm4wp_options, $gtm4wp_woocommerce_purchase_data_pushed, $gtm4wp_datalayer_name;
+
+	if ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) {
+		return;
+	}
 
 	/*
 	If this flag is set to true, it means that the puchase event was fired
@@ -840,7 +894,7 @@ function gtm4wp_woocommerce_thankyou( $order_id ) {
 	$data_layer = array();
 
 	if ( isset( $order ) && $gtm4wp_options[ GTM4WP_OPTION_INTEGRATE_WCORDERMAXAGE ] ) {
-		$now = new DateTime();
+		$now = new DateTime( 'now', $order->get_date_created()->getTimezone() );
 		if ( $order->is_paid() && $order->get_date_paid() ) {
 			$diff    = $now->diff( $order->get_date_paid() );
 			$minutes = ( $diff->days * 24 * 60 ) + ( $diff->h * 60 ) + $diff->i;
@@ -896,14 +950,13 @@ function gtm4wp_woocommerce_thankyou( $order_id ) {
 			$purchase_data_layer
 		);
 
-		$has_html5_support    = current_theme_supports( 'html5' );
-		$add_cookiebot_ignore = $gtm4wp_options[ GTM4WP_OPTION_INTEGRATE_COOKIEBOT ];
-
-		echo '
-<script data-cfasync="false" data-pagespeed-no-defer' . ( $has_html5_support ? ' type="text/javascript"' : '' ) . ( $add_cookiebot_ignore ? ' data-cookieconsent="ignore"' : '' ) . '>
+		$script_tag = '
+' . gtm4wp_generate_script_opening_tag() . '
 	window.' . esc_js( $gtm4wp_datalayer_name ) . ' = window.' . esc_js( $gtm4wp_datalayer_name ) . ' || [];
-	window.' . esc_js( $gtm4wp_datalayer_name ) . '.push(' . wp_json_encode( $data_layer ) . ');
+	window.' . esc_js( $gtm4wp_datalayer_name ) . '.push(' . wp_json_encode( $data_layer, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_HEX_APOS ) . ');
 </script>';
+
+		gtm4wp_print_script_block( $script_tag );
 
 		if ( ! $do_not_flag_tracked_order ) {
 			$order->update_meta_data( '_ga_tracked', 1 );
@@ -1203,7 +1256,7 @@ function gtm4wp_woocommerce_after_template_part( $template_name ) {
 			esc_attr( wp_json_encode( $eec_product_array ) )
 		);
 
-		$gtm4wp_product_counter++;
+		++$gtm4wp_product_counter;
 
 		$productitem = str_replace( 'href="', $productlink_with_data, $productitem );
 	}
@@ -1260,6 +1313,10 @@ function gtm4wp_woocommerce_get_product_list_item_extra_tag( $product, $listtype
 		),
 		'productlist'
 	);
+
+	if ( false === $eec_product_array ) {
+		return false;
+	}
 
 	if ( ! isset( $eec_product_array['item_brand'] ) ) {
 		$eec_product_array['item_brand'] = '';
@@ -1421,7 +1478,7 @@ function gtm4wp_woocommerce_grouped_product_list_column_label( $labelvalue, $pro
 		'groupedproductlist'
 	);
 
-	$gtm4wp_grouped_product_ix++;
+	++$gtm4wp_grouped_product_ix;
 
 	if ( ! isset( $eec_product_array['item_brand'] ) ) {
 		$eec_product_array['item_brand'] = '';

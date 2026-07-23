@@ -2,9 +2,9 @@
 Contributors: qodeinteractive
 Tags: elementor, elementor addons, elementor widgets, elementor elements, addons
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 1.6.9
+Stable tag: 1.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,9 @@ Not only do you get one of the largest widget collections for free, but every el
 <h3>TOP-TIER PERFORMANCE</h3>
 A superlight toolkit designed using the finest coding practices to ensure quick loading times, smooth configuration, and easy optimization. You also have the option to use on-demand widget loading feature to enable loading only the widgets used on your pages and reduce page load speeds.
 
+<h3>EASILY BUILD CUSTOM TEMPLATES WITH THEME BUILDER MODULE</h3>
+The Premium version of the plugin comes with the practical <b>Theme Builder</b> module. This provides you with a simple set of options which let you <b>craft custom headers, footers, single, archive & 404 pages</b> the easy way, with another 16 simple widgets designed specifically for creating these templates.
+
 <h3>PROFESSIONAL SUPPORT</h3>
 You can check out our <a href="https://qodeinteractive.com/qi-addons-for-elementor/documentation/" target="_blank">Qi Addons for Elementor documentation</a>, with all options and features of every widget covered in detail. You can also visit the <a href="https://helpcenter.qodeinteractive.com/" target="_blank">Qode Help Center</a> where you can browse our comprehensive knowledge base or <a href="https://helpcenter.qodeinteractive.com/" target="_blank">contact our support team</a> and one of our friendly support pros will get back to you ASAP.
 
@@ -40,18 +43,18 @@ https://www.youtube.com/watch?v=WT8ngVYlJ_0&list=PLNypD600o6nK_5QYh--5K6B0ObmgVt
 
 <h4>Typography Addons:</h4>
 <ul>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/drop-caps/" target="_blank">Drop Caps</a> - Introduce your paragraphs in a creative way with decorative text</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/section-title/" target="_blank">Section Title</a> - Display captivating and fully configurable titles</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/drop-caps/" target="_blank">Drop Caps</a> - Introduce paragraphs with decorative text</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/section-title/" target="_blank">Section Title</a> - Display captivating, fully configurable titles</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/typeout-text/" target="_blank">Typeout Text</a> - Feature smoothly animated typeout text sections</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/animated-text/" target="_blank">Animated Text</a> - A custom widget that lets you create visually appealing sections with animated textual content which you can customize</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/animated-text/" target="_blank">Animated Text</a> - Visually appealing animated text sections which you can customize</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/highlighted-text/" target="_blank">Highlighted Text</a> - Accentuate parts of text that you select</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/blockquote/" target="_blank">Blockquote</a> - Quotes that stand out from the rest of your text the way you choose</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/divider/" target="_blank">Divider</a> - Turn your separator lines into something truly special</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/button/" target="_blank">Button</a> - Fully adaptable and combinable button layouts & types</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/info-button/" target="_blank">Info Button</a> - Create more elaborate versions of buttons with more information</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/call-to-action/" target="_blank">Call to Action</a> - Compose impactful sections that encourage user interaction & response</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/info-button/" target="_blank">Info Button</a> - More elaborate versions of buttons with additional info</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/call-to-action/" target="_blank">Call to Action</a> - Impactful sections that encourage user interaction & response</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/message-boxes/" target="_blank">Message Boxes</a> - Draw special attention to pieces of information</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/horizontal-tabs/" target="_blank">Horizontal Tabs</a> - Easily create and organize horizontally laid out tabs with your content</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/horizontal-tabs/" target="_blank">Horizontal Tabs</a> - Create and organize horizontally laid out tabs with your content</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/vertical-tabs/" target="_blank">Vertical Tabs</a> - Feature your content in smoothly switchable vertically aligned tabs</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/accordions-and-toggles/" target="_blank">Accordions and Toggles</a> - Display important info in easily adaptable toggles and accordions</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/icon-with-text/" target="_blank">Icon with Text</a> - Display your style of icons with some accompanying content</li>
@@ -62,42 +65,43 @@ https://www.youtube.com/watch?v=WT8ngVYlJ_0&list=PLNypD600o6nK_5QYh--5K6B0ObmgVt
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/pricing-table/" target="_blank">Pricing Table</a> - Show detailed single pricings or comparison pricing plans</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/pricing-list/" target="_blank">Pricing List</a> - Easily display a wide assortment of differently styled pricing lists</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/working-hours/" target="_blank">Working Hours</a> - Tons of versatile ways for showcasing your business hours</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/clients-list/" target="_blank">Clients List</a> - Compose visually appealing lists with your clients, partners & business associates</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/clients-list/" target="_blank">Clients List</a> - Visually appealing lists with your clients & business associates</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/clients-carousel/" target="_blank">Clients Carousel</a> - Feature your clients in captivating carousel layouts</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/testimonials/" target="_blank">Testimonials</a> - Incorporate your quotes in fully flexible testimonial elements</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/testimonials-carousel/" target="_blank">Testimonials Carousel</a> - Feature important quotes and testimonials in easily configurable carousel layouts</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/testimonials/" target="_blank">Testimonials</a> - Incorporate quotes in flexible testimonial elements</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/testimonials-carousel/" target="_blank">Testimonials Carousel</a> - Easily configurable carousel layouts for important quotes</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/team/" target="_blank">Team</a> - A wide selection of varied ways for showcasing all members of your team</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/info-box/" target="_blank">Info Box</a> - Convey any type of message to your visitors in a truly captivating manner</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/info-box/" target="_blank">Info Box</a> - Convey any message to your visitors in a captivating manner</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/banners/" target="_blank">Banners</a> - Display promotions, important announcements and all your other messages</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/interactive-banners/" target="_blank">Interactive Banners</a> - Give your adds and messages that special something by displaying them in modifiable interactive banners</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/blog-list/" target="_blank">Blog List</a> - A custom element perfect for creating fully configurable, beautiful lists with your posts</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/blog-carousel/" target="_blank">Blog Carousel</a> - Eye-catching carousel sliders ideal for featuring your posts in a number of versatile ways</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/interactive-banners/" target="_blank">Interactive Banners</a> - Give your adds & messages that special something by placing them in interactive banners</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/blog-list/" target="_blank">Blog List</a> - Create fully configurable beautiful lists with your posts</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/blog-carousel/" target="_blank">Blog Carousel</a> - Sliders ideal for featuring your posts in a number of versatile ways</li>
 </ul>
 
 <h4>Showcase Addons:</h4>
 <ul>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/item-showcase/" target="_blank">Item Showcase</a> - Create visually appealing showcases for items of any sort with accompanying info</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/timeline-showcase/" target="_blank">Timeline Showcase</a> - Compose visually appealing chronological lists of events & customize them your way</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/before-after-comparison-slider/" target="_blank">Before/After Comparison Slider</a> - Show fully modifiable interactive comparison sliders with images</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/countdown/" target="_blank">Countdown</a> - Feature aesthetically pleasing countdowns to your important days the way you choose</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/item-showcase/" target="_blank">Item Showcase</a> - Showcases for items of any sort with accompanying info</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/timeline-showcase/" target="_blank">Timeline Showcase</a> - Visually appealing chronological lists of events</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/before-after-comparison-slider/" target="_blank">Before/After Comparison Slider</a> - Modifiable interactive comparison sliders with images</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/countdown/" target="_blank">Countdown</a> - Aesthetically pleasing countdowns to your important days</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/image-gallery/" target="_blank">Image Gallery</a> - Feature your images in beautiful, fully adaptable galleries</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/image-slider/" target="_blank">Image Slider</a> - Display all your images in a number of exciting ways by featuring them in easily adjustable sliders</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/masonry-image-gallery/" target="_blank">Masonry Image Gallery</a> - An element ideal for creating compelling galleries with masonry layouts</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/pinterest-image-gallery/" target="_blank">Pinterest Image Gallery</a> - A custom widget that lets you easily create striking pinterest-styled galleries</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/" target="_blank">Dual Image with Content </a> - Create eye-catching sections that contain two images, placed one on top of the other, and feature some additional content</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/image-slider/" target="_blank">Image Slider</a> - Easily adjustable sliders for displaying images in a number of exciting ways</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/masonry-image-gallery/" target="_blank">Masonry Image Gallery</a> - Compose compelling galleries with masonry layouts</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/pinterest-image-gallery/" target="_blank">Pinterest Image Gallery</a> - Easily create striking pinterest-styled galleries</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/dual-image-with-content/" target="_blank">Dual Image with Content </a> - Eye-catching two-image sections with some additional content</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/content-slider/" target="_blank">Content Slider </a> - Easily create fully adjustable image and textual content slider presentations</li>
 </ul>
 
 <h4>Creative Addons:</h4>
 <ul>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/device-frame-slider/" target="_blank">Device Frame Slider</a> - Display your images in attention-grabbing sliders with predefined mobile device-styled frames</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/device-frame-carousel/" target="_blank">Device Frame Carousel</a> - Visually striking element for featuring images in completely modifiable image frame carousel layouts</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/device-frame-carousel/" target="_blank">Device Frame Carousel</a> - Feature images in modifiable, visually striking image frame carousel layouts</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/preview-slider/" target="_blank">Preview Slider</a> - Feature multiple images in this dual layer slider element</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/cards-gallery/" target="_blank">Cards Gallery</a> - Compose interactive card deck-styled image showcases</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/parallax-image-showcase/" target="_blank">Parallax Image Showcase</a> - Bring the visual dynamic of your new website to a new level by creating parallax image sections</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/parallax-image-showcase/" target="_blank">Parallax Image Showcase</a> - Elevate the visual dynamic on your site by creating parallax image sections</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/text-marquee/" target="_blank">Text Marquee</a> - Perfect for drawing attention to specific bits of textual content</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/interactive-links/" target="_blank">Interactive Links</a> - An interactive element for showcasing images with corresponding text and links</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/cards-slider/" target="_blank">Cards Slider</a> - A visually appealing widget that lets you display card deck styled slider presentations</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/slider-switch/" target="_blank">Slider Switch</a> - Lets you display double-image slider presentations with predefined or custom image frames</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/cards-slider/" target="_blank">Cards Slider</a> - Display visually appealing card deck styled slider presentations</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/slider-switch/" target="_blank">Slider Switch</a> - Double-image slider presentations with predefined or custom image frames</li>
 </ul>
 
 <h4>Infographics Addons:</h4>
@@ -105,7 +109,7 @@ https://www.youtube.com/watch?v=WT8ngVYlJ_0&list=PLNypD600o6nK_5QYh--5K6B0ObmgVt
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/counters/" target="_blank">Counters</a> - Element designed to let you display your achievements in numbers</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/radial-progress-bar/" target="_blank">Radial Progress Bar</a> - For featuring neat visual representations of operation progressions</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/horizontal-progress-bar/" target="_blank">Horizontal Progress Bar</a> - Display your process progressions in modifiable horizontally arranged bars</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/vertical-progress-bar/" target="_blank">Vertical Progress Bar</a> - Showcase how your projects or tasks are going in completely adjustable vertical bars</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/vertical-progress-bar/" target="_blank">Vertical Progress Bar</a> - Showcase how your projects or tasks are going in adjustable vertical bars</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/process/" target="_blank">Process</a> - Present all types of processes divided into customizable vertical or horizontal stages</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/graphs/" target="_blank">Graphs</a> - Present your data or stats in beautifully styled line and bar graphs</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/pie-and-donut-charts/" target="_blank">Pie and Donut Charts</a> - For displaying comprehensive charts in a number of creative ways</li>
@@ -123,7 +127,7 @@ https://www.youtube.com/watch?v=WT8ngVYlJ_0&list=PLNypD600o6nK_5QYh--5K6B0ObmgVt
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/product-list/" target="_blank">Product List</a> - Feature all your products in beautiful and fully flexible lists</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/product-slider/" target="_blank">Product Slider</a> - Catch the attention of all your visitors</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/product-category-list/" target="_blank">Product Category List</a> - A practical way to introduce products to your audience; create beautiful lists with filters</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/add-to-cart-button/" target="_blank">Add to Cart Button</a> - Create a range of practical, fully adaptable buttons that can be featured next to your products</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/add-to-cart-button/" target="_blank">Add to Cart Button</a> - Display a range of practical, adaptable buttons next to your products</li>
 </ul>
 
 <h4>Form Style Addons:</h4>
@@ -161,6 +165,8 @@ https://www.youtube.com/watch?v=WT8ngVYlJ_0&list=PLNypD600o6nK_5QYh--5K6B0ObmgVt
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/vertical-timeline/" target="_blank">Vertical Timeline</a> - Present all sorts of events or milestones in chronologically arranged vertical layouts</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/rotating-image-tiles/" target="_blank">Rotating Image Tiles</a> - Compose animated presentations with four images divided into a specific number of rotating tiles</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/interactive-info-images/" target="_blank">Interactive Info Images</a> - Allows you to display animated image panels which reveal informative textual content on hover</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/image-hotspots/" target="_blank">Image Hotspots</a> - Create image showcases with interactive hotspots with info reveal on hover</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/album-gallery/" target="_blank">Album Gallery</a> - Organize images into albums with cover images and view them in a popup gallery</li>
 </ul>
 
 <h4>Premium Creative Addons:</h4>
@@ -169,11 +175,11 @@ https://www.youtube.com/watch?v=WT8ngVYlJ_0&list=PLNypD600o6nK_5QYh--5K6B0ObmgVt
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/textual-project-showcase/" target="_blank">Textual Project Showcase</a> - A widget designed for creating image showcases that consists of text strings interspersed with images</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/floating-item-showcase/" target="_blank">Floating Item Showcase</a> - A widget designed for creating engaging presentations with floating background images & fixed overlays</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/stacked-item-scroll/" target="_blank">Stacked Item Scroll</a> - Display stacks of images that reveal one by one on scroll, with some hover-aware animations and text</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/fixed-project-slider/" target="_blank">Fixed Project Slider</a> - Built for displaying scrolling image presentations with fixed vertical info panels belonging to each image</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/divided-showcase-carousel/" target="_blank">Divided Showcase Carousel</a> - A custom widget for displaying vertically split automatically scrolling image carousels with titles</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/vertical-project-reel/" target="_blank">Vertical Project Reel</a> - Feature your images & projects in vertically scrolling reels with accompanying text that switches along</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/fixed-project-slider/" target="_blank">Fixed Project Slider</a> - Scrolling image presentations with fixed vertical info panels belonging to each image</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/divided-showcase-carousel/" target="_blank">Divided Showcase Carousel</a> - Vertically split automatically scrolling image carousels with titles</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/vertical-project-reel/" target="_blank">Vertical Project Reel</a> - Feature images & projects in vertically scrolling reels with text that switches along</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/hover-aware-slider/" target="_blank">Hover-aware Slider</a> - Create showcases with images that switch when hovering inside the element</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/numbered-slider/" target="_blank">Numbered Slider</a> - Designed for displaying enumerated sliders with images, textual content and slide transition animations</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/numbered-slider/" target="_blank">Numbered Slider</a> - Enumerated sliders with images, textual content and slide transition animations</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/vertical-circled-slider/" target="_blank">Vertical Circled Slider</a> - Create attention-grabbing sliders with circular frames that scroll vertically</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/divided-slider-diverge/" target="_blank">Divided Slider Diverge</a> - Display two-way split sliders with your textual content & images</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/divided-slider-reveal/" target="_blank">Divided Slider Reveal</a> - Build animated split slider presentations with a main image panel & a second panel with 3 images</li>
@@ -183,40 +189,49 @@ https://www.youtube.com/watch?v=WT8ngVYlJ_0&list=PLNypD600o6nK_5QYh--5K6B0ObmgVt
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/intro-swipe-images/" target="_blank">Intro Swipe Images</a> - Create an intro section with auto-switching background images with swipe-styled transitions</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/intro-glitch-effect/" target="_blank">Intro Glitch Effect</a> - Visually captivating intro sections with glitch-styled animations which you can customize</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/intro-scrolling-images/" target="_blank">Intro Scrolling Images</a> - Easily display intro sections with text & scrolling images</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/horizontal-double-row-projects/" target="_blank">Horizontal Double Row</a> - Create appealing horizontally scrolling image showcases aligned in two rows.</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/flip-box/" target="_blank">Flip Box</a> - Display easily configurable interactive two-sided boxes containing your content, with some transition animations applied.</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/news-ticker/" target="_blank">News Ticker</a> - A custom widget that allows you to easily display headlines or pieces of news in horizontally laid out, automatically scrolling crawler elements.</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/horizontal-double-row-projects/" target="_blank">Horizontal Double Row</a> - Create appealing horizontally scrolling image showcases aligned in two rows</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/flip-box/" target="_blank">Flip Box</a> - Display easily configurable interactive two-sided boxes containing your content, with some transition animations applied</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/news-ticker/" target="_blank">News Ticker</a> - Easily display headlines or pieces of news in horizontally laid out, automatically scrolling crawlers</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/elementor-dual-image-carousel-widget/" target="_blank">Dual Image Carousel</a> - Craft visually striking two-image animated carousel showcase sections</li>
 </ul>
 
 <h4>Premium Infographics Addons:</h4>
 <ul>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/icon-progress-bar/" target="_blank">Icon Progress Bar</a> - A straightforward way to display easily adjustable animated progress bars with icons or custom SVGs</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/icon-progress-bar/" target="_blank">Icon Progress Bar</a> - Display easily adjustable animated progress bars with icons or custom SVGs</li>
 </ul>
 
 <h4>Premium WooCommerce Addons:</h4>
 <ul>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/product-comparison/" target="_blank">Product Comparison</a> - A custom widget that lets you create comparative tables with products & relevant product info</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/product-comparison/" target="_blank">Product Comparison</a> - For comparative tables with products & relevant product info</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/order-tracking-form/" target="_blank">Order Tracking Form</a> - Create forms that lets your customers submit their order tracking info</li>
 </ul>
 
 <h4>Premium SEO Addons:</h4>
 <ul>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/business-reviews-yelp/" target="_blank">Business Reviews Yelp</a> - A custom widget that lets you display Yelp reviews on your pages and easily stylize their appearance</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/business-reviews-google/" target="_blank">Business Reviews Google</a> - A widget that lets you display Google reviews on your site whose appearance you can easily adjust</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/business-reviews-google/" target="_blank">Business Reviews Google</a> - Show easily configurable Google reviews on your site</li>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/social-share-buttons/" target="_blank">Social Share Buttons</a> - A clear and intuitive way to display configurable social share buttons anywhere on your pages</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/social-links/" target="_blank">Social Links</a> - A widget designed for displaying various social links in a wide variety of customizable ways</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/social-links/" target="_blank">Social Links</a> - For displaying various social links in a wide variety of customizable ways</li>
 </ul>
 
 <h4>Premium Form Style Addons:</h4>
 <ul>
     <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/mailchimp-form/" target="_blank">Mailchimp Form</a> - Easily display Mailchimp forms whose appearance you can adjust</li>
-    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/typeforms-form/" target="_blank">Typeforms Form</a> - A simple and straightforward way to integrate Typeform forms anywhere on your pages</li>
+    <li><a href="https://qodeinteractive.com/qi-addons-for-elementor/typeforms-form/" target="_blank">Typeforms Form</a> - Integrate Typeform forms anywhere on your pages</li>
+    <li><a href="#" target="_blank">Gravity Forms</a> - Display all types of custom forms, powered by Gravity Forms</li>
 </ul>
-
 
 = Documentation & Support =
 - Check out our step-by-step <a href="https://qodeinteractive.com/qi-addons-for-elementor/documentation/" target="_blank">user guide</a> on how to install and use Qi Addons For Elementor.
 - You can also submit a topic to the <a href="https://wordpress.org/support/plugin/qi-addons-for-elementor/">support forum</a> at and our support team will be glad to help you out.
+
+= Looking for more? =
+Feel free to try out some of our other products:
+
+<a href="https://wordpress.org/themes/qi/">Qi Theme</a>
+<a href="https://wordpress.org/plugins/qi-blocks/">Qi Blocks for Gutenberg</a>
+<a href="https://wordpress.org/plugins/qode-wishlist-for-woocommerce/">QODE Wishlist for WooCommerce</a>
+<a href="https://wordpress.org/plugins/qode-quick-view-for-woocommerce/">QODE Quick View for WooCommerce</a>
 
 == Frequently Asked Questions ==
 
@@ -248,7 +263,7 @@ Absolutely not. Qi Addons for Elementor was designed to allow you to create & ed
 
 = What if I update to the Premium version? =
 
-In the event that you decide to upgrade to the <a href="https://qodeinteractive.com/pricing/?qi_product=addons" target="_blank">Premium version</a> of Qi Addons for Elementor you’ll get another 40+ premium custom widgets for Elementor, which includes additional typography, business, showcase, creative, WooCommerce, SEO, and form style addons.
+In the event that you decide to upgrade to the <a href="https://qodeinteractive.com/products/plugins/?qi_product=addons" target="_blank">Premium version</a> of Qi Addons for Elementor you’ll get another 40+ premium custom widgets for Elementor, which includes additional typography, business, showcase, creative, WooCommerce, SEO, and form style addons.
 
 = Does Qi Addons for Elementor plugin work with any WordPress theme? =
 
@@ -273,6 +288,14 @@ In the event that you are using one of the caching plugins on your website, afte
 To purge all caches after updating the plugin, simply navigate to the Dashboard panel in the backend, go to the cache plugin settings and click Purge All Caches.
 
 Another thing you can do is navigate to Elementor > Tools, and click the Regenerate Files button found next to the Regenerate CSS label.
+
+= Can I Create Multilingual Sites with Qi Addons? =
+
+Yes. The plugin is fully compatible with the WPML plugin, which allows you to create multilingual websites with ease.
+
+= How can I report security bugs? =
+
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/qi-addons-for-elementor)
 
 == Installation ==
 
@@ -321,6 +344,114 @@ From wordpress.org
 
 
 == Changelog ==
+
+= 1.10 - 28-05-2026 =
+- Added compatibility with Elementor Pro Popup module
+- Minor improvements
+
+= 1.9.6 - 09-03-2026 =
+- Improved widget loading on Elementor update
+- Fixed 'Section Title' widget icon rendering in subtitle
+- Minor improvements
+
+= 1.9.5 - 26-09-2025 =
+- Fixed potential issue affecting widget loading on Elementor update
+
+= 1.9.4 - 19-09-2025 =
+- Fixed potential problem with widget loading
+- Minor improvements
+
+= 1.9.3 - 29-07-2025 =
+- Added support for setting custom units in size controls
+- Added 'container' template type to templates dropdown in shortcodes
+- Improved 'Process' widget item text to allow html content
+- Improved scripts loading
+- Improved Cross Site Scripting (XSS) vulnerability
+
+= 1.9.2 - 27-06-2025 =
+- Improved Cross Site Scripting (XSS) vulnerability
+
+= 1.9.1 - 05-06-2025 =
+- Minor improvements
+
+= 1.9.0 - 23-05-2025 =
+- Updated Chart.js plugin to v4.4.8
+- Added 'Hide Pagination' option for sliders
+- Fixed template translation for 'Dual Image with Content' widget
+
+= 1.8.9 - 06-02-2025 =
+- Improved plugin security
+
+= 1.8.8 - 03-02-2025 =
+- Fixed Cross Site Scripting (XSS) regex protection causing problems with widgets rendering
+
+= 1.8.7 - 31-01-2025 =
+- Fixed Cross Site Scripting (XSS) regex protection causing problems with widgets rendering
+
+= 1.8.6 - 30-01-2025 =
+- Fixed slider columns rendering
+
+= 1.8.5 - 28-01-2025 =
+- Improved Cross Site Scripting (XSS) vulnerability
+
+= 1.8.4 - 27-01-2025 =
+- Fixed possible 'placeholder' image error
+- Removed 'video' option from background options for widgets due to Elementor compatibility
+
+= 1.8.3 - 25-12-2024 =
+- Improved Swiper script loading
+
+= 1.8.2 - 19-12-2024 =
+- Added 'Disable Lazy Loading' option to 'Image Gallery' widget
+- Fixed potential bug with Swiper Slider background loading
+- Fixed 'Timeline Showcase' widget not to reinitialize on mobile browser's scroll
+- Improved placeholder image upload code security
+
+= 1.8.1 - 17-10-2024 =
+- Improved Sensitive Information Exposure vulnerability through private templates in widgets
+
+= 1.8.0 - 30-09-2024 =
+- Added compatibility with Elementor Widget Caching
+- Improved Cross Site Scripting (XSS) vulnerability
+- Solved conflict with Elementor Pro page transition and Image Slider Lightbox
+- Minor improvements
+
+= 1.7.8 - 14-08-2024 =
+- Added option to choose Swiper Library Version (v5/v8) in 'Qi Addons for Elementor > Settings' tab
+- Fixed autoplay option for 'Preview Slider' widget
+
+= 1.7.7 - 06-08-2024 =
+- Improved responsiveness for 'slider' widgets
+- Updated Swiper library to 8.4.5
+- Fixed possible problem with multiple sliders on same page
+- Minor improvements
+
+= 1.7.6 - 07-06-2024 =
+- Improved admin notice layout
+- Minor changes and fixes
+
+= 1.7.5 - 06-06-2024 =
+- Fixed special character labels rendering
+- Fixed 'Disable partial columns under' option for sliders
+
+= 1.7.4 - 04-06-2024 =
+- Fixed issue for XSS escaping causing potential error
+
+= 1.7.3 - 03-06-2024 =
+- Improved Cross Site Scripting (XSS) vulnerability
+- Improved Local File Inclusion vulnerability
+
+= 1.7.2 - 24-05-2024 =
+- Improved admin layout
+- Minor improvements
+
+= 1.7.1 - 26-04-2024 =
+- Fixed 'Countdown' widget labels rendering
+
+= 1.7.0 - 23-04-2024 =
+- Improved WordPress coding standards
+- Improved Cross Site Scripting (XSS) vulnerability
+- Added Overlay Style (initial and hover color) for Interactive Banner - From Bottom, Revealing and Standard layouts
 
 = 1.6.9 - 05-03-2024 =
 - Fixed a potential issue that could occur during the plugin activation

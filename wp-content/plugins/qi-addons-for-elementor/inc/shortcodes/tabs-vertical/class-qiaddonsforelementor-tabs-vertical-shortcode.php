@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_tabs_vertical_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_tabs_vertical_shortcode' ) 
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Tabs_Vertical_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_tabs_vertical_layouts', array() ) );
 
@@ -31,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_tabs_vertical' );
 			$this->set_name( esc_html__( 'Vertical Tabs', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds tabs holder', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Typography', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/vertical-tabs/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#vertical_tabs' );
@@ -183,7 +192,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'background',
 					'name'       => 'title_hover_background',
 					'title'      => esc_html__( 'Title Active/Hover Background', 'qi-addons-for-elementor' ),
-					'types'      => array( 'classic', 'gradient', 'video' ),
+					'types'      => array( 'classic', 'gradient' ),
 					'selector'   => '{{WRAPPER}} .qodef-qi-tabs-vertical .qodef-tabs-vertical-navigation li a:before',
 					'group'      => esc_html__( 'Title Style', 'qi-addons-for-elementor' ),
 				)
@@ -193,7 +202,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'title_sideline_width',
 					'title'      => esc_html__( 'Title Active/Hover Sideline Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-tabs-vertical .qodef-tabs-vertical-navigation li a:after'  => 'width: {{SIZE}}{{UNIT}};',
@@ -206,7 +215,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'title_sideline_right',
 					'title'      => esc_html__( 'Title Active/Hover Sideline Offset', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => - 10,
@@ -331,7 +340,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'title_padding',
 					'title'      => esc_html__( 'Title Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-tabs-vertical .qodef-tabs-vertical-navigation li a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -344,7 +353,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'content_padding',
 					'title'      => esc_html__( 'Content Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-tabs-vertical .qodef-tabs-vertical-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -358,7 +367,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'items_space',
 					'title'      => esc_html__( 'Items Space', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min'  => - 100,

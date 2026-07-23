@@ -1,8 +1,13 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 class QiAddonsForElementor_Preview_Slider_Shortcode_Elementor extends QiAddonsForElementor_Elementor_Widget_Base {
 
-	function __construct( array $data = [], $args = null ) {
+	public function __construct( array $data = [], $args = null ) {
 		$this->set_shortcode_slug( 'qi_addons_for_elementor_preview_slider' );
 
 		parent::__construct( $data, $args );

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_link_showcase_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_link_showcase_s
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Interactive_Link_Showcase_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_interactive_link_showcase_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_interactive_link_showcase_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_interactive_link_showcase' );
 			$this->set_name( esc_html__( 'Interactive Links', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds interactive links', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Creative', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/interactive-links/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#interactive_links' );
@@ -67,7 +76,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -127,7 +136,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 							'field_type'         => 'dimensions',
 							'name'               => 'item_image_offset_vertical',
 							'title'              => esc_html__( 'Image Offset From Center', 'qi-addons-for-elementor' ),
-							'size_units'         => array( 'px', '%' ),
+							'size_units'         => array( 'px', '%', 'custom' ),
 							'allowed_dimensions' => array( 'top', 'left' ),
 							'responsive'         => true,
 							'selectors'          => array(
@@ -140,7 +149,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 							'field_type'  => 'slider',
 							'name'        => 'item_image_width',
 							'title'       => esc_html__( 'Image Width', 'qi-addons-for-elementor' ),
-							'size_units'  => array( 'px', 'vw', '%' ),
+							'size_units'  => array( 'px', 'vw', '%', 'custom' ),
 							'range'       => array(
 								'px' => array(
 									'min' => 0,
@@ -163,7 +172,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'list_inner_padding',
 					'title'      => esc_html__( 'List Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-items' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -177,7 +186,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'list_width',
 					'title'      => esc_html__( 'List Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vw' ),
+					'size_units' => array( 'px', '%', 'vw', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 100,
@@ -199,7 +208,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'space_between_items',
 					'title'      => esc_html__( 'Space Between Items', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'vw', 'em' ),
+					'size_units' => array( 'px', 'vw', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-item' => 'margin: calc({{SIZE}}{{UNIT}}/2) 0;',
@@ -285,7 +294,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'text_margin_top',
 					'title'      => esc_html__( 'Text Margin Top', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => -100,

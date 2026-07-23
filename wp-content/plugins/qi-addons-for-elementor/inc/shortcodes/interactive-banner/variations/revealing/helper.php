@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_variation_revealing' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -24,7 +29,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_options_
 			'field_type' => 'slider',
 			'name'       => 'image_switch_text_margin_bottom',
 			'title'      => esc_html__( 'Text Margin Bottom', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-layout--revealing .qodef-m-content-inner > .qodef-m-text' => 'margin-bottom: {{SIZE}}{{UNIT}};',

@@ -21,7 +21,12 @@ class Opt_In_Geo {
 	 *
 	 * @var DEFAULT_GEOIP_PROVIDER
 	 */
-	const DEFAULT_GEOIP_PROVIDER = 'geoplugin';
+	const DEFAULT_GEOIP_PROVIDER = 'ipwhois';
+
+	/**
+	 * Group name of ip list cache.
+	 */
+	private const IP_CACHE_GROUP = 'hustle_ip_list';
 
 	/**
 	 * Tries to get the public IP address of the current user.
@@ -66,6 +71,11 @@ class Opt_In_Geo {
 		foreach ( $ip_fields as $key ) {
 			if ( true === array_key_exists( $key, $_SERVER ) ) {
 				$ips = filter_input( INPUT_SERVER, $key );
+				if ( ! $ips ) {
+					// Skip empty or invalid values.
+					continue;
+				}
+
 				foreach ( explode( ',', $ips ) as $ip ) {
 					$ip = trim( $ip );
 
@@ -241,17 +251,18 @@ class Opt_In_Geo {
 		if ( null === $geo_service ) {
 			$geo_service = array();
 
-			$geo_service['hostip'] = (object) array(
-				'label' => 'Host IP',
-				'url'   => 'http://api.hostip.info/country.php?ip=%ip%',
-				'type'  => 'text',
+			$geo_service['freeip'] = (object) array(
+				'label' => 'Free IP API',
+				'url'   => 'https://free.freeipapi.com/api/json/%ip%',
+				'type'  => 'json',
+				'field' => array( 'country_code' ),
 			);
 
-			$geo_service['geoplugin'] = (object) array(
-				'label' => 'GeoPlugin',
-				'url'   => 'http://www.geoplugin.net/json.gp?ip=%ip%',
+			$geo_service['ipwhois'] = (object) array(
+				'label' => 'IPWhois',
+				'url'   => 'https://ipwho.is/%ip%',
 				'type'  => 'json',
-				'field' => array( 'geoplugin_countryCode' ),
+				'field' => array( 'country_code' ),
 			);
 
 			// Deprecated.
@@ -356,19 +367,23 @@ class Opt_In_Geo {
 							if ( is_array( $service->field ) ) {
 								$keys  = $service->field;
 								$value = $data;
-								while ( $a = array_shift( $keys ) ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+
+								$element = array_shift( $keys );
+								while ( $element ) {
 									if ( is_array( $value ) ) {
-										if ( isset( $value[ $a ] ) ) {
-											$value = $value[ $a ];
+										if ( isset( $value[ $element ] ) ) {
+											$value = $value[ $element ];
 										}
 									} elseif ( is_object( $value ) ) {
-										if ( isset( $value->$a ) ) {
-											$value = $value->$a;
+										if ( isset( $value->$element ) ) {
+											$value = $value->$element;
 										}
 									}
 									if ( is_string( $value ) ) {
 										$country = $value;
 									}
+
+									$element = array_shift( $keys );
 								}
 							} else {
 								$country = isset( $data[ $service->field ] ) ? $data[ $service->field ] : null;
@@ -390,7 +405,9 @@ class Opt_In_Geo {
 	 * @return mixed
 	 */
 	private function update_ip_county_map( $ip, $country ) {
+		$country_ip_map        = $this->get_ip_county_map();
 		$country_ip_map[ $ip ] = $country;
+
 		update_option( self::COUNTRY_IP_MAP, $country_ip_map );
 		return $country;
 	}
@@ -434,21 +451,91 @@ class Opt_In_Geo {
 		$ip = (string) $ip;
 
 		if ( '127.0.0.1' === $ip ) {
-			return $this->update_ip_county_map( $ip, 'localhost' ); }
-
-		$country_ip_map = $this->get_ip_county_map();
-		if ( isset( $country_ip_map[ $ip ] ) ) {
-			if ( ! empty( $country_ip_map[ $ip ] ) ) {
-				return $country_ip_map[ $ip ];
-			}
+			return $this->update_ip_county_map( $ip, 'localhost' );
 		}
-		$service = $this->get_service();
-		$country = $this->country_from_api( $ip, $service );
 
+		// See if we have it cached/saved already.
+		$country = $this->find_saved_ip_country( $ip );
 		if ( ! empty( $country ) ) {
-			return $this->update_ip_county_map( $ip, $country );
+			return $country;
+		}
+
+		// Query external geo-API.
+		$country = $this->api_find_country( $ip );
+		if ( ! empty( $country ) ) {
+			// Save it for next time.
+			$this->update_ip_country( $ip, $country );
+			return $country;
 		}
 
 		return 'XX';
+	}
+
+	/**
+	 * Returns country string using ip address
+	 *
+	 * @param string $ip_address IP address.
+	 * @return string|false
+	 */
+	public function find_saved_ip_country( $ip_address ) {
+		$ip_country = self::get_cached_ip_country( $ip_address );
+		if ( $ip_country ) {
+			return $ip_country;
+		}
+
+		$country_ip_map = $this->get_ip_county_map();
+		if ( isset( $country_ip_map[ $ip_address ] ) ) {
+			if ( ! empty( $country_ip_map[ $ip_address ] ) ) {
+				return $country_ip_map[ $ip_address ];
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get cached ip country.
+	 *
+	 * @param string $ip_address IP address.
+	 * @return string|false
+	 */
+	private static function get_cached_ip_country( $ip_address ) {
+		$hash = md5( $ip_address );
+		return wp_cache_get( $hash, self::IP_CACHE_GROUP );
+	}
+
+	/**
+	 * Queries an external geo-API to find the country of the specified IP.
+	 *
+	 * @param string $ip_address IP address.
+	 * @return string
+	 */
+	private function api_find_country( $ip_address ) {
+		$service = $this->get_service();
+		return $this->country_from_api( $ip_address, $service );
+	}
+
+	/**
+	 * Update ip country.
+	 *
+	 * @param string $ip_address IP address.
+	 * @param string $country Country code.
+	 * @return string
+	 */
+	public function update_ip_country( $ip_address, $country ) {
+		self::cache_ip_country( $ip_address, $country );
+		return $this->update_ip_county_map( $ip_address, $country );
+	}
+
+	/**
+	 * Cache ip country.
+	 *
+	 * @param string $ip_address IP address.
+	 * @param string $country Country code.
+	 * @return void
+	 */
+	private static function cache_ip_country( $ip_address, $country ) {
+		$hash = md5( $ip_address );
+		wp_cache_set( $hash, $country, self::IP_CACHE_GROUP, DAY_IN_SECONDS );
 	}
 }

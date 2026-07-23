@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_call_to_action_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_call_to_action_shortcode' )
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Call_To_Action_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_call_to_action_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_call_to_action_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_call_to_action' );
 			$this->set_name( esc_html__( 'Call to Action', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds call to action element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Typography', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/call-to-action/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#call_to_action' );
@@ -207,7 +216,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'background',
 					'name'       => 'holder_background',
 					'title'      => esc_html__( 'Holder Background', 'qi-addons-for-elementor' ),
-					'types'      => array( 'classic', 'gradient', 'video' ),
+					'types'      => array( 'classic', 'gradient' ),
 					'selector'   => '{{WRAPPER}} .qodef-qi-call-to-action .qodef-m-inner',
 					'group'      => esc_html__( 'Style', 'qi-addons-for-elementor' ),
 				)
@@ -226,7 +235,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'holder_padding',
 					'title'      => esc_html__( 'Holder Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-call-to-action .qodef-m-inner' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -240,7 +249,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'title_margin_top',
 					'title'      => esc_html__( 'Text Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-call-to-action .qodef-m-content .qodef-m-text' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -253,7 +262,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'content_padding_right',
 					'title'      => esc_html__( 'Content Padding Right', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-call-to-action .qodef-m-content' => 'padding-right: {{SIZE}}{{UNIT}};',
@@ -265,7 +274,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'button_margin',
 					'title'      => esc_html__( 'Button Margin', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-call-to-action .qodef-m-button' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',

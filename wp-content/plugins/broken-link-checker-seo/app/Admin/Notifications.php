@@ -24,18 +24,63 @@ class Notifications {
 	private $url = 'https://blc-plugin-cdn.aioseo.com/wp-content/notifications.json';
 
 	/**
+	 * The review notice class instance.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var Notices\Review
+	 */
+	private $reviewNotice;
+
+	/**
+	 * The Not Connected notice class instance.
+	 *
+	 * @since 1.2.1
+	 *
+	 * @var Notices\NotConnected
+	 */
+	private $notConnectedNotice;
+
+	/**
+	 * The action name for the notifications update.
+	 *
+	 * @since 1.2.9
+	 *
+	 * @var string
+	 */
+	private $actionName = 'aioseo_blc_admin_notifications_update';
+
+	/**
 	 * Class constructor.
 	 *
-	 * @since 1.0.0
+	 * @since   1.0.0
+	 * @version 1.2.9 Schedule notifications update as a daily recurring action.
 	 */
 	public function __construct() {
-		add_action( 'aioseo_blc_admin_notifications_update', [ $this, 'update' ] );
+		add_action( 'admin_init', [ $this, 'scheduleNotificationsUpdate' ] );
+		add_action( $this->actionName, [ $this, 'update' ] );
 
 		if ( ! is_admin() ) {
 			return;
 		}
 
 		add_action( 'init', [ $this, 'init' ], 2 );
+		add_action( 'admin_notices', [ $this, 'renderNotices' ] );
+	}
+
+	/**
+	 * Schedules the daily recurring notifications update.
+	 *
+	 * @since 1.2.9
+	 *
+	 * @return void
+	 */
+	public function scheduleNotificationsUpdate() {
+		if ( aioseoBrokenLinkChecker()->actionScheduler->isScheduled( $this->actionName ) ) {
+			return;
+		}
+
+		aioseoBrokenLinkChecker()->actionScheduler->scheduleRecurrent( $this->actionName, 0, DAY_IN_SECONDS );
 	}
 
 	/**
@@ -46,31 +91,36 @@ class Notifications {
 	 * @return void
 	 */
 	public function init() {
-		// If our tables do not exist, create them now.
+		// If our tables do not exist, let runUpdates() handle creation.
+		// Calling updateDbSchema() here AND in runUpdates() causes duplicate
+		// dbDelta() calls which triggers "table already exists" errors.
 		if ( ! aioseoBrokenLinkChecker()->core->db->tableExists( 'aioseo_blc_notifications' ) ) {
-			aioseoBrokenLinkChecker()->updates->addInitialTables();
-
 			return;
 		}
 
-		$this->checkForUpdates();
+		$this->notConnectedNotice = new Notices\NotConnected();
+		$this->reviewNotice       = new Notices\Review();
 	}
 
 	/**
-	 * Checks if we should update our notifications.
+	 * Renders the notices.
 	 *
-	 * @since 1.0.0
+	 * @since 1.2.0
 	 *
 	 * @return void
 	 */
-	private function checkForUpdates() {
-		$nextRun = aioseoBrokenLinkChecker()->core->cache->get( 'admin_notifications_update' );
-		if ( null !== $nextRun && time() < $nextRun ) {
+	public function renderNotices() {
+		if ( ! is_admin() ) {
 			return;
 		}
 
-		aioseoBrokenLinkChecker()->actionScheduler->scheduleAsync( 'aioseo_blc_admin_notifications_update' );
-		aioseoBrokenLinkChecker()->core->cache->update( 'admin_notifications_update', time() + DAY_IN_SECONDS );
+		if ( ! empty( $this->notConnectedNotice ) ) {
+			$this->notConnectedNotice->maybeShowNotice();
+		}
+
+		if ( ! empty( $this->reviewNotice ) ) {
+			$this->reviewNotice->maybeShowNotice();
+		}
 	}
 
 	/**
@@ -138,6 +188,13 @@ class Notifications {
 	 * @return array A list of notifications.
 	 */
 	private function fetch() {
+		$cacheKey = 'blc_notifications_last_fetched';
+		if ( null !== aioseoBrokenLinkChecker()->core->cache->get( $cacheKey ) ) {
+			return [];
+		}
+
+		aioseoBrokenLinkChecker()->core->cache->update( $cacheKey, true, 12 * HOUR_IN_SECONDS );
+
 		$response = aioseoBrokenLinkChecker()->helpers->wpRemoteGet( $this->getUrl() );
 		if ( is_wp_error( $response ) ) {
 			return [];
@@ -249,8 +306,8 @@ class Notifications {
 	 */
 	private function versionMatch( $currentVersion, $compareVersion ) {
 		if ( is_array( $compareVersion ) ) {
-			foreach ( $compareVersion as $compare_single ) {
-				$recursiveResult = $this->versionMatch( $currentVersion, $compare_single );
+			foreach ( $compareVersion as $compare_single ) { // phpcs:ignore Squiz.NamingConventions.ValidVariableName
+				$recursiveResult = $this->versionMatch( $currentVersion, $compare_single ); // phpcs:ignore Squiz.NamingConventions.ValidVariableName
 				if ( $recursiveResult ) {
 					return true;
 				}

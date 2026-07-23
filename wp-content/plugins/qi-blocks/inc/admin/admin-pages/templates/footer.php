@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-admin-footer">
 	<div class="qodef-admin-footer-logo">
 		<img width="55" src="<?php echo esc_url( QI_BLOCKS_ADMIN_URL_PATH . '/admin-pages/assets/img/footer-logo-qode-interactive.png' ); ?>" alt="<?php esc_attr_e( 'Qode Interactive Logo', 'qi-blocks' ); ?>"/>

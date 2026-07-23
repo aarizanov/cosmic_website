@@ -26,7 +26,7 @@ trait Strings {
 		if ( isset( $escapeRegex[ $string ] ) ) {
 			return $escapeRegex[ $string ];
 		}
-		$escapeRegex[ $string ] = preg_quote( $string, $delimiter );
+		$escapeRegex[ $string ] = preg_quote( (string) $string, $delimiter );
 
 		return $escapeRegex[ $string ];
 	}
@@ -45,7 +45,8 @@ trait Strings {
 			return $escapeRegexReplacement[ $string ];
 		}
 
-		$escapeRegexReplacement[ $string ] = str_replace( '$', '\$', $string );
+		// Backslashes must be escaped first to avoid double-escaping the dollar sign escape.
+		$escapeRegexReplacement[ $string ] = str_replace( [ '\\', '$' ], [ '\\\\', '\$' ], $string );
 
 		return $escapeRegexReplacement[ $string ];
 	}
@@ -73,7 +74,7 @@ trait Strings {
 		// The caveat is that we'd need to first trim off slash delimiters and add them back later - otherwise they'd be escaped as well.
 
 		$replacement         = $this->escapeRegexReplacement( $replacement );
-		$pregReplace[ $key ] = preg_replace( $pattern, $replacement, $subject );
+		$pregReplace[ $key ] = preg_replace( $pattern, $replacement, (string) $subject );
 
 		return $pregReplace[ $key ];
 	}
@@ -159,7 +160,7 @@ trait Strings {
 
 		// We must manually decode non-breaking spaces since html_entity_decode doesn't do this.
 		$string                        = $this->pregReplace( '/&nbsp;/', ' ', $string );
-		$decodeHtmlEntities[ $string ] = html_entity_decode( (string) $string, ENT_QUOTES );
+		$decodeHtmlEntities[ $string ] = html_entity_decode( (string) $string, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401 );
 
 		return $decodeHtmlEntities[ $string ];
 	}
@@ -214,8 +215,8 @@ trait Strings {
 	 * @return string         The modified string.
 	 */
 	public function trimParagraphTags( $string ) {
-		$string = preg_replace( '/^<p[^>]*>/', '', $string );
-		$string = preg_replace( '/<\/p>/', '', $string );
+		$string = preg_replace( '/^<p[^>]*>/', '', (string) $string );
+		$string = preg_replace( '/<\/p>/', '', (string) $string );
 
 		return trim( $string );
 	}

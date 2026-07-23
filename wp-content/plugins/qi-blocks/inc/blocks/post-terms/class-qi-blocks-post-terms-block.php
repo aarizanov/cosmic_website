@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Post_Terms_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'post-terms' );
 			$this->set_block_title( esc_html__( 'Post Terms', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Content', 'qi-blocks' ) );
@@ -206,6 +206,8 @@ if ( ! class_exists( 'Qi_Blocks_Post_Terms_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Post_Terms_Block
 		 */
 		public static function get_instance() {
@@ -216,7 +218,7 @@ if ( ! class_exists( 'Qi_Blocks_Post_Terms_Block' ) ) {
 			return self::$instance;
 		}
 
-		function dynamic_render_callback( $attributes, $content, $block ) {
+		public function dynamic_render_callback( $attributes, $content, $block ) {
 			$html = '';
 
 			if ( ! empty( $block ) && empty( $block->context['postId'] ) ) {

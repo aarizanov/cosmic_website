@@ -1,10 +1,10 @@
 === Qi Blocks ===
 Contributors: qodeinteractive
-Tags: gutenberg blocks, gutenberg, blocks, templates, block, editor, patterns, wireframes, block editor, gutenberg editor, gutenberg templates, gutenberg block
-Requires at least: 5.8
-Tested up to: 6.4
-Requires PHP: 7.0
-Stable tag: 1.2.6
+Tags: gutenberg block, blocks, patterns, wireframes, gutenberg templates
+Requires at least: 6.3
+Tested up to: 7.0
+Requires PHP: 7.4
+Stable tag: 1.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -230,18 +230,21 @@ Yes, you can. You can start off using the free version of the plugin, and then u
 = Do you offer refunds? =
 Yes, we do. Qi Blocks are covered by our 14-day money-back policy. This means that, within fourteen days of purchasing a license, you can change your mind and request a refund.
 
+= How can I report security bugs? =
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/qi-blocks)
+
 == Installation ==
 
 = Minimum Requirements =
 
-* WordPress 5.8 or greater
-* PHP version 7.0 or greater
+* WordPress 6.3 or greater
+* PHP version 7.4 or greater
 * MySQL version 5.0 or greater
 
 = We recommend your host supports: =
 
-* PHP version 7.2 or greater
-* MySQL version 5.6 or greater
+* WordPress 6.6 or greater
+* PHP version 8.0 or greater
 * WordPress Memory limit of 128 MB or greater
 
 = Installation =
@@ -260,6 +263,18 @@ From wordpress.org
 3. Activate Qi Blocks from your Plugins page.
 4. Enjoy :)
 
+= Looking for more? =
+Feel free to try out some of our other products:
+
+<a href="https://wordpress.org/themes/qi/">Qi Theme</a>
+<a href="https://wordpress.org/plugins/qi-addons-for-elementor/">Qi Addons for Elementor</a>
+<a href="https://wordpress.org/plugins/qi-blocks/">Qi Blocks for Gutenberg</a>
+<a href="https://wordpress.org/plugins/qode-quick-view-for-woocommerce/">QODE Quick View for WooCommerce</a>
+<a href="https://wordpress.org/plugins/qode-variation-swatches-for-woocommerce/">QODE Variation Swatches for WooCommerce</a>
+<a href="https://wordpress.org/plugins/qode-compare-for-woocommerce/">QODE Compare for WooCommerce</a>
+<a href="https://wordpress.org/plugins/qode-product-extra-options-for-woocommerce/">QODE Product Extra Options for WooCommerce</a>
+<a href="https://wordpress.org/plugins/qode-optimizer/">QODE Optimizer</a>
+
 == Screenshots ==
 
 1. Welcome Page.
@@ -276,6 +291,132 @@ From wordpress.org
 12.	Device Frame Slider Block.
 
 == Changelog ==
+
+= 1.5.1 - 24-06-2026 =
+- Improved WordPress 6.3+/7.0 editor canvas iframe compatibility (blob `editor-canvas` iframe)
+- Improved editor canvas asset loading via lightweight `editor-canvas.js` bundle and localized `qiBlocksEditor.vars` inside the iframe
+- Improved `qiBlocksEditor` runtime helpers available in the editor canvas (`qodefGetCurrentBlockElement`, `qodefSetEditorLinkBehavior`)
+- Improved block selection for static blocks (Image Slider, Image Gallery, Masonry/Pinterest Gallery, Timeline Showcase, and others) by resolving `clientId` from `uniqueClass` when `data-block` is not present on the canvas markup
+- Improved editor context detection (`isQiEditorContext`) for iframe bodies (`block-editor-iframe__body`) instead of relying on `wp-admin` alone
+- Improved deferred editor block-selection binding (DOM ready, iframe load, and canvas mutations) so listeners attach after React portals block content
+- Improved Swiper behavior in the editor (disabled autoplay, touch/drag, and click prevention so blocks remain selectable)
+- Improved editor styles for image, gallery, and slider blocks inside `.block-editor-iframe__body` (pointer-events and swiper navigation)
+- Improved iframe discovery in editor helpers for WordPress 7.0 layout (`.editor-visual-editor`, direct `iframe[name="editor-canvas"]` lookup)
+- Fixed blocks without `useBlockProps()` not opening the block sidebar on first click in the editor canvas
+- Fixed `editor-canvas.js` block-selection init running in `<head>` before `body` exists, which prevented click handlers from binding
+- Fixed Masonry gallery re-init when `uniqueClass` was passed without an event argument
+- Fixed Parallax Images, Product List, and Table of Contents editor scripts using `wp-admin` body class checks that fail inside the editor canvas iframe
+- Fixed Follow Info hover script running in the editor on gallery blocks
+- Skipped lightbox popup initialization in the editor to prevent click interception on image blocks
+
+= 1.5 - 15-06-2026 =
+- Improved all blocks to Block API v3
+- Improved block save/edit output to include correct `wp-block-qi-blocks-*` wrapper classes
+- Improved SVG sanitizer library PHP 8.4 compatibility
+- Fixed Block validation errors after apiVersion 3 migration (counter, button, column, columns, and others)
+- Fixed Site Editor `getAttribute` error when interacting with column/columns layouts
+- Fixed Full Site Editor stability improvements in global editor helpers (null-safe iframe/parent access)
+- Fixed unauthorized global styles save/read
+- Fixed a performance issue where Qi Blocks could cause heavy `wp_options` write churn on frontend requests due to a broken block template HTML transient cache
+- Reduced frontend overhead by registering 3rd-party block asset hooks once instead of per block instance
+- Skipped block template HTML resolution on non-block themes to avoid unnecessary work on classic/Elementor setups
+- Removed legacy manual iframe stylesheet injection from the block editor script
+- Improved frontend performance by loading main/grid/animate assets only when Qi Blocks are present on the page
+- Improved global styles frontend handler to skip processing when no styles are configured
+- Improved 3rd-party block script detection with per-request caching instead of repeated `has_block()` / option lookups
+- Improved block template HTML caching for empty results to reduce repeated template resolution
+- Moved Animate.css registration to `init` and limited enqueue to editor/frontend pages that actually use Qi Blocks
+- Registered `should_load_separate_core_block_assets` once instead of per block instance
+- Minor fixed
+
+= 1.4.9 - 24-03-2026 =
+- Fixed the "Function WP_Scripts::add was called..." notice
+- Fixed block style options not rendering inside the Customizer -> Widgets panel
+
+= 1.4.8 - 29-01-2026 =
+- Improved block options style rendering
+
+= 1.4.7 - 23-12-2025 =
+- Optimized saving of block options
+
+= 1.4.6 - 14-11-2025 =
+- Fixed - Fatal error: Uncaught Error: Cannot use object of type stdClass as array
+
+= 1.4.5 - 10-11-2025 =
+- Fixed the undefined filter function preventing block options from being saved
+
+= 1.4.4 - 31-10-2025 =
+- Improved saving block options
+- Improved resize_image_callback() to prevent unauthorized media resizing
+- Fixed predefined columns responsive for Timeline block
+
+= 1.4.3 - 18-08-2025 =
+- Fixed block styles on the front-end
+
+= 1.4.2 - 06-08-2025 =
+- Improved saving block options
+- Improved qi_blocks_get_inline_attr helper functions
+- Fixed minor bugs
+
+= 1.4.1 - 17-07-2025 =
+- Improved saving FSS blocks style
+- Fixed deprecated components
+- Fixed minor bugs
+
+= 1.4 - 25-04-2025 =
+- Added WPML config file
+- Improved potential Cross Site Scripting (XSS) vulnerability
+- Fixed minor bugs
+
+= 1.3.6 - 17-04-2025 =
+- Improved WordPress 6.8 compatibility
+- Fixed minor bugs
+
+= 1.3.5 - 06-02-2025 =
+- Fixed potential Cross Site Scripting (XSS) vulnerability for Counter and Countdown blocks
+- Fixed minor bugs
+
+= 1.3.4 - 27-11-2024 =
+- Added WordPress 6.7 support
+- Updated Google fonts list
+- Updated languages file
+- Fixed minor bugs
+
+= 1.3.3 - 24-09-2024 =
+- Fixed potential Cross Site Scripting (XSS) vulnerability for Blog List block
+
+= 1.3.2 - 11-09-2024 =
+- Added WordPress 6.6 support
+- Improved saving block options
+- Fixed product list "Add to Cart" button
+- Fixed minor bugs
+
+= 1.3.1 - 09-07-2024 =
+- Fixed potential Cross Site Scripting (XSS) vulnerability for Search block
+
+= 1.3 - 04-06-2024 =
+- Improved WordPress coding standards
+- Improved WooCommerce helper functions
+- Updated languages file
+- Fixed Qi Blocks styles on WooCommerce Shop page
+- Fixed Cross Site Scripting (XSS) vulnerability
+
+= 1.2.9 - 29-05-2024 =
+- Improved Qi Global Settings button styles
+- Fixed "qi-blocks-global-settings" notice error
+
+= 1.2.8 - 24-05-2024 =
+- Improved saving block options when post status is Draft
+- Updated Google fonts list
+- Updated languages file
+- Fixed minor bugs
+
+= 1.2.7 - 11-04-2024 =
+- Added WordPress 6.5 compatibility
+- Improved WordPress coding standards
+- Improved Cross Site Scripting (XSS) vulnerability
+- Updated Google fonts list
+- Updated languages file
 
 = 1.2.6 - 13-02-2024 =
 - Improved lightbox feature to prevent potential JS error

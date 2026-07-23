@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_text_marquee_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_text_marquee_shortcode' ) )
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Text_Marquee_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_text_marquee_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_text_marquee_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_text_marquee' );
 			$this->set_name( esc_html__( 'Text Marquee', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds Text Marquee element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Creative', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/text-marquee/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#text_marquee' );
@@ -216,7 +225,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'icon_size',
 					'title'      => esc_html__( 'Icon Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-icon-holder' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -230,7 +239,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'space_between_items',
 					'title'      => esc_html__( 'Space Between Items', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-text-item' => 'padding-right: calc({{SIZE}}{{UNIT}}/2); padding-left: calc({{SIZE}}{{UNIT}}/2);',
@@ -252,8 +261,8 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			parent::render( $options );
 			$atts = $this->get_atts();
 
-			$atts['holder_classes']   = $this->get_holder_classes( $atts );
-			$atts['items']            = $this->parse_repeater_items( $atts['children'] );
+			$atts['holder_classes'] = $this->get_holder_classes( $atts );
+			$atts['items']          = $this->parse_repeater_items( $atts['children'] );
 
 			return qi_addons_for_elementor_get_template_part( 'shortcodes/text-marquee', 'variations/' . $atts['layout'] . '/templates/' . $atts['layout'], '', $atts );
 		}

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 class QiAddonsForElementor_Framework_Elementor_Translator {
 	private static $instance;
 
@@ -55,7 +60,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 
 		foreach ( $shortcode_options as $option_key => $option ) {
 
-			//generate default_value if not set
+			// Generate default_value if not set.
 			if ( ! isset( $option['default_value'] ) ) {
 				$default = $this->generate_default_value( $option );
 
@@ -70,10 +75,10 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		return $formatted_options;
 	}
 
-	function generate_options_array( $option_key, $option ) {
+	public function generate_options_array( $option_key, $option ) {
 		$formatted_options = array();
 
-		/*** Visibility Options ***/
+		// Visibility Options.
 		$visibility = isset( $option['visibility'] ) ? $option['visibility'] : array();
 		$group      = isset( $option['group'] ) ? str_replace( ' ', '-', strtolower( $option['group'] ) ) . '-elementor' : 'general';
 
@@ -152,7 +157,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 			if ( isset( $option['picker_options'] ) ) {
 				$formatted_options[ $group ]['fields'][ $option_key ]['picker_options'] = $option['picker_options'];
 			}
-			/*** Dependency Options ***/
+			// Dependency Options.
 
 			if ( isset( $option['dependency'] ) ) {
 				if ( isset( $option['dependency']['show'] ) ) {
@@ -239,7 +244,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 				}
 			}
 
-			/*** Repeater Options ***/
+			// Repeater Options.
 			if ( 'repeater' === $option['field_type'] ) {
 				$formatted_options[ $group ]['fields'][ $option_key ]['title_field'] = esc_html__( 'Item', 'qi-addons-for-elementor' );
 				foreach ( $option['items'] as $item_key => $item_value ) {
@@ -360,13 +365,13 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		return $formatted_options;
 	}
 
-	function generate_default_value( $option ) {
+	public function generate_default_value( $option ) {
 		$default_value = array();
 
 		switch ( $option['field_type'] ) {
 			case 'image':
 				if ( ! isset( $option['multiple'] ) || 'yes' !== $option['multiple'] ) {
-					$default_value = get_option( 'qi_addons_for_elementor_placeholder_image' );
+					$default_value = qi_addons_for_elementor_get_placeholder_image();
 				}
 				break;
 			case 'icons':
@@ -380,11 +385,12 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		return $default_value;
 	}
 
-	function enqueue_scripts() {
-		// Enqueue page builder global style
+	public function enqueue_scripts() {
+		// Enqueue page builder global style.
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_enqueue_style( 'qodef-qi-framework-elementor', QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/shortcodes/translators/elementor/assets/css/elementor.css' );
 
-		// Get shortcodes styles and register it during the front-end loading, scripts are enqueued on shortcodes loading
+		// Get shortcodes styles and register it during the front-end loading, scripts are enqueued on shortcodes loading.
 		$shortcodes = qi_addons_for_elementor_framework_get_framework_root()->get_shortcodes()->get_shortcodes();
 
 		if ( ! empty( $shortcodes ) && is_array( $shortcodes ) ) {
@@ -395,6 +401,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 					foreach ( $shortcode_styles as $style_key => $style ) {
 
 						if ( ! $style['registered'] ) {
+							// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 							wp_register_style( $style_key, $style['url'] );
 						}
 					}
@@ -403,7 +410,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		}
 	}
 
-	function add_inline_style() {
+	public function add_inline_style() {
 		$shortcodes = qi_addons_for_elementor_framework_get_framework_root()->get_shortcodes()->get_shortcodes();
 		$style      = apply_filters( 'qi_addons_for_elementor_filter_framework_add_elementor_inline_style', $style = '' );
 
@@ -429,7 +436,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		}
 	}
 
-	function add_elementor_widget_category( $elements_manager ) {
+	public function add_elementor_widget_category( $elements_manager ) {
 		$elements_manager->add_category(
 			'qi-addons',
 			array(
@@ -439,7 +446,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		);
 	}
 
-	function format_params( $params, $object ) {
+	public function format_params( $params, $object ) {
 		$image_params = $object->get_options_key_by_type( 'image' );
 
 		if ( is_array( $image_params ) && count( $image_params ) > 0 ) {
@@ -496,7 +503,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 					}
 				}
 
-				$params[ $repeater_param ] = urlencode( json_encode( $params[ $repeater_param ] ) );
+				$params[ $repeater_param ] = rawurlencode( wp_json_encode( $params[ $repeater_param ] ) );
 			}
 		}
 
@@ -529,7 +536,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		return $params;
 	}
 
-	function convert_options_types_to_elementor_types( $option ) {
+	public function convert_options_types_to_elementor_types( $option ) {
 		$type = $option['field_type'];
 
 		switch ( $type ) :
@@ -630,13 +637,13 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		return $elementor_type;
 	}
 
-	function create_controls( $elementor_object, $shortcode_object ) {
+	public function create_controls( $elementor_object, $shortcode_object ) {
 		$controls = $this->generate_option_params( $shortcode_object );
 
 		foreach ( $controls as $control_key => $control ) {
 			$tab = \Elementor\Controls_Manager::TAB_CONTENT;
 
-			// If options group contain Style word put that options inside Elementor Style tab
+			// If options group contain Style word put that options inside Elementor Style tab.
 			if ( strpos( $control_key, 'style' ) !== false ) {
 				$tab = \Elementor\Controls_Manager::TAB_STYLE;
 			}
@@ -689,11 +696,11 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 					if ( isset( $field['label'] ) && ! empty( $field['label'] ) ) {
 						$tabs_settings['label'] = $field['label'];
 					}
-					
+
 					if ( isset( $field['condition'] ) && ! empty( $field['condition'] ) ) {
 						$tabs_settings['condition'] = $field['condition'];
 					}
-					
+
 					$function = $field['field_type'];
 					$elementor_object->$function(
 						$field_key,
@@ -730,7 +737,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 			$elementor_object->end_controls_section();
 		}
 
-		// Add predefined developer tab content for each shortcode element
+		// Add predefined developer tab content for each shortcode element.
 		$elementor_object->start_controls_section(
 			'developer_tools',
 			array(
@@ -756,7 +763,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 
 		$theme_style = Elementor\Core\Settings\Manager::get_settings_managers( 'editorPreferences' )->get_model()->get_settings( 'ui_theme' );
 
-		// Add predefined developer tab content for each shortcode element
+		// Add predefined developer tab content for each shortcode element.
 		$elementor_object->start_controls_section(
 			'widget_help_documentation_section',
 			array(
@@ -825,7 +832,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		$premium_active = apply_filters( 'qi_addons_for_elementor_filter_elementor_promotion_tab', false );
 
 		if ( false === $premium_active ) {
-			// Add promotion widgets box
+			// Add promotion widgets box.
 			$elementor_object->start_controls_section(
 				'widget_promotion_section',
 				array(
@@ -843,7 +850,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 					'content_classes' => 'qodef-elementor-admin-widget-promotion qodef-elementor-admin-style-' . $theme_style,
 				)
 			);
-			
+
 			$elementor_object->end_controls_section();
 		}
 	}
@@ -872,19 +879,23 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		);
 	}
 
-	function create_render( $shortcode_object, $params ) {
+	public function create_render( $shortcode_object, $params ) {
 		$params = $this->format_params( $params, $shortcode_object );
 
 		if ( isset( $params['shortcode_snippet'] ) && 'yes' === $params['shortcode_snippet'] ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $this->get_shortcode_snippet( $shortcode_object, array_filter( $params ) );
-		} elseif ( isset( $params['content'] ) ) { // Handle nested shortcodes
+		} elseif ( isset( $params['content'] ) ) {
+			// Handle nested shortcodes.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $shortcode_object->render( $params, $params['content'] );
 		} else {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $shortcode_object->render( $params );
 		}
 	}
 
-	function set_scripts( $shortcode ) {
+	public function set_scripts( $shortcode ) {
 		$shortcode_deps = array();
 
 		if ( is_array( $shortcode->get_scripts() ) && count( $shortcode->get_scripts() ) > 0 ) {
@@ -896,7 +907,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		return $shortcode_deps;
 	}
 
-	function set_necessary_styles( $shortcode ) {
+	public function set_necessary_styles( $shortcode ) {
 		$shortcode_deps = array();
 
 		if ( is_array( $shortcode->get_necessary_styles() ) && count( $shortcode->get_necessary_styles() ) > 0 ) {
@@ -908,14 +919,14 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		return $shortcode_deps;
 	}
 
-	function get_elementor_config( $config ) {
+	public function get_elementor_config( $config ) {
 
 		$widgets = qi_addons_for_elementor_promotion_shortcodes_list();
 
 		if ( ! empty( $widgets ) ) {
 			foreach ( $widgets as $widget_key => $widget_value ) {
 
-				$widget_help_url = $widget_value['demo'];
+				$widget_help_url = isset( $widget_value['demo'] ) ? $widget_value['demo'] : '';
 
 				$widget_help_url_params = array(
 					'utm_source'   => strtolower( str_replace( ' ', '-', $widget_value['title'] ) ) . '-widget',
@@ -937,9 +948,7 @@ class QiAddonsForElementor_Framework_Elementor_Translator {
 		}
 
 		return $config;
-
 	}
-
 }
 
 if ( ! function_exists( 'qi_addons_for_elementor_framework_get_elementor_translator' ) ) {
@@ -952,6 +961,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_elementor_transla
 		}
 	}
 }
+
 qi_addons_for_elementor_framework_get_elementor_translator();
 
 if ( ! function_exists( 'qi_addons_for_elementor_framework_elementor_get_group_types' ) ) {

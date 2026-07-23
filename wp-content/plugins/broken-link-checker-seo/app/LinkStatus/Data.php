@@ -1,12 +1,12 @@
 <?php
 namespace AIOSEO\BrokenLinkChecker\LinkStatus;
 
-use AIOSEO\BrokenLinkChecker\Models;
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use AIOSEO\BrokenLinkChecker\Models;
 
 /**
  * Handles fetching of data required for Link Status scan requests.
@@ -24,8 +24,10 @@ class Data {
 	public function getBaseData() {
 		return [
 			'domain'          => aioseoBrokenLinkChecker()->helpers->getSiteDomain(),
-			'options'         => aioseoBrokenLinkChecker()->options->all(),
 			'internalOptions' => aioseoBrokenLinkChecker()->internalOptions->all(),
+			'indexedLinks'    => aioseoBrokenLinkChecker()->core->db->start( 'aioseo_blc_link_status' )->count(),
+			'isSsl'           => is_ssl(),
+			'options'         => aioseoBrokenLinkChecker()->options->all(),
 			'version'         => AIOSEO_BROKEN_LINK_CHECKER_VERSION
 		];
 	}
@@ -48,13 +50,15 @@ class Data {
 		$linksPerScan         = 200;
 		$includedPostTypes    = aioseoBrokenLinkChecker()->helpers->getIncludedPostTypes();
 		$includedPostStatuses = aioseoBrokenLinkChecker()->helpers->getIncludedPostStatuses();
+		$excludedDomains      = aioseoBrokenLinkChecker()->helpers->getExcludedDomains();
 		$excludedPostIds      = aioseoBrokenLinkChecker()->helpers->getExcludedPostIds();
-		$time                 = aioseoBrokenLinkChecker()->helpers->timeToMysql( strtotime( '-7 days' ) );
+		$time                 = esc_sql( aioseoBrokenLinkChecker()->helpers->timeToMysql( strtotime( '-7 days' ) ) );
 
 		$query = aioseoBrokenLinkChecker()->core->db->start( 'aioseo_blc_link_status as als' )
 			->join( 'aioseo_blc_links al', 'al.blc_link_status_id = als.id' )
 			->join( 'posts as p', 'p.ID = al.post_id' )
 			->where( 'als.dismissed', 0 )
+			->orderBy( 'als.last_scan_date ASC' )
 			->groupBy( 'als.id' );
 
 		if ( $ignoreStaleResults ) {
@@ -66,38 +70,34 @@ class Data {
 			)" );
 		}
 
-		$excludedDomains = aioseoBrokenLinkChecker()->helpers->getExcludedDomains();
+		if ( ! empty( $includedPostStatuses ) ) {
+			$query->whereIn( 'p.post_status', $includedPostStatuses );
+		}
+
+		if ( ! empty( $includedPostTypes ) ) {
+			$query->whereIn( 'p.post_type', $includedPostTypes );
+		}
+
 		if ( ! empty( $excludedDomains ) ) {
 			$query->whereNotIn( 'al.hostname', $excludedDomains );
 		}
 
-		if ( aioseoBrokenLinkChecker()->license->isFree() ) {
-			$query->where( 'al.external', 0 );
-		}
-
-		if ( ! empty( $includedPostStatuses ) ) {
-			$includedPostStatuses = aioseoBrokenLinkChecker()->helpers->implodeWhereIn( $includedPostStatuses, true );
-			$query->whereRaw( "p.post_status IN ( $includedPostStatuses )" );
-		}
-
-		if ( ! empty( $includedPostTypes ) ) {
-			$includedPostTypes = aioseoBrokenLinkChecker()->helpers->implodeWhereIn( $includedPostTypes, true );
-			$query->whereRaw( "p.post_type IN ( $includedPostTypes )" );
-		}
-
 		if ( ! empty( $excludedPostIds ) ) {
-			$excludedPostIds = aioseoBrokenLinkChecker()->helpers->implodeWhereIn( $excludedPostIds, true );
-			$query->whereRaw( "p.ID NOT IN ( $excludedPostIds )" );
+			$query->whereNotIn( 'p.ID', $excludedPostIds );
 		}
 
 		if ( $countOnly ) {
 			return $query->count();
 		}
 
-		$linksToScan = $query->select( 'als.id, als.url' )
+		$linksToScan = $query->select( 'als.id, als.url, als.last_scan_date' )
 			->limit( $linksPerScan )
 			->run()
 			->result();
+
+		foreach ( $linksToScan as $link ) {
+			$link->isFirstScan = empty( $link->last_scan_date );
+		}
 
 		return $linksToScan;
 	}
@@ -109,7 +109,7 @@ class Data {
 	 *
 	 * @return int The total number of indexed links.
 	 */
-	private function getTotalLinks() {
+	public function getTotalLinks() {
 		$query = aioseoBrokenLinkChecker()->core->db->start( 'aioseo_blc_link_status as als' )
 			->select( 'als.id' )
 			->join( 'aioseo_blc_links al', 'al.blc_link_status_id = als.id' )
@@ -119,10 +119,6 @@ class Data {
 		$excludedDomains = aioseoBrokenLinkChecker()->helpers->getExcludedDomains();
 		if ( ! empty( $excludedDomains ) ) {
 			$query->whereNotIn( 'al.hostname', $excludedDomains );
-		}
-
-		if ( aioseoBrokenLinkChecker()->license->isFree() ) {
-			$query->where( 'al.external', 0 );
 		}
 
 		return $query->count();
@@ -146,6 +142,6 @@ class Data {
 			return 100;
 		}
 
-		return floor( 100 - ( ( $linksToCheck / $totalLinks ) * 100 ) );
+		return ceil( 100 - ( ( $linksToCheck / $totalLinks ) * 100 ) );
 	}
 }

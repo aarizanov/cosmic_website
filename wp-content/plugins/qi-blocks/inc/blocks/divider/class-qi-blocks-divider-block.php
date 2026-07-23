@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Divider_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'divider' );
 			$this->set_block_title( esc_html__( 'Divider', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Typography', 'qi-blocks' ) );
@@ -19,6 +19,8 @@ if ( ! class_exists( 'Qi_Blocks_Divider_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Divider_Block
 		 */
 		public static function get_instance() {

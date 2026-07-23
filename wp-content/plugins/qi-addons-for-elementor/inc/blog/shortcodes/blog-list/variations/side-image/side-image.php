@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_variation_side_image' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -89,7 +94,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_side_imag
 			'field_type' => 'slider',
 			'name'       => 'side_image_text_margin_bottom',
 			'title'      => esc_html__( 'Text Margin Bottom', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--side-image .qodef-e-excerpt' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -109,7 +114,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_side_imag
 			'field_type' => 'slider',
 			'name'       => 'side_image_image_width',
 			'title'      => esc_html__( 'Image Width', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'vw' ),
+			'size_units' => array( 'px', '%', 'vw', 'custom' ),
 			'range'      => array(
 				'px' => array(
 					'min' => 1,
@@ -135,7 +140,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_side_imag
 			'field_type' => 'dimensions',
 			'name'       => 'side_image_content_padding',
 			'title'      => esc_html__( 'Content Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--side-image .qodef-e-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',

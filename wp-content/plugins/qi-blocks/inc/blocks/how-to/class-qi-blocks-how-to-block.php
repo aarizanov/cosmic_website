@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_How_To_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'how-to' );
 			$this->set_block_title( esc_html__( 'How-to Schema', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'SEO', 'qi-blocks' ) );
@@ -19,6 +19,8 @@ if ( ! class_exists( 'Qi_Blocks_How_To_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_How_To_Block
 		 */
 		public static function get_instance() {

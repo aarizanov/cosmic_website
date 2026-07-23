@@ -5,57 +5,74 @@ Description: A collection of blocks for the Gutenberg block editor, developed by
 Author: Qode Interactive
 Author URI: https://qodeinteractive.com/
 Plugin URI: https://qodeinteractive.com/qi-blocks-for-gutenberg/
-Version: 1.2.6
-Requires at least: 5.8
-Requires PHP: 7.0
+Version: 1.5.1
+Requires at least: 6.3
+Requires PHP: 7.4
 Text Domain: qi-blocks
 */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'Qi_Blocks' ) ) {
 	class Qi_Blocks {
 		private static $instance;
 
 		public function __construct() {
-			// Set the main plugins constants
+			// Set the main plugins constants.
 			define( 'QI_BLOCKS_PLUGIN_BASE_FILE', plugin_basename( __FILE__ ) );
 			define( 'QI_BLOCKS_PLUGIN_LANGUAGES_PATH', plugin_dir_path( __FILE__ ) . '/languages/' );
 
-			// Include required files
-			require_once dirname( __FILE__ ) . '/constants.php';
+			// Include required files.
+			require_once __DIR__ . '/constants.php';
 
-			// Check if Gutenberg editor exists
+			// Check if Gutenberg editor exists.
 			if ( class_exists( 'WP_Block_Type' ) ) {
 				require_once QI_BLOCKS_ABS_PATH . '/helpers/helper.php';
+				require_once QI_BLOCKS_INC_PATH . '/deprecated/helper.php';
 
-				// Make plugin available for translation
-				add_action( 'plugins_loaded', array( $this, 'load_plugin_text_domain' ) );
+				// Make plugin available for translation.
+				add_action( 'init', array( $this, 'load_plugin_text_domain' ) );
 
-				// Add plugin's body classes
+				// Add plugin's body classes.
 				add_filter( 'body_class', array( $this, 'add_body_classes' ) );
 
-				// Allow SVG MIME Type in Media Upload
+				// Allow SVG MIME Type in Media Upload.
 				add_filter( 'upload_mimes', array( $this, 'allow_svg_media_files' ) );
+				add_filter( 'wp_handle_upload_prefilter', array( $this, 'handle_svg_wp_media_upload' ) );
 				add_filter( 'wp_check_filetype_and_ext', array( $this, 'check_svg_upload' ), 10, 4 );
 
-				// Enqueue plugin's assets
+				// Enqueue plugin's assets.
+				add_action( 'init', array( $this, 'register_assets' ) );
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 				add_action( 'wp_enqueue_scripts', array( $this, 'localize_js_scripts' ) );
 
-				// Register plugin's editor assets
+				// Loads core block assets only when they are rendered on the page - WordPress 5.8.
+				add_filter( 'should_load_separate_core_block_assets', '__return_true' );
+
+				// Register plugin's editor assets.
 				add_action( 'init', array( $this, 'register_editor_assets' ) );
 
-				// Enqueue plugin's editor assets
-				add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
-				add_action( 'enqueue_block_editor_assets', array( $this, 'localize_editor_js_scripts' ) );
+			// Enqueue plugin's editor assets. The main editor script is registered and
+			// localized in register_editor_assets() (on `init`), so it only needs enqueuing here.
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
 
-				// Set plugin's blocks style dependency
+				// Load editor CSS inside the block canvas iframe (WP 6.3+ / block themes).
+				add_action( 'enqueue_block_assets', array( $this, 'enqueue_editor_canvas_assets' ) );
+
+				// Set plugin's blocks style dependency.
 				add_filter( 'qi_blocks_filter_block_style_dependency', array( $this, 'set_block_style_dependency' ) );
 
-				// Include plugin's modules
-				$this->include_modules();
+				// Include plugin's modules.
+				add_action( 'after_setup_theme', array( $this, 'include_modules' ), 5 );
 			}
 		}
 
 		/**
+		 * Instance of module class
+		 *
 		 * @return Qi_Blocks
 		 */
 		public static function get_instance() {
@@ -66,12 +83,12 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 			return self::$instance;
 		}
 
-		function load_plugin_text_domain() {
-			// Make plugin available for translation
+		public function load_plugin_text_domain() {
+			// Make plugin available for translation.
 			load_plugin_textdomain( 'qi-blocks', false, QI_BLOCKS_REL_PATH . '/languages' );
 		}
 
-		function add_body_classes( $classes ) {
+		public function add_body_classes( $classes ) {
 			$classes[] = 'qi-blocks-' . QI_BLOCKS_VERSION;
 
 			if ( wp_is_mobile() ) {
@@ -83,14 +100,55 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 			return $classes;
 		}
 
-		function allow_svg_media_files( $mimes ) {
+		public function allow_svg_media_files( $mimes ) {
 			$mimes['svg']  = 'image/svg+xml';
 			$mimes['svgz'] = 'image/svg+xml';
 
 			return $mimes;
 		}
 
-		function check_svg_upload( $checked, $file, $filename, $mimes ) {
+		/*
+		 * @param array $file {
+			 *     Reference to a single element from `$_FILES`.
+			 *
+			 *     @type string $name     The original name of the file on the client machine.
+			 *     @type string $type     The mime type of the file, if the browser provided this information.
+			 *     @type string $tmp_name The temporary filename of the file in which the uploaded file was stored on the server.
+			 *     @type int    $size     The size, in bytes, of the uploaded file.
+			 *     @type int    $error    The error code associated with this file upload.
+			 * }
+		 */
+		public function handle_svg_wp_media_upload( $file ) {
+
+			if ( ! empty( $file ) && isset( $file['type'] ) && 'image/svg+xml' === $file['type'] ) {
+				// Load the svg file.
+				$get_svg_content = @file_get_contents( $file['tmp_name'] );
+
+				if ( ! empty( $get_svg_content ) ) {
+
+					if ( class_exists( 'enshrined\svgSanitize\Sanitizer' ) ) {
+						// Create a new sanitizer instance.
+						$sanitizer = new enshrined\svgSanitize\Sanitizer();
+
+						// Pass it to the sanitizer and get it back clean.
+						$clean_svg_content = $sanitizer->sanitize( $get_svg_content );
+
+						if ( empty( $clean_svg_content ) ) {
+							$clean_svg_content = '';
+						}
+
+						// Update clean SVG/XML data.
+						@file_put_contents( $file['tmp_name'], $clean_svg_content );
+					}
+				} else {
+					$file['error'] = esc_html__( 'Please upload a valid SVG file.', 'qi-blocks' );
+				}
+			}
+
+			return $file;
+		}
+
+		public function check_svg_upload( $checked, $file, $filename, $mimes ) {
 
 			if ( ! $checked['type'] ) {
 
@@ -99,8 +157,9 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 				$type            = $check_filetype['type'];
 				$proper_filename = $filename;
 
-				if ( $type && 0 === strpos( $type, 'image/' ) && $ext !== 'svg' ) {
-					$ext = $type = false;
+				if ( $type && 0 === strpos( $type, 'image/' ) && 'svg' !== $ext ) {
+					$ext  = false;
+					$type = false;
 				}
 
 				$checked = compact( 'ext', 'type', 'proper_filename' );
@@ -109,44 +168,63 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 			return $checked;
 		}
 
-		function enqueue_assets() {
+		public function register_assets() {
 
-			// Enqueue plugin's 3rd party scripts
-			$this->enqueue_3rd_party_assets();
+			// Register CSS grid styles.
+			wp_register_style( 'qi-blocks-grid', QI_BLOCKS_ASSETS_URL_PATH . '/dist/grid.css', array(), QI_BLOCKS_VERSION );
 
-			// Enqueue CSS grid styles
-			wp_enqueue_style( 'qi-blocks-grid', QI_BLOCKS_ASSETS_URL_PATH . '/dist/grid.css' );
+			// Register CSS styles.
+			wp_register_style( 'qi-blocks-main', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main.css', array(), QI_BLOCKS_VERSION );
 
-			// Enqueue CSS styles
-			wp_enqueue_style( 'qi-blocks-main', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main.css' );
-
-			// Enqueue JS scripts
-			wp_enqueue_script( 'qi-blocks-main', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main.js', array( 'jquery' ), false, true );
+			// Register JS scripts.
+			wp_register_script( 'qi-blocks-main', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main.js', array( 'jquery' ), QI_BLOCKS_VERSION, true );
 		}
 
-		function register_editor_assets() {
+		public function enqueue_assets() {
+			if ( ! function_exists( 'qi_blocks_should_load_frontend_assets' ) || ! qi_blocks_should_load_frontend_assets() ) {
+				return;
+			}
 
-			// Enqueue plugin's 3rd party scripts
+			$this->register_3rd_party_assets();
 			$this->enqueue_3rd_party_assets();
 
-			// Register CSS grid styles
-			wp_register_style( 'qi-blocks-grid-editor', QI_BLOCKS_ASSETS_URL_PATH . '/dist/grid-editor.css', array( 'qi-blocks-main' ) );
+			if ( function_exists( 'qi_blocks_page_needs_swiper' ) && qi_blocks_page_needs_swiper() ) {
+				wp_enqueue_style( 'swiper' );
+				wp_enqueue_script( 'swiper' );
 
-			// Register CSS styles
-			wp_register_style( 'qi-blocks-main', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main.css' );
-			wp_register_style( 'qi-blocks-main-editor', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main-editor.css', array( 'qi-blocks-main' ) );
-		}
+				$wp_scripts = wp_scripts();
 
-		function enqueue_editor_assets() {
+				if ( isset( $wp_scripts->registered['qi-blocks-main'] ) && ! in_array( 'swiper', $wp_scripts->registered['qi-blocks-main']->deps, true ) ) {
+					$wp_scripts->registered['qi-blocks-main']->deps[] = 'swiper';
+				}
+			}
 
-			// Enqueue CSS grid styles
-			wp_enqueue_style( 'qi-blocks-grid-editor' );
+			// Enqueue CSS grid styles.
+			wp_enqueue_style( 'qi-blocks-grid' );
 
-			// Enqueue CSS styles
+			// Enqueue CSS styles.
 			wp_enqueue_style( 'qi-blocks-main' );
-			wp_enqueue_style( 'qi-blocks-main-editor' );
 
-			// Enqueue JS scripts
+			// Enqueue JS scripts.
+			wp_enqueue_script( 'qi-blocks-main' );
+		}
+
+		public function register_editor_assets() {
+			$this->register_3rd_party_assets();
+
+			// Register CSS grid styles.
+			wp_register_style( 'qi-blocks-grid-editor', QI_BLOCKS_ASSETS_URL_PATH . '/dist/grid-editor.css', array( 'qi-blocks-main' ), QI_BLOCKS_VERSION );
+
+			// Register CSS styles.
+			wp_register_style( 'qi-blocks-main', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main.css', array(), QI_BLOCKS_VERSION );
+			wp_register_style( 'qi-blocks-main-editor', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main-editor.css', array( 'qi-blocks-main' ), QI_BLOCKS_VERSION );
+
+			// Register the main editor JS script early (on `init`) so that the per-block
+			// editor scripts - which declare `qi-blocks-main-editor` as a dependency at
+			// registration time - resolve against a real, registered handle. Registering it
+			// here (instead of only inside enqueue_editor_assets) guarantees the handle and its
+			// localized `qiBlocksEditor` data are available whenever the script is loaded,
+			// either directly or pulled in as a block editor_script dependency.
 			$script_dependency = apply_filters(
 				'qi_blocks_filter_main_editor_dependencies',
 				array(
@@ -164,28 +242,112 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 				)
 			);
 
-			wp_enqueue_script( 'qi-blocks-main-editor', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main-editor.js', $script_dependency, false, true );
+			wp_register_script( 'qi-blocks-main-editor', QI_BLOCKS_ASSETS_URL_PATH . '/dist/main-editor.js', $script_dependency, QI_BLOCKS_VERSION, true );
 
-			// Enqueue localization data for our blocks
+			// Enqueue localization data for our blocks.
 			if ( function_exists( 'wp_set_script_translations' ) ) {
 				wp_set_script_translations( 'qi-blocks-main-editor', 'qi-blocks' );
 			}
+
+			// Attach the localized variables to the now-registered handle. WordPress prints the
+			// localized data whenever the script is output, so this works regardless of whether
+			// the script is enqueued directly or as a block editor_script dependency.
+			$this->localize_editor_js_scripts();
 		}
 
-		function enqueue_3rd_party_assets() {
+		public function enqueue_editor_assets() {
+			$this->enqueue_3rd_party_assets();
 
-			// Hook to include additional 3rd party scripts
+			// Enqueue CSS grid styles.
+			wp_enqueue_style( 'qi-blocks-grid-editor' );
+
+			// Enqueue CSS styles.
+			wp_enqueue_style( 'qi-blocks-main' );
+			wp_enqueue_style( 'qi-blocks-main-editor' );
+
+			// Enqueue JS scripts (already registered and localized in register_editor_assets).
+			wp_enqueue_script( 'qi-blocks-main-editor' );
+		}
+
+		public function enqueue_editor_canvas_assets() {
+			if ( ! is_admin() ) {
+				return;
+			}
+
+			wp_enqueue_style( 'qi-blocks-main' );
+			wp_enqueue_style( 'qi-blocks-grid-editor' );
+			wp_enqueue_style( 'qi-blocks-main-editor' );
+
+			/*
+			 * WordPress 6.3+/7.0 renders the editor content inside the canvas iframe and only
+			 * loads assets enqueued on `enqueue_block_assets` there - editor scripts (and their
+			 * `qiBlocksEditor` localization) stay in the parent document. While collecting the
+			 * iframe assets, core sets `should_load_block_editor_scripts_and_styles` to false,
+			 * which is how we detect the iframe pass. In that pass we expose the qiBlocksEditor
+			 * variables so any block markup/script running inside the iframe can read them.
+			 *
+			 * We intentionally skip this on the parent editor page: there the full qiBlocksEditor
+			 * object (including the runtime methods added by main-editor.js) already exists, and
+			 * re-declaring it would wipe those methods.
+			 */
+			$is_iframe_canvas_pass = ! apply_filters( 'should_load_block_editor_scripts_and_styles', true );
+
+			if ( $is_iframe_canvas_pass ) {
+				if ( ! wp_script_is( 'qi-blocks-editor-canvas-vars', 'registered' ) ) {
+					// Source-less handle used only to carry the localized variables into the iframe.
+					wp_register_script( 'qi-blocks-editor-canvas-vars', false, array(), QI_BLOCKS_VERSION, false );
+				}
+
+				wp_enqueue_script( 'qi-blocks-editor-canvas-vars' );
+
+				wp_localize_script(
+					'qi-blocks-editor-canvas-vars',
+					'qiBlocksEditor',
+					array(
+						'vars' => $this->get_localize_editor_js_variables(),
+					)
+				);
+
+				/*
+				 * Lightweight iframe bundle exposing the dependency-free runtime helpers
+				 * (qodefGetCurrentBlockElement, qodefSetEditorLinkBehavior) on the same
+				 * qiBlocksEditor object so other scripts running inside the iframe can use them.
+				 * It depends on the vars handle so `var qiBlocksEditor = { vars }` is printed
+				 * first and the bundle only augments it (it never overwrites existing members).
+				 */
+				if ( ! wp_script_is( 'qi-blocks-editor-canvas', 'registered' ) ) {
+					wp_register_script(
+						'qi-blocks-editor-canvas',
+						QI_BLOCKS_ASSETS_URL_PATH . '/dist/editor-canvas.js',
+						array( 'qi-blocks-editor-canvas-vars' ),
+						QI_BLOCKS_VERSION,
+						true
+					);
+				}
+
+				wp_enqueue_script( 'qi-blocks-editor-canvas' );
+			}
+		}
+
+		public function register_3rd_party_assets() {
+			// Hook to include additional 3rd party scripts.
 			do_action( 'qi_blocks_action_additional_3rd_party_scripts' );
 
-			// Register and enqueue animate styles
-			wp_register_style( 'animate', QI_BLOCKS_ASSETS_URL_PATH . '/css/plugins/animate/animate.min.css' );
-			wp_enqueue_style( 'animate' );
+			if ( ! wp_style_is( 'animate', 'registered' ) ) {
+				wp_register_style( 'animate', QI_BLOCKS_ASSETS_URL_PATH . '/css/plugins/animate/animate.min.css', array(), '4.1.1' );
+			}
 
-			// Register lightbox scripts
-			wp_register_script( 'fslightbox', QI_BLOCKS_ASSETS_URL_PATH . '/js/plugins/fslightbox/fslightbox.min.js', array( 'jquery' ), false, true );
+			if ( ! wp_script_is( 'fslightbox', 'registered' ) ) {
+				wp_register_script( 'fslightbox', QI_BLOCKS_ASSETS_URL_PATH . '/js/plugins/fslightbox/fslightbox.min.js', array( 'jquery' ), '3.4.1', true );
+			}
 		}
 
-		function set_block_style_dependency( $style_dependency ) {
+		public function enqueue_3rd_party_assets() {
+			$this->register_3rd_party_assets();
+			wp_enqueue_style( 'animate' );
+		}
+
+		public function set_block_style_dependency( $style_dependency ) {
 			$style_dependency[] = 'animate';
 			$style_dependency[] = 'qi-blocks-main';
 
@@ -197,7 +359,11 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 			return $style_dependency;
 		}
 
-		function localize_js_scripts() {
+		public function localize_js_scripts() {
+			if ( ! wp_script_is( 'qi-blocks-main', 'enqueued' ) ) {
+				return;
+			}
+
 			$global = apply_filters(
 				'qi_blocks_filter_localize_main_js',
 				array(
@@ -216,12 +382,12 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 			);
 		}
 
-		function localize_editor_js_scripts() {
-			$global = apply_filters(
+		public function get_localize_editor_js_variables() {
+			return apply_filters(
 				'qi_blocks_filter_localize_main_editor_js',
 				array(
 					'siteURL'                 => esc_url( get_home_url( '/' ) ),
-					'dateFormat'              => esc_attr( get_option( 'date_format' ) ), // TBR!
+					'dateFormat'              => esc_attr( get_option( 'date_format' ) ),
 					'defaultTitleLabel'       => esc_html__( 'Example Title Text', 'qi-blocks' ),
 					'defaultSubtitleLabel'    => esc_html__( 'Example Subtitle Text', 'qi-blocks' ),
 					'defaultContentLabel'     => esc_html__( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et eros eu felis.', 'qi-blocks' ),
@@ -243,25 +409,27 @@ if ( ! class_exists( 'Qi_Blocks' ) ) {
 					'dateIcon'                => '<svg class="qodef-e-info-item-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 14.6 14.6" xml:space="preserve"><path d="M10.9,1.3V0.2h-0.6v1.2H4.3V0.2H3.7v1.2H0.2v13.1h14.3V1.3H10.9z M10.9,1.9v1.2h-0.6V1.9H10.9z M4.3,1.9v1.2H3.7V1.9H4.3z M13.8,13.8H0.8V4.9h13.1V13.8z"/></svg>',
 				)
 			);
+		}
 
+		public function localize_editor_js_scripts() {
 			wp_localize_script(
 				'qi-blocks-main-editor',
 				'qiBlocksEditor',
 				array(
-					'vars' => $global,
+					'vars' => $this->get_localize_editor_js_variables(),
 				)
 			);
 		}
 
-		function include_modules() {
-			// Hook to include additional element before modules inclusion
+		public function include_modules() {
+			// Hook to include additional element before modules inclusion.
 			do_action( 'qi_blocks_action_before_include_modules' );
 
 			foreach ( glob( QI_BLOCKS_INC_PATH . '/*/include.php' ) as $module ) {
 				include_once $module;
 			}
 
-			// Hook to include additional element after modules inclusion
+			// Hook to include additional element after modules inclusion.
 			do_action( 'qi_blocks_action_after_include_modules' );
 		}
 	}
@@ -276,7 +444,7 @@ if ( ! function_exists( 'qi_blocks_activation_trigger' ) ) {
 	function qi_blocks_activation_trigger() {
 		set_transient( QI_BLOCKS_ACTIVATED_TRANSIENT, 1 );
 
-		// Hook to add additional code on plugin activation
+		// Hook to add additional code on plugin activation.
 		do_action( 'qi_blocks_action_on_activation' );
 	}
 
@@ -289,7 +457,7 @@ if ( ! function_exists( 'qi_blocks_deactivation_trigger' ) ) {
 	 */
 	function qi_blocks_deactivation_trigger() {
 
-		// Hook to add additional code on plugin deactivation
+		// Hook to add additional code on plugin deactivation.
 		do_action( 'qi_blocks_action_on_deactivation' );
 	}
 

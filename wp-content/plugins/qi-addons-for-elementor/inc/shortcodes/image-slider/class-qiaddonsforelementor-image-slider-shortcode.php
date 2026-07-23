@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_image_slider_shortcode' ) ) {
 	/**
 	 * Function that is adding shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_image_slider_shortcode' ) )
 if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 	class QiAddonsForElementor_Image_Slider_Shortcode extends QiAddonsForElementor_Slider_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_image_slider_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_image_slider_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_image_slider' );
 			$this->set_name( esc_html__( 'Image Slider', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays slider of images', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/image-slider/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#image_slider' );
@@ -177,7 +186,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'image_border_radius',
 					'title'      => esc_html__( 'Image Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-inner' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -312,8 +321,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'alt_text_margin_top',
 					'title'      => esc_html__( 'Alt Text Margin Top', 'qi-addons-for-elementor' ),
-					'group'      => esc_html__( 'Table Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-alt-text-holder' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -343,6 +351,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 
 			$atts = $this->get_atts();
 
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.rand_rand
 			$atts['unique']         = rand( 0, 999 );
 			$atts['holder_classes'] = $this->get_holder_classes( $atts );
 			$atts['item_classes']   = $this->get_item_classes( $atts );
@@ -406,7 +415,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					}
 
 					$images[ $i ] = $image;
-					$i ++;
+					$i++;
 				}
 			}
 

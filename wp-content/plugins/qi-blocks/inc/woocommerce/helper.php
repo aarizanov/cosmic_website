@@ -1,7 +1,52 @@
 <?php
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
+if ( ! function_exists( 'qi_blocks_is_woo_page' ) ) {
+	/**
+	 * Function that check WooCommerce pages
+	 *
+	 * @param string $page
+	 *
+	 * @return bool
+	 */
+	function qi_blocks_is_woo_page( $page ) {
+		switch ( $page ) {
+			case 'shop':
+				return function_exists( 'is_shop' ) && is_shop();
+			case 'single':
+				return is_singular( 'product' );
+			case 'cart':
+				return function_exists( 'is_cart' ) && is_cart();
+			case 'checkout':
+				return function_exists( 'is_checkout' ) && is_checkout();
+			case 'account':
+				return function_exists( 'is_account_page' ) && is_account_page();
+			case 'category':
+				return function_exists( 'is_product_category' ) && is_product_category();
+			case 'tag':
+				return function_exists( 'is_product_tag' ) && is_product_tag();
+			case 'any':
+				return (
+					function_exists( 'is_shop' ) && is_shop() ||
+					is_singular( 'product' ) ||
+					function_exists( 'is_cart' ) && is_cart() ||
+					function_exists( 'is_checkout' ) && is_checkout() ||
+					function_exists( 'is_account_page' ) && is_account_page() ||
+					function_exists( 'is_product_category' ) && is_product_category() ||
+					function_exists( 'is_product_tag' ) && is_product_tag() ||
+					function_exists( 'is_product_taxonomy' ) && is_product_taxonomy()
+				);
+			case 'archive':
+				return ( function_exists( 'is_shop' ) && is_shop() ) || ( function_exists( 'is_product_category' ) && is_product_category() ) || ( function_exists( 'is_product_tag' ) && is_product_tag() ) || ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() );
+			default:
+				return false;
+		}
+	}
+}
 
 if ( ! function_exists( 'qi_blocks_woo_get_global_product' ) ) {
 	/**
@@ -13,6 +58,26 @@ if ( ! function_exists( 'qi_blocks_woo_get_global_product' ) ) {
 		global $product;
 
 		return $product;
+	}
+}
+
+if ( ! function_exists( 'qi_blocks_woo_get_main_shop_page_id' ) ) {
+	/**
+	 * Function that return main shop page ID
+	 *
+	 * @param int $page_id
+	 *
+	 * @return int
+	 */
+	function qi_blocks_woo_get_main_shop_page_id( $page_id = 0 ) {
+		// Get page id from options table.
+		$shop_id = get_option( 'woocommerce_shop_page_id' );
+
+		if ( ! empty( $shop_id ) ) {
+			$page_id = $shop_id;
+		}
+
+		return $page_id;
 	}
 }
 

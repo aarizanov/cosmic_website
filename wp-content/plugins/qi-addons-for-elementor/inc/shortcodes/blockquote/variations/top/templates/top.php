@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $holder_classes ); ?>>
 	<?php if ( isset( $icon_type ) && ! empty( $icon_type['value'] ) ) { ?>
 		<div class="qodef-m-icon">
@@ -5,8 +12,11 @@
 		</div>
 	<?php } ?>
 	<?php if ( ! empty( $text ) ) { ?>
-		<<?php echo qi_addons_for_elementor_framework_sanitize_tags( $text_tag ); ?> class="qodef-m-text">
-			<?php echo qi_addons_for_elementor_framework_wp_kses_html( 'content', $text ); ?>
-		</<?php echo qi_addons_for_elementor_framework_sanitize_tags( $text_tag ); ?>>
+		<<?php echo qi_addons_for_elementor_framework_sanitize_tags( $text_tag ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="qodef-m-text">
+			<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo qi_addons_for_elementor_framework_wp_kses_html( 'content', $text );
+			?>
+		</<?php echo qi_addons_for_elementor_framework_sanitize_tags( $text_tag ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<?php } ?>
 </div>

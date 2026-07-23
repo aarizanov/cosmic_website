@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $showInfoIcons = isset( $showInfoIcons ) && ! empty( $showInfoIcons ) ? $showInfoIcons : 'no';
 $date_link     = empty( get_the_title() ) && ! is_single() ? get_the_permalink() : get_month_link( get_the_time( 'Y' ), get_the_time( 'm' ) );
 $date_day      = 'j';

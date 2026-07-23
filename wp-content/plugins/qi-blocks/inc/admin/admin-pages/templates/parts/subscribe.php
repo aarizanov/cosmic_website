@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-section-box qodef-section-subscribe">
 	<div class="qodef-section-box-image">
 		<img src="<?php echo esc_url( QI_BLOCKS_ADMIN_URL_PATH . '/admin-pages/assets/img/subscribe.png' ); ?>" alt="<?php esc_attr_e( 'Subscribe', 'qi-blocks' ); ?>" />

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_graphs_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,12 +25,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_graphs_shortcode' ) ) {
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Graphs_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/graphs' );
 			$this->set_base( 'qi_addons_for_elementor_graphs' );
 			$this->set_name( esc_html__( 'Graphs', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays graphs with provided parameters', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Infographics', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/graphs/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#graphs' );
@@ -291,7 +300,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 						'{{WRAPPER}} .qodef-qi-graphs .qodef-m-canvas' => 'width: {{SIZE}}{{UNIT}};',
 					),
 					'group'      => esc_html__( 'Graph Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 				)
 			);
 			$this->set_option(
@@ -464,7 +473,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 
 			foreach ( $temp as $key => $value ) {
 				if ( is_array( $value ) || is_bool( $value ) ) {
-					$data[ $key ] = json_encode( $value );
+					$data[ $key ] = wp_json_encode( $value );
 				} else {
 					$data[ $key ] = $value;
 				}

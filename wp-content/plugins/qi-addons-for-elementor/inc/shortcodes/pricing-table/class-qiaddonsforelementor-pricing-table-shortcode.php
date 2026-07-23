@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_pricing_table_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_pricing_table_shortcode' ) 
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Pricing_Table_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_pricing_table_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_pricing_table_extra_options', array(), $this ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_pricing_table' );
 			$this->set_name( esc_html__( 'Pricing Table', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds pricing table element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Business', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/pricing-table/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#pricing_table' );
@@ -105,7 +114,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'table_border_radius',
 					'title'      => esc_html__( 'Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-pricing-table' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -165,7 +174,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'title_margin',
 					'title'      => esc_html__( 'Title Margin', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Title Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -290,7 +299,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'price_margin',
 					'title'      => esc_html__( 'Price Margin', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-price-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -303,7 +312,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'currency_margin',
 					'title'      => esc_html__( 'Currency Margin', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-price-currency' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -316,7 +325,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'period_margin',
 					'title'      => esc_html__( 'Period Margin', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-price-period' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -381,7 +390,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'label_padding',
 					'title'      => esc_html__( 'Label Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-label' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -394,7 +403,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'label_border_radius',
 					'title'      => esc_html__( 'Label Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-label-type--badge .qodef-m-label' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -415,7 +424,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type'         => 'dimensions',
 					'name'               => 'label_position',
 					'title'              => esc_html__( 'Label Position', 'qi-addons-for-elementor' ),
-					'size_units'         => array( 'px', '%', 'em' ),
+					'size_units'         => array( 'px', '%', 'em', 'custom' ),
 					'allowed_dimensions' => array( 'top', 'right' ),
 					'responsive'         => true,
 					'selectors'          => array(
@@ -510,7 +519,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'icon_size',
 					'title'      => esc_html__( 'Items Icon Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-list-style-icon .qodef-e-item .qodef-e-icon' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -531,7 +540,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'icon_margin_right',
 					'title'      => esc_html__( 'Items Icon Margin Right', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em', '%' ),
+					'size_units' => array( 'px', 'em', '%', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-list-style-icon .qodef-e-item .qodef-e-icon' => 'margin-right: {{SIZE}}{{UNIT}};',
@@ -552,7 +561,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'icon_vertical_offset',
 					'title'      => esc_html__( 'Items Icon Vertical Offset', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => -50,
@@ -656,7 +665,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'table_padding',
 					'title'      => esc_html__( 'Table Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-pricing-table .qodef-m-inner' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -677,7 +686,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'table_content_padding',
 					'title'      => esc_html__( 'Table Content Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-pricing-table .qodef-m-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -698,7 +707,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'item_margin_bottom',
 					'title'      => esc_html__( 'Item Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-content li:not(:last-child)' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -712,7 +721,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'button_margin_top',
 					'title'      => esc_html__( 'Button Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Table Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-button .qodef-qi-button' => 'margin-top: {{SIZE}}{{UNIT}};',

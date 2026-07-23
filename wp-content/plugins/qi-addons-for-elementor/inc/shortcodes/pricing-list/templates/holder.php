@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $holder_classes ); ?>>
 	<div class="qodef-m-inner">
 		<?php
@@ -13,6 +20,7 @@
 			$item['border_style']      = $border_style;
 			$item['additional_params'] = apply_filters( 'qi_addons_for_elementor_filter_pricing_list_additional_params', array(), $params, $item );
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo apply_filters( 'qi_addons_for_elementor_filter_pricing_list_item_template', qi_addons_for_elementor_get_template_part( 'shortcodes/pricing-list', 'variations/' . $layout . '/templates/item', '', $item ), $layout, $item );
 		}
 		?>

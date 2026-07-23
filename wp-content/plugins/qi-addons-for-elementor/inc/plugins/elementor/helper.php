@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_get_elementor_instance' ) ) {
 	/**
 	 * Function that return page builder module instance
@@ -64,11 +69,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_load_elementor_widgets' ) ) {
 		}
 	}
 
-	if ( version_compare( ELEMENTOR_VERSION, '3.5.0', '>' ) ) {
-		add_action( 'elementor/widgets/register', 'qi_addons_for_elementor_load_elementor_widgets' );
-	} else {
-		add_action( 'elementor/widgets/widgets_registered', 'qi_addons_for_elementor_load_elementor_widgets' );
-	}
+	add_action( 'elementor/widgets/register', 'qi_addons_for_elementor_load_elementor_widgets' );
 }
 
 if ( ! function_exists( 'qi_addons_for_elementor_register_new_elementor_widget' ) ) {

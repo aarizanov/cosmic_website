@@ -30,7 +30,7 @@ class Link extends Model {
 	 *
 	 * @var array
 	 */
-	protected $numericFields = [ 'id', 'post_id', 'blc_link_status_id' ];
+	protected $integerFields = [ 'id', 'post_id', 'blc_link_status_id' ];
 
 	/**
 	 * Fields that are nullable.
@@ -48,7 +48,7 @@ class Link extends Model {
 	 *
 	 * @var array
 	 */
-	protected $booleanFields = [ 'external' ];
+	protected $booleanFields = [ 'external', 'is_video' ];
 
 	/**
 	 * Appended as an extra column, but not stored in the DB.
@@ -104,6 +104,26 @@ class Link extends Model {
 	}
 
 	/**
+	 * Returns the distinct link-status IDs referenced by the given post's links.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param  int   $postId The post ID.
+	 * @return int[]         The referenced link-status IDs.
+	 */
+	public static function getLinkStatusIds( $postId ) {
+		$rows = aioseoBrokenLinkChecker()->core->db->start( 'aioseo_blc_links' )
+			->select( 'blc_link_status_id' )
+			->where( 'post_id', $postId )
+			->run()
+			->result();
+
+		return array_values( array_filter( array_unique( array_map( function( $row ) {
+			return (int) $row->blc_link_status_id;
+		}, $rows ) ) ) );
+	}
+
+	/**
 	 * Sanitizes the link object.
 	 *
 	 * @since 1.0.0
@@ -114,7 +134,8 @@ class Link extends Model {
 	public static function sanitizeLink( $link ) {
 		$instance = new self();
 
-		$sanitizedLink = [];
+		$sanitizedLink     = [];
+		$optionalForVideos = [ 'anchor', 'phrase', 'phrase_html', 'paragraph', 'paragraph_html' ];
 		foreach ( $link as $k => $v ) {
 			switch ( $k ) {
 				case 'post_id':
@@ -125,10 +146,11 @@ class Link extends Model {
 					$v = intval( $v );
 					break;
 				case 'external':
+				case 'is_video':
 					$v = rest_sanitize_boolean( $v );
 					break;
 				case 'url':
-					$v = esc_url( $v );
+					$v = sanitize_url( $v );
 					break;
 				case 'url_hash':
 				case 'hostname':
@@ -149,12 +171,13 @@ class Link extends Model {
 			if (
 				empty( $v ) &&
 				! in_array( $k, $instance->booleanFields, true ) &&
-				! in_array( $k, $instance->nullFields, true )
+				! in_array( $k, $instance->nullFields, true ) &&
+				! ( ! empty( $link['is_video'] ) && in_array( $k, $optionalForVideos, true ) )
 			) {
 				return [];
 			}
 
-			$sanitizedLink[ $k ] = esc_sql( $v );
+			$sanitizedLink[ $k ] = $v;
 		}
 
 		return $sanitizedLink;
@@ -179,9 +202,17 @@ class Link extends Model {
 			'paragraph_html'
 		];
 
+		// Videos may legitimately have no anchor, phrase or paragraph, but url and hostname are always required.
+		$optionalForVideos = [ 'anchor', 'phrase', 'phrase_html', 'paragraph', 'paragraph_html' ];
+
 		foreach ( $propsToCheck as $prop ) {
 			$value = wp_strip_all_tags( $link[ $prop ] );
+
 			if ( empty( $value ) ) {
+				if ( ! empty( $link['is_video'] ) && in_array( $prop, $optionalForVideos, true ) ) {
+					continue;
+				}
+
 				return false;
 			}
 		}
@@ -201,7 +232,7 @@ class Link extends Model {
 	 */
 	public static function rowQuery( $linkStatusId, $limit = 5, $offset = 0, $whereClause = '' ) {
 		$linkRows = self::baseQuery( $linkStatusId, $whereClause )
-			->select( 'al.id, al.post_id, al.external, al.anchor, al.phrase' )
+			->select( 'al.id, al.post_id, p.post_type, al.anchor, al.phrase' )
 			->limit( $limit, $offset )
 			->run()
 			->result();
@@ -212,14 +243,24 @@ class Link extends Model {
 
 		$rowsWithData = [];
 		foreach ( $linkRows as $linkRow ) {
+			$canEdit = current_user_can( 'edit_post', $linkRow->post_id );
+			if ( ! $canEdit ) {
+				continue;
+			}
+
 			$linkRow->context = [
-				'permalink' => get_permalink( $linkRow->post_id ),
 				'postTitle' => aioseoBrokenLinkChecker()->helpers->getPostTitle( $linkRow->post_id ),
-				'editLink'  => get_edit_post_link( $linkRow->post_id, '' )
+				'postType'  => $linkRow->post_type,
+				'permalink' => get_permalink( $linkRow->post_id ),
+				'editLink'  => get_edit_post_link( $linkRow->post_id, '' ),
+				'canEdit'   => $canEdit,
+				'canDelete' => current_user_can( 'delete_post', $linkRow->post_id )
 			];
 
 			$rowsWithData[] = $linkRow;
 		}
+
+		$rowsWithData = array_filter( $rowsWithData );
 
 		return $rowsWithData;
 	}
@@ -234,10 +275,30 @@ class Link extends Model {
 	 * @return int                  The row count.
 	 */
 	public static function rowQueryCount( $linkStatusId, $whereClause = '' ) {
-		$query = self::baseQuery( $linkStatusId, $whereClause )
-			->count();
+		return self::baseQuery( $linkStatusId, $whereClause )->count();
+	}
 
-		return $query;
+	/**
+	 * Returns both the total link count and the distinct post count in a single query.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param  int    $linkStatusId The link status ID.
+	 * @param  string $whereClause  The WHERE clause.
+	 * @return array{total: int, distinctPosts: int} The counts.
+	 */
+	public static function rowQueryCounts( $linkStatusId, $whereClause = '' ) {
+		$result = self::baseQuery( $linkStatusId, $whereClause )
+			->select( 'COUNT(*) as total, COUNT(DISTINCT al.post_id) as distinct_posts' )
+			->run()
+			->result();
+
+		$row = ! empty( $result[0] ) ? $result[0] : null;
+
+		return [
+			'total'         => $row ? (int) $row->total : 0,
+			'distinctPosts' => $row ? (int) $row->distinct_posts : 0
+		];
 	}
 
 	/**
@@ -250,6 +311,11 @@ class Link extends Model {
 	 * @return Database               The query.
 	 */
 	public static function baseQuery( $linkStatusId, $whereClause = '' ) {
+		$includedPostTypes    = aioseoBrokenLinkChecker()->helpers->getIncludedPostTypes();
+		$includedPostStatuses = aioseoBrokenLinkChecker()->helpers->getIncludedPostStatuses();
+		$excludedPostIds      = aioseoBrokenLinkChecker()->helpers->getExcludedPostIds();
+		$excludedDomains      = aioseoBrokenLinkChecker()->helpers->getExcludedDomains();
+
 		$query = aioseoBrokenLinkChecker()->core->db->start( 'aioseo_blc_links as al' )
 			->join( 'posts as p', 'p.ID = al.post_id', 'RIGHT' )
 			->where( 'al.blc_link_status_id', $linkStatusId );
@@ -258,7 +324,18 @@ class Link extends Model {
 			$query->whereRaw( $whereClause );
 		}
 
-		$excludedDomains = aioseoBrokenLinkChecker()->helpers->getExcludedDomains();
+		if ( ! empty( $includedPostStatuses ) ) {
+			$query->whereIn( 'p.post_status', $includedPostStatuses );
+		}
+
+		if ( ! empty( $includedPostTypes ) ) {
+			$query->whereIn( 'p.post_type', $includedPostTypes );
+		}
+
+		if ( ! empty( $excludedPostIds ) ) {
+			$query->whereNotIn( 'p.ID', $excludedPostIds );
+		}
+
 		if ( ! empty( $excludedDomains ) ) {
 			$query->whereNotIn( 'al.hostname', $excludedDomains );
 		}
@@ -300,5 +377,49 @@ class Link extends Model {
 		";
 
 		return "( $where )";
+	}
+
+	/**
+	 * Extract the keys from the result and add them to the model.
+	 *
+	 * @since 1.2.1
+	 *
+	 * @param  array $keys The list of keys and values to add to the model.
+	 * @return void
+	 */
+	protected function applyKeys( $keys ) {
+		try {
+			parent::applyKeys( $keys );
+
+			foreach ( (array) $keys as $key => $value ) {
+				if ( ! property_exists( $this, $key ) ) {
+					continue;
+				}
+
+				if ( 'url' === $key && is_string( $this->$key ) ) {
+					$this->$key = rawurldecode( $this->$key );
+				}
+			}
+		} catch ( \Exception $e ) {
+			// Do nothing.
+		}
+	}
+
+	/**
+	 * Apply filter before saving.
+	 *
+	 * @since 1.2.6
+	 *
+	 * @return void
+	 */
+	public function save() {
+		$fields = $this->transform( $this->filter( (array) get_object_vars( $this ) ) );
+
+		$fields['url']      = apply_filters( 'aioseo_blc_link_url_before_save', $fields['url'] );
+		$fields['url_hash'] = sha1( $fields['url'] );
+
+		$this->applyKeys( $this->transform( $this->filter( $fields ) ) );
+
+		parent::save();
 	}
 }

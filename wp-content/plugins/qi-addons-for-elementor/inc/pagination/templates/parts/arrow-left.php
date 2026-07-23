@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $icon = isset( $pagination_arrow_prev ) ? $pagination_arrow_prev : array();
 
 if ( isset( $icon ) && ! empty( $icon['value'] ) ) {

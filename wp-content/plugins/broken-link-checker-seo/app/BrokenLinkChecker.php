@@ -1,7 +1,6 @@
 <?php
 namespace AIOSEO\BrokenLinkChecker {
 	// Exit if accessed directly.
-
 	if ( ! defined( 'ABSPATH' ) ) {
 		exit;
 	}
@@ -19,7 +18,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var BrokenLinkChecker
 		 */
-		private static $instance = null;
+		private static $instance;
 
 		/**
 		 * Plugin version for enqueueing, etc.
@@ -47,7 +46,16 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Core\Core
 		 */
-		public $core = null;
+		public $core;
+
+		/**
+		 * Database Schema class instance.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @var Db\Schema
+		 */
+		public $dbSchema;
 
 		/**
 		 * InternalOptions class instance.
@@ -56,7 +64,16 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Options\InternalOptions
 		 */
-		public $internalOptions = null;
+		public $internalOptions;
+
+		/**
+		 * SensitiveOptions class instance.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @var Options\SensitiveOptions
+		 */
+		public $sensitiveOptions;
 
 		/**
 		 * Pre updates class instance.
@@ -65,7 +82,16 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Main\PreUpdates
 		 */
-		public $preUpdates = null;
+		public $preUpdates;
+
+		/**
+		 * MigrationRunner class instance.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @var Main\Migrations\MigrationRunner
+		 */
+		public $migrationRunner;
 
 		/**
 		 * Helpers class instance.
@@ -74,7 +100,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Utils\Helpers
 		 */
-		public $helpers = null;
+		public $helpers;
 
 		/**
 		 * Options class instance.
@@ -83,7 +109,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Options\Options
 		 */
-		public $options = null;
+		public $options;
 
 		/**
 		 * Updates class instance.
@@ -92,7 +118,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Main\Updates
 		 */
-		public $updates = null;
+		public $updates;
 
 		/**
 		 * Action scheduler class.
@@ -101,7 +127,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Utils\ActionScheduler
 		 */
-		public $actionScheduler = null;
+		public $actionScheduler;
 
 		/**
 		 * License class.
@@ -110,7 +136,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Admin\License
 		 */
-		public $license = null;
+		public $license;
 
 		/**
 		 * Access class.
@@ -119,7 +145,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Utils\Access
 		 */
-		public $access = null;
+		public $access;
 
 		/**
 		 * Main class instance.
@@ -128,7 +154,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Main\Main
 		 */
-		public $main = null;
+		public $main;
 
 		/**
 		 * API class instance.
@@ -137,7 +163,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Api\Api
 		 */
-		public $api = null;
+		public $api;
 
 		/**
 		 * Standalone class instance.
@@ -146,7 +172,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Standalone\Standalone
 		 */
-		public $standalone = null;
+		public $standalone;
 
 		/**
 		 * Notifications class instance.
@@ -155,7 +181,7 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Admin\Notifications
 		 */
-		public $notifications = null;
+		public $notifications;
 
 		/**
 		 * VueSettings class instance.
@@ -164,7 +190,25 @@ namespace AIOSEO\BrokenLinkChecker {
 		 *
 		 * @var Utils\VueSettings
 		 */
-		public $vueSettings = null;
+		public $vueSettings;
+
+		/**
+		 * Admin class instance.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @var Admin\Admin
+		 */
+		public $admin;
+
+		/**
+		 * Emails class instance.
+		 *
+		 * @since 1.2.9
+		 *
+		 * @var Emails\Emails
+		 */
+		public $emails;
 
 		/**
 		 * The main BrokenLinkChecker Instance.
@@ -197,7 +241,9 @@ namespace AIOSEO\BrokenLinkChecker {
 			$this->constants();
 			$this->includes();
 			$this->preLoad();
-			$this->load();
+			if ( ! $this->helpers->isUninstalling() ) {
+				$this->load();
+			}
 		}
 
 		/**
@@ -218,7 +264,7 @@ namespace AIOSEO\BrokenLinkChecker {
 
 			$constants = [
 				'AIOSEO_BROKEN_LINK_CHECKER_PLUGIN_BASENAME'  => plugin_basename( AIOSEO_BROKEN_LINK_CHECKER_FILE ),
-				'AIOSEO_BROKEN_LINK_CHECKER_PLUGIN_NAME'      => $pluginData['name'],
+				'AIOSEO_BROKEN_LINK_CHECKER_PLUGIN_NAME'      => 'Broken Link Checker',
 				'AIOSEO_BROKEN_LINK_CHECKER_PLUGIN_URL'       => plugin_dir_url( AIOSEO_BROKEN_LINK_CHECKER_FILE ),
 				'AIOSEO_BROKEN_LINK_CHECKER_VERSION'          => $pluginData['version'],
 				'AIOSEO_BROKEN_LINK_CHECKER_MARKETING_URL'    => 'https://aioseo.com/',
@@ -227,7 +273,7 @@ namespace AIOSEO\BrokenLinkChecker {
 
 			foreach ( $constants as $constant => $value ) {
 				if ( ! defined( $constant ) ) {
-					define( $constant, $value );
+					define( $constant, $value ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound	
 				}
 			}
 
@@ -251,7 +297,7 @@ namespace AIOSEO\BrokenLinkChecker {
 				if ( ! file_exists( AIOSEO_BROKEN_LINK_CHECKER_DIR . $path ) ) {
 					// Something is not right.
 					status_header( 500 );
-					wp_die( esc_html__( 'Plugin is missing required dependencies. Please contact support for more information.', 'aioseo-broken-link-checker' ) );
+					wp_die( esc_html__( 'Plugin is missing required dependencies. Please contact support for more information.', 'broken-link-checker-seo' ) );
 				}
 				require_once AIOSEO_BROKEN_LINK_CHECKER_DIR . $path;
 			}
@@ -294,9 +340,21 @@ namespace AIOSEO\BrokenLinkChecker {
 		 * @return void
 		 */
 		private function preLoad() {
-			$this->core            = new Core\Core();
-			$this->internalOptions = new Options\InternalOptions();
-			$this->preUpdates      = new Main\PreUpdates();
+			$this->core             = new Core\Core();
+			$this->dbSchema         = new Db\Schema();
+			$this->internalOptions  = new Options\InternalOptions();
+			$this->sensitiveOptions = new Options\SensitiveOptions();
+			$this->helpers          = new Utils\Helpers(); // Needs to load before preUpdates.
+			$this->preUpdates       = new Main\PreUpdates();
+			$this->options          = new Options\Options();
+
+			// Runs after preUpdates so legacy version-gated work has already had its turn.
+			$this->migrationRunner = new Main\Migrations\MigrationRunner();
+			$this->migrationRunner->register( new Main\Migrations\Definitions\DropLegacyCacheKeyColumn() );
+			$this->migrationRunner->register( new Main\Migrations\Definitions\AddLinkStatusRescanColumns() );
+			$this->migrationRunner->register( new Main\Migrations\Definitions\DedupePosts() );
+			$this->migrationRunner->register( new Main\Migrations\Definitions\MigrateSensitiveOptions() );
+			$this->migrationRunner->run();
 		}
 
 		/**
@@ -307,8 +365,6 @@ namespace AIOSEO\BrokenLinkChecker {
 		 * @return void
 		 */
 		public function load() {
-			$this->helpers         = new Utils\Helpers();
-			$this->options         = new Options\Options();
 			$this->updates         = new Main\Updates();
 			$this->actionScheduler = new Utils\ActionScheduler();
 			$this->license         = new Admin\License();
@@ -317,8 +373,8 @@ namespace AIOSEO\BrokenLinkChecker {
 			$this->api             = new Api\Api();
 			$this->standalone      = new Standalone\Standalone();
 			$this->notifications   = new Admin\Notifications();
-
-			new Admin\Admin();
+			$this->emails          = new Emails\Emails();
+			$this->admin           = new Admin\Admin();
 
 			add_action( 'init', [ $this, 'loadInit' ], 999 );
 		}

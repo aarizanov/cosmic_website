@@ -1,11 +1,16 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElementor_Framework_Shortcode {
 	private $post_type;
 	private $post_type_taxonomy;
 	private $post_type_additional_taxonomies = array();
-	private $layouts = array();
-	private $extra_options = array();
+	private $layouts                         = array();
+	private $extra_options                   = array();
 
 	public function __construct() {
 		parent::__construct();
@@ -111,7 +116,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 					'field_type' => 'slider',
 					'name'       => 'vertical_slider_height',
 					'title'      => esc_html__( 'Vertical Slider Height', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vh' ),
+					'size_units' => array( 'px', '%', 'vh', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -134,7 +139,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 								'values'        => 'yes',
 								'default_value' => 'yes',
 							),
-							'slider_loop'                       => array(
+							'slider_loop' => array(
 								'values'        => 'no',
 								'default_value' => 'yes',
 							),
@@ -142,7 +147,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 					),
 					'selectors'  => array(
 						'{{WRAPPER}} .swiper-container-vertical' => 'height: {{SIZE}}{{UNIT}} !important;',
-						'{{WRAPPER}} .swiper-vertical'           => 'height: {{SIZE}}{{UNIT}} !important;',
+						'{{WRAPPER}} .swiper-vertical' => 'height: {{SIZE}}{{UNIT}} !important;',
 					),
 					'group'      => $group,
 				)
@@ -172,7 +177,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 					'field_type' => 'slider',
 					'name'       => 'slider_height',
 					'title'      => esc_html__( 'Slider Height', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vh' ),
+					'size_units' => array( 'px', '%', 'vh', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -322,76 +327,79 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 		}
 
 		if ( empty( $exclude_option ) || ! in_array( 'columns', $exclude_option, true ) ) {
-			$this->set_option(
-				array(
-					'field_type' => 'select',
-					'name'       => 'partial_columns',
-					'title'      => esc_html__( 'Enable Partial Columns', 'qi-addons-for-elementor' ),
-					'options'    => qi_addons_for_elementor_get_select_type_options_pool( 'no_yes', false ),
-					'group'      => $group,
-					'dependency' => $direction_horizontal_dependancy,
-				)
-			);
-			$this->set_option(
-				array(
-					'field_type' => 'slider',
-					'name'       => 'partial_columns_value',
-					'title'      => esc_html__( 'Partial Columns Value', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px' ),
-					'range'      => array(
-						'px' => array(
-							'min'  => 0.1,
-							'max'  => 0.9,
-							'step' => 0.1,
+
+			if ( ! in_array( 'partial_columns', $exclude_option, true ) ) {
+				$this->set_option(
+					array(
+						'field_type' => 'select',
+						'name'       => 'partial_columns',
+						'title'      => esc_html__( 'Enable Partial Columns', 'qi-addons-for-elementor' ),
+						'options'    => qi_addons_for_elementor_get_select_type_options_pool( 'no_yes', false ),
+						'group'      => $group,
+						'dependency' => $direction_horizontal_dependancy,
+					)
+				);
+				$this->set_option(
+					array(
+						'field_type' => 'slider',
+						'name'       => 'partial_columns_value',
+						'title'      => esc_html__( 'Partial Columns Value', 'qi-addons-for-elementor' ),
+						'size_units' => array( 'px' ),
+						'range'      => array(
+							'px' => array(
+								'min'  => 0.1,
+								'max'  => 0.9,
+								'step' => 0.1,
+							),
 						),
-					),
-					'responsive' => false,
-					'dependency' => array(
-						'relation' => 'and',
-						'show'     => array_merge_recursive(
-							array(
-								'show' => array(
-									'partial_columns' => array(
-										'values'        => 'yes',
-										'default_value' => 'no',
+						'responsive' => false,
+						'dependency' => array(
+							'relation' => 'and',
+							'show'     => array_merge_recursive(
+								array(
+									'show' => array(
+										'partial_columns' => array(
+											'values'        => 'yes',
+											'default_value' => 'no',
+										),
 									),
 								),
-							),
-							$direction_horizontal_dependancy
-						)['show'],
-					),
-					'group'      => $group,
-				)
-			);
-			$this->set_option(
-				array(
-					'field_type' => 'select',
-					'name'       => 'disable_partial_columns_under',
-					'title'      => esc_html__( 'Disable Partial Columns Under', 'qi-addons-for-elementor' ),
-					'options'    => array(
-						''     => esc_html__( 'Never', 'qi-addons-for-elementor' ),
-						'1024' => esc_html__( '1024', 'qi-addons-for-elementor' ),
-						'768'  => esc_html__( '768', 'qi-addons-for-elementor' ),
-						'680'  => esc_html__( '680', 'qi-addons-for-elementor' ),
-						'480'  => esc_html__( '480', 'qi-addons-for-elementor' ),
-					),
-					'dependency' => array(
-						'relation' => 'and',
-						'show'     => array_merge_recursive(
-							array(
-								'show' => array(
-									'partial_columns' => array(
-										'values'        => 'yes',
-										'default_value' => 'no',
+								$direction_horizontal_dependancy
+							)['show'],
+						),
+						'group'      => $group,
+					)
+				);
+				$this->set_option(
+					array(
+						'field_type' => 'select',
+						'name'       => 'disable_partial_columns_under',
+						'title'      => esc_html__( 'Disable Partial Columns Under', 'qi-addons-for-elementor' ),
+						'options'    => array(
+							''     => esc_html__( 'Never', 'qi-addons-for-elementor' ),
+							'1024' => esc_html__( '1024', 'qi-addons-for-elementor' ),
+							'768'  => esc_html__( '768', 'qi-addons-for-elementor' ),
+							'680'  => esc_html__( '680', 'qi-addons-for-elementor' ),
+							'480'  => esc_html__( '480', 'qi-addons-for-elementor' ),
+						),
+						'dependency' => array(
+							'relation' => 'and',
+							'show'     => array_merge_recursive(
+								array(
+									'show' => array(
+										'partial_columns' => array(
+											'values'        => 'yes',
+											'default_value' => 'no',
+										),
 									),
 								),
-							),
-							$direction_horizontal_dependancy
-						)['show'],
-					),
-					'group'      => $group,
-				)
-			);
+								$direction_horizontal_dependancy
+							)['show'],
+						),
+						'group'      => $group,
+					)
+				);
+			}
 			$this->set_option(
 				array(
 					'field_type'    => 'select',
@@ -668,7 +676,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -678,7 +686,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 								),
 							),
 						),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'range'      => array(
 							'px' => array(
 								'min' => - 300,
@@ -720,7 +728,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -730,7 +738,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 								),
 							),
 						),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'range'      => array(
 							'px' => array(
 								'min' => - 300,
@@ -778,7 +786,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -843,9 +851,9 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 								),
 							),
 						),
-						'size_units' => array( 'px', 'em' ),
+						'size_units' => array( 'px', 'em', 'custom' ),
 						'responsive' => true,
-						'selectors' => array(
+						'selectors'  => array(
 							'{{WRAPPER}} .qodef-swiper-together-inner > .swiper-button-prev'                                                         => 'margin-right: {{SIZE}}{{UNIT}} !important;',
 							'{{WRAPPER}} .swiper-container-vertical .qodef-swiper-together-nav .qodef-swiper-together-inner > .swiper-button-prev'   => 'margin: 0 0 {{SIZE}}{{UNIT}} 0 !important;',
 							'{{WRAPPER}} .swiper-container-vertical ~ .qodef-swiper-together-nav .qodef-swiper-together-inner > .swiper-button-prev' => 'margin: 0 0 {{SIZE}}{{UNIT}} 0 !important;',
@@ -886,7 +894,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 								'max' => 30,
 							),
 						),
-						'size_units' => array( 'px', 'em' ),
+						'size_units' => array( 'px', 'em', 'custom' ),
 						'responsive' => true,
 						'selectors'  => array(
 							'{{WRAPPER}} .qodef-swiper-together-nav'                                                           => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -923,7 +931,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -933,7 +941,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 								),
 							),
 						),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'responsive' => true,
 						'selectors'  => array(
 							'{{WRAPPER}} .qodef-swiper-together-nav'                                                                     => 'left: {{SIZE}}{{UNIT}}; right: {{SIZE}}{{UNIT}};',
@@ -1012,7 +1020,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'slider',
 						'name'       => 'navigation_together_holder_width',
 						'title'      => esc_html__( 'Navigation Holder Width', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'range'      => array(
 							'px' => array(
 								'min' => 0,
@@ -1023,7 +1031,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -1044,7 +1052,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'slider',
 						'name'       => 'navigation_together_holder_height',
 						'title'      => esc_html__( 'Navigation Holder Height', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'range'      => array(
 							'px' => array(
 								'min' => 0,
@@ -1055,7 +1063,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -1079,7 +1087,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -1103,7 +1111,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -1122,12 +1130,12 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'dimensions',
 						'name'       => 'navigation_together_holder_border_radius',
 						'title'      => esc_html__( 'Navigation Border Radius', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%' ),
+						'size_units' => array( 'px', '%', 'custom' ),
 						'responsive' => true,
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -1152,7 +1160,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'dependency' => array(
 							'relation' => 'or',
 							'hide'     => array(
-								'slider_navigation'          => array(
+								'slider_navigation' => array(
 									'values'        => 'no',
 									'default_value' => '',
 								),
@@ -1344,7 +1352,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'slider',
 						'name'       => 'slider_navigation_arrows_size',
 						'title'      => esc_html__( 'Navigation Arrow Size', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'responsive' => true,
 						'selectors'  => array(
 							'{{WRAPPER}} .swiper-button-next' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -1367,7 +1375,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'slider',
 						'name'       => 'slider_navigation_arrows_holder_width',
 						'title'      => esc_html__( 'Navigation Arrow Holder Width', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'responsive' => true,
 						'selectors'  => array(
 							'{{WRAPPER}} .swiper-button-next' => 'width: {{SIZE}}{{UNIT}} !important;',
@@ -1390,7 +1398,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'slider',
 						'name'       => 'slider_navigation_arrows_holder_height',
 						'title'      => esc_html__( 'Navigation Arrow Holder Height', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%', 'em' ),
+						'size_units' => array( 'px', '%', 'em', 'custom' ),
 						'responsive' => true,
 						'selectors'  => array(
 							'{{WRAPPER}} .swiper-button-next' => 'height: {{SIZE}}{{UNIT}} !important;',
@@ -1421,6 +1429,31 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'options'    => array(
 							'inside'  => esc_html__( 'Inside', 'qi-addons-for-elementor' ),
 							'outside' => esc_html__( 'Outside', 'qi-addons-for-elementor' ),
+						),
+						'dependency' => array(
+							'hide' => array(
+								'slider_pagination' => array(
+									'values'        => 'no',
+									'default_value' => '',
+								),
+							),
+						),
+						'group'      => esc_html__( 'Slider Pagination Style', 'qi-addons-for-elementor' ),
+					)
+				);
+			}
+
+			if ( empty( $exclude_option ) || ! in_array( 'hide_slider_pagination', $exclude_option, true ) ) {
+				$this->set_option(
+					array(
+						'field_type' => 'select',
+						'name'       => 'hide_slider_pagination',
+						'title'      => esc_html__( 'Hide Pagination', 'qi-addons-for-elementor' ),
+						'options'    => array(
+							''     => esc_html__( 'Default', 'qi-addons-for-elementor' ),
+							'1024' => esc_html__( 'Below 1024px', 'qi-addons-for-elementor' ),
+							'768'  => esc_html__( 'Below 768px', 'qi-addons-for-elementor' ),
+							'680'  => esc_html__( 'Below 680px', 'qi-addons-for-elementor' ),
 						),
 						'dependency' => array(
 							'hide' => array(
@@ -1524,7 +1557,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'slider',
 						'name'       => 'slider_pagination_offset',
 						'title'      => esc_html__( 'Pagination Offset', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%', 'vh' ),
+						'size_units' => array( 'px', '%', 'vh', 'custom' ),
 						'range'      => array(
 							'px' => array(
 								'min' => 0,
@@ -1567,7 +1600,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 						'field_type' => 'slider',
 						'name'       => 'slider_pagination_offset_from_edge',
 						'title'      => esc_html__( 'Pagination Offset from Edge', 'qi-addons-for-elementor' ),
-						'size_units' => array( 'px', '%' ),
+						'size_units' => array( 'px', '%', 'custom' ),
 						'range'      => array(
 							'px' => array(
 								'min' => 0,
@@ -1790,6 +1823,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 							'{{WRAPPER}} .swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet'                                   => 'margin: 0 calc({{SIZE}}{{UNIT}}*0.72/2);',
 							'{{WRAPPER}} .swiper-vertical>.swiper-pagination-bullets .swiper-pagination-bullet'                                     => 'margin: calc({{SIZE}}{{UNIT}}*0.72/2) 0;',
 							'{{WRAPPER}} .swiper-vertical ~ .qodef-swiper-pagination-outside.swiper-pagination .swiper-pagination-bullet'           => 'margin: calc({{SIZE}}{{UNIT}}*0.72/2) 0;',
+							'{{WRAPPER}} .qodef-pagination--vertical .swiper-pagination-bullets .swiper-pagination-bullet'                          => 'margin: calc({{SIZE}}{{UNIT}}*0.72/2) 0;',
 						),
 						'dependency' => array(
 							'hide' => array(
@@ -1818,7 +1852,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 		$holder_classes[] = ! empty( $atts['slider_pagination_position'] ) ? 'qodef-pagination--' . $atts['slider_pagination_position'] : '';
 		$holder_classes[] = ! empty( $atts['slider_pagination_alignment'] ) ? 'qodef-pagination-alignment--' . $atts['slider_pagination_alignment'] : '';
 		$holder_classes[] = ! empty( $atts['hide_slider_navigation'] ) ? 'qodef-hide-navigation--' . $atts['hide_slider_navigation'] : '';
-//		$holder_classes[] = ! empty( $atts['enable_focus_in_viewport_vertical'] ) && 'yes' === $atts['enable_focus_in_viewport_vertical'] ? 'qodef--focus-in-viewport' : '';
+		$holder_classes[] = ! empty( $atts['hide_slider_pagination'] ) ? 'qodef-hide-pagination--' . $atts['hide_slider_pagination'] : '';
 		$holder_classes[] = ! empty( $atts['slider_pagination_numbers'] ) && 'yes' === $atts['slider_pagination_numbers'] ? 'qodef--pagination-numbers' : '';
 		$holder_classes[] = isset( $atts['navigation_hover_move'] ) && 'yes' === $atts['navigation_hover_move'] ? 'qodef-navigation--hover-move' : '';
 
@@ -1872,6 +1906,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 		$data['unique']              = isset( $atts['unique'] ) ? $atts['unique'] : '';
 		$data['partialValue']        = $partial_value;
 		$data['disablePartialValue'] = isset( $atts['disable_partial_columns_under'] ) ? $atts['disable_partial_columns_under'] : '';
+		$data['parallax']            = isset( $atts['parallax'] ) ? $atts['parallax'] : 'no';
 
 		if ( ! empty( $atts['columns_responsive'] ) && 'custom' === $atts['columns_responsive'] ) {
 			$data['customStages']      = true;
@@ -1892,7 +1927,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 			}
 		}
 
-		return json_encode( $data );
+		return wp_json_encode( $data );
 	}
 
 	public function map_query_options( $params = array() ) {
@@ -2088,6 +2123,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 			}
 
 			if ( ! empty( $atts['tax'] ) && ! empty( $taxonomy_values ) ) {
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				$args['tax_query'] = array( array_merge( array( 'taxonomy' => $atts['tax'] ), $taxonomy_values ) );
 			}
 		}
@@ -2106,7 +2142,7 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 		$exclude_option          = isset( $params['exclude_option'] ) ? $params['exclude_option'] : array();
 		$default_value_title_tag = isset( $params['default_value_title_tag'] ) ? $params['default_value_title_tag'] : 'h5';
 
-		$layout_visibility_field_type = sizeof( $layouts ) > 1 ? 'select' : 'hidden';
+		$layout_visibility_field_type = count( $layouts ) > 1 ? 'select' : 'hidden';
 
 		$default_value = '';
 		if ( ! empty( $layouts ) ) {
@@ -2194,14 +2230,16 @@ abstract class QiAddonsForElementor_Slider_Shortcode extends QiAddonsForElemento
 	public function register_list_scripts() {
 		$scripts = $this->get_scripts();
 
-		$scripts['swiper'] = array( 'registered' => true ); //enqueue swiper for admin
+		// enqueue swiper for admin.
+		$scripts['swiper'] = array( 'registered' => true );
 		$list_scripts      = apply_filters( 'qi_addons_for_elementor_filter_register_slider_shortcode_scripts', isset( $scripts ) ? $scripts : array() );
 
 		$this->set_scripts( $list_scripts );
 	}
 
 	public function load_assets() {
-		wp_enqueue_script( 'swiper' ); //enqueue swiper for frontend
+		// enqueue swiper for frontend.
+		wp_enqueue_script( 'swiper' );
 		do_action( 'qi_addons_for_elementor_action_slider_shortcodes_load_assets', $this->get_atts() );
 	}
 }

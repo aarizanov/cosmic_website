@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-admin-sidebar-box qodef-rate-box">
 	<div class="qodef-admin-sidebar-box-content">
 		<h3><?php esc_html_e( 'Rate Qi Addons', 'qi-addons-for-elementor' ); ?></h3>

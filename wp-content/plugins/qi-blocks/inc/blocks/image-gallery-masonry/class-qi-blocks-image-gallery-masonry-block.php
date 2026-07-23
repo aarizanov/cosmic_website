@@ -8,14 +8,14 @@ if ( ! class_exists( 'Qi_Blocks_Image_Gallery_Masonry_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'image-gallery-masonry' );
 			$this->set_block_title( esc_html__( 'Masonry Image Gallery', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Showcase/Presentational', 'qi-blocks' ) );
 			$this->set_block_demo_url( 'https://qodeinteractive.com/qi-blocks-for-gutenberg/masonry-image-gallery/' );
 			$this->set_block_documentation( 'https://qodeinteractive.com/qi-blocks-for-gutenberg/documentation/#masonry_image_gallery' );
 
-			// Set block 3rd party scripts
+			// Set block 3rd party scripts.
 			$this->set_block_3rd_party_scripts(
 				array(
 					'fslightbox' => array(
@@ -38,6 +38,8 @@ if ( ! class_exists( 'Qi_Blocks_Image_Gallery_Masonry_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Image_Gallery_Masonry_Block
 		 */
 		public static function get_instance() {

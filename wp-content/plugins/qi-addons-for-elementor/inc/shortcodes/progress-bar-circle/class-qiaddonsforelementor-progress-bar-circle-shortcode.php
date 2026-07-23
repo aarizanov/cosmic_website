@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_progress_bar_circle_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,12 +25,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_progress_bar_circle_shortco
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Progress_Bar_Circle_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/progress-bar-circle' );
 			$this->set_base( 'qi_addons_for_elementor_progress_bar_circle' );
 			$this->set_name( esc_html__( 'Radial Progress Bar', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays radial progress bar with provided parameters', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Infographics', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/radial-progress-bar/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#radial_progress_bar' );
@@ -126,7 +135,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'circle_size',
 					'title'      => esc_html__( 'Circle Size', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Circle Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 50,
@@ -175,7 +184,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'title_margin_top',
 					'title'      => esc_html__( 'Title Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Text Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-progress-bar-circle .qodef-m-title' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -208,7 +217,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'text_margin_top',
 					'title'      => esc_html__( 'Text Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Text Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-progress-bar-circle .qodef-m-text' => 'margin-top: {{SIZE}}{{UNIT}};',

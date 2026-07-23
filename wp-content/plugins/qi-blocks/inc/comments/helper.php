@@ -1,7 +1,9 @@
 <?php
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
 
 if ( ! function_exists( 'qi_blocks_get_comments_list_args' ) ) {
 	/**
@@ -53,7 +55,7 @@ if ( ! function_exists( 'qi_blocks_get_comments_list_args' ) ) {
 					$args['paged'] = $max_comments_num;
 				}
 
-				// Set the `cpage` query var to ensure the previous and next pagination links are correct
+				// Set the `cpage` query var to ensure the previous and next pagination links are correct.
 				// when inheriting the Discussion Settings.
 				if ( 0 === $page && isset( $args['paged'] ) && $args['paged'] > 0 ) {
 					set_query_var( 'cpage', (int) $args['paged'] );
@@ -107,7 +109,7 @@ if ( ! function_exists( 'qi_blocks_get_comments_list_template' ) ) {
 							array_merge(
 								$args,
 								array(
-									// translators: %s - Add svg icon for reply link
+									// translators: %s - Add svg icon for reply link.
 									'reply_text' => qi_blocks_get_svg_icon( 'comment-reply' ),
 									'depth'      => $depth,
 									'max_depth'  => $args['max_depth'],
@@ -115,7 +117,7 @@ if ( ! function_exists( 'qi_blocks_get_comments_list_template' ) ) {
 							)
 						);
 
-						// translators: %s - Add svg icon for edit link
+						// translators: %s - Add svg icon for edit link.
 						edit_comment_link( qi_blocks_get_svg_icon( 'comment-edit' ) );
 						?>
 					</div>
@@ -166,8 +168,8 @@ if ( ! function_exists( 'qi_blocks_get_comment_form_args' ) ) {
 
 		$args = array(
 			'title_reply_to'       => esc_attr__( 'Reply to %s', 'qi-blocks' ),
-			'title_reply_before'   => '<' . esc_attr( $attributes['titleTag'] ) . ' id="reply-title" class="comment-reply-title">',
-			'title_reply_after'    => '</' . esc_attr( $attributes['titleTag'] ) . '>',
+			'title_reply_before'   => '<' . qi_blocks_escape_title_tag( $attributes['titleTag'] ) . ' id="reply-title" class="comment-reply-title">',
+			'title_reply_after'    => '</' . qi_blocks_escape_title_tag( $attributes['titleTag'] ) . '>',
 			'comment_field' => sprintf(
 				'<p class="comment-form-comment">%s %s</p>',
 				'<label for="comment">' . esc_html__( 'Comment', 'qi-blocks' ) . '</label>',

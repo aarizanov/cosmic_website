@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 	class Qi_Blocks_Admin_General_Page {
 		private static $instance;
@@ -9,7 +14,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 		private $sub_pages;
 		private $transient;
 
-		function __construct() {
+		public function __construct() {
 			$this->set_wizard_status( get_option( 'qi_blocks_setup_wizard', 'init' ) );
 
 			$main_page = 'completed' === $this->get_wizard_status() ? 'qi_blocks_welcome' : 'qi_blocks_setup_wizard';
@@ -33,6 +38,8 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Admin_General_Page
 		 */
 		public static function get_instance() {
@@ -84,7 +91,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			$this->transient = $transient;
 		}
 
-		function extend_plugin_info( $plugin_meta, $plugin_file ) {
+		public function extend_plugin_info( $plugin_meta, $plugin_file ) {
 
 			if ( QI_BLOCKS_PLUGIN_BASE_FILE === $plugin_file ) {
 				$plugin_meta['qi-support']   = '<a href="https://helpcenter.qodeinteractive.com/" target="_blank">' . esc_html__( 'Help Center', 'qi-blocks' ) . '</a>';
@@ -95,13 +102,13 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			return $plugin_meta;
 		}
 
-		function plugin_action_links( $links ) {
+		public function plugin_action_links( $links ) {
 			$links['premium'] = sprintf( '<a href="%1$s" target="_blank" class="qi-blocks-premium-link" style="color:#ee2852;font-weight:700">%2$s</a>', 'https://qodeinteractive.com/pricing/?qi_product=blocks?utm_source=dash&utm_medium=qiblocks&utm_campaign=gopremium', esc_html__( 'Upgrade', 'qi-blocks' ) );
 
 			return $links;
 		}
 
-		function dashboard_add_page() {
+		public function dashboard_add_page() {
 			$page = add_menu_page(
 				$this->get_title(),
 				$this->get_title(),
@@ -114,9 +121,9 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 
 			add_action( 'load-' . $page, array( $this, 'load_admin_css' ) );
 
-            $subpages_array = $this->get_sub_pages();
+			$subpages_array = $this->get_sub_pages();
 
-            ksort( $subpages_array );
+			ksort( $subpages_array );
 
 			foreach ( $subpages_array as $key => $sub_page ) {
 				$sub_page_instance = add_submenu_page(
@@ -126,7 +133,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 					'edit_theme_options',
 					$sub_page->get_menu_slug(),
 					array( $sub_page, 'render' ),
-                    $sub_page->get_position()
+					$sub_page->get_position()
 				);
 
 				add_action( 'load-' . $sub_page_instance, array( $this, 'load_admin_css' ) );
@@ -153,7 +160,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			}
 		}
 
-		function get_header( $object = null ) {
+		public function get_header( $object = null ) {
 			$object = ! empty( $object ) ? $object : $this;
 
 			$args = array(
@@ -165,19 +172,19 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			qi_blocks_template_part( 'admin/admin-pages', 'templates/header', '', $args );
 		}
 
-		function get_footer() {
+		public function get_footer() {
 			qi_blocks_template_part( 'admin/admin-pages', 'templates/footer' );
 		}
 
-		function get_sidebar() {
+		public function get_sidebar() {
 			qi_blocks_template_part( 'admin/admin-pages', 'templates/sidebar' );
 		}
 
-		function get_content() {
+		public function get_content() {
 			qi_blocks_template_part( 'admin/admin-pages', 'templates/general' );
 		}
 
-		function render_holder() {
+		public function render_holder() {
 			$args = array(
 				'this_object' => $this,
 			);
@@ -196,7 +203,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 
 						if ( 'completed' === $this->get_wizard_status() && strpos( $sub_page, 'Setup_Wizard' ) === false ) {
 							$add_flag = true;
-						} else if ( 'completed' !== $this->get_wizard_status() && strpos( $sub_page, 'Setup_Wizard' ) !== false ) {
+						} elseif ( 'completed' !== $this->get_wizard_status() && strpos( $sub_page, 'Setup_Wizard' ) !== false ) {
 							$add_flag = true;
 						}
 
@@ -209,22 +216,22 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			}
 		}
 
-		function load_admin_css() {
+		public function load_admin_css() {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 
-		function enqueue_styles() {
+		public function enqueue_styles() {
 			wp_enqueue_style( 'qi-blocks-dashboard-style', QI_BLOCKS_ASSETS_URL_PATH . '/dist/dashboard.css' );
 		}
 
-		function enqueue_scripts() {
+		public function enqueue_scripts() {
 			wp_enqueue_script( 'qi-blocks-framework-script', QI_BLOCKS_ASSETS_URL_PATH . '/dist/dashboard.js', array( 'jquery' ), false, true );
 
 			do_action( 'qi_blocks_action_additional_scripts' );
 		}
 
-		function add_admin_body_classes( $classes ) {
+		public function add_admin_body_classes( $classes ) {
 			$pages = $this->get_all_dashboard_slugs();
 
 			if ( isset( $_GET['page'] ) && in_array( $_GET['page'], $pages, true ) ) {
@@ -234,7 +241,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			return $classes;
 		}
 
-		function admin_footer_text( $text ) {
+		public function admin_footer_text( $text ) {
 			$pages = $this->get_all_dashboard_slugs();
 
 			if ( isset( $_GET['page'] ) && in_array( $_GET['page'], $pages, true ) ) {
@@ -244,7 +251,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			return $text;
 		}
 
-		function get_all_dashboard_slugs() {
+		public function get_all_dashboard_slugs() {
 			$pages = array(
 				$this->get_menu_slug(),
 			);
@@ -260,7 +267,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			return $pages;
 		}
 
-		function redirect() {
+		public function redirect() {
 
 			if ( wp_doing_ajax() ) {
 				return;
@@ -283,7 +290,7 @@ if ( ! class_exists( 'Qi_Blocks_Admin_General_Page' ) ) {
 			}
 		}
 
-		function external_redirect() {
+		public function external_redirect() {
 
 			if ( empty( $_GET['page'] ) ) {
 				return;

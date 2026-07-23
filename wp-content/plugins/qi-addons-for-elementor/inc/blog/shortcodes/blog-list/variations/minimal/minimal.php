@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_variation_minimal' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -42,7 +47,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_minimal' 
 			'field_type' => 'slider',
 			'name'       => 'minimal_item_padding_bottom',
 			'title'      => esc_html__( 'Item Padding Top', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--minimal .qodef-e-inner' => 'padding-top: {{SIZE}}{{UNIT}};',
@@ -63,7 +68,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_minimal' 
 			'field_type' => 'slider',
 			'name'       => 'minimal_button_margin_top',
 			'title'      => esc_html__( 'Button Margin Top', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--minimal .qodef-e-info.qodef-info--bottom' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -101,7 +106,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_minimal' 
 			'field_type' => 'slider',
 			'name'       => 'minimal_border_bottom_thickness',
 			'title'      => esc_html__( 'Border Top Thickness', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', 'em' ),
+			'size_units' => array( 'px', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--minimal .qodef-e-inner' => 'border-top-width: {{SIZE}}{{UNIT}};',

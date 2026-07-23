@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Team_Member_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'team-member' );
 			$this->set_block_title( esc_html__( 'Team', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Business', 'qi-blocks' ) );
@@ -19,6 +19,8 @@ if ( ! class_exists( 'Qi_Blocks_Team_Member_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Team_Member_Block
 		 */
 		public static function get_instance() {

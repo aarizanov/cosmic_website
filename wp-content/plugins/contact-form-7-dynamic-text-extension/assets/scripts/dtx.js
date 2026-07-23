@@ -70,7 +70,8 @@ var dtx = {
                         dataType: 'json', // only accept strict JSON objects
                         data: {
                             'action': 'wpcf7dtx',
-                            'shortcodes': dtx.queue
+                            'shortcodes': dtx.queue,
+                            'n': dtx_obj.n
                         },
                         cache: false,
                         error: function(xhr, status, error) {
@@ -194,7 +195,7 @@ var dtx = {
      */
     get_cookie: function(atts) {
         if (atts.hasOwnProperty('key') && typeof(atts.key) == 'string' && atts.key.trim() != '') {
-            var keyValue = document.cookie.match('(^|;) ?' + atts.key.trim() + '=([^;]*)(;|$)');
+            var keyValue = document.cookie.match('(^|;) ?' + (atts.key.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) + '=([^;]*)(;|$)');
             return keyValue ? dtx.obfuscate(keyValue[2], atts) : '';
         }
         return '';

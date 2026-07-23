@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_counter_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_counter_shortcode' ) ) {
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Counter_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_counter_layouts', array() ) );
 
@@ -31,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_counter' );
 			$this->set_name( esc_html__( 'Counters', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays counters with provided parameters', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Infographics', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/counters/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#counters' );
@@ -212,7 +221,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'digit_background_size',
 					'title'      => esc_html__( 'Digit Background Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -231,7 +240,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'digit_background_radius',
 					'title'      => esc_html__( 'Digit Background Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-counter .qodef-m-digit-wrapper' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -366,7 +375,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'title_margin_top',
 					'title'      => esc_html__( 'Title Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-counter .qodef-m-title' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -379,7 +388,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'text_margin_top',
 					'title'      => esc_html__( 'Text Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-counter .qodef-m-text' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -391,7 +400,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'text_padding',
 					'title'      => esc_html__( 'Text Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-counter .qodef-m-text' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -433,7 +442,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'icon_size',
 					'title'      => esc_html__( 'Icon Size', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Icon', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-counter .qodef-m-icon' => 'font-size: {{SIZE}}{{UNIT}};',

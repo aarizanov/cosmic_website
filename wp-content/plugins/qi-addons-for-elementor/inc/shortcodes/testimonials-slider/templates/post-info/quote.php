@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( empty( $item_quote_icon['value'] ) ) {
 	?>
 	<div class="qodef-e-quote">

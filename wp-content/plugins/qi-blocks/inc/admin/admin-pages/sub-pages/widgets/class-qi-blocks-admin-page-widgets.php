@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_blocks_add_widgets_sub_page_to_list' ) ) {
 	/**
 	 * Function that add additional sub-page item into general page list
@@ -26,22 +31,19 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			add_action( 'wp_ajax_qi_blocks_action_widget_save_options', array( $this, 'save_widgets' ) );
 		}
 
-		function get_sidebar() {
+		public function get_sidebar() {
 			qi_blocks_template_part( 'admin/admin-pages', 'sub-pages/widgets/templates/sidebar' );
 		}
 
-		function add_sub_page() {
+		public function add_sub_page() {
 			$this->set_base( 'widgets' );
 			$this->set_menu_slug( 'qi_blocks_blocks' );
 			$this->set_title( esc_html__( 'Blocks', 'qi-blocks' ) );
 			$this->set_atts( $this->set_atributtes() );
-            $this->set_position( 2 );
+			$this->set_position( 2 );
 		}
 
-		/**
-		 * @return array
-		 */
-		function set_atributtes() {
+		public function set_atributtes() {
 			$blocks              = $this->sort_blocks_by_subcategory( $this->get_blocks() );
 			$block_status        = apply_filters( 'qi_blocks_filter_block_status', false );
 			$premium_flag        = qi_blocks_is_installed( 'premium' ) && $block_status;
@@ -57,15 +59,15 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			);
 		}
 
-		function get_general_options() {
+		public function get_general_options() {
 			return get_option( QI_BLOCKS_GENERAL_OPTIONS, array() );
 		}
 
-		function get_blocks() {
+		public function get_blocks() {
 			return Qi_Blocks_Blocks_List::get_instance()->get_blocks();
 		}
 
-		function sort_blocks_by_subcategory( $blocks ) {
+		public function sort_blocks_by_subcategory( $blocks ) {
 			$formatted = array();
 
 			foreach ( $blocks as $key => $block ) {
@@ -77,11 +79,11 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			return $formatted;
 		}
 
-		function disabled_blocks() {
+		public function disabled_blocks() {
 			return get_option( QI_BLOCKS_DISABLED_BLOCKS, array() );
 		}
 
-		function complete_enabled_subcategory( $subcategory_blocks, $disabled, $premium_flag ) {
+		public function complete_enabled_subcategory( $subcategory_blocks, $disabled, $premium_flag ) {
 
 			if ( ! $premium_flag && ! empty( $disabled ) ) {
 				foreach ( $disabled as $disabled_key => $disabled_value ) {
@@ -103,7 +105,7 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			return array_keys( $subcategory_blocks );
 		}
 
-		function save_widgets() {
+		public function save_widgets() {
 
 			if ( current_user_can( 'edit_theme_options' ) ) {
 				if ( isset( $_REQUEST['action'] ) ) {
@@ -113,8 +115,8 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 				check_ajax_referer( 'qi_blocks_widget_save_nonce', 'qi_blocks_widget_save_nonce' );
 
 				$general_options = array();
-				if ( ! empty( $_REQUEST[ 'general_options' ] ) ) {
-					foreach ( $_REQUEST[ 'general_options' ] as $general_option_key => $general_option_value ) {
+				if ( ! empty( $_REQUEST['general_options'] ) ) {
+					foreach ( $_REQUEST['general_options'] as $general_option_key => $general_option_value ) {
 						$general_options[ sanitize_text_field( $general_option_key ) ] = esc_attr( $general_option_value );
 					}
 				}

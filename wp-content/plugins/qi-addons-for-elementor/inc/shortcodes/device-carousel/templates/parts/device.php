@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="<?php echo esc_attr( $item_classes_final ); ?>">
 	<div class="qodef-device-carousel-device">
 		<div class="qodef-device-carousel-device-image">
@@ -10,7 +17,10 @@
 			<?php } elseif ( 'laptop' === $item['device'] ) { ?>
 				<img src="<?php echo esc_url( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/device-carousel/assets/img/laptop-mockup.svg' ); ?>" alt="<?php esc_attr_e( 'laptop device', 'qi-addons-for-elementor' ); ?>">
 			<?php } elseif ( 'custom' === $item['device'] ) { ?>
-				<?php echo qi_addons_for_elementor_get_list_shortcode_item_image( 'full', $item['custom_device'] ); ?>
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo qi_addons_for_elementor_get_list_shortcode_item_image( 'full', $item['custom_device'] );
+				?>
 			<?php } ?>
 		</div>
 		<div class="qodef-m-items">

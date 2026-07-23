@@ -1,4 +1,12 @@
-<?php if ( '' !== $price ) { ?>
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
+if ( '' !== $price ) {
+	?>
 	<div class="qodef-m-price">
 		<div class="qodef-m-price-wrapper qodef-h1">
 			<?php if ( ! empty( $currency ) ) { ?>

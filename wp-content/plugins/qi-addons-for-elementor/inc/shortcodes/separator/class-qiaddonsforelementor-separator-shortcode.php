@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_separator_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,9 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_separator_shortcode' ) ) {
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Separator_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_separator_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_separator_extra_options', array() ) );
@@ -32,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_separator' );
 			$this->set_name( esc_html__( 'Divider', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays divider with provided parameters', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Typography', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/divider/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#divider' );
@@ -115,7 +123,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'separator_width',
 					'title'      => esc_html__( 'Width (px or %)', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vw' ),
+					'size_units' => array( 'px', '%', 'vw', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -134,7 +142,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'separator_thickness',
 					'title'      => esc_html__( 'Thickness (px)', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-line' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -147,7 +155,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'separator_margin_top',
 					'title'      => esc_html__( 'Margin Top', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vh' ),
+					'size_units' => array( 'px', '%', 'vh', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -166,7 +174,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'separator_margin_bottom',
 					'title'      => esc_html__( 'Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vh' ),
+					'size_units' => array( 'px', '%', 'vh', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,

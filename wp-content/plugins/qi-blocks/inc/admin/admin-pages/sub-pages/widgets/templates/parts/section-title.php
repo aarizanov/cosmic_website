@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-widgets-section-title-holder">
 	<h3 class="qodef-widgets-section-title"><?php echo esc_html( str_replace( '-', ' ', $block_subcategory ) ); ?></h3>
 	<div class="qodef-checkbox-toggle qodef-field">

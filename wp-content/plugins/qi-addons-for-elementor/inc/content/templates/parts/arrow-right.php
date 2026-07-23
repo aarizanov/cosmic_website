@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $icon = isset( $slider_navigation_arrow_next ) ? $slider_navigation_arrow_next : array();
 
 if ( isset( $icon ) && ! empty( $icon['value'] ) ) {

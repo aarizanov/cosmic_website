@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_clients_slider_shortcode' ) ) {
 	/**
 	 * Function that is adding shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_clients_slider_shortcode' )
 if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 	class QiAddonsForElementor_Clients_Slider_Shortcode extends QiAddonsForElementor_Slider_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_clients_slider_extra_options', array() ) );
 
@@ -31,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_clients_slider' );
 			$this->set_name( esc_html__( 'Clients Carousel', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays carousel of clients', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Business', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/clients-carousel/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#clients_carousel' );
@@ -120,7 +129,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'item_padding',
 					'title'      => esc_html__( 'Item Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef--boxed .qodef-e-inner' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -137,7 +146,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 				)
 			);
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -264,7 +273,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'images_margin_bottom',
 					'title'      => esc_html__( 'Images Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-images-holder' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -289,7 +298,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'icon_size',
 					'title'      => esc_html__( 'Icon Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-icon' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -303,7 +312,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'name'               => 'icon_position',
 					'title'              => esc_html__( 'Icon Position', 'qi-addons-for-elementor' ),
 					'allowed_dimensions' => array( 'top', 'right' ),
-					'size_units'         => array( 'px', '%', 'em' ),
+					'size_units'         => array( 'px', '%', 'em', 'custom' ),
 					'responsive'         => true,
 					'selectors'          => array(
 						'{{WRAPPER}} .qodef-e-icon' => 'top: {{TOP}}{{UNIT}}; right: {{RIGHT}}{{UNIT}};',

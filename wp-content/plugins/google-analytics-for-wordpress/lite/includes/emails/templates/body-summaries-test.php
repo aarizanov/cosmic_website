@@ -1,353 +1,269 @@
 <?php
 /**
- * Email Body
+ * Email Body Template
  *
- * Heavily influenced by the great AffiliateWP plugin by Pippin Williamson.
- * https://github.com/AffiliateWP/AffiliateWP/tree/master/templates/emails
+ * Uses modern HTML/CSS while maintaining email client compatibility.
+ * CSS classes are prefixed with 'mset-' (MonsterInsights Summary Email Template)
+ * to avoid conflicts with email client styles.
  *
  * @since 8.19.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit;
 }
 
-$icon_stats        = plugins_url( "lite/assets/img/emails/summaries/stats.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_stats_2x     = plugins_url( "lite/assets/img/emails/summaries/stats@2x.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_users        = plugins_url( "lite/assets/img/emails/summaries/users.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_users_2x     = plugins_url( "lite/assets/img/emails/summaries/users@2x.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_views        = plugins_url( "lite/assets/img/emails/summaries/views.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_views_2x     = plugins_url( "lite/assets/img/emails/summaries/views@2x.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_increase     = plugins_url( "lite/assets/img/emails/summaries/increase.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_increase_2x  = plugins_url( "lite/assets/img/emails/summaries/increase@2x.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_decrease     = plugins_url( "lite/assets/img/emails/summaries/decrease.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_decrease_2x  = plugins_url( "lite/assets/img/emails/summaries/decrease@2x.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_pages        = plugins_url( "lite/assets/img/emails/summaries/pages.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_pages_2x     = plugins_url( "lite/assets/img/emails/summaries/pages@2x.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_referrals    = plugins_url( "lite/assets/img/emails/summaries/referrals.png", MONSTERINSIGHTS_PLUGIN_FILE );
-$icon_referrals_2x = plugins_url( "lite/assets/img/emails/summaries/referrals@2x.png", MONSTERINSIGHTS_PLUGIN_FILE );
-
-$site_url   = 'https://example.com';
-$start_date = "January 01";
-$end_date   = "January 31, 2020";
-
-$total_visitors              = "484000";
-$prev_visitors_percentage    = "40";
-$visitors_percentage_icon    = $icon_decrease;
-$visitors_percentage_icon_2x = $icon_decrease_2x;
-$visitors_percentage_class   = 'mcnTextDecrease';
-$visitors_difference         = __( 'Decrease visitors: ', 'google-analytics-for-wordpress' );
-if ( (int) $prev_visitors_percentage == $prev_visitors_percentage && (int) $prev_visitors_percentage >= 0 ) {
-	$visitors_percentage_icon    = $icon_increase;
-	$visitors_percentage_icon_2x = $icon_increase_2x;
-	$visitors_percentage_class   = 'mcnTextIncrease';
-	$visitors_difference         = __( 'Increase visitors: ', 'google-analytics-for-wordpress' );
-}
-
-$total_pageviews              = "1800000";
-$prev_pageviews_percentage    = "-32";
-$pageviews_percentage_icon    = $icon_decrease;
-$pageviews_percentage_icon_2x = $icon_decrease_2x;
-$pageviews_percentage_class   = 'mcnTextDecrease';
-$pageviews_difference         = __( 'Decrease pageviews: ', 'google-analytics-for-wordpress' );
-if ( (int) $prev_pageviews_percentage == $prev_pageviews_percentage && (int) $prev_pageviews_percentage >= 0 ) {
-	$pageviews_percentage_icon    = $icon_increase;
-	$pageviews_percentage_icon_2x = $icon_increase_2x;
-	$pageviews_percentage_class   = 'mcnTextIncrease';
-	$pageviews_difference         = __( 'Increase pageviews: ', 'google-analytics-for-wordpress' );
-}
-
-$top_pages      = array(
-	array(
-		'url'      => '/contact',
-		'title'    => 'Contact Page Your Website',
-		'hostname' => 'https://example.com',
-		'sessions' => '10980',
-	),
-	array(
-		'url'      => '/sample-page',
-		'title'    => 'Sample Page - Your Website',
-		'hostname' => 'https://example.com',
-		'sessions' => '980',
-	),
-	array(
-		'url'      => '/test-page',
-		'title'    => 'Test Page Your Website',
-		'hostname' => 'https://example.com',
-		'sessions' => '80',
-	),
-	array(
-		'url'      => '/contact-us',
-		'title'    => 'Contact Us Your Website',
-		'hostname' => 'https://example.com',
-		'sessions' => '80',
-	),
+// Initialize variables with fake data for testing
+$update_available = true;
+$report_title = __('Your Monthly Website Analytics Summary', 'google-analytics-for-wordpress');
+$report_image_src = 'https://placehold.co/600x400'; // Placeholder image URL
+$report_description = __('Here\'s a quick overview of your website\'s performance over the last month. Check out your key stats and top pages below.', 'google-analytics-for-wordpress');
+$report_features = array(
+	__('Track key metrics', 'google-analytics-for-wordpress'),
+	__('Identify top content', 'google-analytics-for-wordpress'),
+	__('Improve user engagement', 'google-analytics-for-wordpress'),
 );
-$top_referrals  = array(
-	array(
-		'url'      => 'https://facebook.com/',
-		'sessions' => '100980',
-	),
-	array(
-		'url'      => 'https://youtube.com/',
-		'sessions' => '9080',
-	),
-	array(
-		'url'      => 'https://wordpress.org/',
-		'sessions' => '9080',
-	),
-	array(
-		'url'      => 'https://example.org/',
-		'sessions' => '9080',
-	),
+$report_button_text = __('View Full Report', 'google-analytics-for-wordpress');
+$report_link = admin_url('admin.php?page=monsterinsights_reports');
+$report_stats = array(
+	array('icon' => '📊', 'label' => __('Sessions', 'google-analytics-for-wordpress'), 'value' => '1.5K', 'difference' => 15, 'trend_icon' => '↑', 'trend_class' => 'mset-text-increase'),
+	array('icon' => 'Users', 'label' => __('Users', 'google-analytics-for-wordpress'), 'value' => '1.2K', 'difference' => -5, 'trend_icon' => '↓', 'trend_class' => 'mset-text-decrease'),
+	array('icon' => 'Pageviews', 'label' => __('Page Views', 'google-analytics-for-wordpress'), 'value' => '2.8K', 'difference' => 10, 'trend_icon' => '↑', 'trend_class' => 'mset-text-increase'),
+	array('icon' => 'Avg. Duration', 'label' => __('Avg. Session Duration', 'google-analytics-for-wordpress'), 'value' => '00:02:30', 'difference' => 2, 'trend_icon' => '↑', 'trend_class' => 'mset-text-increase'),
+	array('icon' => 'Bounce Rate', 'label' => __('Bounce Rate', 'google-analytics-for-wordpress'), 'value' => '45%', 'difference' => -3, 'trend_icon' => '↓', 'trend_class' => 'mset-text-decrease'),
 );
-$more_pages     = "https://example.com";
-$more_referrals = "https://example.com";
+$top_pages = array(
+	array('hostname' => 'example.com', 'url' => '/page-1', 'title' => 'Example Page 1', 'sessions' => 500),
+	array('hostname' => 'example.com', 'url' => '/page-2', 'title' => 'Example Page 2', 'sessions' => 450),
+	array('hostname' => 'example.com', 'url' => '/page-3', 'title' => 'Example Page 3', 'sessions' => 400),
+	array('hostname' => 'example.com', 'url' => '/page-4', 'title' => 'Example Page 4', 'sessions' => 350),
+	array('hostname' => 'example.com', 'url' => '/page-5', 'title' => 'Example Page 5', 'sessions' => 300),
+);
+$more_pages_url = admin_url('admin.php?page=monsterinsights_reports#/overview/toppages-report/');
+$blog_posts = array(
+	array('featured_image' => 'https://placehold.co/100x100', 'title' => 'Blog Post Title 1', 'excerpt' => 'Blog post excerpt 1...', 'link' => '#'),
+	array('featured_image' => 'https://placehold.co/100x100', 'title' => 'Blog Post Title 2', 'excerpt' => 'Blog post excerpt 2...', 'link' => '#'),
+	array('featured_image' => 'https://placehold.co/100x100', 'title' => 'Blog Post Title 3', 'excerpt' => 'Blog post excerpt 3...', 'link' => '#'),
+);
+$blog_posts_url = 'https://monsterinsights.com/blog/';
 
-?>
-<tr>
-	<td valign="top" class="mcnTextBlockInner"
-		style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+if ( $update_available ) : ?>
+	<div class="mset-update-notice">
+		<p><?php esc_html_e('An update is available for MonsterInsights.', 'google-analytics-for-wordpress'); ?></p>
+		<a href="<?php echo esc_url(admin_url('plugins.php')); ?>" class="mset-button-secondary">
+			<?php esc_html_e('Upgrade to the latest version', 'google-analytics-for-wordpress'); ?>
+			<span class="mset-icon-long-arrow-right mset-icon"></span>
+		</a>
+	</div>
+<?php endif; ?>
 
-		<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-			   style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-			   class="mcnTextContentContainer">
-			<tbody>
-			<tr style="display:block;">
-				<td style="padding-right: 40px;padding-left: 40px;font-weight: bold;font-size: 24px;line-height: 28px;color: #393F4C;"
-					class="mcnTextContent"><?php echo wp_kses_post( $title ); ?></td>
-			</tr>
-			<tr style="display:block;">
-				<td style="padding-right: 40px;padding-left: 40px;padding-top:8px;font-weight: normal;font-size: 14px;line-height: 16px;color: #7F899F;"
-					class="mcnTextContent"><?php echo $start_date; //phpcs:ignore ?> - <?php echo $end_date; //phpcs:ignore ?></td>
-			</tr>
-			<tr style="display:block;">
-				<td style="padding-top:8px;padding-left: 40px;padding-right: 40px;font-weight: bold;font-size: 14px;line-height: 16px;color: #7F899F;text-align:left;"
-					class="mcnTextContent">
-					<?php
-					if ( ! empty( $icon_stats ) ) {
-						echo '<img style="margin-right:5px;margin-bottom: -2px;" src="' . esc_url( $icon_stats ) . '" srcset="' . esc_url( $icon_stats_2x ) . ' 2x" target="_blank" alt="' . esc_attr__( 'Website: ', 'google-analytics-for-wordpress' ) . '" />';
-					}
-					?>
-					<a href="<?php echo esc_url( $site_url ); ?>"
-					   style="font-weight: bold;font-size: 14px;line-height: 16px;color: #7F899F;text-decoration: underline;"><?php echo esc_url( $site_url ); ?></a>
-				</td>
-			</tr>
-			<tr style="display:block;padding: 30px 40px 0 40px;">
-				<td style="font-weight: bold;font-size: 14px;line-height: 27px;color: #393F4C;"
-					class="mcnTextContent"><?php _e( 'Hi there!', 'google-analytics-for-wordpress' ); ?></td>
-			</tr>
-			<tr style="display:block;padding:0 40px;">
-				<td style="font-weight: normal;font-size: 14px;line-height: 20px;color: #4F5769;"
-					class="mcnTextContent"><?php echo wp_kses_post( $description ); ?></td>
-			</tr>
-			</tbody>
-		</table>
+<div class="mset-section mset-analytics-report" style="background-color: #ffffff;">
+	<div class="mset-section-header">
+		<h2><?php echo esc_html( $report_title ); ?></h2>
+	</div>
+	
+	<div class="mset-section-content">
+		<?php if ( ! empty( $report_image_src ) ) : ?>
+			<img src="<?php echo esc_url( $report_image_src ); ?>" 
+				alt="<?php esc_attr_e('MonsterInsights Dashboard', 'google-analytics-for-wordpress'); ?>"
+				class="mset-report-image">
+		<?php endif;
 
-		<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-			   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-			   role="presentation">
-			<tbody>
-			<tr style="display:inline-block;width:82%;padding: 65px 9% 0 9%;">
-				<td style="width:50%;float:left;text-align:center;">
-					<?php
-					if ( ! empty( $icon_users ) ) {
-						echo '<img src="' . esc_url( $icon_users ) . '" srcset="' . esc_url( $icon_users_2x ) . ' 2x" target="_blank" alt="' . esc_attr__( 'Visitors', 'google-analytics-for-wordpress' ) . '" />';
-					}
-					?>
-				</td>
-				<td style="width:50%;float:left;text-align:center;">
-					<?php
-					if ( ! empty( $icon_views ) ) {
-						echo '<img src="' . esc_url( $icon_views ) . '" srcset="' . esc_url( $icon_views_2x ) . ' 2x" target="_blank" alt="' . esc_attr__( 'Pageviews', 'google-analytics-for-wordpress' ) . '" />';
-					}
-					?>
-				</td>
-			</tr>
-			<tr style="display:inline-block;width:82%;padding: 0 9%;">
-				<td style="width:50%;float:left;padding-top:5px;text-align:center;font-weight: bold;font-size: 14px;line-height: 16px;color: #393F4C;"
-					class="mcnTextContent"><?php _e( 'Total Visitors', 'google-analytics-for-wordpress' ); ?></td>
-				<td style="width:50%;float:left;padding-top:5px;text-align:center;font-weight: bold;font-size: 14px;line-height: 16px;color: #393F4C;"
-					class="mcnTextContent"><?php _e( 'Total Pageviews', 'google-analytics-for-wordpress' ); ?></td>
-			</tr>
-			<tr style="display:inline-block;width:82%;padding: 0 9%;">
-				<td style="width:50%;float:left;padding-top:10px;text-align:center;font-weight: normal;font-size: 32px;line-height: 37px;color: #393F4C;"
-					class="mcnTextContent"><?php echo esc_html( number_format_i18n( $total_visitors ) ); ?></td>
-				<td style="width:50%;float:left;padding-top:10px;text-align:center;font-weight: normal;font-size: 32px;line-height: 37px;color: #393F4C;"
-					class="mcnTextContent"><?php echo esc_html( number_format_i18n( $total_pageviews ) ); ?></td>
-			</tr>
-			<tr style="display:inline-block;width:82%;padding: 0 9%;">
-				<td style="width:50%;float:left;padding-top:15px;text-align:center;line-height: 16px;"
-					class="mcnTextContent <?php echo esc_attr( $visitors_percentage_class ); ?>">
-					<?php
-					if ( ! empty( $visitors_percentage_icon ) ) {
-						echo '<img src="' . esc_url( $visitors_percentage_icon ) . '" srcset="' . esc_url( $visitors_percentage_icon_2x ) . ' 2x" target="_blank" alt="' . esc_attr( $visitors_difference ) . '" />';
-					}
-					?>
-					<?php echo esc_html( $prev_visitors_percentage ); ?>%
-				</td>
-				<td style="width:50%;float:left;padding-top:15px;text-align:center;line-height: 16px;"
-					class="mcnTextContent <?php echo esc_attr( $pageviews_percentage_class ); ?>">
-					<?php
-					if ( ! empty( $pageviews_percentage_icon ) ) {
-						echo '<img src="' . esc_url( $pageviews_percentage_icon ) . '" srcset="' . esc_url( $pageviews_percentage_icon_2x ) . ' 2x" target="_blank" alt="' . esc_attr( $pageviews_difference ) . '" />';
-					}
-					?>
-					<?php echo esc_html( $prev_pageviews_percentage ); ?>%
-				</td>
-			</tr>
-			<tr style="display:inline-block;width:82%;padding: 0 9%;">
-				<td style="width:50%;float:left;padding-top:5px;text-align:center;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;"
-					class="mcnTextContent"><?php _e( 'vs previous 30 days', 'google-analytics-for-wordpress' ); ?></td>
-				<td style="width:50%;float:left;padding-top:5px;text-align:center;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;"
-					class="mcnTextContent"><?php _e( 'vs previous 30 days', 'google-analytics-for-wordpress' ); ?></td>
-			</tr>
-			</tbody>
-		</table>
+		if ( ! empty( $report_description ) ) : ?>
+			<div class="mset-report-description">
+				<?php echo wp_kses_post( $report_description ); ?>
+			</div>
+		<?php endif;
 
+		if ( ! empty( $report_features ) ) : ?>
+			<div class="mset-report-features">
+				<?php foreach ($report_features as $feature) : ?>
+					<div class="mset-feature-item">
+						<span class="mset-feature-item-icon"></span>
+						<span><?php echo esc_html($feature); ?></span>
+					</div>
+				<?php endforeach; ?>
+			</div>
+		<?php endif;
 
-		<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-			   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-			   role="presentation">
-			<tbody>
-			<tr style="display:block;width:100%;">
-				<td style="width:100%;display:block;height: 50px;border-bottom:1px solid #F0F2F4;"></td>
-			</tr>
-			</tbody>
-		</table>
-
-		<?php if ( ! empty( $top_pages ) )  : ?>
-			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-				   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-				   role="presentation">
-				<tbody>
-				<tr style="display:block;width:100%;padding: 40px 0 0 0;">
-					<td style="display:block;width:100%;text-align:center;">
-						<?php
-						if ( ! empty( $icon_pages ) ) {
-							echo '<img src="' . esc_url( $icon_pages ) . '" srcset="' . esc_url( $icon_pages_2x ) . ' 2x" target="_blank" alt="' . esc_attr__( 'Pages', 'google-analytics-for-wordpress' ) . '" />';
-						}
-						?>
-					</td>
-				</tr>
-				<tr style="display:block;width:100%;">
-					<td style="display:block;width:100%;padding-top:5px;text-align:center;font-weight: bold;font-size: 14px;line-height: 20px;color: #393F4C;"
-						class="mcnTextContent"><?php _e( 'Top Pages', 'google-analytics-for-wordpress' ); ?></td>
-				</tr>
-				</tbody>
-			</table>
-
-			<table align="center" border="0" cellpadding="0" cellspacing="0" width="64%"
-				   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-				   role="presentation">
-				<tbody>
-				<tr style="">
-					<td style="width:67%;float:left;padding-top:30px;padding-bottom:10px;text-align:left;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;"
-						class="mcnTextContent"><?php _e( 'Page Title', 'google-analytics-for-wordpress' ); ?></td>
-					<td style="width:33%;float:left;padding-top:30px;padding-bottom:10px;text-align:right;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;"
-						class="mcnTextContent"><?php _e( 'Pageviews', 'google-analytics-for-wordpress' ); ?></td>
-				</tr>
-
-				<?php $i = 0; ?>
-				<?php while ( $i <= 2 ) : ?>
-					<tr style="display:flex;">
-						<td style="width:67%;float:left;padding-top:8px;padding-bottom:8px;border-bottom:1px solid #F0F2F4;text-align:left;font-weight: normal;font-size: 14px;line-height: 16px;color: #393F4C;overflow:hidden;"
-							class="mcnTextContent"><a
-								href="<?php echo esc_url( $top_pages[ $i ]['hostname'] . $top_pages[ $i ]['url'] ); ?>"
-								target="_blank"
-								style="text-decoration:none;color: #393F4C;"><?php echo esc_html( $i + 1 . '. ' . monsterinsights_trim_text( $top_pages[ $i ]['title'], 2 ) ); ?></a>
-						</td>
-						<td style="width:33%;float:left;padding-top:8px;padding-bottom:8px;border-bottom:1px solid #F0F2F4;text-align:right;font-weight: normal;font-size: 14px;line-height: 16px;color: #338EEF;overflow:hidden;text-overflow: ellipsis;"
-							class="mcnTextContent"><?php echo esc_html( number_format_i18n( $top_pages[ $i ]['sessions'] ) ); ?></td>
-					</tr>
-					<?php $i ++; ?>
-				<?php endwhile; ?>
-
-				<tr style="display:flex;">
-					<td style="width:67%;float:left;padding-top:18px;text-align:left;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;text-decoration: underline;"
-						class="mcnTextContent"><a href="<?php echo esc_url( $more_pages ); ?>"
-												  style="color: #9CA4B5;"><?php _e( 'View More', 'google-analytics-for-wordpress' ); ?></a>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-
-			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-				   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-				   role="presentation">
-				<tbody>
-				<tr style="display:block;width:100%;">
-					<td style="width:100%;display:block;height: 50px;border-bottom:1px solid #F0F2F4;"></td>
-				</tr>
-				</tbody>
-			</table>
+		if ( ! empty( $report_button_text ) && ! empty( $report_link ) ) : ?>
+			<div class="mset-report-center-button">
+				<a href="<?php echo esc_url( $report_link ); ?>" class="mset-button-primary">
+					<?php echo esc_html( $report_button_text ); ?>
+				</a>
+			</div>
+		<?php else : ?>
+			<div class="mset-report-center-button">
+				<a href="<?php echo esc_url( monsterinsights_get_upgrade_link('lite-email-summaries') ); ?>" class="mset-button-primary">
+					<?php esc_html('Upgrade and Unlock', 'google-analytics-for-wordpress'); ?>
+				</a>
+			</div>
 		<?php endif; ?>
+	</div>
+</div>
 
-		<?php if ( ! empty( $top_referrals ) )  : ?>
-			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-				   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-				   role="presentation">
-				<tbody>
-				<tr style="display:block;width:100%;padding: 40px 0 0 0;">
-					<td style="display:block;width:100%;text-align:center;">
-						<?php
-						if ( ! empty( $icon_referrals ) ) {
-							echo '<img src="' . esc_url( $icon_referrals ) . '" srcset="' . esc_url( $icon_referrals_2x ) . ' 2x" target="_blank" alt="' . esc_attr__( 'Referrals', 'google-analytics-for-wordpress' ) . '" />';
-						}
-						?>
-					</td>
-				</tr>
-				<tr style="display:block;width:100%;">
-					<td style="display:block;width:100%;padding-top:5px;text-align:center;font-weight: bold;font-size: 14px;line-height: 20px;color: #393F4C;"
-						class="mcnTextContent"><?php _e( 'Top Referrals', 'google-analytics-for-wordpress' ); ?></td>
-				</tr>
-				</tbody>
-			</table>
+<div class="mset-section mset-analytics-stats" style="background-color: #ffffff;">
+	<div class="mset-section-header">
+		<h2>📈 <?php esc_html_e('Analytics Stats', 'google-analytics-for-wordpress'); ?></h2>
+	</div>
 
-			<table align="center" border="0" cellpadding="0" cellspacing="0" width="64%"
-				   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-				   role="presentation">
-				<tbody>
-				<tr style="">
-					<td style="width:67%;float:left;padding-top:30px;padding-bottom:10px;text-align:left;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;"
-						class="mcnTextContent"><?php _e( 'Page Title', 'google-analytics-for-wordpress' ); ?></td>
-					<td style="width:33%;float:left;padding-top:30px;padding-bottom:10px;text-align:right;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;"
-						class="mcnTextContent"><?php _e( 'Sessions', 'google-analytics-for-wordpress' ); ?></td>
-				</tr>
+	<div class="mset-section-content">
+		<?php
+		$stats_arr = array_values( $report_stats );
+		$total_stats = count( $stats_arr );
+		?>
+		<?php
+		$mobile_cols = 2;
+		$mobile_rows = ceil( $total_stats / $mobile_cols );
+		$desktop_cols = 3;
+		$desktop_rows = ceil( $total_stats / $desktop_cols );
+		?>
+		<!-- Mobile: 2 columns -->
+		<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="mset-stats-mobile" style="margin-bottom: 20px; width: 100%; table-layout: fixed;">
+			<?php for ( $r = 0; $r < $mobile_rows; $r++ ) : ?>
+			<tr>
+				<?php for ( $c = 0; $c < $mobile_cols; $c++ ) :
+					$i = $r * $mobile_cols + $c;
+					if ( $i >= $total_stats ) break;
+					$stat = $stats_arr[ $i ];
+				?>
+				<td width="50%" valign="top" style="padding: 5px; width: 50%; vertical-align: top;">
+					<div style="background: #FBFDFF; border: 1px solid #E3F0FD; border-radius: 2px; text-align: center; padding: 15px 5px;">
+						<div class="mset-stat-item-icon"><?php echo esc_html( $stat['icon'] ); ?></div>
+						<div class="mset-stat-label"><?php echo esc_html( $stat['label'] ); ?></div>
+						<div class="mset-stat-value">
+							<?php
+							echo esc_html( $stat['value'] );
+							if ( isset( $stat['difference'] ) ) : ?>
+								<span class="mset-stat-trend <?php echo esc_attr( $stat['trend_class'] ); ?>">
+									<span class="mset-stat-trend-icon"><?php echo esc_html( $stat['trend_icon'] ); ?></span>
+									<?php echo esc_html( $stat['difference'] ); ?>%
+								</span>
+							<?php endif; ?>
+						</div>
+					</div>
+				</td>
+				<?php endfor; ?>
+			</tr>
+			<?php endfor; ?>
+		</table>
+		<!-- Desktop: 3 columns -->
+		<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="mset-stats-desktop" style="display: none; margin-bottom: 20px; width: 100%; table-layout: fixed;">
+			<?php for ( $r = 0; $r < $desktop_rows; $r++ ) : ?>
+			<tr>
+				<?php for ( $c = 0; $c < $desktop_cols; $c++ ) :
+					$i = $r * $desktop_cols + $c;
+					if ( $i >= $total_stats ) break;
+					$stat = $stats_arr[ $i ];
+				?>
+				<td width="33%" valign="top" style="padding: 5px; width: 33.333%; vertical-align: top;">
+					<div style="background: #FBFDFF; border: 1px solid #E3F0FD; border-radius: 2px; text-align: center; padding: 15px 5px;">
+						<div class="mset-stat-item-icon"><?php echo esc_html( $stat['icon'] ); ?></div>
+						<div class="mset-stat-label"><?php echo esc_html( $stat['label'] ); ?></div>
+						<div class="mset-stat-value">
+							<?php
+							echo esc_html( $stat['value'] );
+							if ( isset( $stat['difference'] ) ) : ?>
+								<span class="mset-stat-trend <?php echo esc_attr( $stat['trend_class'] ); ?>">
+									<span class="mset-stat-trend-icon"><?php echo esc_html( $stat['trend_icon'] ); ?></span>
+									<?php echo esc_html( $stat['difference'] ); ?>%
+								</span>
+							<?php endif; ?>
+						</div>
+					</div>
+				</td>
+				<?php endfor; ?>
+			</tr>
+			<?php endfor; ?>
+		</table>
 
-				<?php $i = 0; ?>
-				<?php while ( $i <= 2 ) : ?>
-					<tr style="display:flex;">
-						<td style="width:67%;float:left;padding-top:8px;padding-bottom:8px;border-bottom:1px solid #F0F2F4;text-align:left;font-weight: normal;font-size: 14px;line-height: 16px;color: #393F4C;overflow:hidden;"
-							class="mcnTextContent"><a href="<?php echo esc_url( $top_referrals[ $i ]['url'] ); ?>"
-													  target="_blank"
-													  style="text-decoration:none;color: #393F4C;"><?php echo intval( $i + 1 ) . '. '; ?><?php echo esc_url( $top_referrals[ $i ]['url'] ); ?></a>
-						</td>
-						<td style="width:33%;float:left;padding-top:8px;padding-bottom:8px;border-bottom:1px solid #F0F2F4;text-align:right;font-weight: normal;font-size: 14px;line-height: 16px;color: #338EEF;overflow:hidden;text-overflow: ellipsis;"
-							class="mcnTextContent"><?php echo esc_html( number_format_i18n( $top_referrals[ $i ]['sessions'] ) ); ?></td>
-					</tr>
-					<?php $i ++; ?>
-				<?php endwhile; ?>
+		<div class="mset-report-center-button">
+			<a href="<?php echo esc_url(admin_url('admin.php?page=monsterinsights_reports')); ?>" class="mset-button-primary">
+				<?php esc_html_e('See My Analytics', 'google-analytics-for-wordpress'); ?>
+			</a>
+		</div>
+	</div>
+</div>
 
-				<tr style="display:flex;">
-					<td style="width:67%;float:left;padding-top:18px;text-align:left;font-weight: normal;font-size: 12px;line-height: 14px;color: #9CA4B5;text-decoration: underline;"
-						class="mcnTextContent"><a href="<?php echo esc_url( $more_referrals ); ?>"
-												  style="color: #9CA4B5;"><?php _e( 'View More', 'google-analytics-for-wordpress' ); ?></a>
-					</td>
-				</tr>
-				</tbody>
-			</table>
+<?php if (!empty($top_pages)) : ?>
+<div class="mset-section mset-top-pages" style="background-color: #ffffff;">
+	<div class="mset-section-header">
+		<h2>🌐 <?php esc_html_e('Your Top 5 Viewed Pages', 'google-analytics-for-wordpress'); ?></h2>
+	</div>
 
-			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-				   style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"
-				   role="presentation">
-				<tbody>
-				<tr style="display:block;width:100%;">
-					<td style="width:100%;display:block;height: 50px;border-bottom:1px solid #F0F2F4;"></td>
-				</tr>
-				</tbody>
-			</table>
-		<?php endif; ?>
-	</td>
-</tr>
+	<div class="mset-section-content">
+		<div class="mset-pages-table">
+			<div class="mset-table-header">
+				<div class="mset-table-header-cell"><?php esc_html_e('Page Title', 'google-analytics-for-wordpress'); ?></div>
+				<div class="mset-table-header-cell"><?php esc_html_e('Page Views', 'google-analytics-for-wordpress'); ?></div>
+			</div>
+			<?php foreach ($top_pages as $i => $page) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- false positive ?>
+				<div class="mset-table-row">
+					<div class="mset-table-cell">
+						<a href="<?php echo esc_url($page['hostname'] . $page['url']); ?>">
+							<?php echo esc_html((intval($i) + 1) . '. ' . monsterinsights_trim_text($page['title'], 2)); ?>
+						</a>
+					</div>
+					<div class="mset-table-cell">
+						<?php echo esc_html(number_format_i18n($page['sessions'])); ?>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="mset-report-center-button">
+			<a href="<?php echo esc_url( $more_pages_url ); ?>" class="mset-button-primary">
+				<?php esc_html_e('View All Pages', 'google-analytics-for-wordpress'); ?>
+			</a>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+
+<?php if ( ! empty( $blog_posts ) ) : ?>
+<div class="mset-section" style="background-color: #ffffff;">
+	<div class="mset-section-header">
+		<h2>⭐ <?php esc_html_e('What\'s New at MonsterInsights', 'google-analytics-for-wordpress'); ?></h2>
+	</div>
+	<div class="mset-section-content">
+		<?php foreach ( $blog_posts as $post ) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- false positive ?>
+		<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width: 100%; margin-bottom: 20px; border-bottom: 1px solid #E3F0FD;">
+			<tr>
+				<?php if ( ! empty( $post['featured_image'] ) ) : ?>
+				<td class="mset-blog-post-image-cell" width="180" valign="top" style="width: 180px; padding: 0 20px 20px 0;">
+					<a href="<?php echo esc_url( $post['link'] ); ?>" target="_blank" rel="noopener noreferrer">
+						<img src="<?php echo esc_url( $post['featured_image'] ); ?>" alt="<?php echo esc_attr( $post['title'] ); ?>" width="180" style="display: block; width: 180px; height: auto; border: 0; border-radius: 4px;" />
+					</a>
+				</td>
+				<?php endif; ?>
+				<td class="mset-blog-post-content-cell" valign="top" style="padding-bottom: 20px;">
+					<h4 style="margin: 0 0 8px 0; font-family: Inter, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; color: #23262E;">
+						<a href="<?php echo esc_url( $post['link'] ); ?>" target="_blank" rel="noopener noreferrer" style="color: #23262E; text-decoration: none;">
+							<?php echo esc_html( $post['title'] ); ?>
+						</a>
+					</h4>
+					<?php if ( ! empty( $post['excerpt'] ) ) : ?>
+					<p class="mset-blog-post-excerpt" style="margin: 0 0 8px 0; font-family: Inter, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 20px; color: #393F4C;">
+						<?php echo esc_html( $post['excerpt'] ); ?>
+					</p>
+					<?php endif; ?>
+					<a class="mset-blog-post-continue" href="<?php echo esc_url( $post['link'] ); ?>" target="_blank" rel="noopener noreferrer" style="font-family: Inter, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 20px; color: #338EEF; text-decoration: underline;">
+						<?php esc_html_e('Continue Reading', 'google-analytics-for-wordpress'); ?>
+					</a>
+				</td>
+			</tr>
+		</table>
+		<?php endforeach; ?>
+		<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="width: 100%;">
+			<tr>
+				<td align="center" style="padding: 0;">
+					<a href="<?php echo esc_url( $blog_posts_url ); ?>" class="mset-button-primary" style="display: inline-block; background-color: #338EEF; color: #ffffff; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-family: Inter, Arial, Helvetica, sans-serif; font-weight: 500; text-align: center;">
+						<?php esc_html_e('See All Resources', 'google-analytics-for-wordpress'); ?>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<?php endif; ?>

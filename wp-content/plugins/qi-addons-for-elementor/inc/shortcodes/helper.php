@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_get_list_shortcode_item_image' ) ) {
 	/**
 	 * Function that generates thumbnail img tag for list shortcodes
@@ -11,11 +16,13 @@ if ( ! function_exists( 'qi_addons_for_elementor_get_list_shortcode_item_image' 
 	 *
 	 * @see qi_addons_for_elementor_framework_generate_thumbnail()
 	 */
-	function qi_addons_for_elementor_get_list_shortcode_item_image( $image_dimension = 'full', $attachment_id = 0, $custom_image_width = 0, $custom_image_height = 0 ) {
+	function qi_addons_for_elementor_get_list_shortcode_item_image( $image_dimension = 'full', $attachment_id = 0, $custom_image_width = 0, $custom_image_height = 0, $disable_lazy_loading = '' ) {
 		$item_id = get_the_ID();
+		$attr    = array();
 		if ( 'custom' !== $image_dimension ) {
 			if ( ! empty( $attachment_id ) ) {
-				$html = qi_addons_for_elementor_get_attachment_image( $attachment_id, $image_dimension );
+				$attr['loading'] = 'yes' == $disable_lazy_loading ? 'eager' : '';
+				$html            = qi_addons_for_elementor_get_attachment_image( $attachment_id, $image_dimension, false, $attr );
 			} else {
 				$html = get_the_post_thumbnail( $item_id, $image_dimension );
 			}
@@ -125,7 +132,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_return_elementor_templates' ) )
 
 			foreach ( $all_templates as $id => $title ) {
 				$template_type = get_post_meta( $id, '_elementor_template_type', true );
-				$allowed_types = array( 'section', 'page' );
+				$allowed_types = array( 'section', 'container', 'page' );
 				if ( in_array( $template_type, $allowed_types, true ) ) {
 					$title            = get_the_title( $id );
 					$templates[ $id ] = $title . ' (' . $template_type . ')';
@@ -138,6 +145,28 @@ if ( ! function_exists( 'qi_addons_for_elementor_return_elementor_templates' ) )
 		}
 	}
 }
+
+if ( ! function_exists( 'qi_addons_for_elementor_check_elementor_template' ) ) {
+	/**
+	 * Function that checked id template is translated and in allowed array od ids
+	 */
+	function qi_addons_for_elementor_check_elementor_template( $template_id, $allowed_template_ids ) {
+		if ( qi_addons_for_elementor_framework_is_installed( 'wpml' ) ) {
+			global $sitepress;
+
+			if ( ! empty( $sitepress ) && ! empty( $sitepress->get_default_language() ) ) {
+				$template_id = apply_filters( 'wpml_object_id', $template_id, 'elementor_library', true, $sitepress->get_current_language() );
+			}
+		}
+
+		// Check to prevent manual insertion of forbidden ids.
+		$template_id = ! empty( $template_id ) && isset( $allowed_template_ids[ $template_id ] ) ? $template_id : '';
+
+		return $template_id;
+	}
+}
+
+
 
 if ( ! function_exists( 'qi_addons_for_elementor_generate_elementor_templates_control' ) ) {
 	/**
@@ -163,6 +192,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_generate_elementor_templates_co
 if ( ! function_exists( 'qi_addons_for_elementor_explode_link_custom_attributes' ) ) {
 	/**
 	 * Function that explodes custom_attributes string into an array
+	 *
 	 * @param string $custom_attributes
 	 *
 	 * @return array
@@ -176,27 +206,26 @@ if ( ! function_exists( 'qi_addons_for_elementor_explode_link_custom_attributes'
 			if ( count( $custom_attributes_array ) ) {
 				foreach ( $custom_attributes_array as $attribute ) {
 					$single_attribute = explode( '|', trim( $attribute ) );
-					
+
 					$single_attribute_key = mb_strtolower( $single_attribute[0] );
-					
-					//Leave only allowed characters
+
+					// Leave only allowed characters.
 					preg_match( '/[-_a-z0-9]+/', $single_attribute_key, $single_key_matches );
-					
+
 					if ( empty( $single_key_matches[0] ) ) {
 						continue;
 					}
-					
+
 					$single_attribute_key = $single_key_matches[0];
-					
-					//  Remove unallowed js events
+
+					// Remove unallowed js events.
 					if ( 'on' === substr( $single_attribute_key, 0, 2 ) || 'href' === $single_attribute_key ) {
 						continue;
 					}
-					
+
 					if ( 2 === count( $single_attribute ) ) {
 						$custom_attrs_array[ $single_attribute_key ] = trim( $single_attribute[1] );
 					}
-					
 				}
 			}
 		}
@@ -229,4 +258,3 @@ if ( ! function_exists( 'qi_addons_for_elementor_get_link_attributes' ) ) {
 		return $link_attributes;
 	}
 }
-

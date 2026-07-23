@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $page_slug  = isset( $page_slug ) && ! empty( $page_slug ) ? $page_slug : '';
 $nonce_slug = isset( $nonce_slug ) && ! empty( $nonce_slug ) ? $nonce_slug : $page_slug;
 ?>

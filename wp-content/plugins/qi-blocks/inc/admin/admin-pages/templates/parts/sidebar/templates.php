@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-admin-sidebar-box qodef-widgets-box">
 	<div class="qodef-admin-sidebar-box-image">
 		<a href="https://qodeinteractive.com/qi-templates?utm_source=dash&utm_medium=qiblocks&utm_campaign=welcome" target="_blank">

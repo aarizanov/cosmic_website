@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_device_slider_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_device_slider_shortcode' ) 
 if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 	class QiAddonsForElementor_Device_Slider_Shortcode extends QiAddonsForElementor_Slider_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_device_slider_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_device_slider_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_device_slider' );
 			$this->set_name( esc_html__( 'Device Frame Slider', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds device slider element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Creative', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/device-frame-slider/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#device_frame_slider' );
@@ -48,7 +57,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'select',
 					'name'       => 'effect',
 					'title'      => esc_html__( 'Slide Effect', 'qi-addons-for-elementor' ),
-					'group'      => 'Slider Settings',
+					'group'      => esc_html__( 'Slider Settings', 'qi-addons-for-elementor' ),
 					'options'    => array(
 						'slide' => esc_html__( 'Slide', 'qi-addons-for-elementor' ),
 						'fade'  => esc_html__( 'Fade', 'qi-addons-for-elementor' ),
@@ -57,7 +66,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			);
 			$this->map_slider_options(
 				array(
-					'group'          => 'Slider Settings',
+					'group'          => esc_html__( 'Slider Settings', 'qi-addons-for-elementor' ),
 					'exclude_option' => array(
 						'columns',
 						'images_proportion',
@@ -151,7 +160,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'device_width',
 					'title'      => esc_html__( 'Device Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -170,7 +179,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'image_border_radius',
 					'title'      => esc_html__( 'Image Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-device-slider .qodef-qi-swiper-container' => 'border-radius: {{SIZE}}{{UNIT}};',
@@ -183,7 +192,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'image_offsets',
 					'title'      => esc_html__( 'Image Offsets', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-device-slider .qodef-m-items' => 'top: {{TOP}}{{UNIT}}; right: {{RIGHT}}{{UNIT}}; bottom: {{BOTTOM}}{{UNIT}}; left: {{LEFT}}{{UNIT}};',
@@ -241,7 +250,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 				}
 
 				$images[ $i ] = $image;
-				$i ++;
+				$i++;
 			}
 
 			return $images;

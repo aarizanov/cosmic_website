@@ -134,11 +134,19 @@ class Options extends OptionsAbstract {
 					/>
 					<?php $this->display_const_set_message( 'WPMS_GMAIL_CLIENT_SECRET' ); ?>
 				<?php else : ?>
-					<input type="password" spellcheck="false"
-						name="wp-mail-smtp[<?php echo esc_attr( $this->get_slug() ); ?>][client_secret]"
-						value="<?php echo esc_attr( $this->connection_options->get( $this->get_slug(), 'client_secret' ) ); ?>"
-						id="wp-mail-smtp-setting-<?php echo esc_attr( $this->get_slug() ); ?>-client_secret"
-					/>
+					<?php
+					$slug  = $this->get_slug();
+					$value = $this->connection_options->get( $this->get_slug(), 'client_secret' );
+
+					UI::hidden_password_field(
+						[
+							'name'       => "wp-mail-smtp[{$slug}][client_secret]",
+							'id'         => "wp-mail-smtp-setting-{$slug}-client_secret",
+							'value'      => $value,
+							'clear_text' => esc_html__( 'Remove Client Secret', 'wp-mail-smtp' ),
+						]
+					);
+					?>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -264,7 +272,7 @@ class Options extends OptionsAbstract {
 	 */
 	public function process_provider_remove() {
 
-		if ( ! current_user_can( wp_mail_smtp()->get_capability_manage_options() ) ) {
+		if ( ! current_user_can( wp_mail_smtp()->get_capability_manage_global_options() ) ) {
 			return;
 		}
 

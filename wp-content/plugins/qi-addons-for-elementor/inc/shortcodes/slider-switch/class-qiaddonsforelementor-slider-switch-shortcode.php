@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_slider_switch_shortcode' ) ) {
 	/**
 	 * Function that is adding shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_slider_switch_shortcode' ) 
 if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 	class QiAddonsForElementor_Slider_Switch_Shortcode extends QiAddonsForElementor_Slider_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_slider_switch_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_slider_switch_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_slider_switch' );
 			$this->set_name( esc_html__( 'Slider Switch', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays slider of images', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Creative', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/slider-switch/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#slider_switch' );
@@ -45,7 +54,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			);
 			$this->map_slider_options(
 				array(
-					'group'          => 'Slider Settings',
+					'group'          => esc_html__( 'Slider Settings', 'qi-addons-for-elementor' ),
 					'exclude_option' => array( 'columns', 'space' ),
 				)
 			);
@@ -68,7 +77,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 				)
 			);
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -150,7 +159,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'main_image_border_radius',
 					'title'      => esc_html__( 'Main Image Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-main-slider' => 'border-radius: {{SIZE}}{{UNIT}};',
@@ -163,7 +172,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'main_image_offsets',
 					'title'      => esc_html__( 'Main Image Offsets', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-main-slider' => 'top: {{TOP}}{{UNIT}}; right: {{RIGHT}}{{UNIT}}; bottom: {{BOTTOM}}{{UNIT}}; left: {{LEFT}}{{UNIT}};',
@@ -176,7 +185,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'main_device_left_offset',
 					'title'      => esc_html__( 'Main Slider Left Offset', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => - 300,
@@ -224,7 +233,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'device_bottom_offset',
 					'title'      => esc_html__( 'Device Bottom Offset', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-slider-switch-device' => 'bottom: {{SIZE}}{{UNIT}};',
@@ -237,7 +246,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'device_right_offset',
 					'title'      => esc_html__( 'Device Right Offset', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-slider-switch-device' => 'right: {{SIZE}}{{UNIT}};',
@@ -250,7 +259,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'device_width',
 					'title'      => esc_html__( 'Device Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-slider-switch-device' => 'width: {{SIZE}}{{UNIT}};',
@@ -263,7 +272,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'image_border_radius',
 					'title'      => esc_html__( 'Image Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-slider-switch-device .qodef-qi-swiper-container' => 'border-radius: {{SIZE}}{{UNIT}};',
@@ -276,7 +285,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'image_offsets',
 					'title'      => esc_html__( 'Image Offsets', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-slider-switch-device .qodef-m-items' => 'top: {{TOP}}{{UNIT}}; right: {{RIGHT}}{{UNIT}}; bottom: {{BOTTOM}}{{UNIT}}; left: {{LEFT}}{{UNIT}};',
@@ -345,7 +354,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'title_margin_bottom',
 					'title'      => esc_html__( 'Title Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-main-text .qodef-e-title' => 'margin-bottom: {{SIZE}}{{UNIT}}',
@@ -359,7 +368,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'main_text_margin_bottom',
 					'title'      => esc_html__( 'Main Text Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-main-text' => 'margin-bottom: {{SIZE}}{{UNIT}}',
@@ -421,7 +430,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 				$image['item_link'] = $item['item_link'];
 
 				$images[ $i ] = $image;
-				$i ++;
+				$i++;
 			}
 
 			return $images;
@@ -437,7 +446,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 				$image['item_link'] = $item['item_link'];
 
 				$images[ $i ] = $image;
-				$i ++;
+				$i++;
 			}
 
 			return $images;
@@ -447,6 +456,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 
 			$atts['unique']               = '';
 			$atts['columns']              = 1;
+			$atts['columns_1680']         = 1;
 			$atts['columns_1440']         = 1;
 			$atts['columns_1366']         = 1;
 			$atts['columns_1024']         = 1;
@@ -462,7 +472,6 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			$atts['partial_columns']      = 'no';
 
 			$autoplay_delay = $atts['autoplay_delay'] ? $atts['autoplay_delay'] : '';
-
 
 			return $this->get_slider_data( $atts, array( 'autoplayDelay' => $autoplay_delay ) );
 		}

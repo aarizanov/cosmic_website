@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( 'no' !== $sliderPagination ) {
 
 	if ( isset( $uniqueClass ) && ! empty( $uniqueClass ) ) {

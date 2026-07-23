@@ -5,6 +5,20 @@ window.gtm4wp_checkout_step_fired = []; // step 1 will be the billing section wh
 
 window.gtm4wp_first_container_id = "";
 
+function gtm4wp_woocommerce_console_log( message ) {
+	if ( typeof console !== 'undefined' && console.log ) {
+		if ( typeof message === 'object' ) {
+			message = JSON.stringify( message );
+		}
+
+		const d = new Date();
+		const time = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '.' + d.getMilliseconds();
+		message = time + ' - ' + message;
+		
+		console.log( '[GTM4WP debug]: ' + message );
+	}
+}
+
 function gtm4wp_woocommerce_handle_cart_qty_change() {
 	document.querySelectorAll( '.product-quantity input.qty' ).forEach(function( qty_el ) {
 		const original_value = qty_el.defaultValue;
@@ -205,14 +219,14 @@ function gtm4wp_woocommerce_process_pages() {
 	// manage events related to user clicks
 	document.addEventListener( 'click', function( e ) {
 		let event_target_element = e.target;
-	
+
 		if ( !event_target_element ) {
 			// for some reason event target is not specificed
 			return true;
 		}
-	
+
 		// track add to cart events for simple products in product lists
-		if ( event_target_element.closest( '.add_to_cart_button:not(.product_type_variable, .product_type_grouped, .single_add_to_cart_button)' ) ) {
+		if ( event_target_element.closest( '.add_to_cart_button:not(.product_type_variable, .product_type_grouped, .product_type_bundle_input_required, .single_add_to_cart_button)' ) ) {
 			const product_el = event_target_element.closest( '.product,.wc-block-grid__product' );
 
 			const productdata_el = product_el && product_el.querySelector( '.gtm4wp_productdata' );
@@ -240,22 +254,28 @@ function gtm4wp_woocommerce_process_pages() {
 				'value': productdata.price
 			});
 		}
-	
+
 		// track add to cart events for products on product detail pages
-		if ( event_target_element.closest( '.single_add_to_cart_button:not(.disabled)' ) ) {
+		const add_to_cart_button = event_target_element.closest( '.single_add_to_cart_button' );
+		if ( add_to_cart_button ) {
+			if (add_to_cart_button.classList.contains( 'disabled' ) || add_to_cart_button.disabled) {
+				// do not track clicks on disabled buttons
+				return true;
+			}
+
 			const product_form = event_target_element.closest( 'form.cart' );
 			if ( !product_form ) {
 				return true;
 			}
-	
+
 			let product_variant_id = product_form.querySelectorAll( '[name=variation_id]' );
 			let product_is_grouped = product_form.classList && product_form.classList.contains( 'grouped_form' );
-	
+
 			if ( product_variant_id.length > 0 ) {
 				if ( gtm4wp_last_selected_product_variation ) {
 					const qty_el = product_form.querySelector( '[name=quantity]' );
 					gtm4wp_last_selected_product_variation.quantity = (qty_el && qty_el.value) || 1;
-	
+
 					gtm4wp_push_ecommerce( 'add_to_cart', [ gtm4wp_last_selected_product_variation ], {
 						'currency': gtm4wp_currency,
 						'value': (gtm4wp_last_selected_product_variation.price * gtm4wp_last_selected_product_variation.quantity).toFixed(2)
@@ -265,35 +285,36 @@ function gtm4wp_woocommerce_process_pages() {
 				const products_in_group = document.querySelectorAll( '.grouped_form .gtm4wp_productdata' );
 				let products = [];
 				let sum_value = 0;
-	
+
 				products_in_group.forEach( function( product_data_el ) {
 					const productdata = gtm4wp_read_json_from_node(product_data_el, 'gtm4wp_product_data', ['productlink']);
 					if ( !productdata ) {
 						return true;
 					}
-		
+
+					let product_qty = 0;
 					const product_qty_input = document.querySelectorAll( 'input[name=quantity\\[' + productdata.internal_id + '\\]]' );
 					if ( product_qty_input.length > 0 ) {
 						product_qty = (product_qty_input[0] && product_qty_input[0].value) || 1;
 					} else {
 						return true;
 					}
-	
+
 					if ( 0 == product_qty ) {
 						return true;
 					}
 					productdata.quantity = product_qty;
 
 					delete productdata.internal_id;
-	
+
 					products.push( productdata );
 					sum_value += productdata.price * productdata.quantity;
 				});
-	
+
 				if ( 0 == products.length ) {
 					return true;
 				}
-	
+
 				gtm4wp_push_ecommerce( 'add_to_cart', products, {
 					'currency': gtm4wp_currency,
 					'value': sum_value.toFixed(2)
@@ -309,18 +330,18 @@ function gtm4wp_woocommerce_process_pages() {
 				if ( isNaN( productdata.quantity ) ) {
 					productdata.quantity = 1;
 				}
-	
+
 				gtm4wp_push_ecommerce( 'add_to_cart', [ productdata ], {
 					'currency': gtm4wp_currency,
 					'value': productdata.price * productdata.quantity
 				});
 			}
 		}
-	
+
 		// track remove links in mini cart widget and on cart page
 		if ( event_target_element.closest( '.mini_cart_item a.remove,.product-remove a.remove' ) ) {
 			const click_el = event_target_element;
-	
+
 			const productdata_el = click_el && click_el.closest( '.mini_cart_item a.remove,.product-remove a.remove' );
 			if ( !productdata_el ) {
 				return true;
@@ -339,7 +360,7 @@ function gtm4wp_woocommerce_process_pages() {
 				qty_element = mini_cart_item_el && mini_cart_item_el.querySelectorAll( '.quantity' );
 				if ( qty_element && ( qty_element.length > 0 ) ) {
 					qty = parseInt( qty_element[0].textContent );
-	
+
 					if ( Number.isNaN( qty ) ) {
 						qty = 0;
 					}
@@ -347,66 +368,59 @@ function gtm4wp_woocommerce_process_pages() {
 			} else {
 				qty = qty_element[0].value;
 			}
-	
+
 			if ( 0 === qty ) {
 				return true;
 			}
 
 			productdata.quantity = qty;
-	
+
 			gtm4wp_push_ecommerce( 'remove_from_cart', [ productdata ], {
 				'currency': gtm4wp_currency,
 				'value': productdata.price * productdata.quantity
 			});
 		}
-	
+
 		// track clicks in product lists
-		if ( event_target_element.closest(
+		const matching_link_element = event_target_element.closest(
 			'.products li:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),'
 			+'.wc-block-grid__products li:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),'
 			+'.products>div:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),'
 			+'.widget-product-item,'
-			+'.woocommerce-grouped-product-list-item__label a' )
-		) {
-			// do nothing if GTM is blocked for some reason
+			+'.woocommerce-grouped-product-list-item__label a'
+		);
+		if ( matching_link_element) {
+			// Do nothing if GTM is blocked for some reason.
+			// At this point, we only know that Google Tag has been loaded.
+			// If only a Google Tag is loaded, it also populates the google_tag_manager object.
 			if ( 'undefined' == typeof google_tag_manager ) {
 				return true;
 			}
-	
+
 			const event_target_element = e.target;
-			const matching_link_element = event_target_element.closest(
-				'.products li:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),'
-				+'.wc-block-grid__products li:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),'
-				+'.products>div:not(.product-category) a:not(.add_to_cart_button):not(.quick-view-button),'
-				+'.widget-product-item,'
-				+'.woocommerce-grouped-product-list-item__label a'
-			);
-	
-			if ( !matching_link_element ) {
-				return true;
-			}
-	
+
+			// try to find product data as it is in different places depending on the clicked element.
 			let temp_selector = event_target_element.closest( '.product,.wc-block-grid__product' );
 			let productdata_el;
-	
+
 			if ( temp_selector ) {
 				productdata_el = temp_selector.querySelector( '.gtm4wp_productdata' );
-	
+
 			} else {
 				temp_selector = event_target_element.closest( '.products li' );
-	
+
 				if ( temp_selector ) {
 					productdata_el = temp_selector.querySelector( '.gtm4wp_productdata' );
-	
+
 				} else {
 					temp_selector = event_target_element.closest( '.products>div' );
-	
+
 					if ( temp_selector ) {
 						productdata_el = temp_selector.querySelector( '.gtm4wp_productdata' );
-	
+
 					} else {
 						temp_selector = event_target_element.closest( '.woocommerce-grouped-product-list-item__label' );
-	
+
 						if ( temp_selector ) {
 							productdata_el = temp_selector.querySelector( '.gtm4wp_productdata' );
 						} else {
@@ -415,17 +429,18 @@ function gtm4wp_woocommerce_process_pages() {
 					}
 				}
 			}
-			
+
+			// Extract product data from the found DOM node.
 			const productdata = gtm4wp_read_json_from_node( productdata_el, 'gtm4wp_product_data', ['internal_id'] );
 			if ( !productdata ) {
 				return true;
 			}
-	
-			// only act on links pointing to the product detail page
+
+			// Only act on links pointing to the product detail page
 			if ( productdata.productlink != matching_link_element.getAttribute( 'href' ) ) {
 				return true;
 			}
-	
+
 			// Look at first GTM container ID in case there are multiple GTM containers live on the page
 			// since eventCallback is called on every container and we only need this executed once in this case.
 			for (let i in window.google_tag_manager) {
@@ -434,49 +449,61 @@ function gtm4wp_woocommerce_process_pages() {
 					break;
 				}
 			}
-	
-			// do not do anything if GTM was not loaded
-			// and window.google_tag_manager is for some reason initialized (GA4 only setup?)
+
+			// Do not do anything if GTM was not loaded.
+			// The google_tag_manager object is still available if only Google Tag is loaded.
 			if ( "" === window.gtm4wp_first_container_id ) {
 				return true;
 			}
-	
-			const ctrl_key_pressed = e.ctrlKey || e.metaKey;
-			const target_new_tab = ( '_blank' === matching_link_element.target );
-			
-			// save this info to prevent redirection if another plugin already prevented to event for some reason
-			let event_already_prevented = e.defaultPrevented;
-			if ( !event_already_prevented ) {
-				e.preventDefault();
-			}
-			
-			if ( ctrl_key_pressed || target_new_tab ) {
-				// we need to open the new tab/page here so that popup blocker of the browser doesn't block our code
-				window.productpage_window = window.open( 'about:blank', '_blank' );
+
+			let datalayer_timeout = 2000;
+			if (typeof window.gtm4wp_datalayer_max_timeout !== 'undefined') {
+				datalayer_timeout = window.gtm4wp_datalayer_max_timeout;
 			}
 
-			const productlink_to_redirect = productdata.productlink;
-			delete productdata.productlink;
-	
-			// fire ga4 version
-			gtm4wp_push_ecommerce( 'select_item', [ productdata ], {
-				'currency': gtm4wp_currency
-			}, function( container_id ) {
-				if ( "undefined" !== typeof container_id && window.gtm4wp_first_container_id != container_id) {
-					// only call this for the first loaded container
-					return true;
-				}
+			if (datalayer_timeout > 0) {
+				const ctrl_key_pressed = e.ctrlKey || e.metaKey;
+				const target_new_tab = ( '_blank' === matching_link_element.target );
 
+				// save this info to prevent redirection if another plugin already prevented to event for some reason
+				let event_already_prevented = e.defaultPrevented;
 				if ( !event_already_prevented ) {
-					if ( ( target_new_tab || ctrl_key_pressed ) && productpage_window ) {
-						productpage_window.location.href = productlink_to_redirect;
-					} else {
-						document.location.href = productlink_to_redirect;
-					}
+					e.preventDefault();
 				}
-			});
+
+				if ( ctrl_key_pressed || target_new_tab ) {
+					// we need to open the new tab/page here so that popup blocker of the browser doesn't block our code
+					window.productpage_window = window.open( 'about:blank', '_blank' );
+				}
+
+				const productlink_to_redirect = productdata.productlink;
+				delete productdata.productlink;
+				// fire ga4 version
+				gtm4wp_push_ecommerce( 'select_item', [ productdata ], {
+					'currency': gtm4wp_currency
+				}, function( container_id ) {
+					if ( "undefined" !== typeof container_id && window.gtm4wp_first_container_id != container_id) {
+						// only call this for the first loaded container
+						return true;
+					}
+
+					if ( !event_already_prevented ) {
+						if ( ( target_new_tab || ctrl_key_pressed ) && productpage_window ) {
+							productpage_window.location.href = productlink_to_redirect;
+						} else {
+							document.location.href = productlink_to_redirect;
+						}
+					}
+				},
+				datalayer_timeout);
+			} else {
+				delete productdata.productlink;
+				gtm4wp_push_ecommerce( 'select_item', [ productdata ], {
+					'currency': gtm4wp_currency
+				});
+			}
 		}
-	});
+	}, { capture: true } );
 
 	// track variable products on their detail pages
 	// currently, we need to use jQuery here since WooCommerce is firing this event using jQuery
@@ -513,6 +540,7 @@ function gtm4wp_woocommerce_process_pages() {
 
 		current_product_detail_data.price = gtm4wp_make_sure_is_float( current_product_detail_data.price );
 
+		current_product_detail_data.item_group_id = current_product_detail_data.id;
 		current_product_detail_data.id = product_variation.variation_id;
 		current_product_detail_data.item_id = product_variation.variation_id;
 		current_product_detail_data.sku = product_variation.sku;
@@ -526,8 +554,10 @@ function gtm4wp_woocommerce_process_pages() {
 		for( let attrib_key in product_variation.attributes ) {
 			product_variation_attribute_values.push( product_variation.attributes[ attrib_key ] );
 		}
-		current_product_detail_data.variant = product_variation_attribute_values.join(',');
+		current_product_detail_data.item_variant = product_variation_attribute_values.join(',');
 		gtm4wp_last_selected_product_variation = current_product_detail_data;
+
+		delete current_product_detail_data.internal_id;
 
 		// fire ga4 version
 		gtm4wp_push_ecommerce( 'view_item', [ current_product_detail_data ], {
@@ -659,7 +689,7 @@ function gtm4wp_woocommerce_process_pages() {
 			}
 		});
 	}
-};
+}
 
 function gtm4wp_woocommerce_page_loading_completed() {
 	document.removeEventListener( "DOMContentLoaded", gtm4wp_woocommerce_page_loading_completed );

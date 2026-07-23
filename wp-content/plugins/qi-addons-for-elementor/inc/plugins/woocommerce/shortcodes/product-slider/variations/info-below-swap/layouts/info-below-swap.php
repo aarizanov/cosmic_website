@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php wc_product_class( $item_classes ); ?>>
 	<div class="qodef-e-product-inner">
 		<?php if ( has_post_thumbnail() ) { ?>
@@ -19,7 +26,7 @@
 			</div>
 			<?php qi_addons_for_elementor_template_part( 'plugins/woocommerce/shortcodes/product-slider', 'templates/post-info/rating', '', $params ); ?>
 			<?php
-			// Hook to include additional content inside product list item content
+			// Hook to include additional content inside product list item content.
 			do_action( 'qi_addons_for_elementor_action_product_slider_item_additional_content', $params );
 			?>
 		</div>

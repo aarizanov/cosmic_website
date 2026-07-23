@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_countdown_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_countdown_shortcode' ) ) {
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Countdown_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_countdown_layouts', array() ) );
 
@@ -31,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_countdown' );
 			$this->set_name( esc_html__( 'Countdown', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays countdown with provided parameters', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/countdown/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#countdown' );
@@ -59,7 +68,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type'    => 'date',
 					'name'          => 'date',
 					'title'         => esc_html__( 'Date', 'qi-addons-for-elementor' ),
-					'default_value' => '06/06/2023',
+					'default_value' => '06/06/2030',
 				)
 			);
 			$this->set_option(
@@ -301,7 +310,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'label_margin_top',
 					'title'      => esc_html__( 'Label Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-countdown .qodef-label' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -313,7 +322,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'background',
 					'name'       => 'item_background',
 					'title'      => esc_html__( 'Item Background', 'qi-addons-for-elementor' ),
-					'types'      => array( 'classic', 'gradient', 'video' ),
+					'types'      => array( 'classic', 'gradient' ),
 					'selector'   => '{{WRAPPER}} .qodef-qi-countdown .qodef-digit-wrapper',
 					'group'      => esc_html__( 'Item Style', 'qi-addons-for-elementor' ),
 				)
@@ -324,7 +333,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'item_width',
 					'title'      => esc_html__( 'Item Width', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Item Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-countdown .qodef-digit-wrapper' => 'width: {{SIZE}}{{UNIT}};',
@@ -337,7 +346,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'item_height',
 					'title'      => esc_html__( 'Item Height', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Item Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-countdown .qodef-digit-wrapper' => 'height: {{SIZE}}{{UNIT}};',
@@ -349,7 +358,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'item_margin',
 					'title'      => esc_html__( 'Item Margin', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-countdown .qodef-digit-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -415,15 +424,17 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				),
 			);
 
+			// Strips all not allowed characters from input.
+			$available_characters = '/[^\w\s\_\-\'\"]/u';
 			foreach ( $date_formats as $key => $value ) {
 				if ( ! empty( $atts[ $key . '_label' ] ) ) {
-					$data[ 'data-' . $key . '-label' ] = $atts[ $key . '_label' ];
+					$data[ 'data-' . $key . '-label' ] = preg_replace( $available_characters, '', $atts[ $key . '_label' ] );
 				} else {
 					$data[ 'data-' . $key . '-label' ] = $value['default'];
 				}
 
 				if ( ! empty( $atts[ $key . '_label_plural' ] ) ) {
-					$data[ 'data-' . $key . '-label-plural' ] = $atts[ $key . '_label_plural' ];
+					$data[ 'data-' . $key . '-label-plural' ] = preg_replace( $available_characters, '', $atts[ $key . '_label_plural' ] );
 				} else {
 					$data[ 'data-' . $key . '-label-plural' ] = $value['plural'];
 				}

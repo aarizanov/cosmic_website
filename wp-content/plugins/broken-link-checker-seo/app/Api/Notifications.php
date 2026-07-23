@@ -53,6 +53,15 @@ class Notifications {
 			$notification->save();
 		}
 
+		// Dismiss static notifications.
+		if ( in_array( 'notification-review', $slugs, true ) ) {
+			update_user_meta( get_current_user_id(), '_aioseo_blc_notification_plugin_review_dismissed', '3' );
+		}
+
+		if ( in_array( 'notification-review-delay', $slugs, true ) ) {
+			update_user_meta( get_current_user_id(), '_aioseo_blc_notification_plugin_review_dismissed', strtotime( '+1 week' ) );
+		}
+
 		return new \WP_REST_Response( [
 			'success'       => true,
 			'notifications' => Models\Notification::getNotifications()

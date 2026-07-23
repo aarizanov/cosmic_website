@@ -1,24 +1,28 @@
 <?php
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
 
 if ( ! class_exists( 'Qi_Blocks_Media' ) ) {
 	class Qi_Blocks_Media {
 		private static $instance;
 
 		public function __construct() {
-            // Create global options
-            add_action( 'init', array( $this, 'add_option' ) );
+			// Create global options.
+			add_action( 'init', array( $this, 'add_option' ) );
 
-			// Add new media sizes
+			// Add new media sizes.
 			add_action( 'init', array( $this, 'set_image_support' ) );
 
-			// Extend main rest api routes with new case
+			// Extend main rest api routes with new case.
 			add_filter( 'qi_blocks_filter_rest_api_routes', array( $this, 'add_rest_api_routes' ) );
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Media
 		 */
 		public static function get_instance() {
@@ -29,16 +33,16 @@ if ( ! class_exists( 'Qi_Blocks_Media' ) ) {
 			return self::$instance;
 		}
 
-        function add_option() {
-            if ( ! get_option( 'qi_blocks_cropped_images' ) ) {
-                add_option(
-                    'qi_blocks_cropped_images',
-                    array()
-                );
-            }
-        }
+		public function add_option() {
+			if ( ! get_option( 'qi_blocks_cropped_images' ) ) {
+				add_option(
+					'qi_blocks_cropped_images',
+					array()
+				);
+			}
+		}
 
-		function get_image_sizes() {
+		public function get_image_sizes() {
 			$image_sizes = array();
 
 			$image_sizes[] = array(
@@ -80,7 +84,7 @@ if ( ! class_exists( 'Qi_Blocks_Media' ) ) {
 			return apply_filters( 'qi_blocks_filter_set_image_sizes', $image_sizes );
 		}
 
-		function set_image_support() {
+		public function set_image_support() {
 			$image_sizes = $this->get_image_sizes();
 
 			if ( ! empty( $image_sizes ) ) {
@@ -98,7 +102,7 @@ if ( ! class_exists( 'Qi_Blocks_Media' ) ) {
 			}
 		}
 
-		function add_rest_api_routes( $routes ) {
+		public function add_rest_api_routes( $routes ) {
 			$routes['resize-image'] = array(
 				'route'               => 'resize-image',
 				'methods'             => WP_REST_Server::CREATABLE,
@@ -107,7 +111,7 @@ if ( ! class_exists( 'Qi_Blocks_Media' ) ) {
 					return current_user_can( 'edit_posts' );
 				},
 				'args'                => array(
-					'image_id' => array(
+					'image_id'    => array(
 						'required'          => true,
 						'validate_callback' => function ( $param ) {
 							return intval( $param );
@@ -125,18 +129,27 @@ if ( ! class_exists( 'Qi_Blocks_Media' ) ) {
 			return $routes;
 		}
 
-		function resize_image_callback( $response ) {
+		public function resize_image_callback( $response ) {
 
 			if ( ! isset( $response ) || empty( $response->get_body() ) ) {
 				qi_blocks_get_ajax_status( 'error', esc_html__( 'Rest is invalid', 'qi-blocks' ), array() );
+			} elseif ( ! current_user_can( 'upload_files' ) ) {
+				qi_blocks_get_ajax_status( 'error', esc_html__( 'You are not authorized.', 'qi-blocks' ), array() );
 			} else {
+
 				$response_data     = json_decode( $response->get_body() );
 				$image_id          = isset( $response_data->image_id ) && ! empty( $response_data->image_id ) ? intval( $response_data->image_id ) : 0;
 				$image_custom_size = isset( $response_data->custom_size ) && is_object( $response_data->custom_size ) ? (array) $response_data->custom_size : array();
 
-				if ( ! empty( $image_id ) && ! empty( $image_custom_size ) ) {
+				if ( ! current_user_can( 'edit_post', $image_id ) ) {
+					qi_blocks_get_ajax_status( 'error', esc_html__( 'Sorry, you are not allowed to edit this post.', 'qi-blocks' ), array() );
+				} elseif ( ! empty( $image_id ) && ! empty( $image_custom_size ) ) {
+					$editor_supports = array(
+						'mime_type' => get_post_mime_type( $image_id ),
+						'methods'   => array( 'rotate' ),
+					);
 
-					if ( ! wp_image_editor_supports( array( 'mime_type' => get_post_mime_type( $image_id ), 'methods' => array( 'rotate' ) ) ) ) {
+					if ( ! wp_image_editor_supports( $editor_supports ) ) {
 						qi_blocks_get_ajax_status( 'error', esc_html__( 'Image rotation is not supported by your web host.', 'qi-blocks' ), array() );
 					}
 

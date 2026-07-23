@@ -1,5 +1,91 @@
 == Changelog ==
 
+= 5.0.6 =
+
+**Release Date: 06/05/2026**
+
+Special thanks to Shane Hollis (@webkiwinz) for these security fixes!
+
+* Security: Fixed stored XSS in admin scan results page; form titles and shortcode key names were echoed without HTML escaping. This addresses security vulnerability CVE-2026-5116 responsibly reported by Satyarth Prakash to Wordfence.
+* Security: Fixed CSRF vulnerability on notice dismissal; `dismiss-access-keys-notice` action now requires a valid nonce.
+* Security: Fixed unsanitised `$_GET['offset']` parameter; now it's always cast to a non-negative integer before use.
+* Security: Fixed potential regex injection in JavaScript `get_cookie()`; cookie key is now escaped before use in a regex pattern.
+* Fix: Fixed switch fall-through logic bug in `wpcf7dtx_get_current_var()`; missing `break` statements caused user/term/archive context data to be overwritten by post context data.
+
+_Note from Tessa: the AJAX nonce validation that checks `!== 1` was intentional to only target the first 12-hour window to be more strict. That AJAX call was intended to run once on page load, so allowing the validation to persist beyond 12 hours is unnecessary._
+
+= 5.0.5 =
+
+**Release Date: 02/17/2026**
+
+* Fix: Fixed a type-o in nonce verification where it compared the value against 0 instead of 1, [see support thread](https://wordpress.org/support/topic/nonce-issue-in-cf7-dte/).
+
+= 5.0.4 =
+
+**Release Date: 01/01/2026**
+
+* Security: Addressed security vulnerability CVE-2025-13146 responsibly reported by NosleeP++ to Wordfence. Thank you NosleeP++! The JavaScript Fetch/AJAX request now includes nonce verification.
+
+= 5.0.3 =
+
+* Fix: Moved settings translations to load as needed instead of immediately hoping to address the `Function _load_textdomain_just_in_time was called incorrectly` notice added in WordPress core version 6.7, [see support thread](https://wordpress.org/support/topic/https://wordpress.org/support/topic/error-loading-textdomain-since-wp-6-7/).
+
+= 5.0.2 =
+
+* Security: Addressed security vulnerability responsibly reported by Rafie Muhammad to Patchstack.
+
+= 5.0.1 =
+
+* Fix: updated the `wpcf7dtx_format_atts()` function to only include attributes with string values if the string exists to avoid adding empty attributes like `id` where they are supposed to be unique, [see support thread](https://wordpress.org/support/topic/exposure-of-sensitive-date-in-html/).
+* Update: updated getting dynamic attributes to be more consistent across handler functions.
+* Fix: Fixed allowed html so images could be used in checkbox and radio buttons, [see support thread](https://wordpress.org/support/topic/allow-images-in-radio-button-options/).
+* Fix: Marked compatible with WordPress core version 6.7.
+
+= 5.0.0 =
+
+* Update: The form tag generator has been upgraded to version 2 to be compatible with [version 6.0 of Contact Form 7](https://contactform7.com/2024/11/03/contact-form-7-60/). Related prefixed functions have been replaced with a class. [See support thread](https://wordpress.org/support/topic/getting-deprecated-error-after-recent-update/).
+
+= 4.5.1 =
+
+* Security: Addressed security vulnerability CVE-2024-10084 responsibly reported by Francesco Carlucci to Wordfence. All built-in shortcodes now check for appropriate access and user permissions before returning information from any post.
+* Translation: Added I18N improvements by alexclassroom, thanks!
+
+= 4.5.0 =
+
+* Feature: Added the hidden field `_wpcf7dtx_version` to include the current version of this plugin automatically in forms. It can be accessed via `$_POST` in `wpcf7_before_send_mail` hook or viewed in the page's source code along with Contact Form 7's other default hidden fields.
+* Minor: Allowed images to be added in checkbox and radio button options, [see support thread](https://wordpress.org/support/topic/allow-images-in-radio-button-options/).
+* Fix: Addressed the bug that prevented textarea fields to use placeholders, [see support thread](https://wordpress.org/support/topic/dynamic_textarea-placeholder-not-working/).
+
+= 4.4.2 =
+
+* Fix: Addressed PHP warning for undefined variable $default_placeholder introduced in version 4.4.0, [see support thread](https://wordpress.org/support/topic/php-warning-undefined-variable-default_placeholder/)
+* Minor: Create preview link using WordPress Playground, [check it out](https://wordpress.org/plugins/contact-form-7-dynamic-text-extension/?preview=1)
+
+= 4.4.1 =
+
+* Fix: Addressed PHP warnings for undefined array keys introduced in version 4.4.0, [see support thread](https://wordpress.org/support/topic/tons-of-errors-in-error_log/)
+
+= 4.4.0 =
+
+* Update: Added *Contact Form 7* (CF7) as a requirement as introduced in WordPress version 6.5. This plugin cannot be activated until CF7 is installed and activated.
+* Feature: introduced `dynamic_label` form tag. For usage details, see the [knowledge base](https://aurisecreative.com/docs/contact-form-7-dynamic-text-extension/form-tags/dynamic-label/?utm_source=wordpress.org&utm_medium=link&utm_campaign=contact-form-7-dynamic-text-extension&utm_content=readme)
+* Feature: updated the following attributes to be dynamic: `autocapitalize`, `autocomplete`, `autofocus`, `cols`, `disabled`, `list`, `max`, `maxlength`, `min`, `minlength`, `pattern`, `readonly`, `size`, and `step`. For usage details, see the [knowledge base](https://aurisecreative.com/docs/contact-form-7-dynamic-text-extension/dynamic-attributes/?utm_source=wordpress.org&utm_medium=link&utm_campaign=contact-form-7-dynamic-text-extension&utm_content=readme)
+* Update: Updated the form tag generator for checkboxes and radio buttons to include documentation for the `default` attribute.
+* Update: Updated the form tag generator with fields for `min`, `max`, `step`, `minlength`, `maxlength`, and `autocomplete` for appropriate form tags. The `autocomplete` and `autocapitalize` are text fields that uses a `datalist` because I always forget those things...
+* Update: Increased the tag generator size to accommodate the new attributes.
+* Update: Some form tag generators display the generated form tag in a `textarea` to accommodate lengthy generated form tags.
+
+= 4.3.1 =
+
+* Fix: Resolved the PHP warning regarding `Undefined array key "value" in /.../contact-form-7-dynamic-text-extension/contact-form-7-dynamic-text-extension.php on line 391`, [see support thread](https://wordpress.org/support/topic/undefined-array-key-value-2/).
+* Fix: Resolved a bug introduced in version 4.2.1 that prevented the mail template validator from recognizing DTX form tags, [see support thread](https://wordpress.org/support/topic/email-field-validation-4/).
+* Fix: The `default` attribute for `dynamic_checkbox` can now accept multiple values that are delimited by an underscore (_), making it consistent with [Contact Form 7](https://contactform7.com/checkboxes-radio-buttons-and-menus/#checkbox-radio), [see support thread](https://wordpress.org/support/topic/help-dynamic_checkbox-and-default-values/).
+
+= 4.3.0 =
+
+* Feature: Added the `wpcf7dtx_shortcode` filter to all built-in shortcodes as requested. For usage details, see the [knowledge base](https://aurisecreative.com/docs/contact-form-7-dynamic-text-extension/filter-modify-built-in-shortcode-responses/?utm_source=wordpress.org&utm_medium=link&utm_campaign=contact-form-7-dynamic-text-extension&utm_content=readme).
+* Fix: Resolved a bug that prevented using the number zero as the value for select fields, checkboxes, and radio buttons, [see support thread](https://wordpress.org/support/topic/error-with-option-value-0-for-a-dynamic-radio-button/).
+
 = 4.2.3 =
 
 * Fix: Resolved a bug where the `dynamic_select` displayed with a default size of 40 instead of 1.
@@ -21,7 +107,7 @@
 
 = 4.2.0 =
 
-* Security Update: ** Please be sure to review this doc, as you may need to adjust the settings: https://sevenspark.com/docs/contact-form-7-dynamic-text-extension/allow-data-access **
+* Security: ** Please be sure to review this doc, as you may need to adjust the settings: [Documentation by AuRise Creative](https://aurisecreative.com/docs/contact-form-7-dynamic-text-extension/security/), [Documentation by SevenSpark](https://sevenspark.com/docs/contact-form-7-dynamic-text-extension/allow-data-access) **
 * Feature: Added Settings Screen with Allow Lists
 * Feature: Added Form Scanner
 * Feature: Added Allow List key validation in CF7 Form Validator

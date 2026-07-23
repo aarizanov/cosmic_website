@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! empty( $taxonomy_items ) ) {
 	foreach ( $taxonomy_items as $taxonomy_item ) {
 		$params['category_slug'] = $taxonomy_item->slug;
@@ -10,6 +15,6 @@ if ( ! empty( $taxonomy_items ) ) {
 		qi_addons_for_elementor_list_sc_template_part( 'plugins/woocommerce/shortcodes/product-category-list', 'layouts/' . $layout, '', $params );
 	}
 } else {
-	// Include global posts not found
+	// Include global posts not found.
 	qi_addons_for_elementor_template_part( 'content', 'templates/parts/posts-not-found' );
 }

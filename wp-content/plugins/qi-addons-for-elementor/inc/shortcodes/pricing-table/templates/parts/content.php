@@ -1,7 +1,13 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( isset( $items ) && count( $items ) ) {
 	?>
-	<<?php echo qi_addons_for_elementor_framework_sanitize_tags( $list_tag, 'list' ); ?> class="qodef-m-content">
+	<<?php echo qi_addons_for_elementor_framework_sanitize_tags( $list_tag, 'list' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="qodef-m-content">
 		<?php
 		foreach ( $items as $item ) {
 			$classes   = array( 'qodef-e-item' );
@@ -14,5 +20,5 @@ if ( isset( $items ) && count( $items ) ) {
 				<span class="qodef-e-text"><?php echo esc_html( $item['item_text'] ); ?></span>
 			</li>
 		<?php } ?>
-	</<?php echo qi_addons_for_elementor_framework_sanitize_tags( $list_tag, 'list' ); ?>>
+	</<?php echo qi_addons_for_elementor_framework_sanitize_tags( $list_tag, 'list' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 <?php } ?>

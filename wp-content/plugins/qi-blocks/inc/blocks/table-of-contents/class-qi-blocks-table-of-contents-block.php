@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Table_Of_Contents_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'table-of-contents' );
 			$this->set_block_title( esc_html__( 'Table of Contents', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'SEO', 'qi-blocks' ) );
@@ -19,6 +19,8 @@ if ( ! class_exists( 'Qi_Blocks_Table_Of_Contents_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Table_Of_Contents_Block
 		 */
 		public static function get_instance() {

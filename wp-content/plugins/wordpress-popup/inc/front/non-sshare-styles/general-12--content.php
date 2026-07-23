@@ -148,13 +148,9 @@ foreach ( $typos as $key => $prop ) {
 	} elseif ( 'italic' === $font_weight ) {
 		$font_weight = 'normal';
 		$font_style  = 'italic';
-	} else {
-
-		// Check if font weight is italic.
-		if ( preg_match( '/(italic)/', $font_weight ) ) {
-			$font_weight = str_replace( 'italic', '', $font_weight );
-			$font_style  = 'italic';
-		}
+	} elseif ( preg_match( '/(italic)/', $font_weight ) ) { // Check if font weight is italic.
+		$font_weight = str_replace( 'italic', '', $font_weight );
+		$font_style  = 'italic';
 	}
 
 	$mobile_font_size       = ( '' !== $typography[ 'main_content_' . $prop . '_font_size_mobile' ] ) ? $typography[ 'main_content_' . $prop . '_font_size_mobile' ] . $typography[ 'main_content_' . $prop . '_font_size_unit_mobile' ] : $font_size;
@@ -170,13 +166,9 @@ foreach ( $typos as $key => $prop ) {
 	} elseif ( 'italic' === $font_weight ) {
 		$font_weight = 'normal';
 		$font_style  = 'italic';
-	} else {
-
-		// Check if font weight is italic.
-		if ( preg_match( '/(italic)/', $mobile_font_weight ) ) {
-			$mobile_font_weight = str_replace( 'italic', '', $mobile_font_weight );
-			$mobile_font_style  = 'italic';
-		}
+	} elseif ( preg_match( '/(italic)/', $mobile_font_weight ) ) { // Check if font weight is italic.
+		$mobile_font_weight = str_replace( 'italic', '', $mobile_font_weight );
+		$mobile_font_style  = 'italic';
 	}
 
 	if ( ! $is_mobile_enabled || ( $is_mobile_enabled && $default_typography ) ) {
@@ -227,6 +219,10 @@ foreach ( $typos as $key => $prop ) {
 		// Mobile styles.
 		$style     .= $prefix_mobile . $component . ' ' . $key . ':not([class*="forminator-"]) {';
 			$style .= ( 'li' === $key ) ? 'margin: 0 0 5px;' : 'margin: 0 0 10px;';
+		if ( 'li' === $key ) {
+			$style .= 'display: flex;';
+			$style .= 'align-items: flex-start;';
+		}
 			$style .= ( ! $is_vanilla ) ? 'color: ' . $font_color . ';' : '';
 			$style .= ( 'inherit' !== $font_family ) ? 'font: ' . $mobile_font_weight . ' ' . $mobile_font_size . '/' . $mobile_line_height . ' ' . $font_family . ';' : '';
 			$style .= ( 'inherit' === $font_family ) ? 'font-size: ' . $mobile_font_size . ';' : '';
@@ -244,11 +240,15 @@ foreach ( $typos as $key => $prop ) {
 		if ( 'li' === $key && ! $is_vanilla ) {
 
 			$style     .= $prefix_mobile . $component . ' ol:not([class*="forminator-"]) ' . $key . ':before {';
-				$style .= 'color: ' . $colors['ol_counter'];
+				$style .= 'color: ' . $colors['ol_counter'] . ';';
+				$style .= 'flex-shrink: 0;';
 			$style     .= '}';
 
 			$style     .= $prefix_mobile . $component . ' ul:not([class*="forminator-"]) ' . $key . ':before {';
-				$style .= 'background-color: ' . $colors['ul_bullets'];
+				$style .= 'color: ' . $colors['ul_bullets'] . ';';
+				$style .= 'content: "\2022";';
+				$style .= 'font-size: 16px;';
+				$style .= 'flex-shrink: 0;';
 			$style     .= '}';
 
 		}

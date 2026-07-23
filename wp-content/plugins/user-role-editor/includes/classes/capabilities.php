@@ -1,4 +1,6 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Class to prepare full user capabilities list for URE editor
  *
@@ -53,7 +55,7 @@ class URE_Capabilities {
         
         $cap = array();
         $cap['inner'] = $cap_id;
-        $cap['human'] = esc_html__( $this->convert_cap_to_readable( $cap_id ) , 'user-role-editor' );
+        $cap['human'] = $this->convert_cap_to_readable( $cap_id );
         if ( isset( $this->built_in_wp_caps[$cap_id] ) ) {
             $cap['wp_core'] = true;
         } else {

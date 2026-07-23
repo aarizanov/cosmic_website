@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_filter_timeline_layouts_variation_horizontal_standard' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -50,7 +55,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_timeline_horizontal_standar
 			'field_type' => 'slider',
 			'name'       => 'horizontal_standard_space_from_center',
 			'title'      => esc_html__( 'Space From Center', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'range'      => array(
 				'px' => array(
 					'min' => 0,

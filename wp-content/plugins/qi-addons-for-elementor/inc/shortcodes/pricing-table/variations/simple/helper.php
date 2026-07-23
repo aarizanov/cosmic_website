@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_pricing_table_variation_simple' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -48,7 +53,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_pricing_table_simple_add_extra_
 			'field_type' => 'background',
 			'name'       => 'title_background_image',
 			'title'      => esc_html__( 'Title Wrapper Background Image', 'qi-addons-for-elementor' ),
-			'types'      => array( 'classic', 'gradient', 'video' ),
+			'types'      => array( 'classic', 'gradient' ),
 			'selector'   => '{{WRAPPER}} .qodef-m-title-wrapper',
 			'dependency' => array(
 				'show' => array(
@@ -65,7 +70,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_pricing_table_simple_add_extra_
 			'field_type' => 'dimensions',
 			'name'       => 'title_wrapper_padding',
 			'title'      => esc_html__( 'Title Wrapper Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-m-title-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',

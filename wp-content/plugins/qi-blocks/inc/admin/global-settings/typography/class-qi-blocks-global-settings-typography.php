@@ -1,24 +1,28 @@
 <?php
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
 
 if ( ! class_exists( 'Qi_Blocks_Global_Settings_Typography' ) ) {
 	class Qi_Blocks_Global_Settings_Typography {
 		private static $instance;
 
 		public function __construct() {
-			// Create global settings option
+			// Create global settings option.
 			add_action( 'init', array( $this, 'add_options' ) );
 
-			// Add page inline styles
+			// Add page inline styles.
 			add_action( 'wp_enqueue_scripts', array( $this, 'set_global_typography_styles' ), 15 ); // permission 15 is set in order to be after the main css file and before the blocks custom styles (@see Qi_Blocks_Framework_Global_Styles)
 
-			// Add page editor inline styles
+			// Add page editor inline styles.
 			add_action( 'enqueue_block_editor_assets', array( $this, 'set_global_typography_editor_styles' ), 15 ); // permission 15 is set in order to be after the main editor css file
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Global_Settings_Typography
 		 */
 		public static function get_instance() {
@@ -29,15 +33,15 @@ if ( ! class_exists( 'Qi_Blocks_Global_Settings_Typography' ) ) {
 			return self::$instance;
 		}
 
-		function sanitize_typography_array( $value ) {
+		public function sanitize_typography_array( $value ) {
 			return ! is_array( $value ) ? array( array() ) : $value;
 		}
 
-		function sanitize_typography_string( $value ) {
+		public function sanitize_typography_string( $value ) {
 			return ! is_string( $value ) ? '' : $value;
 		}
 
-		function add_options() {
+		public function add_options() {
 			$typography_schema = array(
 				'type'       => 'object',
 				'properties' => array(
@@ -236,7 +240,7 @@ if ( ! class_exists( 'Qi_Blocks_Global_Settings_Typography' ) ) {
 			);
 		}
 
-		function get_typography_styles_fonts() {
+		public function get_typography_styles_fonts() {
 			$options = get_option( 'qi_blocks_global_settings_typography' );
 			$fonts   = array(
 				'family' => array(),
@@ -264,34 +268,34 @@ if ( ! class_exists( 'Qi_Blocks_Global_Settings_Typography' ) ) {
 			return $fonts;
 		}
 
-		function set_global_typography_styles() {
+		public function set_global_typography_styles() {
 			$styles = get_option( 'qi_blocks_global_settings_typography_styles' );
 
 			if ( ! empty( $styles ) ) {
 				$fonts = $this->get_typography_styles_fonts();
 
-				// Enqueue Google Fonts
+				// Enqueue Google Fonts.
 				if ( ! empty( $fonts['family'] ) ) {
 					Qi_Blocks_Framework_Global_Styles::get_instance()->include_google_fonts( $fonts );
 				}
 
-				// Load styles
+				// Load styles.
 				wp_add_inline_style( 'qi-blocks-main', $styles );
 			}
 		}
 
-		function set_global_typography_editor_styles() {
+		public function set_global_typography_editor_styles() {
 			$styles = get_option( 'qi_blocks_global_settings_typography_styles' );
 
 			if ( ! empty( $styles ) ) {
 				$fonts = $this->get_typography_styles_fonts();
 
-				// Enqueue Google Fonts
+				// Enqueue Google Fonts.
 				if ( ! empty( $fonts['family'] ) ) {
 					Qi_Blocks_Framework_Global_Styles::get_instance()->include_google_fonts( $fonts );
 				}
 
-				// Load styles
+				// Load styles.
 				wp_add_inline_style( 'qi-blocks-grid-editor', $styles );
 			}
 		}

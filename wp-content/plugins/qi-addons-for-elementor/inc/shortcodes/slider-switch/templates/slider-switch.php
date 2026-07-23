@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $main_holder_classes ); ?>>
 	<div class="qodef-m-main-text">
 		<div <?php qi_addons_for_elementor_framework_class_attribute( array_merge( $slider_classes, array( 'qodef-slider-switch-device-swiper' ) ) ); ?> <?php qi_addons_for_elementor_framework_inline_attr( $device_slider_attr, 'data-options' ); ?>>
@@ -22,7 +29,10 @@
 			<?php } elseif ( 'laptop' === $main_device ) { ?>
 				<img src="<?php echo esc_url( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/slider-switch/assets/img/laptop-mockup.svg' ); ?>" alt="<?php esc_attr_e( 'laptop device', 'qi-addons-for-elementor' ); ?>">
 			<?php } elseif ( 'custom' === $main_device ) { ?>
-				<?php echo qi_addons_for_elementor_get_list_shortcode_item_image( 'full', $main_custom_device ); ?>
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo qi_addons_for_elementor_get_list_shortcode_item_image( 'full', $main_custom_device );
+				?>
 			<?php } ?>
 		</div>
 		<div class="qodef-m-main-slider">
@@ -65,7 +75,10 @@
 				<?php } elseif ( 'laptop' === $device ) { ?>
 					<img src="<?php echo esc_url( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/slider-switch/assets/img/laptop-mockup.svg' ); ?>" alt="<?php esc_attr_e( 'laptop device', 'qi-addons-for-elementor' ); ?>">
 				<?php } elseif ( 'custom' === $device ) { ?>
-					<?php echo qi_addons_for_elementor_get_list_shortcode_item_image( 'full', $custom_device ); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo qi_addons_for_elementor_get_list_shortcode_item_image( 'full', $custom_device );
+					?>
 				<?php } ?>
 			</div>
 			<div class="qodef-m-items">

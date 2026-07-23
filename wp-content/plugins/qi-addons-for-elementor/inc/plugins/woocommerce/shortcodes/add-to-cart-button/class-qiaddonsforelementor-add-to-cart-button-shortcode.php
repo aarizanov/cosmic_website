@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_add_to_cart_shortcode' ) ) {
 	/**
 	 * Function that is adding shortcode into shortcodes list for registration
@@ -20,16 +25,12 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_add_to_cart_shortcode' ) ) 
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Add_To_Cart_Button_Shortcode extends QiAddonsForElementor_Shortcode {
 
-		public function __construct() {
-			parent::__construct();
-		}
-
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_PLUGINS_URL_PATH . '/woocommerce/shortcodes/add-to-cart-button' );
 			$this->set_base( 'qi_addons_for_elementor_add_to_cart_button' );
 			$this->set_name( esc_html__( 'Add to Cart Button', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays add to cart button', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'WooCommerce', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/add-to-cart-button/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#add_to_cart_button' );

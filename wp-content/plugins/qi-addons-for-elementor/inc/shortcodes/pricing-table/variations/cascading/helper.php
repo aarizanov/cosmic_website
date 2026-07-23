@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_pricing_table_variation_cascading' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -19,7 +24,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_pricing_table_variation_cas
 }
 
 if ( ! function_exists( 'qi_addons_for_elementor_pricing_table_cascading_add_extra_options' ) ) {
-	function qi_addons_for_elementor_pricing_table_cascading_add_extra_options( $extra_options, $this_shortcode ) {
+	function qi_addons_for_elementor_pricing_table_cascading_add_extra_options( $extra_options ) {
 		$cascading = array();
 
 		$title_background_color = array(
@@ -44,7 +49,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_pricing_table_cascading_add_ext
 			'field_type' => 'dimensions',
 			'name'       => 'title_padding',
 			'title'      => esc_html__( 'Title Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-m-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -66,5 +71,5 @@ if ( ! function_exists( 'qi_addons_for_elementor_pricing_table_cascading_add_ext
 		return array_merge( $extra_options, $cascading );
 	}
 
-	add_filter( 'qi_addons_for_elementor_filter_pricing_table_extra_options', 'qi_addons_for_elementor_pricing_table_cascading_add_extra_options', 10, 2 );
+	add_filter( 'qi_addons_for_elementor_filter_pricing_table_extra_options', 'qi_addons_for_elementor_pricing_table_cascading_add_extra_options' );
 }

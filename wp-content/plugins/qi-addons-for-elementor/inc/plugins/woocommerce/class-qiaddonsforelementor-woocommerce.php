@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'QiAddonsForElementor_WooCommerce' ) ) {
 	class QiAddonsForElementor_WooCommerce {
 		private static $instance;
@@ -7,7 +12,7 @@ if ( ! class_exists( 'QiAddonsForElementor_WooCommerce' ) ) {
 		public function __construct() {
 
 			if ( qi_addons_for_elementor_framework_is_installed( 'woocommerce' ) ) {
-				// Include files
+				// Include files.
 				$this->include_files();
 			}
 		}
@@ -20,21 +25,21 @@ if ( ! class_exists( 'QiAddonsForElementor_WooCommerce' ) ) {
 			return self::$instance;
 		}
 
-		function include_files() {
+		public function include_files() {
 
-			// Include helper functions
+			// Include helper functions.
 			include_once QI_ADDONS_FOR_ELEMENTOR_PLUGINS_PATH . '/woocommerce/helper.php';
 
-			// Include shortcodes
+			// Include shortcodes.
 			add_action( 'qi_addons_for_elementor_action_framework_before_shortcodes_register', array( $this, 'include_shortcodes' ) );
 
-			// Include plugin addons
+			// Include plugin addons.
 			foreach ( glob( QI_ADDONS_FOR_ELEMENTOR_PLUGINS_PATH . '/woocommerce/plugins/*/include.php' ) as $plugin ) {
 				include_once $plugin;
 			}
 		}
 
-		function include_shortcodes() {
+		public function include_shortcodes() {
 			foreach ( glob( QI_ADDONS_FOR_ELEMENTOR_PLUGINS_PATH . '/woocommerce/shortcodes/*/include.php' ) as $shortcode ) {
 				include_once $shortcode;
 			}

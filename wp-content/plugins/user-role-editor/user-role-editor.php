@@ -1,23 +1,24 @@
 <?php
 /*
-Plugin Name: User Role Editor
-Plugin URI: https://www.role-editor.com
-Description: Change/add/delete WordPress user roles and capabilities.
-Version: 4.64.2
-Author: Vladimir Garagulya
-Author URI: https://www.role-editor.com
-Text Domain: user-role-editor
-Domain Path: /lang/
+Plugin Name:        User Role Editor
+Plugin URI:         https://www.role-editor.com
+Description:        Change/add/delete WordPress user roles and capabilities.
+Version:            4.65
+Requires at least:  4.4
+Requires PHP:       7.3
+Author:             Vladimir Garagulya
+Author URI:         https://www.role-editor.com
+License:            GPL v2 or later
+License URI:        https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:        user-role-editor
+Domain Path:        /lang/
 */
 
 /*
-Copyright 2010-2024  Vladimir Garagulya  (email: support@role-editor.com)
+Copyright 2010-2026  Vladimir Garagulya  (email: support@role-editor.com)
 */
 
-if ( ! function_exists( 'get_option' ) ) {
-    header( 'HTTP/1.0 403 Forbidden' );
-    die;  // Silence is golden, direct call is prohibited
-}
+defined( 'ABSPATH' ) || exit;
 
 if ( defined( 'URE_VERSION' ) ) { 
     if ( is_admin() && ( !defined('DOING_AJAX') || !DOING_AJAX ) ) {
@@ -29,7 +30,7 @@ if ( defined( 'URE_VERSION' ) ) {
     return;
 }
 
-define( 'URE_VERSION', '4.64.2' );
+define( 'URE_VERSION', '4.65' );
 define( 'URE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'URE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'URE_PLUGIN_BASE_NAME', plugin_basename( __FILE__ ) );

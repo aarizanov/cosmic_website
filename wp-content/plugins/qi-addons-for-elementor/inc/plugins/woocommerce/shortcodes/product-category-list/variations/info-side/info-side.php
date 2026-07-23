@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_variation_info_side' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -18,7 +23,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_varia
 }
 
 if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_options_info_side' ) ) {
-	function qi_addons_for_elementor_add_product_category_list_options_info_side( $options, $this_class ) {
+	function qi_addons_for_elementor_add_product_category_list_options_info_side( $options ) {
 		$info_side = array();
 
 		$title_hover_color = array(
@@ -62,7 +67,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_optio
 			'field_type' => 'dimensions',
 			'name'       => 'info_side_content_padding',
 			'title'      => esc_html__( 'Content Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-side .qodef-e-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -82,7 +87,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_optio
 			'field_type' => 'dimensions',
 			'name'       => 'info_side_image_padding',
 			'title'      => esc_html__( 'Image Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-side .qodef-e-image' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -102,7 +107,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_optio
 			'field_type' => 'slider',
 			'name'       => 'info_side_image_width',
 			'title'      => esc_html__( 'Image Width', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'vw' ),
+			'size_units' => array( 'px', '%', 'vw', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-side .qodef-e-image' => 'width: {{SIZE}}{{UNIT}};',
@@ -163,7 +168,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_optio
 			'field_type' => 'slider',
 			'name'       => 'info_side_button_top_margin',
 			'title'      => esc_html__( 'Button Top Margin', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-side .qodef-m-button' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -191,5 +196,5 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_optio
 		return array_merge( $options, $info_side );
 	}
 
-	add_filter( 'qi_addons_for_elementor_filter_product_category_list_extra_options', 'qi_addons_for_elementor_add_product_category_list_options_info_side', 10, 2 );
+	add_filter( 'qi_addons_for_elementor_filter_product_category_list_extra_options', 'qi_addons_for_elementor_add_product_category_list_options_info_side' );
 }

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_progress_bar_vertical_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,12 +25,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_progress_bar_vertical_short
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Progress_Bar_Vertical_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/progress-bar-vertical' );
 			$this->set_base( 'qi_addons_for_elementor_progress_bar_vertical' );
 			$this->set_name( esc_html__( 'Vertical Progress Bar', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays vertical progress bar with provided parameters', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Infographics', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/vertical-progress-bar/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#vertical_progress_bar' );
@@ -295,7 +304,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'title_margin',
 					'title'      => esc_html__( 'Title Margin', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-progress-bar-vertical .qodef-m-title' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -336,7 +345,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'number_margin',
 					'title'      => esc_html__( 'Number Margin', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-progress-bar-vertical .qodef-m-value' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -392,7 +401,9 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$data['data-number']          = ! empty( $atts['number'] ) ? $atts['number'] : '0.00';
 			$data['data-percentage-type'] = $atts['percentage_type'];
 			$data['data-gradient-fill']   = $atts['enable_gradient_fill'];
-			$data['data-rand-id']         = rand();
+
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.rand_rand
+			$data['data-rand-id'] = rand();
 
 			$data['data-gradient-start'] = ! empty( $atts['gradient_color_start'] ) ? $atts['gradient_color_start'] : '#D9E7FA';
 			$data['data-gradient-end']   = ! empty( $atts['gradient_color_end'] ) ? $atts['gradient_color_end'] : '#FCC4AF';

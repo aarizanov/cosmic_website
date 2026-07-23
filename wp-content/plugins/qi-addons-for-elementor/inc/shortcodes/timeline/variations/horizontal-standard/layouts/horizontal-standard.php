@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $item['item_classes'] ); ?>>
 	<div class="qodef-e-line-holder">
 		<span class="qodef-e-line"></span>

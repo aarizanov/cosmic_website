@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'QiAddonsForElementor_Wp_Forms' ) ) {
 	class QiAddonsForElementor_Wp_Forms {
 		private static $instance;
@@ -7,12 +12,14 @@ if ( ! class_exists( 'QiAddonsForElementor_Wp_Forms' ) ) {
 		public function __construct() {
 
 			if ( qi_addons_for_elementor_framework_is_installed( 'wp_forms' ) ) {
-				// Include files
+				// Include files.
 				$this->include_files();
 			}
 		}
 
 		/**
+		 * Instance of module class
+		 *
 		 * @return QiAddonsForElementor_Wp_Forms
 		 */
 		public static function get_instance() {
@@ -23,12 +30,12 @@ if ( ! class_exists( 'QiAddonsForElementor_Wp_Forms' ) ) {
 			return self::$instance;
 		}
 
-		function include_files() {
+		public function include_files() {
 
-			// Include helper functions
+			// Include helper functions.
 			include_once QI_ADDONS_FOR_ELEMENTOR_PLUGINS_PATH . '/wp-forms/helper.php';
 
-			// Include shortcodes
+			// Include shortcodes.
 			add_action(
 				'qi_addons_for_elementor_action_framework_before_shortcodes_register',
 				array(
@@ -37,17 +44,17 @@ if ( ! class_exists( 'QiAddonsForElementor_Wp_Forms' ) ) {
 				)
 			);
 
-			// Override templates
+			// Override templates.
 			$this->override_templates();
 		}
 
-		function include_shortcodes() {
+		public function include_shortcodes() {
 			foreach ( glob( QI_ADDONS_FOR_ELEMENTOR_PLUGINS_PATH . '/wp-forms/shortcodes/*/include.php' ) as $shortcode ) {
 				include_once $shortcode;
 			}
 		}
 
-		function override_templates() {
+		public function override_templates() {
 		}
 	}
 

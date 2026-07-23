@@ -159,15 +159,70 @@ function wpcf7dtx_obfuscate($value = '')
 add_filter('wpcf7dtx_obfuscate', 'wpcf7dtx_obfuscate', 10, 1);
 
 /**
- * Get Post ID
+ * Validate Post ID
+ *
+ * Sanitizes or gets the post id and then checks if the current user can access the post.
+ *
+ * @since 4.5.1
+ *
+ * @param int|WP_Post|null|false $post_id Optional. Post ID or post object. Defaults
+ *      to global $post.
+ * @param string $context Optional. The context in which type of value to return on
+ *      failure. Options are `acf` and `dtx`. Default is `dtx`.
+ *
+ * @return int|WP_Post|null|false The `$post_id` parameter on sucess, 0 otherwise.
+ */
+function wpcf7dtx_validate_post_id($post_id = null, $context = 'dtx')
+{
+    return wpcf7dtx_user_can_view_post(wpcf7dtx_get_post_id($post_id, $context));
+}
+
+/**
+ * Checks if Current User Can Access Post
+ *
+ * Returns the post id on the following conditions:
+ *  1. If the post is publicly published and is a
+ *
+ * @see https://developer.wordpress.org/reference/functions/is_post_publicly_viewable/
+ * @see https://developer.wordpress.org/reference/functions/post_password_required/
+ *
+ * @since 4.5.1
+ *
+ * @param int|WP_Post|null|false $post_id Optional. Post ID or post object. Defaults to global $post.
+ *
+ * @return int|WP_Post|null|false The `$post_id` parameter on sucess, 0 otherwise.
+ */
+function wpcf7dtx_user_can_view_post($post_id = null)
+{
+    // Ensure we have a valid post id or null as functions allow, ACF context may pass boolean false as post id
+    $_post_id = is_int($post_id) || $post_id instanceof WP_Post ? $post_id : null;
+    if (
+        (is_post_publicly_viewable($_post_id) && !post_password_required($_post_id)) ||  // Allows publicly published posts of post types and status that are publicly visible that have no password or user can access the password protected post
+        current_user_can('edit_post', $_post_id) || // Allows anyone with edit access to this specific post (author, editor, admin, etc.)
+        (get_post_status($_post_id) == 'private' && current_user_can('read_private_posts')) // Allows anyone with private capability to read private post
+    ) {
+        return $post_id; // Return the original, unaltered post id
+    }
+    return 0;
+}
+
+/**
+ * Sanitize/Get Post ID
+ *
+ * Sanitizes the post id passed to the function. If omitted, it will get the current
+ * post or page id prioritizing the global `$post` object.
  *
  * @access private
  *
- * @param mixed $post_id
+ * @param int|string $post_id Optional. The post id to sanitize or a falsy value to
+ *      get the current post or page id.
+ * @param string $context Optional. The context in which type of value to return on
+ *      failure. Options are `acf` and `dtx`. Default is `dtx`.
  *
- * @return int An integer value of the passed post ID or the post ID of the current `$post` global object. 0 on Failure.
+ * @return int|false The post id on suceess. 0 on failure with `dtx` $context, boolean
+ *      false with `acf` $context.
  */
-function wpcf7dtx_get_post_id($post_id, $context = 'dtx')
+function wpcf7dtx_get_post_id($post_id = '', $context = 'dtx')
 {
     $post_id = $post_id ? intval(sanitize_text_field(strval($post_id))) : '';
     if (!$post_id || !is_numeric($post_id)) {
@@ -199,28 +254,116 @@ function wpcf7dtx_get_post_id($post_id, $context = 'dtx')
  * @param string $value The form tag value.
  * @param WPCF7_FormTag|false $tag Optional. Use to look up default value.
  * @param string $sanitize Optional. Specify type of sanitization. Default is `auto`.
+ * @param string $option_name Optional. Specify an option from the $tag to retrieve and
+ *      decode. Default is `value`.
+ * @param string $option_pattern Optional. A regular expression pattern or one of the
+ *      keys of preset patterns. If specified, only options whose value part matches
+ *      this pattern will be returned.
  *
  * @return string The dynamic output or the original value, not escaped or sanitized.
  */
-function wpcf7dtx_get_dynamic($value, $tag = false, $sanitize = 'auto')
+function wpcf7dtx_get_dynamic($value, $tag = false, $sanitize = 'auto', $option_name = 'value', $option_pattern = '')
 {
-    if ($tag !== false) {
-        $default = $tag->get_option('defaultvalue', '', true);
-        if (!$default) {
-            $default = $tag->get_default_option(strval(reset($tag->values)));
+    if (is_object($tag)) {
+        if ($option_name != 'value') {
+            $value = html_entity_decode(urldecode(strval($tag->get_option($option_name, $option_pattern, true))), ENT_QUOTES);
+        } else {
+            $default = $tag->get_option('defaultvalue', '', true);
+            if (!$default) {
+                $default = $tag->get_default_option(strval(reset($tag->values)));
+            }
+            $value = wpcf7_get_hangover($tag->name, $default);
         }
-        $value = wpcf7_get_hangover($tag->name, $default);
     }
     $value = apply_filters('wpcf7dtx_sanitize', $value, $sanitize);
     if (is_string($value) && !empty($value)) {
-        // If a shortcode was passed as the value, evaluate it and use the result
+        // If a shortcode was passed as the value, attempt to evaluate itevaluate it and use the result
         $shortcode_tag = '[' . $value . ']';
+        //var_dump('Shortcode tag?', $shortcode_tag);
         $shortcode_output = do_shortcode($shortcode_tag); //Shortcode value
-        if (is_string($shortcode_output) && $shortcode_output != $shortcode_tag) {
+        //var_dump('Shortcode value?', $shortcode_output);
+        if ($shortcode_output != $shortcode_tag) {
             return apply_filters('wpcf7dtx_sanitize', $shortcode_output, $sanitize);
         }
     }
     return $value;
+}
+
+/**
+ * Get Dynamic Attribute
+ *
+ * @since 5.0.1
+ *
+ * @param string $option_name Specify an option from the $tag to retrieve and decode.
+ * @param WPCF7_FormTag $tag Use to look up default value.
+ * @param string $sanitize Optional. Specify type of sanitization. Default is `auto`.
+ * @param string $basetype Optional. Specify a basetype to use in the class instead
+ *      of what is in the tag.
+ * @param string $option_pattern Optional. A regular expression pattern or one of the
+ *      keys of preset patterns. If specified, only options whose value part matches
+ *      this pattern will be returned.
+ *
+ * @return string The dynamic output or the original value, not escaped or sanitized.
+ */
+function wpcf7dtx_get_dynamic_attr($option_name, $tag, $sanitize = 'auto', $basetype = '', $option_pattern = '')
+{
+    if ($option_name !== 'class') {
+        $value = $tag->get_option($option_name, $option_pattern, true);
+        if ($value === false) {
+            return '';
+        }
+        return wpcf7dtx_dynamic_attr($value, $sanitize);
+    }
+    $values = array();
+    if ($option_name == 'class') {
+        $type = trim(sanitize_key($basetype ? $basetype : str_replace(array('dynamic_', 'dynamic'), '', $tag->basetype)));
+        $values = explode(' ', wpcf7_form_controls_class($type));
+        $values[] = 'wpcf7dtx';
+        $values[] = sanitize_html_class('wpcf7dtx-' . $type);
+
+        // Client-side validation by type
+        switch ($type) {
+            case 'range':
+                $values[] =  'wpcf7-validates-as-number';
+                break;
+            case 'date':
+            case 'number':
+            case 'email':
+            case 'url':
+            case 'tel':
+                $values[] =  sanitize_html_class('wpcf7-validates-as-' . $type);
+                break;
+            case 'submit':
+                $values[] = 'has-spinner';
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Add in the user-added possibly dynamic user values
+    $classes = $tag->get_option($option_name, $option_pattern, false);
+    if (is_array($classes)) {
+        foreach ($classes as $class) {
+            $values[] = wpcf7dtx_dynamic_attr($class, $sanitize);
+        }
+    }
+    return $values;
+}
+
+/**
+ * Decode and Evaluate Dynamic Attribute
+ *
+ * @since 5.0.1
+ *
+ * @param string $value The value of the attribute.
+ * @param string $sanitize Optional. Specify type of sanitization. Default is `auto`.
+ *
+ * @param string The dynamic output or the original value, not escaped or sanitized.
+ */
+function wpcf7dtx_dynamic_attr($value, $sanitize = 'auto')
+{
+    return wpcf7dtx_get_dynamic(html_entity_decode(urldecode(strval($value)), ENT_QUOTES), false, $sanitize); // Get dynamic attribute
 }
 
 /**
@@ -244,84 +387,96 @@ function wpcf7dtx_get_allowed_field_properties($type = 'text', $extra = array())
     if (in_array($type, array('option', 'optgroup'))) {
         return array(
             'optgroup' => array(
-                'label' => array(),
-                'disabled' => array(),
-                'hidden' => array()
+                'label' => true,
+                'disabled' => true,
+                'hidden' => true
             ),
             'option' => array(
-                'value' => array(),
-                'selected' => array(),
-                'disabled' => array(),
-                'hidden' => array()
+                'value' => true,
+                'selected' => true,
+                'disabled' => true,
+                'hidden' => true
             )
         );
     }
     $allowed_properties = array(
         // Global properties
-        'type' => array(),
-        'id' => array(),
-        'name' => array(),
-        'value' => array(),
-        'class' => array(),
-        'disabled' => array(),
-        'tabindex' => array(),
-        'title' => array(),
+        'type' => true,
+        'id' => true,
+        'name' => true,
+        'value' => true,
+        'class' => true,
+        'disabled' => true,
+        'tabindex' => true,
+        'title' => true,
         // ARIA properties
-        'aria-invalid' => array(),
-        'aria-describedby' => array(),
+        'aria-invalid' => true,
+        'aria-describedby' => true,
         // DTX properties
-        'data-dtx-value' => array(),
+        'data-dtx-value' => true,
     );
     if ($type != 'hidden') {
-        $allowed_properties['autofocus'] = array();
-        $allowed_properties['readonly'] = array();
-        $allowed_properties['required'] = array();
+        $allowed_properties['autofocus'] = true;
+        $allowed_properties['readonly'] = true;
+        $allowed_properties['required'] = true;
     }
     if (in_array($type, array('checkbox', 'radio', 'acceptance'))) {
         // Properties exclusive to checkboxes and radio buttons
-        $allowed_properties['checked'] = array();
-        $allowed_properties['dtx-default'] = array();
+        $allowed_properties['checked'] = true;
+        $allowed_properties['dtx-default'] = true;
     } elseif ($type == 'select') {
         // Properties exclusive to select fields
-        $allowed_properties['size'] = array();
-        $allowed_properties['multiple'] = array();
-        $allowed_properties['dtx-default'] = array();
+        $allowed_properties['size'] = true;
+        $allowed_properties['multiple'] = true;
+        $allowed_properties['dtx-default'] = true;
         unset($allowed_properties['type'], $allowed_properties['value']); // Remove invalid select attributes
+    } elseif ($type == 'label') {
+        // Properties exclusive to label elements
+        $allowed_properties['for'] = true;
+        // Remove invalid label attributes
+        unset(
+            $allowed_properties['type'],
+            $allowed_properties['name'],
+            $allowed_properties['value'],
+            $allowed_properties['disabled'],
+            $allowed_properties['aria-invalid']
+        );
     } else {
         // Properties exclusive to text-based inputs
-        $allowed_properties['autocomplete'] = array();
-        $allowed_properties['list'] = array();
+        $allowed_properties['autocapitalize'] = true;
+        $allowed_properties['autocomplete'] = true;
+        $allowed_properties['list'] = true;
 
         // Placeholder
-        if (in_array($type, array('text', 'search', 'url', 'tel', 'email', 'password', 'number'))) {
-            $allowed_properties['placeholder'] = array();
+        if (in_array($type, array('text', 'textarea', 'search', 'url', 'tel', 'email', 'password', 'number'))) {
+            $allowed_properties['placeholder'] = true;
         }
 
         // Textarea
         if ($type == 'textarea') {
             // Additional properties exclusive to textarea fields
-            $allowed_properties['cols'] = array();
-            $allowed_properties['rows'] = array();
-            $allowed_properties['minlength'] = array();
-            $allowed_properties['maxlength'] = array();
-            $allowed_properties['wrap'] = array();
+            $allowed_properties['cols'] = true;
+            $allowed_properties['rows'] = true;
+            $allowed_properties['minlength'] = true;
+            $allowed_properties['maxlength'] = true;
+            $allowed_properties['wrap'] = true;
             unset($allowed_properties['type'], $allowed_properties['value']); // Remove invalid textarea attributes
         } elseif (in_array($type, array('text', 'search', 'url', 'tel', 'email', 'password'))) {
             // Additional properties exclusive to these text-based fields
-            $allowed_properties['size'] = array();
-            $allowed_properties['minlength'] = array();
-            $allowed_properties['maxlength'] = array();
-            $allowed_properties['pattern'] = array();
+            $allowed_properties['size'] = true;
+            $allowed_properties['minlength'] = true;
+            $allowed_properties['maxlength'] = true;
+            $allowed_properties['pattern'] = true;
         } elseif (in_array($type, array('number', 'range', 'date', 'datetime-local', 'time'))) {
             // Number and date inputs
-            $allowed_properties['min'] = array();
-            $allowed_properties['max'] = array();
-            $allowed_properties['step'] = array();
+            $allowed_properties['min'] = true;
+            $allowed_properties['max'] = true;
+            $allowed_properties['step'] = true;
         }
     }
     if (is_array($extra) && count($extra)) {
         foreach ($extra as $property) {
-            $allowed_properties[sanitize_title($property)] = array();
+            $allowed_properties[sanitize_title($property)] = true;
         }
     }
     return $allowed_properties;
@@ -329,6 +484,10 @@ function wpcf7dtx_get_allowed_field_properties($type = 'text', $extra = array())
 
 /**
  * Returns a formatted string of HTML attributes
+ *
+ * Boolean attributes are set to themselves if the value is a boolean itself
+ * or if the key is checked, disabled, multiple, readonly, required, or selected.
+ * The value of the key class can be array for sanitizing.
  *
  * @since 4.0.0
  *
@@ -341,24 +500,40 @@ function wpcf7dtx_format_atts($atts)
     if (is_array($atts) && count($atts)) {
         $sanitized_atts = array();
         static $boolean_attributes = array(
-            'checked', 'disabled', 'multiple', 'readonly', 'required', 'selected'
+            'checked',
+            'disabled',
+            'multiple',
+            'readonly',
+            'required',
+            'selected'
         );
         foreach ($atts as $key => $value) {
-            $key = sanitize_key(strval($key));
+            $key = trim(sanitize_title($key));
             if ($key) {
-                if (in_array($key, $boolean_attributes) || is_bool($value)) {
+                if ($key == 'class' && is_array($value)) {
+                    $sanitized_atts['class'] = array();
+                    $value = array_values(array_unique(array_filter($value))); // Remove duplicates, empty values, and reindex keys
+                    foreach ($value as $i => $class) {
+                        // Sanitize the class and add it if it's not empty
+                        if ($class = trim(sanitize_html_class(sanitize_text_field($class)))) {
+                            $sanitized_atts['class'][] = $class;
+                        }
+                    }
+                    $sanitized_atts['class'] = implode(' ', $sanitized_atts['class']); // Implode all classes to be a single attribute value
+                } elseif (in_array($key, $boolean_attributes) || is_bool($value)) {
                     if ($value) {
                         $sanitized_atts[$key] = $key;
                     }
-                } elseif ($value && (is_string($value) || is_numeric($value))) {
+                } elseif (is_numeric($value) || (is_string($value) && $value)) {
+                    // Allow all numbers (even if falsey) and strings (only if value)
                     $sanitized_atts[$key] = $value;
                 }
             }
         }
         if (count($sanitized_atts)) {
             $output = array();
-            foreach ($sanitized_atts as $key => $value) {
-                $output[] = sprintf('%s="%s"', esc_attr($key), esc_attr($value));
+            foreach ($sanitized_atts as $sanitized_key => $sanitized_value) {
+                $output[] = sprintf('%s="%s"', esc_attr($sanitized_key), esc_attr($sanitized_value));
             }
             return implode(' ', $output);
         }
@@ -377,7 +552,7 @@ function wpcf7dtx_format_atts($atts)
  */
 function wpcf7dtx_input_html($atts)
 {
-    return sprintf('<input %s />', wpcf7dtx_format_atts($atts));
+    return sprintf('<input %s>', wpcf7dtx_format_atts($atts));
 }
 
 /**
@@ -386,17 +561,29 @@ function wpcf7dtx_input_html($atts)
  * @since 4.0.0
  *
  * @param array $atts An associative array of select input attributes.
- * @param string $label_text Optional. The text to display next to the checkbox or radio button.
- * @param bool $label_ui Optional. If true, will place input and label text inside a `<label>` element. Default is true.
- * @param bool $reverse Optional. If true, will reverse the order to display the text label first then the button. Has no effect if label text is empty. Default is false.
+ * @param string $label_text Optional. The text to display next to the checkbox or
+ *      radio button.
+ * @param bool $label_ui Optional. If true, will place input and label text inside
+ *      a `<label>` element. Default is true.
+ * @param bool $reverse Optional. If true, will reverse the order to display the
+ *      text label first then the button. Has no effect if label text is empty.
+ *      Default is false.
  *
- * @return string HTML output of the checkbox or radio button or empty string on failure.
+ * @return string HTML output of the checkbox or radio button or empty string on
+ *      failure.
  */
 function wpcf7dtx_checkbox_html($atts, $label_text = '', $label_ui = true, $reverse = false)
 {
     // Default field attributes
     $atts = array_merge(array('value' => '', 'dtx-default' => ''), array_change_key_case((array)$atts, CASE_LOWER));
-    if ($atts['value'] && $atts['dtx-default'] && $atts['value'] == $atts['dtx-default']) {
+
+    // Checkboxes can have multiple values checked, check mine if it's listed as a default value
+    if ($atts['type'] == 'checkbox' && is_string($atts['dtx-default']) && strpos($atts['dtx-default'], '_') !== false) {
+        $default = array_unique(explode('_', $atts['dtx-default']));
+        if (in_array($atts['value'], $default)) {
+            $atts['checked'] = 'checked';
+        }
+    } elseif ((is_numeric($atts['dtx-default']) || $atts['dtx-default']) && $atts['value'] == $atts['dtx-default']) {
         $atts['checked'] = 'checked';
     }
     $input = wpcf7dtx_input_html($atts);
@@ -435,8 +622,10 @@ function wpcf7dtx_checkbox_html($atts, $label_text = '', $label_ui = true, $reve
  * group's options. It also accepts a string value of HTML already formatted as options or
  * option groups. It also accepts a string value of a self-closing shortcode that is
  * evaluated and its output is either options or option groups.
- * @param bool $label_ui Optional. If true, will place input and label text inside a `<label>` element. Default is true.
- * @param bool $reverse Optional. If true, will reverse the order to display the text label first then the button. Has no effect if label text is empty. Default is false.
+ * @param bool $label_ui Optional. If true, will place input and label text inside a `<label>`
+ *      element. Default is true.
+ * @param bool $reverse Optional. If true, will reverse the order to display the text label
+ *      first then the button. Has no effect if label text is empty. Default is false.
  *
  * @return string HTML output of the checkbox or radio button or empty string on failure.
  */
@@ -463,7 +652,7 @@ function wpcf7dtx_checkbox_group_html($atts, $options, $label_ui = false, $rever
             ));
             $dynamic_value = '';
             $dynamic_label = $label;
-            if ($value && $label && $value === $label) {
+            if (is_string($value) && !empty($value) && $value === $label) {
                 // These are identical, just handle it as one, could also be a raw shortcode
                 $dynamic_option = trim(wpcf7dtx_get_dynamic($value, false, 'none')); // Do not sanitize yet, it may have HTML
                 if (is_string($dynamic_option) && !empty($dynamic_option) && strpos($dynamic_option, '{') === 0 && strpos($dynamic_option, '}') === strlen($dynamic_option) - 1) {
@@ -513,7 +702,8 @@ function wpcf7dtx_checkbox_group_html($atts, $options, $label_ui = false, $rever
             if ($exclusive) {
                 $class[] = 'wpcf7-exclusive-checkbox';
             }
-            if ($dynamic_value && $atts['dtx-default'] && $dynamic_value == $atts['dtx-default']) {
+            $valid_default = is_numeric($atts['dtx-default']) || (is_string($atts['dtx-default']) && !empty($atts['dtx-default']));
+            if ($valid_default && $dynamic_value == $atts['dtx-default']) {
                 $my_atts['checked'] = 'checked';
             }
             $group_html[] = sprintf(
@@ -558,21 +748,48 @@ function wpcf7dtx_textarea_html($atts)
 }
 
 /**
+ * Create Options HTML
+ *
+ * @since 4.4.0
+ *
+ * @param array $options Accepts an associative array of key/value pairs to use as the
+ * select option's value/label pairs.
+ * @param bool $selected_value Optional. The value that should be selected by default.
+ *
+ * @return string HTML output of options
+ */
+function wpcf7dtx_options_html($options, $selected_value = '')
+{
+    $html = '';
+    foreach ($options as $value => $label) {
+        $dynamic_value = wpcf7dtx_get_dynamic($value);
+        $dynamic_label = wpcf7dtx_get_dynamic($label);
+        $html .= sprintf(
+            '<option value="%1$s"%3$s>%2$s</option>',
+            esc_attr(apply_filters('wpcf7dtx_escape', $dynamic_value)),
+            esc_html(apply_filters('wpcf7dtx_escape', $dynamic_label)),
+            $selected_value == $dynamic_label ? ' selected' : ''
+        );
+    }
+    return $html;
+}
+
+/**
  * Create Select Field HTML
  *
  * @since 4.0.0
  *
  * @param array $atts An associative array of select input attributes.
  * @param array|string $options Accepts an associative array of key/value pairs to use as the
- * select option's value/label pairs. It also accepts an associative array of associative
- * arrays with the keys being used as option group labels and the array values used as that
- * group's options. It also accepts a string value of HTML already formatted as options or
- * option groups. It also accepts a string value of a self-closing shortcode that is
- * evaluated and its output is either options or option groups.
+ *      select option's value/label pairs. It also accepts an associative array of associative
+ *      arrays with the keys being used as option group labels and the array values used as that
+ *      group's options. It also accepts a string value of HTML already formatted as options or
+ *      option groups. It also accepts a string value of a self-closing shortcode that is
+ *      evaluated and its output is either options or option groups.
  * @param bool $hide_blank Optional. If true, the first blank placeholder option will have the
- * `hidden` attribute added to it. Default is false.
+ *      `hidden` attribute added to it. Default is false.
  * @param bool $disable_blank Optional. If true, the first blank placeholder option will have
- * the `disabled` attribute added to it. Default is false.
+ *      the `disabled` attribute added to it. Default is false.
  *
  * @return string HTML output of select field
  */
@@ -662,7 +879,7 @@ function wpcf7dtx_select_html($atts, $options, $hide_blank = false, $disable_bla
  * @param string|int $key The key to search for in the array.
  * @param array $array The array to search.
  * @param mixed $default The default value to return if not found or is empty. Default is
- * an empty string.
+ *      an empty string.
  *
  * @return mixed The value of the key found in the array if it exists or the value of
  * `$default` if not found or is empty.

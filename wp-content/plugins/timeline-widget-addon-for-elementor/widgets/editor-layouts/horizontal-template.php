@@ -1,12 +1,20 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+?>
+
+
 <# 
 var widgetId=elementorCommon.helpers.getUniqueId();
 var slideToShow=settings.twae_slides_to_show;
 var slideHeight=settings.twae_slides_height;
 var autoplay = settings.twae_autoplay;
+var autoHeight=slideHeight === 'no-height' ? 'true' : 'false';
 #>
 <div id="twae-wrapper-{{widgetId}}" class="twae-wrapper twae-horizontal-timeline">
 <div class="twae-wrapper-inside">
-	<div class="twae-slider-container swiper-container" data-dir="<?php echo esc_attr( $dir ); ?>" data-slidestoshow = "{{slideToShow}}" data-autoplay="{{autoplay}}">
+	<div class="twae-slider-container swiper-container" data-dir="<?php echo esc_attr( $twae_dir ); ?>" data-slidestoshow = "{{slideToShow}}" data-autoplay="{{autoplay}}" data-auto-height="{{autoHeight}}">
 
 	<div class="twae-slider-wrapper swiper-wrapper {{slideHeight}}">
 	<#
@@ -35,16 +43,16 @@ var autoplay = settings.twae_autoplay;
 			 if(item.twae_show_year_label == 'yes'){
 						#>
 						<div class="twae-year twae-year-container">
-							<div class="twae-year-label twae-year-text">{{{ item.twae_year }}}</div>
+							<div class="twae-year-label twae-year-text">{{ item.twae_year }}</div>
 						</div>
 				<# }#>
 					
 					<div class="twae-labels">
-						<div  class="twae-label-big">{{{ item.twae_date_label }}}</div>
+						<div  class="twae-label-big">{{ item.twae_date_label }}</div>
 						
 						<# if(extra_label_key!=="undefined")
 						{ #>
-						<div class="twae-label-small">{{{ item.twae_extra_label }}}</div>
+						<div class="twae-label-small">{{ item.twae_extra_label }}</div>
 						<# } #>
 
 					</div>	
@@ -67,7 +75,7 @@ var autoplay = settings.twae_autoplay;
 					<# if( item.twae_media == 'image' && image_url!=''){ #>          
 						<div class="twae-media {{timeline_image.size}}"><img src="{{ image_url }}" /></div>
 					<# } #>            
-						<div class="twae-title">{{{ item.twae_story_title}}}</div>
+						<div class="twae-title">{{ item.twae_story_title}}</div>
 						<div class="twae-description">{{{ item.twae_description }}}</div>
 					</div>
 			</div>

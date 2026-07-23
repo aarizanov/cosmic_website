@@ -52,17 +52,22 @@ class MonsterInsights_Site_Notes_DB_Base
 		}
 
 		$categories = array(
-			__('Website Updates', 'google-analytics-for-wordpress'),
-			__('Blog Post', 'google-analytics-for-wordpress'),
-			__('Promotion', 'google-analytics-for-wordpress'),
+			array(
+				'name' => __('Website Updates', 'google-analytics-for-wordpress'),
+				'background_color' => '#F072B2'
+			),
+			array(
+				'name' => __('Blog Post', 'google-analytics-for-wordpress'),
+				'background_color' => '#8D87E5'
+			),
+			array(
+				'name' => __('Promotion', 'google-analytics-for-wordpress'),
+				'background_color' => '#1EC185'
+			),
 		);
 
 		foreach ($categories as $category) {
-			$this->create_category(
-				array(
-					'name' => $category,
-				)
-			);
+			$this->create_category( $category );
 		}
 
 		update_option('monsterinsights_sitenotes_installed', time());
@@ -99,11 +104,15 @@ class MonsterInsights_Site_Notes_DB_Base
 			return new WP_Error(400, __('Your Site Note Cannot be Empty', 'google-analytics-for-wordpress'));
 		}
 
+		if ( ! empty( $data['id'] ) && 'monsterinsights_note' !== get_post_type( $data['id'] ) ) {
+			return new WP_Error( 403, __( 'Invalid site note.', 'google-analytics-for-wordpress' ) );
+		}
+
 		$note_post = array(
 			'ID' => isset($data['id']) ? $data['id'] : null,
 			'post_title'    => sanitize_text_field($data['note']),
 			'post_status'   => 'publish',
-			'post_author'   => get_current_user_id(),
+			'post_author'   => isset( $data['author_id'] ) ? intval( $data['author_id'] ) : get_current_user_id(),
 			'post_date'     => !empty($data['date']) ? $data['date'] : current_datetime()->format('Y-m-d'),
 			'post_type'     => 'monsterinsights_note',
 		);
@@ -111,6 +120,13 @@ class MonsterInsights_Site_Notes_DB_Base
 
 		if (is_wp_error($post_id)) {
 			return $post_id;
+		}
+
+		// Create the note in GA4. Skipped during bulk operations such as settings
+		// import, where syncing each restored note to the relay individually would
+		// fire one synchronous request per note.
+		if (empty($data['skip_ga4_sync'])) {
+			$this->create_note_in_ga4($post_id, $data);
 		}
 
 		// Attach the note to the category.
@@ -188,7 +204,7 @@ class MonsterInsights_Site_Notes_DB_Base
 			'note_date' => get_the_date( 'Y-m-d', $post),
 			'note_date_ymd' => get_the_date( 'Y-m-d', $post ),
 			'status' => get_post_status($post),
-			'important' => get_post_meta($post->ID, 'important', true),
+			'important' => (int) get_post_meta($post->ID, 'important', true),
 			'medias' => array(),
 			'category' => array(
 				'id' => 0,
@@ -346,6 +362,7 @@ class MonsterInsights_Site_Notes_DB_Base
 			if($is_important){
 				$important_count++;
 			}
+			$post['ga_note_id'] = get_post_meta( $post_id, '_ga4_annotation_id', true ) ?? null;
 			$items[] = $post;
 		}
 
@@ -413,6 +430,10 @@ class MonsterInsights_Site_Notes_DB_Base
 			return;
 		}
 
+		if ( 'monsterinsights_note' !== get_post_type( $note_id ) ) {
+			return;
+		}
+
 		return wp_trash_post($note_id);
 	}
 
@@ -421,15 +442,41 @@ class MonsterInsights_Site_Notes_DB_Base
 		if ( ! current_user_can( 'monsterinsights_save_settings' ) ) {
 			return;
 		}
+
+		if ( 'monsterinsights_note' !== get_post_type( $note_id ) ) {
+			return;
+		}
+
 		return wp_untrash_post($note_id);
 	}
-
-	public function delete_note($note_id = 0)
+	/**
+	 * Delete a note and its associated GA4 annotation.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $note_id The ID of the note to delete.
+	 *
+	 * @return bool|WP_Error True on success, WP_Error on failure.
+	 */
+	public function delete_note( $note_id = 0 )
 	{
 		if ( ! current_user_can( 'monsterinsights_save_settings' ) ) {
 			return;
 		}
-		return wp_delete_post($note_id, true);
+
+		if ( 'monsterinsights_note' !== get_post_type( $note_id ) ) {
+			return;
+		}
+
+		// Check if this note has a GA4 annotation ID and delete it from GA4 first
+		$ga4_annotation_id = get_post_meta( $note_id, '_ga4_annotation_id', true );
+		if ( ! empty( $ga4_annotation_id ) ) {
+			// Get the controller instance to call the GA4 deletion function.
+			$controller = MonsterInsights_SiteNotes_Controller::get_instance();
+			$controller->deleted_note_from_ga4_single( $ga4_annotation_id );
+		}
+
+		return wp_delete_post( $note_id, true );
 	}
 
 	public function delete_category($id = 0)
@@ -438,5 +485,89 @@ class MonsterInsights_Site_Notes_DB_Base
 			return;
 		}
 		return wp_delete_term($id, 'monsterinsights_note_category');
+	}
+
+	/**
+	 * Create or update a note in GA4.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $post_id The ID of the post. 
+	 * @param array $data The data of the note.
+	 *
+	 * @return void
+	 */
+	public function create_note_in_ga4( $post_id, $data )
+	{
+		// Check if user is authenticated for GA4
+		if ( !( MonsterInsights()->auth->is_authed() || MonsterInsights()->auth->is_network_authed() ) ) {
+			return; // Exit if not authenticated
+		}
+
+		// Check if this is an update (post existed previously)
+		$is_update = isset( $data['id'] ) && ! empty( $data['id'] );
+		
+		// Prepare annotation data for GA4
+		$annotation = array(
+			'title'           => $data['note'],
+			'annotation_date' => ! empty( $data['date'] ) ? $data['date'] : current_datetime()->format( 'Y-m-d' ),
+			'description'     => $data['note'], // Use note as description
+		);
+
+		// Prepare API request options
+		$api_options = array();
+		
+		// Add network flag if needed
+		if ( ! MonsterInsights()->auth->is_authed() && MonsterInsights()->auth->is_network_authed() ) {
+			$api_options['network'] = true;
+		}
+
+		// Determine if we should create or update
+		if ( $is_update ) {
+			// Get existing GA4 annotation ID for update
+			$existing_ga4_id = get_post_meta( $post_id, '_ga4_annotation_id', true );
+			
+			if ( ! empty( $existing_ga4_id ) ) {
+				// Update existing annotation
+				$api = new MonsterInsights_API_Request( 'analytics/reports/annotations/update', $api_options, 'POST' );
+				
+				// Add the GA4 annotation ID to the annotation data for update
+				$annotation['id'] = $existing_ga4_id;
+				
+				// Set additional data with annotation for update
+				$api->set_additional_data( array(
+					'annotations' => array( $annotation ),
+				) );
+			} else {
+				// No GA4 ID found, create new annotation
+				$api = new MonsterInsights_API_Request( 'analytics/reports/annotations/', $api_options, 'POST' );
+				// Set additional data with annotation for creation
+				$api->set_additional_data( array(
+					'annotations' => array( $annotation ),
+				) );
+			}
+		} else {
+			// Create new annotation
+			$api = new MonsterInsights_API_Request( 'analytics/reports/annotations/', $api_options, 'POST' );
+			
+			// Set additional data with annotation for creation
+			$api->set_additional_data( array(
+				'annotations' => array( $annotation ),
+			) );
+		}
+
+		// Make the API request
+		$response = $api->request();
+		if ( ! is_wp_error( $response ) ) {
+			if ( $is_update && ! empty( $existing_ga4_id ) ) {
+				// Update successful - annotation ID remains the same
+				// No need to update post meta as it already exists
+			} else {
+				// Creation successful - store the new GA4 annotation ID
+				if ( isset( $response['created'][0]['annotation']['id'] ) ) {
+					update_post_meta( $post_id, '_ga4_annotation_id', $response['created'][0]['annotation']['id'] );
+				}
+			}
+		}
 	}
 }

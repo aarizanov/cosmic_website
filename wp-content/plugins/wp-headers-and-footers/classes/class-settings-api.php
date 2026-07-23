@@ -37,8 +37,6 @@ if ( ! class_exists( 'WPHeaderAndFooter_Settings_API' ) ) :
 		 */
 		public function admin_enqueue_scripts() {
 			wp_enqueue_style( 'wp-color-picker' );
-
-			wp_enqueue_media();
 			wp_enqueue_script( 'wp-color-picker' );
 			wp_enqueue_script( 'jquery' );
 		}
@@ -366,13 +364,14 @@ if ( ! class_exists( 'WPHeaderAndFooter_Settings_API' ) ) :
 		 * Displays a file upload field for a settings field.
 		 *
 		 * @param array $args settings field args.
+		 * @version 3.1.3
 		 */
 		public function callback_file( $args ) {
 
 			$value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 			$size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 			$id    = $args['section'] . '[' . $args['id'] . ']';
-			$label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File' );
+			$label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File', 'wp-headers-and-footers' );
 
 			$html  = sprintf( '<input type="text" class="%1$s-text wpsa-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
 			$html .= '<input type="button" class="button wpsa-browse" value="' . $label . '" />';
@@ -591,7 +590,7 @@ if ( ! class_exists( 'WPHeaderAndFooter_Settings_API' ) ) :
 			</div>
 			<?php
 			// wp_enqueue_script( 'wpheaderandfooter_admin_script', plugins_url( '/asset/js/settings-api-script.js', __FILE__ ), array( 'jquery' ), '1.0.0', false );
-$this->script();
+			$this->script();
 		}
 
 		/**
@@ -599,81 +598,82 @@ $this->script();
 		 *
 		 * This code uses local storage for displaying active tabs
 		 */
-		public function script() { ?>
-		<script>
-			jQuery(document).ready(function($) {
+		public function script() {
+			?>
+			<script>
+				jQuery(document).ready(function($) {
 
-				//Initiate Color Picker
-				$('.wp-color-picker-field').wpColorPicker();
+					//Initiate Color Picker
+					$('.wp-color-picker-field').wpColorPicker();
 
-				// Switches option sections
-				$('.group').removeClass('is_show');
-				var activetab = '';
-				if (typeof(localStorage) != 'undefined' ) {
-					activetab = localStorage.getItem("activetab");
-				}
-				if (activetab != '' && $(activetab).length ) {
-					$(activetab).addClass('is_show');
-				} else {
-					$('.group:first').addClass('is_show');
-				}
-				$('.group .collapsed').each(function(){
-					$(this).find('input:checked').parent().parent().parent().nextAll().each(
-					function(){
-						if ($(this).hasClass('last')) {
-							$(this).removeClass('hidden');
-							return false;
-						}
-						$(this).filter('.hidden').removeClass('hidden');
-					});
-				});
-
-				if (activetab != '' && $(activetab + '-tab').length ) {
-					$(activetab + '-tab').addClass('nav-tab-active');
-				}
-				else {
-					$('.nav-tab-wrapper a:first').addClass('nav-tab-active');
-				}
-				$('.nav-tab-wrapper a').click(function(evt) {
-					
-					$('.nav-tab-wrapper a').removeClass('nav-tab-active');
-					$(this).addClass('nav-tab-active').blur();
-					var clicked_group = $(this).attr('href');
-					if (typeof(localStorage) != 'undefined' ) {
-						localStorage.setItem("activetab", $(this).attr('href'));
-					}
+					// Switches option sections
 					$('.group').removeClass('is_show');
-					$(clicked_group).addClass('is_show');
-					evt.preventDefault();
-				});
-
-				$('.wpsa-browse').on('click', function (event) {
-					event.preventDefault();
-
-					var self = $(this);
-
-					// Create the media frame.
-					var file_frame = wp.media.frames.file_frame = wp.media({
-						title: self.data('uploader_title'),
-						button: {
-							text: self.data('uploader_button_text'),
-						},
-						multiple: false
+					var activetab = '';
+					if (typeof(localStorage) != 'undefined' ) {
+						activetab = localStorage.getItem("activetab");
+					}
+					if (activetab != '' && $(activetab).length ) {
+						$(activetab).addClass('is_show');
+					} else {
+						$('.group:first').addClass('is_show');
+					}
+					$('.group .collapsed').each(function(){
+						$(this).find('input:checked').parent().parent().parent().nextAll().each(
+						function(){
+							if ($(this).hasClass('last')) {
+								$(this).removeClass('hidden');
+								return false;
+							}
+							$(this).filter('.hidden').removeClass('hidden');
+						});
 					});
 
-					file_frame.on('select', function () {
-						attachment = file_frame.state().get('selection').first().toJSON();
-						self.prev('.wpsa-url').val(attachment.url).change();
+					if (activetab != '' && $(activetab + '-tab').length ) {
+						$(activetab + '-tab').addClass('nav-tab-active');
+					}
+					else {
+						$('.nav-tab-wrapper a:first').addClass('nav-tab-active');
+					}
+					$('.nav-tab-wrapper a').click(function(evt) {
+						
+						$('.nav-tab-wrapper a').removeClass('nav-tab-active');
+						$(this).addClass('nav-tab-active').blur();
+						var clicked_group = $(this).attr('href');
+						if (typeof(localStorage) != 'undefined' ) {
+							localStorage.setItem("activetab", $(this).attr('href'));
+						}
+						$('.group').removeClass('is_show');
+						$(clicked_group).addClass('is_show');
+						evt.preventDefault();
 					});
 
-					// Finally, open the modal
-					file_frame.open();
-				});
+					$('.wpsa-browse').on('click', function (event) {
+						event.preventDefault();
+
+						var self = $(this);
+
+						// Create the media frame.
+						var file_frame = wp.media.frames.file_frame = wp.media({
+							title: self.data('uploader_title'),
+							button: {
+								text: self.data('uploader_button_text'),
+							},
+							multiple: false
+						});
+
+						file_frame.on('select', function () {
+							attachment = file_frame.state().get('selection').first().toJSON();
+							self.prev('.wpsa-url').val(attachment.url).change();
+						});
+
+						// Finally, open the modal
+						file_frame.open();
+					});
 
 
-				});
-		</script>
-		<?php
+					});
+			</script>
+			<?php
 			$this->style_fix();
 		}
 

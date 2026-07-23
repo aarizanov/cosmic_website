@@ -1,7 +1,9 @@
 <?php
 
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
 
 if ( ! function_exists( 'qi_blocks_register_slider_3rd_party_scripts' ) ) {
 	/**
@@ -11,9 +13,9 @@ if ( ! function_exists( 'qi_blocks_register_slider_3rd_party_scripts' ) ) {
 		$general_options = get_option( QI_BLOCKS_GENERAL_OPTIONS, array() );
 		$swiper_version  = ! empty( $general_options ) && isset( $general_options['swiper_library'] ) ? '8.4.5' : '5.4.5';
 
-		// Register swiper scripts
-		wp_register_style( 'swiper', QI_BLOCKS_INC_URL_PATH . '/slider/assets/plugins/' . esc_attr( $swiper_version ) . '/swiper.min.css' );
-		wp_register_script( 'swiper', QI_BLOCKS_INC_URL_PATH . '/slider/assets/plugins/' . esc_attr( $swiper_version ) . '/swiper.min.js', array( 'jquery' ), false, true );
+		// Register swiper scripts.
+		wp_register_style( 'swiper', QI_BLOCKS_INC_URL_PATH . '/slider/assets/plugins/' . esc_attr( $swiper_version ) . '/swiper.min.css', array(), $swiper_version );
+		wp_register_script( 'swiper', QI_BLOCKS_INC_URL_PATH . '/slider/assets/plugins/' . esc_attr( $swiper_version ) . '/swiper.min.js', array( 'jquery' ), $swiper_version, true );
 	}
 
 	add_action( 'qi_blocks_action_additional_3rd_party_scripts', 'qi_blocks_register_slider_3rd_party_scripts' );
@@ -36,7 +38,25 @@ if ( ! function_exists( 'qi_blocks_set_slider_style_as_block_style_dependency' )
 		return $style_dependency;
 	}
 
-	add_filter( 'qi_blocks_filter_block_style_dependency', 'qi_blocks_set_slider_style_as_block_style_dependency', 5 ); // permission 5 is set in order to be before main plugins style
+	// permission 5 is set in order to be before main plugins style.
+	add_filter( 'qi_blocks_filter_block_style_dependency', 'qi_blocks_set_slider_style_as_block_style_dependency', 5 );
+}
+
+if ( ! function_exists( 'qi_blocks_set_swiper_script_as_editor_dependency' ) ) {
+	/**
+	 * Ensure Swiper is loaded before editor scripts that initialize sliders.
+	 *
+	 * @param array $script_dependency
+	 *
+	 * @return array
+	 */
+	function qi_blocks_set_swiper_script_as_editor_dependency( $script_dependency ) {
+		$script_dependency[] = 'swiper';
+
+		return $script_dependency;
+	}
+
+	add_filter( 'qi_blocks_filter_main_editor_dependencies', 'qi_blocks_set_swiper_script_as_editor_dependency', 15 );
 }
 
 if ( ! function_exists( 'qi_blocks_get_block_slider_attributes' ) ) {

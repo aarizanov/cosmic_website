@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 	class QiAddonsForElementor_Dashboard_Widgets {
 
@@ -18,7 +23,7 @@ if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 			// Register Dashboard Widgets.
 			add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
 
-			// Enqueue Dashboard Widgets Scripts
+			// Enqueue Dashboard Widgets Scripts.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_widgets_styles' ), 5 );
 		}
 
@@ -44,11 +49,9 @@ if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 			$params['magazine_posts'] = $this->get_magazine_posts();
 			$params['special_post']   = reset( $special_posts );
 			qi_addons_for_elementor_framework_template_part( QI_ADDONS_FOR_ELEMENTOR_ADMIN_PATH, 'inc/dashboard-widgets', 'templates/widget', '', $params );
-
 		}
 
 		public function get_magazine_posts() {
-
 			$posts = get_transient( $this->magazine_transient );
 
 			if ( false === $posts ) {
@@ -59,7 +62,6 @@ if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 		}
 
 		public function get_current_magazine_posts() {
-
 			$url            = trailingslashit( $this->magazine_url . '/wp-json/wp/v2/posts' );
 			$formated_posts = array();
 			$posts          = $this->get_url_content( $url, array( 'per_page' => 3 ) );
@@ -70,7 +72,7 @@ if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 					$formated_posts[ $post->id ] = array(
 						'title'   => $post->title->rendered,
 						'link'    => $post->link,
-						'excerpt' => strip_tags( $post->excerpt->rendered ),
+						'excerpt' => wp_strip_all_tags( $post->excerpt->rendered ),
 					);
 
 					$media_url  = trailingslashit( $this->magazine_url . '/wp-json/wp/v2/media/' . $post->featured_media );
@@ -88,7 +90,6 @@ if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 		}
 
 		public function get_special_post() {
-
 			$posts = get_transient( $this->special_post_transient );
 
 			if ( false === $posts ) {
@@ -99,7 +100,6 @@ if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 		}
 
 		public function get_current_special_post() {
-
 			$url            = trailingslashit( $this->magazine_url . '/wp-json/wp/v2/special-posts' );
 			$formated_posts = array();
 			$posts          = $this->get_url_content( $url, array( 'per_page' => 1 ) );
@@ -142,13 +142,13 @@ if ( ! class_exists( 'QiAddonsForElementor_Dashboard_Widgets' ) ) {
 			return false;
 		}
 
-		function enqueue_dashboard_widgets_styles( $hook ) {
+		public function enqueue_dashboard_widgets_styles( $hook ) {
 
 			if ( 'index.php' === $hook ) {
+				// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 				wp_enqueue_style( 'qode-framework-dashboard-widgets', QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/dashboard-widgets/assets/css/dashboard-widgets.css' );
 			}
 		}
-
 	}
 
 	QiAddonsForElementor_Dashboard_Widgets::get_instance();

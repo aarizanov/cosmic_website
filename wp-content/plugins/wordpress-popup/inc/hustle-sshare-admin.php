@@ -13,6 +13,30 @@ if ( ! class_exists( 'Hustle_SShare_Admin' ) ) :
 	class Hustle_SShare_Admin extends Hustle_Module_Page_Abstract {
 
 		/**
+		 * Established the properties for the page.
+		 *
+		 * @since 7.8.14
+		 */
+		protected function init() {
+			parent::init();
+			add_action( 'hustle_after_create_module', array( $this, 'delete_sshare_modules_transient' ) );
+			add_action( 'hustle_after_update_module', array( $this, 'delete_sshare_modules_transient' ) );
+		}
+
+		/**
+		 * Deletes the social sharing modules transient when a social sharing module is created or updated.
+		 *
+		 * @since 7.8.14
+		 *
+		 * @param string $module_type Module type.
+		 */
+		public function delete_sshare_modules_transient( $module_type ) {
+			if ( Hustle_Module_Model::SOCIAL_SHARING_MODULE === $module_type ) {
+				delete_transient( 'hustle_social_sharing_modules' );
+			}
+		}
+
+		/**
 		 * Set page properties
 		 */
 		protected function set_page_properties() {

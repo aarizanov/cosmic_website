@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_icon_with_text_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_icon_with_text_shortcode' )
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Icon_With_Text_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_icon_with_text_layouts', array() ) );
 
@@ -36,7 +45,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_icon_with_text' );
 			$this->set_name( esc_html__( 'Icon with Text', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds icon with text element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Typography', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/icon-with-text/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#icon_with_text' );
@@ -141,7 +150,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'title_margin_top',
 					'title'      => esc_html__( 'Title Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-title' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -183,7 +192,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'text_margin_top',
 					'title'      => esc_html__( 'Text Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-content > .qodef-m-text' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -206,7 +215,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'icon_size',
 					'title'      => esc_html__( 'Icon Size', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Icon Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -450,7 +459,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'icon_box_size',
 					'title'      => esc_html__( 'Icon Box Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em', 'vw' ),
+					'size_units' => array( 'px', 'em', 'vw', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -477,7 +486,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'icon_border_width',
 					'title'      => esc_html__( 'Icon Border Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em', 'vw' ),
+					'size_units' => array( 'px', 'em', 'vw', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -504,7 +513,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'icon_border_radius',
 					'title'      => esc_html__( 'Icon Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-icon-holder' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -546,7 +555,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'icon_margin',
 					'title'      => esc_html__( 'Icon Margin', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-icon-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -559,7 +568,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'       => 'button_margin_top',
 					'title'      => esc_html__( 'Button Margin Top', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-button' => 'margin-top: {{SIZE}}{{UNIT}};',

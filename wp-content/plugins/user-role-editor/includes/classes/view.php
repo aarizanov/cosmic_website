@@ -1,4 +1,6 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * View class to output any HTML used at User Role Editor
  *
@@ -206,8 +208,8 @@ class URE_View {
                 $cap_ind = 'inner';
                 $cap_ind_alt = 'human';
             }
-            $cap_html .= '<label for="' . $cap_id_esc . '" id="' . $cap_id_esc . '_label" title="' . $capability[$cap_ind_alt] . '" ' . $label_style . ' >'. 
-                 $capability[$cap_ind] . '</label> </div>';
+            $cap_html .= '<label for="' . $cap_id_esc . '" id="' . $cap_id_esc . '_label" title="' . esc_html( $capability[$cap_ind_alt] ) . '" ' . $label_style . ' >'. 
+                 esc_html( $capability[$cap_ind] ) . '</label> </div>';
             
             $output .= $cap_html;
         }

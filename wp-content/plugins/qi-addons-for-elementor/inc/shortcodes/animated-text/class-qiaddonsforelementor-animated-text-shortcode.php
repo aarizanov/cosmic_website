@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_animated_text_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,12 +25,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_animated_text_shortcode' ) 
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Animated_Text_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/animated-text' );
 			$this->set_base( 'qi_addons_for_elementor_animated_text' );
 			$this->set_name( esc_html__( 'Animated Text', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds animated text element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Typography', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/animated-text/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#animated_text' );
@@ -93,7 +102,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'title_padding',
 					'title'      => esc_html__( 'Title Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -183,12 +192,12 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			return implode( ' ', $holder_classes );
 		}
 
-		function str_split_unicode( $str ) {
+		public function str_split_unicode( $str ) {
 			mb_internal_encoding( 'UTF-8' );
 			$str = html_entity_decode( $str, ENT_QUOTES, 'UTF-8' );
 			$len = mb_strlen( $str );
 
-			for ( $i = 0; $i < $len; $i ++ ) {
+			for ( $i = 0; $i < $len; $i++ ) {
 				$result[] = mb_substr( $str, $i, 1, 'UTF-8' );
 			}
 
@@ -203,7 +212,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					$split_text = explode( ' ', $title );
 
 					foreach ( $split_text as $key => $value ) {
-						$split_text[ $key ] = '<span class="qodef-e-word">' . $value . '</span>';
+						$split_text[ $key ] = '<span class="qodef-e-word">' . html_entity_decode( $value ) . '</span>';
 					}
 				} elseif ( 'letter' === $atts['split_title'] ) {
 					$split_text = explode( ' ', $title );

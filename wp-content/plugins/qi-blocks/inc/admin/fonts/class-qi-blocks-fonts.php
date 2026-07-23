@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'Qi_Blocks_Fonts' ) ) {
 	/**
 	 * Rest API class with configuration
@@ -9,11 +14,13 @@ if ( ! class_exists( 'Qi_Blocks_Fonts' ) ) {
 
 		public function __construct() {
 
-			// Localize main editor js script with additional variables
+			// Localize main editor js script with additional variables.
 			add_filter( 'qi_blocks_filter_localize_main_editor_js', array( $this, 'localize_script' ) );
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Fonts
 		 */
 		public static function get_instance() {
@@ -24,7 +31,7 @@ if ( ! class_exists( 'Qi_Blocks_Fonts' ) ) {
 			return self::$instance;
 		}
 
-		function get_system_fonts() {
+		public function get_system_fonts() {
 			return array(
 				array(
 					'label' => esc_attr__( 'Default', 'qi-blocks' ),
@@ -113,7 +120,7 @@ if ( ! class_exists( 'Qi_Blocks_Fonts' ) ) {
 			);
 		}
 
-		function localize_script( $global ) {
+		public function localize_script( $global ) {
 			$general_options      = get_option( QI_BLOCKS_GENERAL_OPTIONS, array() );
 			$disable_google_fonts = ! empty( $general_options ) && isset( $general_options['disable_google_fonts'] );
 

@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $categories = qi_addons_for_elementor_woo_get_product_categories();
 
 if ( ! empty( $categories ) && 'no' !== $show_category ) { ?>

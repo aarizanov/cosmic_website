@@ -24,6 +24,7 @@ class HorizontalSliderClass extends elementorModules.frontend.handlers.Base {
       var selector = this.elements.$swiperContainer,
           slidestoshow = selector.data("slidestoshow"),
           autoplay = selector.data("autoplay"),
+          autoHeight = selector.data("autoHeight"),
           nextButton = this.elements.$nextButton,
           prevButton = this.elements.$prevButton,
           paginationEl = this.elements.$paginationEl;
@@ -31,7 +32,7 @@ class HorizontalSliderClass extends elementorModules.frontend.handlers.Base {
       var Navigation; var swiper;
       var lang_dir = selector.data("dir");
       if (lang_dir == 'rtl') {
-          var Navigation = {
+          Navigation = {
               nextEl: prevButton[0],
               prevEl: nextButton[0],
           }
@@ -44,6 +45,7 @@ class HorizontalSliderClass extends elementorModules.frontend.handlers.Base {
         }
       var swiperElement = selector[0];
       var swiperConfig = {
+        autoHeight,
           spaceBetween: 15,
           autoplay: autoplay,
           delay: 3000,

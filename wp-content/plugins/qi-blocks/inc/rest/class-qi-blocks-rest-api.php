@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'Qi_Blocks_Rest_API' ) ) {
 	/**
 	 * Rest API class with configuration
@@ -9,17 +14,19 @@ if ( ! class_exists( 'Qi_Blocks_Rest_API' ) ) {
 		private $namespace;
 
 		public function __construct() {
-			// Init variables
+			// Init variables.
 			$this->set_namespace( 'qi-blocks/v1' );
 
-			// Localize main editor js script with additional variables
+			// Localize main editor js script with additional variables.
 			add_filter( 'qi_blocks_filter_localize_main_editor_js', array( $this, 'localize_script' ) );
 
-			// Function that register Rest API routes
+			// Function that register Rest API routes.
 			add_action( 'rest_api_init', array( $this, 'register_rest_api_route' ) );
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Rest_API
 		 */
 		public static function get_instance() {
@@ -38,14 +45,14 @@ if ( ! class_exists( 'Qi_Blocks_Rest_API' ) ) {
 			$this->namespace = $namespace;
 		}
 
-		function localize_script( $global ) {
+		public function localize_script( $global ) {
 			$global['restUrl']   = esc_url_raw( rest_url() );
 			$global['restNonce'] = wp_create_nonce( 'wp_rest' );
 
 			return apply_filters( 'qi_blocks_filter_localize_main_editor_js_rest_api', $global, $this->get_namespace() );
 		}
 
-		function register_rest_api_route() {
+		public function register_rest_api_route() {
 			$routes = apply_filters( 'qi_blocks_filter_rest_api_routes', array() );
 
 			if ( ! empty( $routes ) ) {

@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-admin-widgets-page">
 	<form class="qodef-widgets-list qodef-dashboard-ajax-form" data-action="widget">
 		<div class="qodef-admin-widget-header">

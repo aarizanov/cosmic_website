@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Parallax_Images_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'parallax-images' );
 			$this->set_block_title( esc_html__( 'Parallax Image Showcase', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Creative', 'qi-blocks' ) );
@@ -16,7 +16,7 @@ if ( ! class_exists( 'Qi_Blocks_Parallax_Images_Block' ) ) {
 			$this->set_block_documentation( 'https://qodeinteractive.com/qi-blocks-for-gutenberg/documentation/#parallax_image_showcase' );
 			$this->set_block_video( 'https://www.youtube.com/watch?v=J4zQxU2VDPI' );
 
-			// Set block 3rd party scripts
+			// Set block 3rd party scripts.
 			$this->set_block_3rd_party_scripts(
 				array(
 					'parallax-images' => array(
@@ -30,6 +30,8 @@ if ( ! class_exists( 'Qi_Blocks_Parallax_Images_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Parallax_Images_Block
 		 */
 		public static function get_instance() {

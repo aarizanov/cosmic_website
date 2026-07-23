@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-social-box">
 	<a href="https://www.pinterest.com/qodeinteractive/" target="_blank">
 		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="21.999px" height="28px" viewBox="0 0 21.999 28" enable-background="new 0 0 21.999 28" xml:space="preserve">

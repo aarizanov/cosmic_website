@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $product = qi_blocks_woo_get_global_product();
 
 if ( ! empty( $product ) ) {

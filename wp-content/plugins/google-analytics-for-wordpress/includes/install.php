@@ -152,6 +152,10 @@ class MonsterInsights_Install {
 				$this->v7150_upgrades();
 			}
 
+			if ( version_compare( $version, '10.2.1', '<' ) ) {
+				$this->v1021_upgrades();
+			}
+
 			// Do not use. See monsterinsights_after_install_routine comment below.
 			do_action( 'monsterinsights_after_existing_upgrade_routine', $version );
 			$version = get_option( 'monsterinsights_current_version', $version );
@@ -165,6 +169,22 @@ class MonsterInsights_Install {
 		// As this hook is not for public use, we've intentionally not docbloc'd this
 		// hook to avoid developers seeing it future public dev docs.
 		do_action( 'monsterinsights_after_install_routine', $version );
+
+		// Run database migrations (since 9.11.0)
+		// This runs after all legacy upgrade routines
+		require_once MONSTERINSIGHTS_PLUGIN_DIR . 'includes/database/loader.php';
+		$migration_results = monsterinsights_run_database_migrations();
+
+		// Log migration results (but skip "already running" messages - that's not an error)
+		if ( ! $migration_results['success'] && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			// Only log actual errors, not lock collisions
+			if ( empty( $migration_results['error'] ) || $migration_results['error'] !== 'Migration is already running' ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'MonsterInsights: Database migrations failed' );
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r
+				error_log( print_r( $migration_results, true ) );
+			}
+		}
 
 		// This is the version of MI installed
 		update_option( 'monsterinsights_current_version', MONSTERINSIGHTS_VERSION );
@@ -277,6 +297,7 @@ class MonsterInsights_Install {
 			'demographics'                             => 1,
 			'ignore_users'                             => array( 'administrator', 'editor' ),
 			'dashboards_disabled'                      => 0,
+			'hide_not_set_values_from_reports'         => 'on',
 			'anonymize_ips'                            => 0,
 			'extensions_of_files'                      => 'doc,pdf,ppt,zip,xls,docx,pptx,xlsx',
 			'subdomain_tracking'                       => '',
@@ -291,6 +312,9 @@ class MonsterInsights_Install {
 			'email_summaries'                          => 'on',
 			'summaries_html_template'                  => 'yes',
 			'summaries_email_addresses'                => $admin_email_array,
+			'summaries_show_blog_posts'                => 'yes',
+			'summaries_show_update_notices'            => 'yes',
+			'exception_alert_email_addresses'          => $admin_email_array,
 			'automatic_updates'                        => 'all',
 			'anonymous_data'                           => 0,
 			'verified_automatic'                       => 0,
@@ -861,5 +885,18 @@ class MonsterInsights_Install {
 		if ( empty( $this->new_settings['gtagtracker_compatibility_mode'] ) ) {
 			$this->new_settings['gtagtracker_compatibility_mode'] = true;
 		}
+	}
+
+	/**
+	 * Upgrade routine for 10.2.1 — clean up legacy PAX (Google Ads) data.
+	 *
+	 * @return void
+	 * @since 10.2.1
+	 * @access public
+	 */
+	public function v1021_upgrades() {
+		monsterinsights_delete_option( 'monsterinsights_google_ads_settings' );
+		delete_transient( 'monsterinsights_google_ads_access_token_data' );
+		delete_site_transient( 'monsterinsights_google_ads_access_token_data' );
 	}
 }

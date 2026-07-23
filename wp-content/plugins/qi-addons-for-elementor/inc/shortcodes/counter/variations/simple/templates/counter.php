@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $holder_classes ); ?> <?php qi_addons_for_elementor_framework_inline_attrs( $data_attrs ); ?>>
 	<div class="qodef-m-digit-wrapper">
 		<?php qi_addons_for_elementor_template_part( 'shortcodes/counter', 'variations/' . $layout . '/templates/parts/digit', '', $params ); ?>

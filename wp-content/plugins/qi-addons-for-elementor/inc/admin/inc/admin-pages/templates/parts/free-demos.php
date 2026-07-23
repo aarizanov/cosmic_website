@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-section-box qodef-section-free-demos">
 	<div class="qodef-section-box-image">
 		<img src="<?php echo esc_url( QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/admin-pages/assets/img/qi-theme.png' ); ?>" alt="<?php esc_attr_e( 'Free Demos', 'qi-addons-for-elementor' ); ?>" />

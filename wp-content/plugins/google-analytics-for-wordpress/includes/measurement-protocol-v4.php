@@ -89,8 +89,14 @@ class MonsterInsights_Measurement_Protocol_V4 {
 		$sanitized_params = array();
 
 		foreach ( $params as $key => $value ) {
+			// Skip empty string values to prevent sending invalid data to Google
+			// Google may reject events with empty string parameters
+			if ( $value === '' && $key !== 'transaction_id' ) {
+				continue;
+			}
+
 			if ( ! array_key_exists( $key, $schema ) ||
-			     ( ! is_array( $value ) && gettype( $value ) === $schema[ $key ] )
+				 ( ! is_array( $value ) && gettype( $value ) === $schema[ $key ] )
 			) {
 				$sanitized_params[ $key ] = $value;
 				continue;
@@ -160,26 +166,29 @@ class MonsterInsights_Measurement_Protocol_V4 {
 			return;
 		}
 
-        $session_id = monsterinsights_get_browser_session_id( $this->measurement_id );
+		$session_id = monsterinsights_get_browser_session_id( $this->measurement_id );
 
 		$defaults = array(
 			'client_id' => $this->get_client_id( $args ),
 			'events'    => array(),
+			'consent' => array(
+				'ad_personalization' => 'GRANTED',
+			),
 		);
 
 		$body = $this->validate_args( $args, $defaults );
 
-        foreach ( $body['events'] as $index => $event ) {
+		foreach ( $body['events'] as $index => $event ) {
 
-            //  Provide a default session id if not set already.
-            if ( !empty( $session_id ) && empty( $body['events'][$index]['params']['session_id'] ) ) {
-                $body['events'][$index]['params']['session_id'] = $session_id;
-            }
+			//  Provide a default session id if not set already.
+			if ( !empty( $session_id ) && empty( $body['events'][$index]['params']['session_id'] ) ) {
+				$body['events'][$index]['params']['session_id'] = $session_id;
+			}
 
-            if ( $this->is_debug ) {
-                $body['events'][ $index ]['params']['debug_mode'] = true;
-            }
-        }
+			if ( $this->is_debug ) {
+				$body['events'][ $index ]['params']['debug_mode'] = true;
+			}
+		}
 
 		$body = apply_filters( 'monsterinsights_mp_v4_api_call', $body );
 
@@ -187,7 +196,7 @@ class MonsterInsights_Measurement_Protocol_V4 {
 			$this->get_url(),
 			array(
 				'method'   => 'POST',
-				'timeout'  => 5,
+				'timeout'  => 5, // phpcs:ignore
 				'blocking' => $this->is_debug,
 				'body'     => wp_json_encode( $body ),
 			)
@@ -197,7 +206,7 @@ class MonsterInsights_Measurement_Protocol_V4 {
 	public function collect( $args ) {
 		// Detect if browser request is a prefetch
 		if ( ( isset( $_SERVER["HTTP_X_PURPOSE"] ) && ( 'prefetch' === strtolower( sanitize_text_field($_SERVER["HTTP_X_PURPOSE"]) ) ) ) ||
-		     ( isset( $_SERVER["HTTP_X_MOZ"] ) && ( 'prefetch' === strtolower( sanitize_text_field($_SERVER["HTTP_X_MOZ"]) ) ) ) ) {
+			 ( isset( $_SERVER["HTTP_X_MOZ"] ) && ( 'prefetch' === strtolower( sanitize_text_field($_SERVER["HTTP_X_MOZ"]) ) ) ) ) {
 			return;
 		}
 

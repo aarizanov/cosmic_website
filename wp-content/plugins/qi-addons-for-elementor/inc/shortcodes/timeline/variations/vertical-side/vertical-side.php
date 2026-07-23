@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_filter_timeline_layouts_variation_vertical_side' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -51,7 +56,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_timeline_vertical_side_opti
 			'field_type' => 'slider',
 			'name'       => 'vertical_side_side_width',
 			'title'      => esc_html__( 'Side Width', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'vw' ),
+			'size_units' => array( 'px', '%', 'vw', 'custom' ),
 			'range'      => array(
 				'px' => array(
 					'min' => 0,
@@ -77,7 +82,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_timeline_vertical_side_opti
 			'field_type' => 'slider',
 			'name'       => 'vertical_side_content_width',
 			'title'      => esc_html__( 'Content Width', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'vw' ),
+			'size_units' => array( 'px', '%', 'vw', 'custom' ),
 			'range'      => array(
 				'px' => array(
 					'min' => 0,
@@ -103,7 +108,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_timeline_vertical_side_opti
 			'field_type' => 'slider',
 			'name'       => 'vertical_side_item_side_padding',
 			'title'      => esc_html__( 'Item Side Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-timeline-layout--vertical-side .qodef-e-item-inner' => 'padding: 0 0 0 {{SIZE}}{{UNIT}};',
@@ -125,7 +130,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_timeline_vertical_side_opti
 			'name'        => 'vertical_side_image_margins',
 			'title'       => esc_html__( 'Image Margins', 'qi-addons-for-elementor' ),
 			'description' => esc_html__( 'Left/right margins will be mirrored for items on the right', 'qi-addons-for-elementor' ),
-			'size_units'  => array( 'px', '%', 'em' ),
+			'size_units'  => array( 'px', '%', 'em', 'custom' ),
 			'responsive'  => true,
 			'selectors'   => array(
 				'{{WRAPPER}} .qodef-timeline-layout--vertical-side .qodef-e-side-holder'                             => 'margin: {{TOP}}{{UNIT}} {{LEFT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{RIGHT}}{{UNIT}};',

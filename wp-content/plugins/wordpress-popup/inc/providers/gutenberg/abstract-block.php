@@ -65,11 +65,17 @@ abstract class Hustle_GHBlock_Abstract {
 			register_block_type(
 				'hustle/' . $this->get_slug(),
 				array(
-					'render_callback' => array( $this, 'render_block' ),
+					'render_callback'      => array( $this, 'render_block' ),
+					'editor_style_handles' => array(
+						'hustle_info',
+						'hustle_icons',
+						'hustle_optin',
+						'hustle_inline',
+						'hustle_social',
+					),
 				)
 			);
 		}
-
 	}
 
 	/**

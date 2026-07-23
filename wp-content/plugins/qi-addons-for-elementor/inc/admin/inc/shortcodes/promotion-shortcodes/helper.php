@@ -1,16 +1,20 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) {
 	/**
 	 * Function that return array of promotion shortcodes
-	 *
 	 *
 	 * @return array
 	 */
 	function qi_addons_for_elementor_promotion_shortcodes_list() {
 
 		$shortcodes = array(
-			'qi_addons_for_elementor_premium_advanced_timeline'                        => array(
+			'qi_addons_for_elementor_premium_advanced_timeline' => array(
 				'base'          => 'advanced-timeline',
 				'title'         => esc_html__( 'Advanced Timeline', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -20,7 +24,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-advanced-timeline',
 			),
-			'qi_addons_for_elementor_premium_advanced_toggle'                        => array(
+			'qi_addons_for_elementor_premium_advanced_toggle' => array(
 				'base'          => 'advanced-toggle',
 				'title'         => esc_html__( 'Advanced Toggle', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -30,7 +34,17 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-advanced-toggle',
 			),
-			'qi_addons_for_elementor_premium_animated_device_slider'                 => array(
+			'qi_addons_for_elementor_premium_album_gallery' => array(
+				'base'          => 'album-gallery',
+				'title'         => esc_html__( 'Album Gallery', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
+				'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/album-gallery/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#album_gallery',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-album-gallery',
+			),
+			'qi_addons_for_elementor_premium_animated_device_slider' => array(
 				'base'          => 'animated-device-slider',
 				'title'         => esc_html__( 'Animated Device Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -40,7 +54,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-animated-device-slider',
 			),
-			'qi_addons_for_elementor_premium_author_info'                            => array(
+			'qi_addons_for_elementor_premium_author_info'  => array(
 				'base'          => 'author-info',
 				'title'         => esc_html__( 'Author Info', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -50,7 +64,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-author-info',
 			),
-			'qi_addons_for_elementor_premium_blog_list_premium'                      => array(
+			'qi_addons_for_elementor_premium_blog_list_premium' => array(
 				'base'          => 'blog-list-premium',
 				'title'         => esc_html__( 'Blog List Premium', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -60,7 +74,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-blog-list-premium',
 			),
-			'qi_addons_for_elementor_premium_business_reviews_google'                => array(
+			'qi_addons_for_elementor_premium_business_reviews_google' => array(
 				'base'          => 'business-reviews-google',
 				'title'         => esc_html__( 'Business Reviews Google', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'SEO', 'qi-addons-for-elementor' ),
@@ -70,7 +84,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-business-reviews-google',
 			),
-			'qi_addons_for_elementor_premium_business_reviews_yelp'                  => array(
+			'qi_addons_for_elementor_premium_business_reviews_yelp' => array(
 				'base'          => 'business-reviews-yelp',
 				'title'         => esc_html__( 'Business Reviews Yelp', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'SEO', 'qi-addons-for-elementor' ),
@@ -80,7 +94,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-business-reviews-yelp',
 			),
-			'qi_addons_for_elementor_premium_circled_slider'                     => array(
+			'qi_addons_for_elementor_premium_circled_slider' => array(
 				'base'          => 'circled-slider',
 				'title'         => esc_html__( 'Circled Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -90,7 +104,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-circled-slider',
 			),
-			'qi_addons_for_elementor_premium_comparative_tables'                     => array(
+			'qi_addons_for_elementor_premium_comparative_tables' => array(
 				'base'          => 'comparative-tables',
 				'title'         => esc_html__( 'Comparative Table', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -100,7 +114,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-comparative-tables',
 			),
-			'qi_addons_for_elementor_premium_content_menu'                           => array(
+			'qi_addons_for_elementor_premium_content_menu' => array(
 				'base'          => 'content-menu',
 				'title'         => esc_html__( 'Content Menu', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
@@ -110,7 +124,17 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-content-menu',
 			),
-			'qi_addons_for_elementor_premium_data_table'                             => array(
+			'qi_addons_for_elementor_premium_content_slider' => array(
+				'base'          => 'content-slider',
+				'title'         => esc_html__( 'Content Slider', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
+				'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/content-slider/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#content_slider',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-content-slider',
+			),
+			'qi_addons_for_elementor_premium_data_table'   => array(
 				'base'          => 'data-table',
 				'title'         => esc_html__( 'Data Table', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -120,7 +144,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-data-table',
 			),
-			'qi_addons_for_elementor_premium_divided_device_slider'                  => array(
+			'qi_addons_for_elementor_premium_divided_device_slider' => array(
 				'base'          => 'divided-device-slider',
 				'title'         => esc_html__( 'Divided Device Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -130,7 +154,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-divided-device-slider',
 			),
-			'qi_addons_for_elementor_premium_divided_showcase_carousel'              => array(
+			'qi_addons_for_elementor_premium_divided_showcase_carousel' => array(
 				'base'          => 'divided-showcase-carousel',
 				'title'         => esc_html__( 'Divided Showcase Carousel', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -140,7 +164,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-divided-showcase-carousel',
 			),
-			'qi_addons_for_elementor_premium_divided_slider_diverge'                 => array(
+			'qi_addons_for_elementor_premium_divided_slider_diverge' => array(
 				'base'          => 'divided-slider-diverge',
 				'title'         => esc_html__( 'Divided Slider Diverge', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -150,7 +174,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-divided-slider-diverge',
 			),
-			'qi_addons_for_elementor_premium_divided_slider_reveal'                  => array(
+			'qi_addons_for_elementor_premium_divided_slider_reveal' => array(
 				'base'          => 'divided-slider-reveal',
 				'title'         => esc_html__( 'Divided Slider Reveal', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -160,7 +184,17 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-divided-slider-reveal',
 			),
-			'qi_addons_for_elementor_premium_fixed_project_slider'                   => array(
+			'qi_addons_for_elementor_premium_dual_image_carousel' => array(
+				'base'          => 'dual-image-carousel',
+				'title'         => esc_html__( 'Dual Image Carousel', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
+				'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/dual-image-carousel/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#dual-image-carousel',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-dual-image-carousel',
+			),
+			'qi_addons_for_elementor_premium_fixed_project_slider' => array(
 				'base'          => 'fixed-project-slider',
 				'title'         => esc_html__( 'Fixed Project Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -170,7 +204,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-fixed-project-slider',
 			),
-			'qi_addons_for_elementor_premium_flip_box'                 => array(
+			'qi_addons_for_elementor_premium_flip_box'     => array(
 				'base'          => 'flip-box',
 				'title'         => esc_html__( 'Flip Box', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -180,7 +214,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-flip-box',
 			),
-			'qi_addons_for_elementor_premium_floating_item_showcase'                 => array(
+			'qi_addons_for_elementor_premium_floating_item_showcase' => array(
 				'base'          => 'floating-item-showcase',
 				'title'         => esc_html__( 'Floating Item Showcase', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -190,7 +224,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-floating-item-showcase',
 			),
-			'qi_addons_for_elementor_premium_google_map'                             => array(
+			'qi_addons_for_elementor_premium_google_map'   => array(
 				'base'          => 'google-map',
 				'title'         => esc_html__( 'Google Map', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -204,13 +238,13 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'base'          => 'horizontal-double-row-project-showcase',
 				'title'         => esc_html__( 'Horizontal Double Row Projects', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
-				'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/horizontal-double-row-project-showcase/',
+				'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/horizontal-double-row-projects/',
 				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#horizontal_double_row_project_showcase',
 				'premium'       => true,
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-horizontal-double-row-project-showcase',
 			),
-			'qi_addons_for_elementor_premium_hover_aware_slider'                     => array(
+			'qi_addons_for_elementor_premium_hover_aware_slider' => array(
 				'base'          => 'hover-aware-slider',
 				'title'         => esc_html__( 'Hover-aware Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -220,7 +254,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-hover-aware-slider',
 			),
-			'qi_addons_for_elementor_premium_icon_progress_bar'                         => array(
+			'qi_addons_for_elementor_premium_icon_progress_bar' => array(
 				'base'          => 'icon-progress-bar',
 				'title'         => esc_html__( 'Icon Progress Bar', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Infographics', 'qi-addons-for-elementor' ),
@@ -230,7 +264,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-icon-progress-bar',
 			),
-			'qi_addons_for_elementor_premium_image_hotspots'                         => array(
+			'qi_addons_for_elementor_premium_image_hotspots' => array(
 				'base'          => 'image-hotspots',
 				'title'         => esc_html__( 'Image Hotspots', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
@@ -240,7 +274,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-image-hotspots',
 			),
-			'qi_addons_for_elementor_premium_image_marquee'                          => array(
+			'qi_addons_for_elementor_premium_image_marquee' => array(
 				'base'          => 'image-marquee',
 				'title'         => esc_html__( 'Image Marquee', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
@@ -250,7 +284,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-image-marquee',
 			),
-			'qi_addons_for_elementor_premium_interactive_info_images'                         => array(
+			'qi_addons_for_elementor_premium_interactive_info_images' => array(
 				'base'          => 'interactive-info-images',
 				'title'         => esc_html__( 'Interactive Info Images', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
@@ -260,7 +294,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-interactive-info-images',
 			),
-			'qi_addons_for_elementor_premium_interactive_project_carousel'           => array(
+			'qi_addons_for_elementor_premium_interactive_project_carousel' => array(
 				'base'          => 'interactive-project-carousel',
 				'title'         => esc_html__( 'Interactive Project Carousel', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -270,7 +304,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-interactive-project-carousel',
 			),
-			'qi_addons_for_elementor_premium_intro_glitch_effect'                    => array(
+			'qi_addons_for_elementor_premium_intro_glitch_effect' => array(
 				'base'          => 'intro-glitch-effect',
 				'title'         => esc_html__( 'Intro Glitch Effect', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -280,7 +314,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-intro-glitch-effect',
 			),
-			'qi_addons_for_elementor_premium_intro_write_out_floating_images'        => array(
+			'qi_addons_for_elementor_premium_intro_write_out_floating_images' => array(
 				'base'          => 'intro-write-out-floating-images',
 				'title'         => esc_html__( 'Intro Scrolling Images', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -290,7 +324,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-intro-write-out-floating-images',
 			),
-			'qi_addons_for_elementor_premium_intro_swipe_images'                     => array(
+			'qi_addons_for_elementor_premium_intro_swipe_images' => array(
 				'base'          => 'intro-swipe-images',
 				'title'         => esc_html__( 'Intro Swipe Images', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -300,7 +334,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-intro-swipe-images',
 			),
-			'qi_addons_for_elementor_premium_mailchimp_form'                         => array(
+			'qi_addons_for_elementor_premium_mailchimp_form' => array(
 				'base'          => 'mailchimp-form',
 				'title'         => esc_html__( 'MailChimp Form', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Form Style', 'qi-addons-for-elementor' ),
@@ -310,7 +344,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-mailchimp-form',
 			),
-			'qi_addons_for_elementor_premium_news_ticker'                        => array(
+			'qi_addons_for_elementor_premium_news_ticker'  => array(
 				'base'          => 'news-ticker',
 				'title'         => esc_html__( 'News Ticker', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -320,7 +354,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-news-ticker',
 			),
-			'qi_addons_for_elementor_premium_numbered_slider'                        => array(
+			'qi_addons_for_elementor_premium_numbered_slider' => array(
 				'base'          => 'numbered-slider',
 				'title'         => esc_html__( 'Numbered Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -330,17 +364,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-numbered-slider',
 			),
-			'qi_addons_for_elementor_premium_order_tracking_form'                    => array(
-				'base'          => 'order-tracking-form',
-				'title'         => esc_html__( 'Order Tracking Form', 'qi-addons-for-elementor' ),
-				'subcategory'   => esc_html__( 'WooCommerce', 'qi-addons-for-elementor' ),
-				'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/order-tracking-form/',
-				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#order_tracking_form',
-				'premium'       => true,
-				'active'        => false,
-				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-order-tracking-form',
-			),
-			'qi_addons_for_elementor_premium_premium_button'                         => array(
+			'qi_addons_for_elementor_premium_premium_button' => array(
 				'base'          => 'premium-button',
 				'title'         => esc_html__( 'Premium Button', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Typography', 'qi-addons-for-elementor' ),
@@ -350,7 +374,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-premium-button',
 			),
-			'qi_addons_for_elementor_premium_pricing_slider'                     => array(
+			'qi_addons_for_elementor_premium_pricing_slider' => array(
 				'base'          => 'pricing-slider',
 				'title'         => esc_html__( 'Pricing Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -360,17 +384,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-pricing-slider',
 			),
-			'qi_addons_for_elementor_premium_product_comparison'                     => array(
-				'base'          => 'product-comparison',
-				'title'         => esc_html__( 'Product Comparison', 'qi-addons-for-elementor' ),
-				'subcategory'   => esc_html__( 'WooCommerce', 'qi-addons-for-elementor' ),
-				'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-comparison/',
-				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product_comparison',
-				'premium'       => true,
-				'active'        => false,
-				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-comparison',
-			),
-			'qi_addons_for_elementor_premium_rating'                                 => array(
+			'qi_addons_for_elementor_premium_rating'       => array(
 				'base'          => 'rating',
 				'title'         => esc_html__( 'Rating', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Business', 'qi-addons-for-elementor' ),
@@ -380,7 +394,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-rating',
 			),
-			'qi_addons_for_elementor_premium_rotating_image_tiles'                                 => array(
+			'qi_addons_for_elementor_premium_rotating_image_tiles' => array(
 				'base'          => 'rating',
 				'title'         => esc_html__( 'Rotating Image Tiles', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
@@ -390,7 +404,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-rotating-image-tiles',
 			),
-			'qi_addons_for_elementor_premium_social_links'                           => array(
+			'qi_addons_for_elementor_premium_social_links' => array(
 				'base'          => 'social-links',
 				'title'         => esc_html__( 'Social Links', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'SEO', 'qi-addons-for-elementor' ),
@@ -400,7 +414,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-social-links',
 			),
-			'qi_addons_for_elementor_premium_social_share_buttons'                   => array(
+			'qi_addons_for_elementor_premium_social_share_buttons' => array(
 				'base'          => 'social-share-buttons',
 				'title'         => esc_html__( 'Social Share Buttons', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'SEO', 'qi-addons-for-elementor' ),
@@ -410,7 +424,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-social-share-buttons',
 			),
-			'qi_addons_for_elementor_premium_stacked_item_scroll'                    => array(
+			'qi_addons_for_elementor_premium_stacked_item_scroll' => array(
 				'base'          => 'stacked-item-scroll',
 				'title'         => esc_html__( 'Stacked Item Scroll', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -420,7 +434,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-stacked-item-scroll',
 			),
-			'qi_addons_for_elementor_premium_text_gradient'                          => array(
+			'qi_addons_for_elementor_premium_text_gradient' => array(
 				'base'          => 'text-gradient',
 				'title'         => esc_html__( 'Text Gradient', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Typography', 'qi-addons-for-elementor' ),
@@ -430,7 +444,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-text-gradient',
 			),
-			'qi_addons_for_elementor_premium_textual_projects_showcase'              => array(
+			'qi_addons_for_elementor_premium_textual_projects_showcase' => array(
 				'base'          => 'textual-projects-showcase',
 				'title'         => esc_html__( 'Textual Project Showcase', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -440,7 +454,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-textual-projects-showcase',
 			),
-			'qi_addons_for_elementor_premium_typeforms_form'                         => array(
+			'qi_addons_for_elementor_premium_typeforms_form' => array(
 				'base'          => 'typeforms-form',
 				'title'         => esc_html__( 'Typeforms Form', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Form Style', 'qi-addons-for-elementor' ),
@@ -450,7 +464,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-typeforms-form',
 			),
-			'qi_addons_for_elementor_premium_vertical_circled_slider'                => array(
+			'qi_addons_for_elementor_premium_vertical_circled_slider' => array(
 				'base'          => 'vertical-circled-slider',
 				'title'         => esc_html__( 'Vertical Circled Slider', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -460,7 +474,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-vertical-circled-slider',
 			),
-			'qi_addons_for_elementor_premium_vertical_project_reel'                  => array(
+			'qi_addons_for_elementor_premium_vertical_project_reel' => array(
 				'base'          => 'vertical-project-reel',
 				'title'         => esc_html__( 'Vertical Project Reel', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Creative', 'qi-addons-for-elementor' ),
@@ -470,7 +484,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-vertical-project-reel',
 			),
-			'qi_addons_for_elementor_premium_vertical_timeline'                      => array(
+			'qi_addons_for_elementor_premium_vertical_timeline' => array(
 				'base'          => 'vertical-timeline',
 				'title'         => esc_html__( 'Vertical Timeline', 'qi-addons-for-elementor' ),
 				'subcategory'   => esc_html__( 'Showcase', 'qi-addons-for-elementor' ),
@@ -480,18 +494,230 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_list' ) ) 
 				'active'        => false,
 				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-vertical-timeline',
 			),
+			'qi_addons_for_elementor_premium_comments_template' => array(
+				'base'          => 'comments-template',
+				'title'         => esc_html__( 'Comments Template', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-comments-template',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_featured_image' => array(
+				'base'          => 'featured-image',
+				'title'         => esc_html__( 'Featured Image', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-featured-image',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_post_author'  => array(
+				'base'          => 'post-author',
+				'title'         => esc_html__( 'Post Author', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/post-author/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-post-author',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_post_comments_number' => array(
+				'base'          => 'post-comments-number',
+				'title'         => esc_html__( 'Post Comments Number', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-post-comments-number',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_post_content' => array(
+				'base'          => 'post-content',
+				'title'         => esc_html__( 'Post Content', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-post-content',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_post_date'    => array(
+				'base'          => 'post-date',
+				'title'         => esc_html__( 'Post Date', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-post-date',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_post_navigation' => array(
+				'base'          => 'post-navigation',
+				'title'         => esc_html__( 'Post Navigation', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-post-navigation',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_post_terms'   => array(
+				'base'          => 'post-terms',
+				'title'         => esc_html__( 'Post Terms', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-post-terms',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_post_title'   => array(
+				'base'          => 'post-title',
+				'title'         => esc_html__( 'Post Title', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-post-title',
+				'new'           => true,
+			),
+			'qi_addons_for_elementor_premium_search_results' => array(
+				'base'          => 'search-results',
+				'title'         => esc_html__( 'Search Results', 'qi-addons-for-elementor' ),
+				'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+				// 'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor',
+				'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#theme_builder',
+				'premium'       => true,
+				'active'        => false,
+				'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-search-results',
+				'new'           => true,
+			),
 		);
+
+		if ( qi_addons_for_elementor_framework_is_installed( 'woocommerce' ) ) {
+			$woo_shortcodes = array(
+				'qi_addons_for_elementor_premium_product_comparison' => array(
+					'base'          => 'product-comparison',
+					'title'         => esc_html__( 'Product Comparison', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'WooCommerce', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-comparison/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product_comparison',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-comparison',
+				),
+				'qi_addons_for_elementor_premium_order_tracking_form' => array(
+					'base'          => 'order-tracking-form',
+					'title'         => esc_html__( 'Order Tracking Form', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'WooCommerce', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/order-tracking-form/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#order_tracking_form',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-order-tracking-form',
+				),
+				'qi_addons_for_elementor_premium_product_add_to_cart' => array(
+					'base'          => 'product-add-to-cart',
+					'title'         => esc_html__( 'Product Add To Cart', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-add-to-cart/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product-add-to-cart',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-add-to-cart',
+					'new'           => true,
+				),
+				'qi_addons_for_elementor_premium_product_description' => array(
+					'base'          => 'product-description',
+					'title'         => esc_html__( 'Product Description', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-description/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product-description',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-description',
+					'new'           => true,
+				),
+				'qi_addons_for_elementor_premium_product_media' => array(
+					'base'          => 'product-media',
+					'title'         => esc_html__( 'Product Media', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-media/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product-media',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-media',
+					'new'           => true,
+				),
+				'qi_addons_for_elementor_premium_product_meta' => array(
+					'base'          => 'product-meta',
+					'title'         => esc_html__( 'Product Meta', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-meta/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product-meta',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-meta',
+					'new'           => true,
+				),
+				'qi_addons_for_elementor_premium_product_price' => array(
+					'base'          => 'product-price',
+					'title'         => esc_html__( 'Product Price', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-price/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product-price',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-price',
+					'new'           => true,
+				),
+				'qi_addons_for_elementor_premium_product_rating' => array(
+					'base'          => 'product-rating',
+					'title'         => esc_html__( 'Product Rating', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-rating/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product-rating',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-rating',
+					'new'           => true,
+				),
+				'qi_addons_for_elementor_premium_product_tabs' => array(
+					'base'          => 'product-tabs',
+					'title'         => esc_html__( 'Product Tabs', 'qi-addons-for-elementor' ),
+					'subcategory'   => esc_html__( 'Theme Builder', 'qi-addons-for-elementor' ),
+					'demo'          => 'https://qodeinteractive.com/qi-addons-for-elementor/product-tabs/',
+					'documentation' => 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#product-tabs',
+					'premium'       => true,
+					'active'        => false,
+					'icon'          => 'qodef-custom-elementor-icon qi-addons-for-elementor-premium-product-tabs',
+					'new'           => true,
+				),
+			);
+
+			$shortcodes = array_merge( $shortcodes, $woo_shortcodes );
+		}
 
 		$shortcodes = apply_filters( 'qi_addons_for_elementor_filter_promotion_shortcodes_list', $shortcodes );
 
 		return $shortcodes;
-
 	}
 }
 if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_inline_style' ) ) {
 	/**
 	 * Function that return array of promotion shortcodes
-	 *
 	 *
 	 * @return string
 	 */
@@ -501,7 +727,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_promotion_shortcodes_inline_sty
 		if ( ! empty( $shortcodes ) && is_array( $shortcodes ) ) {
 			foreach ( $shortcodes as $key => $shortcode ) {
 
-				$icon_path = QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/shortcodes/promotion-shortcodes/assets/img/' . strtolower( str_replace( ' ', '-', $shortcode['title'] ) ) . '.png';
+				$icon_path = QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/shortcodes/promotion-shortcodes/assets/img/' . strtolower( str_replace( ' ', '-', $shortcode['base'] ) ) . '.png';
 
 				$style .= '.qodef-custom-elementor-icon.' . str_replace( '_', '-', $key ) . '{
 						background-image: url("' . $icon_path . '") !important;

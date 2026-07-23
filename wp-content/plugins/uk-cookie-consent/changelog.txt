@@ -1,3 +1,21 @@
+= 3.3.1 =
+* Minor UI changes.
+* New Termly x WP Rocket partnership to improve site performance.
+
+= 3.3.0 =
+* Added WP-CLI Commands to administer the plugin programmatically.
+* Added informational panel for users with paid accounts.
+* Updated plugin name, tagging, author, and description.
+
+= 3.2.3 =
+* Updated the Custom Blocking Map functionality to better handle domains.
+
+= 3.2.2 =
+* Updated the Custom Blocking Map functionality to correctly output the entered domains in their correct categories.
+
+= 3.2.1 =
+* Fixed Broken Access Control security vulnerability.
+
 = 3.2 =
 * New: There is a new setting on the site scan page to add a specific allow line to an existing or virtual (provided by WordPress core) robots.txt file.
 * Update: Changed the text of the "allow" line in the robots.txt to accurately reflect the new scraper's name.

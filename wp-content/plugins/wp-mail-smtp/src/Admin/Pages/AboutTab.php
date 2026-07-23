@@ -479,7 +479,7 @@ class AboutTab extends PageAbstract {
 			'wp-charitable'                 => [
 				'path' => 'charitable/charitable.php',
 				'icon' => wp_mail_smtp()->assets_url . '/images/about/plugin-charitable.png',
-				'name' => esc_html__( 'WP Charitable', 'wp-mail-smtp' ),
+				'name' => esc_html__( 'Charitable', 'wp-mail-smtp' ),
 				'desc' => esc_html__( 'Top-rated WordPress donation and fundraising plugin. Over 10,000+ non-profit organizations and website owners use Charitable to create fundraising campaigns and raise more money online.', 'wp-mail-smtp' ),
 				'url'  => 'https://downloads.wordpress.org/plugin/charitable.zip',
 			],
@@ -511,6 +511,34 @@ class AboutTab extends PageAbstract {
 					'url'  => 'https://duplicator.com/?utm_source=WordPress&utm_medium=about&utm_campaign=smtp',
 				],
 			],
+			'activelayer'                   => [
+				'path' => 'activelayer-anti-spam-spam-protection-for-forms-comments/activelayer-anti-spam-spam-protection-for-forms-comments.php',
+				'icon' => wp_mail_smtp()->assets_url . '/images/about/icon-activelayer.svg',
+				'name' => esc_html__( 'ActiveLayer', 'wp-mail-smtp' ),
+				'desc' => esc_html__( 'Smarter spam protection for WordPress. Catch spam in milliseconds with AI, invisible to your real visitors.', 'wp-mail-smtp' ),
+				'url'  => 'https://downloads.wordpress.org/plugin/activelayer-anti-spam-spam-protection-for-forms-comments.zip',
+			],
+			'wpconsent'                     => [
+				'path' => 'wpconsent-cookies-banner-privacy-suite/wpconsent.php',
+				'icon' => wp_mail_smtp()->assets_url . '/images/about/icon-wpconsent.svg',
+				'name' => esc_html__( 'WPConsent', 'wp-mail-smtp' ),
+				'desc' => esc_html__( 'Stay GDPR & privacy compliant. Add a cookie consent banner to your site and meet privacy laws in minutes.', 'wp-mail-smtp' ),
+				'url'  => 'https://downloads.wordpress.org/plugin/wpconsent-cookies-banner-privacy-suite.zip',
+			],
+			'wpvibe'                        => [
+				'path' => 'vibe-ai/vibe-ai.php',
+				'icon' => wp_mail_smtp()->assets_url . '/images/about/plugin-vibe-ai.png',
+				'name' => esc_html__( 'Vibe AI', 'wp-mail-smtp' ),
+				'desc' => esc_html__( 'AI-powered tools for WordPress. Work faster and smarter with automation built for your WordPress workflow.', 'wp-mail-smtp' ),
+				'url'  => 'https://downloads.wordpress.org/plugin/vibe-ai.zip',
+			],
+			'universally'                   => [
+				'path' => 'universally-language-translation-multilingual-tool/universally.php',
+				'icon' => wp_mail_smtp()->assets_url . '/images/about/icon-universally.svg',
+				'name' => esc_html__( 'Universally', 'wp-mail-smtp' ),
+				'desc' => esc_html__( 'Make your WordPress site accessible to everyone. Automatic accessibility fixes and a visitor widget, no coding required.', 'wp-mail-smtp' ),
+				'url'  => 'https://downloads.wordpress.org/plugin/universally-language-translation-multilingual-tool.zip',
+			],
 		];
 
 		return $data;
@@ -522,9 +550,6 @@ class AboutTab extends PageAbstract {
 	 * @since 2.9.0
 	 */
 	public static function ajax_plugin_activate() {
-
-		// Run a security check.
-		check_ajax_referer( 'wp-mail-smtp-about', 'nonce' );
 
 		$error = esc_html__( 'Could not activate the plugin. Please activate it from the Plugins page.', 'wp-mail-smtp' );
 
@@ -570,9 +595,6 @@ class AboutTab extends PageAbstract {
 	 * @since 2.9.0
 	 */
 	public static function ajax_plugin_install() { // phpcs:ignore:Generic.Metrics.CyclomaticComplexity.TooHigh
-
-		// Run a security check.
-		check_ajax_referer( 'wp-mail-smtp-about', 'nonce' );
 
 		$error = esc_html__( 'Could not install the plugin.', 'wp-mail-smtp' );
 

@@ -1,11 +1,16 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_Framework_Shortcode {
 	private $post_type;
 	private $post_type_taxonomy;
 	private $post_type_additional_taxonomies = array();
-	private $layouts = array();
-	private $extra_options = array();
+	private $layouts                         = array();
+	private $extra_options                   = array();
 
 	public function __construct() {
 		parent::__construct();
@@ -92,25 +97,26 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 				$field_type    = 'hidden';
 				$default_value = array_keys( $masonry_images_proportion )[0];
 			}
-
-			$this->set_option(
-				array(
-					'field_type'    => $field_type,
-					'name'          => 'masonry_images_proportion',
-					'title'         => esc_html__( 'Image Proportions', 'qi-addons-for-elementor' ),
-					'options'       => $masonry_images_proportion,
-					'default_value' => $default_value,
-					'group'         => $group,
-					'dependency'    => array(
-						'show' => array(
-							'behavior' => array(
-								'values'        => 'masonry',
-								'default_value' => 'columns',
+			if ( empty( $exclude_option ) || ! in_array( 'masonry_images_proportion', $exclude_option, true ) ) {
+				$this->set_option(
+					array(
+						'field_type'    => $field_type,
+						'name'          => 'masonry_images_proportion',
+						'title'         => esc_html__( 'Image Proportions', 'qi-addons-for-elementor' ),
+						'options'       => $masonry_images_proportion,
+						'default_value' => $default_value,
+						'group'         => $group,
+						'dependency'    => array(
+							'show' => array(
+								'behavior' => array(
+									'values'        => 'masonry',
+									'default_value' => 'columns',
+								),
 							),
 						),
-					),
-				)
-			);
+					)
+				);
+			}
 		}
 
 		if ( empty( $exclude_option ) || ! in_array( 'images_proportion', $exclude_option, true ) ) {
@@ -551,7 +557,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'field_type' => 'slider',
 					'name'       => 'pagination_arrows_size',
 					'title'      => esc_html__( 'Pagination Arrows Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'dependency' => array(
 						'hide' => array(
@@ -573,7 +579,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'field_type' => 'dimensions',
 					'name'       => 'pagination_border_radius',
 					'title'      => esc_html__( 'Pagination Item Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'dependency' => array(
 						'hide' => array(
@@ -595,7 +601,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'field_type' => 'slider',
 					'name'       => 'pagination_width',
 					'title'      => esc_html__( 'Pagination Item Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'dependency' => array(
 						'hide' => array(
@@ -617,7 +623,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'field_type' => 'slider',
 					'name'       => 'pagination_height',
 					'title'      => esc_html__( 'Pagination Item Height', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'dependency' => array(
 						'hide' => array(
@@ -639,7 +645,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'field_type' => 'slider',
 					'name'       => 'pagination_spacing',
 					'title'      => esc_html__( 'Space Between Pagination Items', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'dependency' => array(
 						'hide' => array(
@@ -669,7 +675,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 							),
 						),
 					),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => - 150,
@@ -705,7 +711,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 			$this->map_slider_options( $params );
 		}
 
-		// Include Options
+		// Include Options.
 
 		if ( ! empty( $include_option ) || in_array( 'enable_zigzag', $include_option, true ) ) {
 			$this->set_option(
@@ -724,7 +730,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'field_type'    => 'slider',
 					'name'          => 'zigzag_amount',
 					'title'         => esc_html__( 'Zigzag Amount', 'qi-addons-for-elementor' ),
-					'size_units'    => array( 'px', '%' ),
+					'size_units'    => array( 'px', '%', 'custom' ),
 					'responsive'    => true,
 					'default_value' => array(
 						'size' => 30,
@@ -963,6 +969,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'title'       => esc_html__( 'Posts IDs', 'qi-addons-for-elementor' ),
 					'description' => esc_html__( 'Separate post IDs with commas', 'qi-addons-for-elementor' ),
 					'group'       => $group,
+					'dynamic'     => false,
 					'dependency'  => array(
 						'show' => array(
 							'additional_params' => array(
@@ -997,6 +1004,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 						'name'       => 'tax_slug',
 						'title'      => esc_html__( 'Taxonomy Slug', 'qi-addons-for-elementor' ),
 						'group'      => $group,
+						'dynamic'    => false,
 						'dependency' => array(
 							'show' => array(
 								'additional_params' => array(
@@ -1014,6 +1022,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 						'title'       => esc_html__( 'Taxonomy IDs', 'qi-addons-for-elementor' ),
 						'description' => esc_html__( 'Separate taxonomy IDs with commas', 'qi-addons-for-elementor' ),
 						'group'       => $group,
+						'dynamic'     => false,
 						'dependency'  => array(
 							'show' => array(
 								'additional_params' => array(
@@ -1031,6 +1040,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 					'name'       => 'author_slug',
 					'title'      => esc_html__( 'Author Slug', 'qi-addons-for-elementor' ),
 					'group'      => $group,
+					'dynamic'    => false,
 					'dependency' => array(
 						'show' => array(
 							'additional_params' => array(
@@ -1070,6 +1080,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 			}
 
 			if ( ! empty( $atts['tax'] ) && ! empty( $taxonomy_values ) ) {
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				$args['tax_query'] = array( array_merge( array( 'taxonomy' => $atts['tax'] ), $taxonomy_values ) );
 			}
 		}
@@ -1088,7 +1099,7 @@ abstract class QiAddonsForElementor_List_Shortcode extends QiAddonsForElementor_
 		$exclude_option          = isset( $params['exclude_option'] ) ? $params['exclude_option'] : array();
 		$default_value_title_tag = isset( $params['default_value_title_tag'] ) ? $params['default_value_title_tag'] : 'h5';
 
-		$layout_visibility_field_type = sizeof( $layouts ) > 1 ? 'select' : 'hidden';
+		$layout_visibility_field_type = count( $layouts ) > 1 ? 'select' : 'hidden';
 
 		$default_value = '';
 		if ( ! empty( $layouts ) ) {

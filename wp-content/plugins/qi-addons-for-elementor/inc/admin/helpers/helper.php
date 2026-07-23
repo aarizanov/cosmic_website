@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_framework_template_part' ) ) {
 	/**
 	 * Echo module template part.
@@ -9,9 +14,9 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_template_part' ) ) {
 	 * @param string $template full path of the template to load
 	 * @param string $slug
 	 * @param array $params array of parameters to pass to template
-	 *
 	 */
 	function qi_addons_for_elementor_framework_template_part( $root, $module, $template, $slug = '', $params = array() ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_addons_for_elementor_framework_get_template_part( $root, $module, $template, $slug, $params );
 	}
 }
@@ -43,6 +48,12 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_template_part' ) 
 			$template = '';
 		}
 
+		if ( is_scalar( $slug ) ) {
+			$slug = preg_replace( $available_characters, '', $slug );
+		} else {
+			$slug = '';
+		}
+
 		$temp = $root . '/' . $module . '/' . $template;
 
 		$template = qi_addons_for_elementor_framework_get_template_with_slug( $temp, $slug );
@@ -60,9 +71,9 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_list_sc_template_part
 	 * @param string $template full path of the template to load
 	 * @param string $slug
 	 * @param array $params array of parameters to pass to template
-	 *
 	 */
 	function qi_addons_for_elementor_framework_list_sc_template_part( $root, $module, $template, $slug = '', $params = array() ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_addons_for_elementor_framework_get_list_sc_template_part( $root, $module, $template, $slug, $params );
 	}
 }
@@ -81,6 +92,26 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_list_sc_template_
 	 */
 	function qi_addons_for_elementor_framework_get_list_sc_template_part( $root, $module, $template, $slug = '', $params = array() ) {
 		$temp_in_variation = false;
+
+		$available_characters = '/[^A-Za-z0-9\_\-\/]/';
+
+		if ( is_scalar( $module ) ) {
+			$module = preg_replace( $available_characters, '', $module );
+		} else {
+			$module = '';
+		}
+
+		if ( is_scalar( $template ) ) {
+			$template = preg_replace( $available_characters, '', $template );
+		} else {
+			$template = '';
+		}
+
+		if ( is_scalar( $slug ) ) {
+			$slug = preg_replace( $available_characters, '', $slug );
+		} else {
+			$slug = '';
+		}
 
 		/* In order to use this way of templating, option for list item layout must be called layoyt */
 		if ( isset( $params['layout'] ) ) {
@@ -120,6 +151,14 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_template_with_slu
 		$template = '';
 
 		if ( ! empty( $temp ) ) {
+			$available_characters = '/[^A-Za-z0-9\_\-\/]/';
+
+			if ( is_scalar( $slug ) ) {
+				$slug = preg_replace( $available_characters, '', $slug );
+			} else {
+				$slug = '';
+			}
+
 			if ( ! empty( $slug ) ) {
 				$template = "{$temp}-{$slug}.php";
 
@@ -146,7 +185,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_execute_template_with
 	 */
 	function qi_addons_for_elementor_framework_execute_template_with_params( $template, $params ) {
 		if ( ! empty( $template ) && file_exists( $template ) ) {
-			//Extract params so they could be used in template
+			// Extract params so they could be used in template.
 			if ( is_array( $params ) && count( $params ) ) {
 				extract( $params, EXTR_SKIP ); // @codingStandardsIgnoreLine
 			}
@@ -193,9 +232,12 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_option_value' ) )
 	 */
 	function qi_addons_for_elementor_framework_get_option_value( $scope, $type, $name, $default_value = '', $post_id = null ) {
 		if ( 'meta-box' === $type ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( empty( $post_id ) && isset( $_GET['post'] ) && ! empty( $_GET['post'] ) ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$post_id = intval( $_GET['post'] );
 			}
+
 			if ( ! empty( $post_id ) ) {
 				$value = get_post_meta( $post_id, $name, true );
 			}
@@ -231,6 +273,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_inline_style' ) ) {
 	 * @see qi_addons_for_elementor_framework_get_inline_style()
 	 */
 	function qi_addons_for_elementor_framework_inline_style( $value ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_addons_for_elementor_framework_get_inline_style( $value );
 	}
 }
@@ -259,6 +302,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_class_attribute' ) ) 
 	 * @see qi_addons_for_elementor_framework_get_class_attribute()
 	 */
 	function qi_addons_for_elementor_framework_class_attribute( $value ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_addons_for_elementor_framework_get_class_attribute( $value );
 	}
 }
@@ -290,6 +334,14 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_inline_attr' ) ) 
 	 * @return string generated html attribute
 	 */
 	function qi_addons_for_elementor_framework_get_inline_attr( $value, $attr, $glue = '', $allow_zero_values = false ) {
+		$properties = '';
+
+		// Leave only allowed characters in attr.
+		preg_match( '/[-_a-z0-9]+/', $attr, $attr_matches );
+
+		$single_attr_key = $attr_matches[0];
+
+		// Concatenate values in one variable and check for zero values.
 		if ( $allow_zero_values ) {
 			if ( '' !== $value ) {
 
@@ -298,8 +350,6 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_inline_attr' ) ) 
 				} else {
 					$properties = $value;
 				}
-
-				return $attr . '="' . esc_attr( $properties ) . '"';
 			}
 		} else {
 			if ( ! empty( $value ) ) {
@@ -311,9 +361,27 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_inline_attr' ) ) 
 				} else {
 					return '';
 				}
-
-				return $attr . '="' . esc_attr( $properties ) . '"';
 			}
+		}
+
+		// Leave only allowed characters in value, everything that is not a number, char, space or dash will be removed.
+		//$properties = preg_replace( '/[^\p{L}\p{N}\s\-_",:{}#.()%;\/\[\]\\\\]+/u', '', $properties );
+
+		if ( empty( $properties ) || empty( $attr_matches[0] ) ) {
+			return '';
+		}
+
+		// Remove not allowed js events.
+		if ( 'on' === substr( $single_attr_key, 0, 2 ) || 'href' === $single_attr_key || 'on' === substr( $properties, 0, 2 ) || 'href' === $properties ) {
+			return '';
+		}
+
+		if ( '' !== $properties ) {
+
+			$sanitized_properties = esc_attr( sanitize_text_field( html_entity_decode( $properties ) ) );
+			$clean_properties     = preg_replace( '/<[^>]*>|#x3[ce];|&lt;|&gt;/i', '', $sanitized_properties );
+			return $attr . '="' . $clean_properties . '"';
+
 		}
 
 		return '';
@@ -327,9 +395,9 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_inline_attr' ) ) {
 	 * @param string|array $value value of html attribute
 	 * @param string $attr - name of html attribute to generate
 	 * @param string $glue - glue with which to implode $attr. Used only when $attr is array
-	 *
 	 */
 	function qi_addons_for_elementor_framework_inline_attr( $value, $attr, $glue = '' ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_addons_for_elementor_framework_get_inline_attr( $value, $attr, $glue );
 	}
 }
@@ -371,6 +439,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_inline_attrs' ) ) {
 	 * @param bool $allow_zero_values
 	 */
 	function qi_addons_for_elementor_framework_inline_attrs( $attrs, $allow_zero_values = false ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_addons_for_elementor_framework_get_inline_attrs( $attrs, $allow_zero_values );
 	}
 }
@@ -456,7 +525,6 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_wp_kses_html' ) ) {
 	 *
 	 * @return string escaped output
 	 * @see wp_kses()
-	 *
 	 */
 	function qi_addons_for_elementor_framework_wp_kses_html( $type, $content ) {
 		switch ( $type ) {
@@ -654,7 +722,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_wp_kses_html' ) ) {
 						'option' => array(
 							'value' => true,
 						),
-						'sup'      => array(
+						'sup'    => array(
 							'class' => true,
 						),
 					)
@@ -672,7 +740,6 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_wp_kses_html' ) ) {
 				break;
 			default:
 				return apply_filters( 'qi_addons_for_elementor_filter_framework_wp_kses_custom', $content, $type );
-				break;
 		}
 
 		return wp_kses( $content, $atts );
@@ -688,7 +755,6 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_sanitize_tags' ) ) {
 	 *
 	 * @return string escaped output
 	 * @see wp_kses()
-	 *
 	 */
 	function qi_addons_for_elementor_framework_sanitize_tags( $tag, $type = 'title', $exclude = array(), $include = array() ) {
 		$allowed_tags = array();
@@ -729,7 +795,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_sanitize_tags' ) ) {
 
 		$tag = strtolower( sanitize_key( $tag ) );
 
-		if ( in_array( $tag, $allowed_tags ) ) {
+		if ( in_array( $tag, $allowed_tags, true ) ) {
 			return $tag;
 		}
 
@@ -748,7 +814,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_dynamic_style' ) ) {
 	 */
 	function qi_addons_for_elementor_framework_dynamic_style( $selector, $properties ) {
 		$output = '';
-		//check if selector and rules are valid data
+		// Check if selector and rules are valid data.
 		if ( ! empty( $selector ) && ( is_array( $properties ) && count( $properties ) ) ) {
 
 			if ( is_array( $selector ) && count( $selector ) ) {
@@ -784,7 +850,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_dynamic_style_respons
 	 */
 	function qi_addons_for_elementor_framework_dynamic_style_responsive( $selector, $properties, $min_width = '', $max_width = '' ) {
 		$output = '';
-		//check if min width or max width is set
+		// Check if min width or max width is set.
 		if ( ! empty( $min_width ) || ! empty( $max_width ) ) {
 			$output .= '@media only screen';
 
@@ -849,7 +915,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_is_shortcode_on_page'
 		if ( $shortcode ) {
 
 			if ( '' == $content ) {
-				//get content from current page
+				// Get content from current page.
 				$page_id = qi_addons_for_elementor_framework_get_page_id();
 				if ( ! empty( $page_id ) ) {
 					$current_post = get_post( $page_id );
@@ -883,7 +949,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_is_shortcode_on_page_
 		if ( $shortcode ) {
 
 			if ( '' == $content ) {
-				//get content from current page
+				// Get content from current page.
 				$page_id = qi_addons_for_elementor_framework_get_page_id();
 				if ( ! empty( $page_id ) ) {
 					$current_elementor_page = get_post_meta( $page_id, '_elementor_data', true );
@@ -895,11 +961,13 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_is_shortcode_on_page_
 				foreach ( $content as $section ) {
 					foreach ( $section->elements as $column ) {
 						foreach ( $column->elements as $item ) {
+							// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 							if ( 'widget' === $item->elType && $item->widgetType == $shortcode ) {
 								return true;
 							} elseif ( 'section' === $item->el_type ) {
 								foreach ( $item->elements as $inner_column ) {
 									foreach ( $inner_column->elements as $inner_item ) {
+										// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 										if ( 'widget' === $inner_item->elType && $inner_item->widgetType == $shortcode ) {
 											return true;
 										}
@@ -918,6 +986,8 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_is_shortcode_on_page_
 
 if ( ! function_exists( 'qi_addons_for_elementor_framework_call_shortcode' ) ) {
 	/**
+	 * Function that render shortcode
+	 *
 	 * @param      $base - shortcode base
 	 * @param      $params - shortcode parameters
 	 * @param null $content - shortcode content
@@ -951,6 +1021,8 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_call_shortcode' ) ) {
 
 if ( ! function_exists( 'qi_addons_for_elementor_framework_map_shortcode_fields' ) ) {
 	/**
+	 * Function that map shortcode fields
+	 *
 	 * @param array $default_options - default supported options
 	 * @param array $params - params set
 	 *
@@ -991,8 +1063,9 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_ajax_status' ) ) 
 
 		$response = apply_filters( 'qi_addons_for_elementor_filter_framework_ajax_status', $response );
 
-		$output = json_encode( $response );
+		$output = wp_json_encode( $response );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit( $output );
 	}
 }
@@ -1032,6 +1105,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_svg_icon' ) ) {
 	 * @param string $class_name - custom html tag class name
 	 */
 	function qi_addons_for_elementor_framework_svg_icon( $name, $class_name = '' ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qi_addons_for_elementor_framework_get_svg_icon( $name, $class_name );
 	}
 }
@@ -1051,13 +1125,13 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_svg_icon' ) ) {
 
 		switch ( $name ) {
 			case 'expand':
-				$html = '<svg class="' . esc_attr( $class ) . '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="92px" height="92px" viewBox="0 0 92 92" enable-background="new 0 0 92 92" xml:space="preserve"><path d="M90,6l0,20c0,2.2-1.8,4-4,4l0,0c-2.2,0-4-1.8-4-4V15.7L58.8,38.9c-0.8,0.8-1.8,1.2-2.8,1.2c-1,0-2-0.4-2.8-1.2c-1.6-1.6-1.6-4.1,0-5.7L76.3,10H66c-2.2,0-4-1.8-4-4c0-2.2,1.8-4,4-4h20c1.1,0,2.1,0.4,2.8,1.2C89.6,3.9,90,4.9,90,6z M86,62c-2.2,0-4,1.8-4,4v10.3L59.2,53.7c-1.6-1.6-4.2-1.6-5.8,0c-1.6,1.6-1.6,4.1-0.1,5.7L75.9,82H65.6c0,0,0,0,0,0c-2.2,0-4,1.8-4,4s1.8,4,4,4l20,0l0,0c1.1,0,2.3-0.4,3-1.2c0.8-0.8,1.4-1.8,1.4-2.8V66C90,63.8,88.2,62,86,62zM32.8,53.5L10,76.3V66c0-2.2-1.8-4-4-4h0c-2.2,0-4,1.8-4,4l0,20c0,1.1,0.4,2.1,1.2,2.8C4,89.6,5,90,6.1,90h20c2.2,0,4-1.8,4-4c0-2.2-1.8-4-4-4H15.7l22.8-22.8c1.6-1.6,1.5-4.1,0-5.7C37,51.9,34.4,51.9,32.8,53.5z M15.7,10.4l10.3,0h0c2.2,0,4-1.8,4-4s-1.8-4-4-4l-20,0h0c-1.1,0-2.1,0.4-2.8,1.2C2.4,4.3,2,5.3,2,6.4l0,20c0,2.2,1.8,4,4,4c2.2,0,4-1.8,4-4V16l23.1,23.1c0.8,0.8,1.8,1.2,2.8,1.2c1,0,2-0.4,2.8-1.2c1.6-1.6,1.6-4.1,0-5.7L15.7,10.4z"/></svg>';
+				$html = '<svg class="' . esc_attr( $class ) . '" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="92px" height="92px" viewBox="0 0 92 92" xml:space="preserve"><path d="M90,6l0,20c0,2.2-1.8,4-4,4l0,0c-2.2,0-4-1.8-4-4V15.7L58.8,38.9c-0.8,0.8-1.8,1.2-2.8,1.2c-1,0-2-0.4-2.8-1.2c-1.6-1.6-1.6-4.1,0-5.7L76.3,10H66c-2.2,0-4-1.8-4-4c0-2.2,1.8-4,4-4h20c1.1,0,2.1,0.4,2.8,1.2C89.6,3.9,90,4.9,90,6z M86,62c-2.2,0-4,1.8-4,4v10.3L59.2,53.7c-1.6-1.6-4.2-1.6-5.8,0c-1.6,1.6-1.6,4.1-0.1,5.7L75.9,82H65.6c0,0,0,0,0,0c-2.2,0-4,1.8-4,4s1.8,4,4,4l20,0l0,0c1.1,0,2.3-0.4,3-1.2c0.8-0.8,1.4-1.8,1.4-2.8V66C90,63.8,88.2,62,86,62zM32.8,53.5L10,76.3V66c0-2.2-1.8-4-4-4h0c-2.2,0-4,1.8-4,4l0,20c0,1.1,0.4,2.1,1.2,2.8C4,89.6,5,90,6.1,90h20c2.2,0,4-1.8,4-4c0-2.2-1.8-4-4-4H15.7l22.8-22.8c1.6-1.6,1.5-4.1,0-5.7C37,51.9,34.4,51.9,32.8,53.5z M15.7,10.4l10.3,0h0c2.2,0,4-1.8,4-4s-1.8-4-4-4l-20,0h0c-1.1,0-2.1,0.4-2.8,1.2C2.4,4.3,2,5.3,2,6.4l0,20c0,2.2,1.8,4,4,4c2.2,0,4-1.8,4-4V16l23.1,23.1c0.8,0.8,1.8,1.2,2.8,1.2c1,0,2-0.4,2.8-1.2c1.6-1.6,1.6-4.1,0-5.7L15.7,10.4z"/></svg>';
 				break;
 			case 'trash':
-				$html = '<svg class="' . esc_attr( $class ) . '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="92px" height="92px" viewBox="0 0 92 92" enable-background="new 0 0 92 92" xml:space="preserve"><path d="M78.4,30.4l-3.1,57.8c-0.1,2.1-1.9,3.8-4,3.8H20.7c-2.1,0-3.9-1.7-4-3.8l-3.1-57.8c-0.1-2.2,1.6-4.1,3.8-4.2c2.2-0.1,4.1,1.6,4.2,3.8l2.9,54h43.1l2.9-54c0.1-2.2,2-3.9,4.2-3.8C76.8,26.3,78.5,28.2,78.4,30.4zM89,17c0,2.2-1.8,4-4,4H7c-2.2,0-4-1.8-4-4s1.8-4,4-4h22V4c0-1.9,1.3-3,3.2-3h27.6C61.7,1,63,2.1,63,4v9h22C87.2,13,89,14.8,89,17zM36,13h20V8H36V13z M37.7,78C37.7,78,37.7,78,37.7,78c2,0,3.5-1.9,3.5-3.8l-1-43.2c0-1.9-1.6-3.5-3.6-3.5c-1.9,0-3.5,1.6-3.4,3.6l1,43.3C34.2,76.3,35.8,78,37.7,78z M54.2,78c1.9,0,3.5-1.6,3.5-3.5l1-43.2c0-1.9-1.5-3.6-3.4-3.6c-2,0-3.5,1.5-3.6,3.4l-1,43.2C50.6,76.3,52.2,78,54.2,78C54.1,78,54.1,78,54.2,78z"/></svg>';
+				$html = '<svg class="' . esc_attr( $class ) . '" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="92px" height="92px" viewBox="0 0 92 92" xml:space="preserve"><path d="M78.4,30.4l-3.1,57.8c-0.1,2.1-1.9,3.8-4,3.8H20.7c-2.1,0-3.9-1.7-4-3.8l-3.1-57.8c-0.1-2.2,1.6-4.1,3.8-4.2c2.2-0.1,4.1,1.6,4.2,3.8l2.9,54h43.1l2.9-54c0.1-2.2,2-3.9,4.2-3.8C76.8,26.3,78.5,28.2,78.4,30.4zM89,17c0,2.2-1.8,4-4,4H7c-2.2,0-4-1.8-4-4s1.8-4,4-4h22V4c0-1.9,1.3-3,3.2-3h27.6C61.7,1,63,2.1,63,4v9h22C87.2,13,89,14.8,89,17zM36,13h20V8H36V13z M37.7,78C37.7,78,37.7,78,37.7,78c2,0,3.5-1.9,3.5-3.8l-1-43.2c0-1.9-1.6-3.5-3.6-3.5c-1.9,0-3.5,1.6-3.4,3.6l1,43.3C34.2,76.3,35.8,78,37.7,78z M54.2,78c1.9,0,3.5-1.6,3.5-3.5l1-43.2c0-1.9-1.5-3.6-3.4-3.6c-2,0-3.5,1.5-3.6,3.4l-1,43.2C50.6,76.3,52.2,78,54.2,78C54.1,78,54.1,78,54.2,78z"/></svg>';
 				break;
 			case 'search':
-				$html = '<svg class="' . esc_attr( $class ) . '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path d="M18.869 19.162l-5.943-6.484c1.339-1.401 2.075-3.233 2.075-5.178 0-2.003-0.78-3.887-2.197-5.303s-3.3-2.197-5.303-2.197-3.887 0.78-5.303 2.197-2.197 3.3-2.197 5.303 0.78 3.887 2.197 5.303 3.3 2.197 5.303 2.197c1.726 0 3.362-0.579 4.688-1.645l5.943 6.483c0.099 0.108 0.233 0.162 0.369 0.162 0.121 0 0.242-0.043 0.338-0.131 0.204-0.187 0.217-0.503 0.031-0.706zM1 7.5c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5-6.5-2.916-6.5-6.5z"></path></svg>';
+				$html = '<svg class="' . esc_attr( $class ) . '" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M18.869 19.162l-5.943-6.484c1.339-1.401 2.075-3.233 2.075-5.178 0-2.003-0.78-3.887-2.197-5.303s-3.3-2.197-5.303-2.197-3.887 0.78-5.303 2.197-2.197 3.3-2.197 5.303 0.78 3.887 2.197 5.303 3.3 2.197 5.303 2.197c1.726 0 3.362-0.579 4.688-1.645l5.943 6.483c0.099 0.108 0.233 0.162 0.369 0.162 0.121 0 0.242-0.043 0.338-0.131 0.204-0.187 0.217-0.503 0.031-0.706zM1 7.5c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5-6.5-2.916-6.5-6.5z"></path></svg>';
 				break;
 			case 'spinner':
 				$html = '<svg class="' . esc_attr( $class ) . '" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>';
@@ -1081,7 +1155,6 @@ if ( ! function_exists( 'qi_addons_for_elementor_extend_plugin_info' ) ) {
 	function qi_addons_for_elementor_extend_plugin_info( $plugin_meta, $plugin_file ) {
 
 		if ( QI_ADDONS_FOR_ELEMENTOR_PLUGIN_BASE_FILE === $plugin_file ) {
-
 			$additioanal_plugin_meta = array(
 				'documentation' => '<a href="https://helpcenter.qodeinteractive.com/" target="_blank">' . esc_html__( 'Help Center', 'qi-addons-for-elementor' ) . '</a>',
 				'video'         => '<a href="https://www.youtube.com/playlist?list=PLNypD600o6nK_5QYh--5K6B0ObmgVta6M" target="_blank">' . esc_html__( 'Video Tutorials', 'qi-addons-for-elementor' ) . '</a>',
@@ -1099,7 +1172,6 @@ if ( ! function_exists( 'qi_addons_for_elementor_extend_plugin_info' ) ) {
 if ( ! function_exists( 'qi_addons_for_elementor_extend_plugin_actions' ) ) {
 
 	function qi_addons_for_elementor_extend_plugin_actions( $links ) {
-
 		$links['upgrade'] = '<a href="https://qodeinteractive.com/qi-addons-for-elementor/?utm_source=upgrade&utm_medium=qi-addons&utm_campaign=gopremium" target="_blank">' . esc_html__( 'Upgrade', 'qi-addons-for-elementor' ) . '</a>';
 
 		return apply_filters( 'qi_addons_for_elementor_filter_extend_plugin_actions', $links );

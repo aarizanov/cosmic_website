@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Advanced_Columns_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'advanced-columns' );
 			$this->set_block_title( esc_html__( 'Advanced Columns', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Content', 'qi-blocks' ) );
@@ -19,6 +19,8 @@ if ( ! class_exists( 'Qi_Blocks_Advanced_Columns_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Advanced_Columns_Block
 		 */
 		public static function get_instance() {

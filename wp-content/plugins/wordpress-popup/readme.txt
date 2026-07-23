@@ -1,14 +1,14 @@
 === Hustle - Email Marketing, Lead Generation, Optins, Popups ===
 Plugin Name: Hustle - Email Marketing, Lead Generation, Opt-ins, Popups
-Version: 7.8.3
+Version: 7.8.14.1
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: marketing, popup, optin, newsletter, subscription form, email, advertise, signup, mailing list, wordpress popup plugin, popup maker, pop-up, opt-in
-Requires at least: 5.2
-Tested up to: 6.4
+Requires at least: 6.4
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 7.8.3
+Stable tag: 7.8.14.1
 
 Setup email optin forms, popups, newsletter forms & subscription forms to generate email leads with the best marketing popup builder
 
@@ -18,6 +18,10 @@ Setup email optin forms, popups, newsletter forms & subscription forms to genera
 *Hustle is the ultimate marketing plugin for building a mailing list and converting site traffic. Lead generation just got easier with simple set up optin forms, targeted marketing popups, and designer-made templates. Build a social following while you’re at it with Hustle’s diverse social sharing capabilities. From the award winning developers of [Smush](https://wordpress.org/plugins/wp-smushit/) image optimization and [Forminator](https://wordpress.org/plugins/forminator/) form builder at WPMU DEV.*
 
 Hustle lets you easily grow your mailing list or display targeted ads across your site with popups, optins, slide-ins, widgets, and shortcodes.
+
+**Access unlimited pop-ups, slide-ins, and social shares from the start with [Hustle Pro](https://wpmudev.com/project/hustle/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hustle-readme-above-the-fold&utm_content=hustle_pro).**
+
+Level up immediately with unlimited campaign creation + access to the full suite of WPMU DEV performance and marketing plugins. [Learn more about Pro](https://wpmudev.com/project/hustle/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hustle-readme-above-the-fold&utm_content=learn_more). 
 
 [youtube https://www.youtube.com/watch?v=oKgRSUdjcNg&feature=youtu.be]
 
@@ -155,8 +159,6 @@ Hey! This is Hustle, your trusted popup, email opt-in, and marketing plugin for 
 - [Hummingbird](https://wordpress.org/plugins/hummingbird-performance/) - Speed up, Cache, Optimize Your CSS and JS
 - [Branda](https://wordpress.org/plugins/branda-white-labeling/) - White Label WordPress, Maintenance Mode and Coming Soon Pages
 
-And if you need ALL our Pro plugins AND 24/7 WordPress support, get a WPMU DEV membership! You can try it free for 7 days: [wpmudev.com](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hustle-readme&utm_content=link_wpmudev#trial)
-
 My superhero friends run the WPMU DEV Blog, your source for the very best WordPress tutorials. If you need to be in the know about WordPress, check it out.
 
 Thanks for looking at Hustle, and I look forward to helping you market and grow your business with popups and more.
@@ -175,6 +177,8 @@ Nope! All your pop-ups will seamlessly be added to the custom content module in 
 = Are there any feature limitations with Hustle? =
 No! Hustle gives you all the same settings and options as Hustle Pro. The only difference is Hustle Pro offers unlimited Opt-ins, Custom Content, and Social Sharing.
 
+= How can I report security issues or bugs? =
+We take plugin security incredibly seriously; if you have a bug or vulnerability to report, you can do so through the Patchstack Vulnerability Disclosure Program. It’s fast, easy, and you will be notified when the issue is fixed. [Report a vulnerability](https://patchstack.com/database/vdp/wordpress-popup).
 == Screenshots ==
 
 1. Easily customize the look of your campaigns using the in-built appearance settings.
@@ -185,7 +189,120 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
 
 == Changelog ==
 
-= 10.8.3 ( 2024-01-17 ) =
+= 7.8.14.1 ( 2026-07-14 )
+
+Fix: Facebook Social Sharing module displaying an error notice on mobile devices.
+
+
+= 7.8.14 ( 2026-07-14 )
+
+- Enhancement: Facebook Social Sharing service requires APP ID.
+- Fix: An error occurred when the scheduled module was saved.
+- Fix: Security hardening.
+- Fix: Disable "Additional CSS" setting for Embeded blocks.
+- Compatibility: WordPress 7.0 compatibility enhancements.
+
+
+= 7.8.13.1 ( 2026-05-21 )
+
+- Fix: Cloudflare Turnstile conflicts
+
+
+= 7.8.13 ( 2026-05-18 )
+
+- Enhancement: Add new Zoho CRM integration to connect forms with Zoho CRM contacts
+- Enhancement: Add integration with The Newsletter Plugin for WordPress
+- Enhancement: Add support for Cloudflare Turnstile CAPTCHA
+- Enhancement: Add hustle_get_cta_html filter for customizing CTA button HTML
+- Enhancement: Add Telegram sharing option for current pages
+- Enhancement: Allow custom API keys for HubSpot integration
+- Fix: CTA area not clickable when the CTA label is empty
+- Fix: Prevent JavaScript TypeError when a popup contains no focusable elements
+- Fix: Resolve embed module box shadow overlapping content below
+- Fix: Add missing South Sudan option to the Visitor’s Country display condition dropdown
+- Fix: Prevent form submission failures caused by stale browser cache
+- Fix: Correct integration status remaining connected after disconnection
+- Fix: Resolve Social Sharing module preview not rendering
+
+
+= 7.8.11 ( 2026-03-10 )
+
+- Enhancement: Allow multiple email blocks in automated emails.
+- Enhancement: Automated Email Subject field is now required to prevent sending incomplete emails.
+- Fix: Social Sharing bar offset settings not applying correctly.
+- Fix: hustle_module_viewed global tracking causing slowdowns on some sites.
+- Fix: Campaign Monitor error when adding the name field.
+- Fix: CTA button not closing popup when redirecting to anchor links.
+- Fix: JavaScript TypeError appearing in browser console on Hustle dashboard.
+- Fix: Specific URL visibility rules not working correctly with query parameters.
+- Fix: PHP warning produced by Hustle in some environments.
+- Fix: Whole module clickable CTA option not functioning correctly.
+- Fix: HubSpot connection still appearing connected after disconnection.
+- Fix: CSS triggers on Hustle popups not working correctly.
+- Fix: PHP errors reported by Query Monitor in latest Hustle beta.
+- Fix: Automated emails not sending in Hustle Pro.
+- Fix: Multiple specific URLs not saving correctly in Social Sharing visibility rules.
+- Fix: PHP notice Undefined array key selected_global_multi_id in email list screen.
+- Compatibility: Updated HubSpot integration to API v3.
+- Compatibility: Addressed MailPoet deprecated errors on PHP 8.2+.
+- Compatibility: PHP 8.4 compatibility improvements.
+- Compatibility: Upgraded Convert Kit integration to API v4.
+
+
+= 7.8.10.2 ( 2026-02-12 )
+
+- Fix: Security hardening for conversion tracking requests.
+
+
+= 7.8.10.1 ( 2026-01-27 )
+- Fix: HubSpot integration critical error
+
+ = 7.8.10 ( 2026-01-21 )
+
+- Enhancement: Upgrade Constant Contact integration to API v3 with OAuth2 PKCE
+- Enhancement: Upgrade Keap (Infusionsoft) integration to API v2
+- Enhancement: Security hardening for AWeber integration
+- Fix: Cannot scroll the Divi page editor
+- Fix: CSS rules inside Media Queries breaking Custom CSS
+- Fix: Conflict between Hustle and The Events Calendar Filter Bar
+- Fix: Consent checkbox in Forminator not checked when triggering a Hustle popup
+- Fix: Multiple GeoIP requests
+
+
+ = 7.8.9.1 ( 2025-12-16 )
+
+ - Miscellaneous improvements
+
+ = 7.8.8 ( 2025-09-08 )
+
+- Improve: Accessibility enhancements across plugin admin screens for better screen reader support.
+- Improve: Adjusted color contrast on UI elements to meet WCAG 2 AA standards.
+- Fix: Corrected ARIA attributes on form fields and buttons.
+- Fix: Conversion tracking not working when only a CTA button is present.
+- Fix: "Never see this again" cookie expiration date incorrectly tied to Closing behavior setting.
+
+
+= 7.8.7 ( 2025-04-25 )
+
+- Enhance: Compatibility with WordPress 6.8
+- Enhance: Add a new menu item to help you discover other free plugins by WPMU DEV and more
+
+= 7.8.6 ( 2024-11-25 )
+
+- Fix: Notice for _load_textdomain_just_in_time called incorrectly
+- Fix: Security hardening
+
+= 7.8.5 ( 2024-08-05 )
+
+- Fix: XSS Security vulnerability
+
+
+= 7.8.4 ( 2024-03-07 ) =
+
+- Fix: Security vulnerability
+
+
+= 7.8.3 ( 2024-01-17 ) =
 
  - Aligned Pro and Free version numbers to ensure consistency and simplify version management.
  - Enhance: Compatibility with PHP 8.3
@@ -194,7 +311,7 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
  - Fix: Size of summary box logo
 
 
-= 4.8.2 ( 2023-10-03 ) =
+= 10.8.2 ( 2023-10-03 ) =
 
  - Fix: ConstantContact authentification.
  - Fix: Cannot edit or add hyperlink
@@ -206,14 +323,14 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
  - Enhance: Remove mascot images
 
 
-= 4.8.1 ( 2023-08-24 ) =
+= 10.8.1 ( 2023-08-24 ) =
 
 - Enhance: Set up a redirect URL for Hubspot
 - Fix: Issues with Hustle ActiveCampaign integration
 - Fix: Bullet Points are not showing on the success message
 
 
-= 4.8.0 ( 2023-06-27 ) =
+= 10.8.0 ( 2023-06-27 ) =
 
 - Enhance: Require PHP 7.4 as the minimum supported version
 - Enhance: Prevent XSS vulnerability in translations
@@ -224,32 +341,9 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
 - Fix: Issue with Close button on iOS
 
 
-= 4.7.1 ( 2023-06-07 ) =
+= 10.7.1 ( 2023-06-07 ) =
 
 - Enhance: Performance improvements.
-
-
-= 4.7.0 ( 2023-04-10 ) =
-
-- New: Ability to display modules N times per day/week/month/year
-- New: Make whole module a clickable CTA
-- Enhance: White Labeling plugin name
-- Enhance: Module accessibility
-- Enhance: Conditional visibility for modules with CTA when 2 buttons are used
-- Enhance: Allow customizing Close Button size
-- Enhance: Compatibility with PHP 8.2
-- Fix: W3C issue with style sheets
-- Fix: Compatibility issue with ACF Pro plugin
-- Fix: Divi theme issue - Triggering module using link ID does not work
-
-
-= 4.6.6 ( 2023-03-30 ) =
-
-- Enhance: Security improvements.
-- Fix: Helper Text font style cannot be reset
-- Fix: Title and Subtitle alignments are not working after reset
-- Fix: Embed Title is being cut off when you use Halloween Template
-- Fix: Redirect URL input field for CTA 2 doesn't show by default in Embed when starting from scratch
 
 [Changelog for previous versions](https://wpmudev.com/project/hustle/#view-changelog).
 
@@ -260,4 +354,4 @@ WPMU DEV is a premium supplier of quality WordPress plugins, services and suppor
 Don't forget to stay up to date on everything WordPress from the Internet's number one resource:
 [WPMU DEV Blog](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hustle-readme&utm_content=wpmu_dev_blog_link)
 
-Hey, one more thing... we hope you enjoy our [free offerings](http://profiles.wordpress.org/WPMUDEV/) as much as we've loved making them for you!
+Hey, one more thing... we hope you enjoy our [free offerings](https://profiles.wordpress.org/wpmudev/#content-plugins) as much as we've loved making them for you!

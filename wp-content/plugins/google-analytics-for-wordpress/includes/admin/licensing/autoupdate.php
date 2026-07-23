@@ -1,4 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Check to see if the plugin file path matches the main pro plugin or an add-on of ours
  *
@@ -59,7 +64,7 @@ function monsterinsights_modify_wordpress_autoupdater_setting( $html, $plugin_fi
 		);
 		add_filter( "monsterinsights_is_autoupdate_setting_html_filtered_" . $plugin_file, '__return_true' );
 	} elseif ( $has_permission &&
-	           ( $is_main_free || $is_main_pro || ( $is_addon && $is_pro ) )
+			   ( $is_main_free || $is_main_pro || ( $is_addon && $is_pro ) )
 	) {
 		$text = __( 'Manage auto-updates', 'google-analytics-for-wordpress' );
 		$html .= '<br>' . sprintf( '<a href="%s"">%s</a>', admin_url( 'admin.php?page=monsterinsights_settings#/advanced' ), $text );
@@ -109,18 +114,19 @@ function monsterinsights_automatic_updates( $update, $item ) {
 	if ( function_exists( 'get_current_screen' ) ) {
 		$screen = get_current_screen();
 		if ( ! empty( $screen ) &&
-		     ! empty( $screen->id ) &&
-		     in_array( $screen->id, array( 'plugins', 'plugins-network' ) )
+			 ! empty( $screen->id ) &&
+			 in_array( $screen->id, array( 'plugins', 'plugins-network' ) )
 		) {
 			$is_pro      = monsterinsights_is_pro_version();
 			$is_addon    = monsterinsights_is_plugin_our_addon( $item['plugin'] );
 			$is_main_pro = $is_pro && plugin_basename( MONSTERINSIGHTS_PLUGIN_FILE ) === $item['plugin'];
 
 			if ( $is_free ||
-			     $is_main_pro ||
-			     ( $is_addon && $is_pro )
+				 $is_main_pro ||
+				 ( $is_addon && $is_pro )
 			) {
-				return in_array( $automatic_updates, array( 'all', 'minor' ) );
+				// Respect the incoming $update value from WordPress or other filters (e.g. __return_true).
+				return in_array( $automatic_updates, array( 'all', 'minor' ) ) || $update;
 			} elseif ( $is_addon && ! $is_pro ) {
 				return false;
 			}

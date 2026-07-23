@@ -1,7 +1,12 @@
 <?php
 
-define( 'QI_ADDONS_FOR_ELEMENTOR_VERSION', '1.6.9' );
-define( 'QI_ADDONS_FOR_ELEMENTOR_ABS_PATH', dirname( __FILE__ ) );
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
+define( 'QI_ADDONS_FOR_ELEMENTOR_VERSION', '1.10' );
+define( 'QI_ADDONS_FOR_ELEMENTOR_ABS_PATH', __DIR__ );
 define( 'QI_ADDONS_FOR_ELEMENTOR_REL_PATH', dirname( plugin_basename( __FILE__ ) ) );
 define( 'QI_ADDONS_FOR_ELEMENTOR_URL_PATH', plugin_dir_url( __FILE__ ) );
 define( 'QI_ADDONS_FOR_ELEMENTOR_ASSETS_PATH', QI_ADDONS_FOR_ELEMENTOR_ABS_PATH . '/assets' );

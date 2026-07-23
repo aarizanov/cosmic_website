@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_cards_slider_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,12 +25,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_cards_slider_shortcode' ) )
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Cards_Slider_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/cards-slider' );
 			$this->set_base( 'qi_addons_for_elementor_cards_slider' );
 			$this->set_name( esc_html__( 'Cards Slider', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds cards gallery holder', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/cards-slider/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#cards_slider' );
@@ -50,7 +59,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -126,7 +135,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			);
 			$offset_selectors = array();
 
-			for ( $i = 10; $i > 0; $i -- ) {
+			for ( $i = 10; $i > 0; $i-- ) {
 				$offset_selectors[ '{{WRAPPER}} .qodef-orientation--one-side .qodef-m-card:nth-last-child(' . $i . ')' ] = 'transform: translateX(calc( {{orientation.VALUE}} * ' . ( $i - 1 ) . ' * {{SIZE}}px)) translateY(calc( -1 * ' . ( $i - 1 ) . ' * {{SIZE}}px));';
 			}
 			$this->set_option(
@@ -306,7 +315,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'slider_navigation_arrows_size',
 					'title'      => esc_html__( 'Navigation Arrow Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-navigation .qodef-nav' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -320,7 +329,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'slider_navigation_arrows_holder_width',
 					'title'      => esc_html__( 'Navigation Arrow Holder Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-navigation .qodef-nav' => 'width: {{SIZE}}{{UNIT}} !important;',
@@ -334,7 +343,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'slider_navigation_arrows_holder_height',
 					'title'      => esc_html__( 'Navigation Arrow Holder Height', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-navigation .qodef-nav' => 'height: {{SIZE}}{{UNIT}} !important;',
@@ -356,7 +365,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'slider_navigation_together_margin_top',
 					'title'      => esc_html__( 'Navigation Margin Top', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-navigation' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -369,7 +378,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'slider_navigation_together_left_offset',
 					'title'      => esc_html__( 'Navigation Left Offset', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em', '%' ),
+					'size_units' => array( 'px', 'em', '%', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => - 100,
@@ -396,7 +405,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'slider_navigation_together_space_between',
 					'title'      => esc_html__( 'Space Between Arrows', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-navigation > .qodef--prev' => 'margin-right: {{SIZE}}{{UNIT}};',

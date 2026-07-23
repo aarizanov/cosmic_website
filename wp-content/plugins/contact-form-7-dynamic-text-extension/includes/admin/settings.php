@@ -15,22 +15,90 @@ class CF7DTX_Plugin_Settings
      */
     private $capability = 'manage_options';
 
-    private $sections;
-    private $fields;
+    private $_sections;
+
+    private $_fields;
 
     private $num_forms_to_scan = 20;
 
     /**
      * The Plugin Settings constructor.
      */
-    function __construct($sections, $fields)
+    function __construct()
     {
         add_action('admin_init', [$this, 'settings_init']);
         add_action('admin_menu', [$this, 'options_page']);
-
-        $this->sections = $sections;
-        $this->fields = $fields;
     }
+
+    /**
+     * Array of fields that should be displayed in the settings page.
+     *
+     * @var array $fields
+     */
+    private function fields()
+    {
+        if (!is_array($this->_fields)) {
+            $this->_fields = [
+                [
+                    'id' => 'post_meta_allow_keys',
+                    'label' => __('Meta Key Allow List', 'contact-form-7-dynamic-text-extension'),
+                    'description' => __('Allow access to these specific post metadata keys.  Enter one per line.', 'contact-form-7-dynamic-text-extension'),
+                    'type' => 'textarea',
+                    'section' => 'post_meta_access',
+                ],
+                [
+                    'id' => 'post_meta_allow_all',
+                    'label' => __('Allow Access to All Post Metadata', 'contact-form-7-dynamic-text-extension'),
+                    'description' => __('**Use with caution.**  Should only be enabled if all authorized users with editor privileges (Contributor+) are trusted and should have access to this data.  All metadata from any post (including custom post types) will be accessible via the CF7_get_custom_field shortcode.  If in doubt, use the Allow List to allow only specific keys.', 'contact-form-7-dynamic-text-extension'),
+                    'type' => 'select',
+                    'options' => [
+                        'disabled' => __('Disabled - Only Allow Access to Meta Key Allow List', 'contact-form-7-dynamic-text-extension'),
+                        'enabled' => __('Enabled - Allow Access to All Post Metadata', 'contact-form-7-dynamic-text-extension'),
+                    ],
+                    'section' => 'post_meta_access',
+                ],
+                [
+                    'id' => 'user_data_allow_keys',
+                    'label' => __('User Data Key Allow List', 'contact-form-7-dynamic-text-extension'),
+                    'description' => __('Allow access to these specific user data keys.   Enter one per line.', 'contact-form-7-dynamic-text-extension'),
+                    'type' => 'textarea',
+                    'section' => 'user_data_access',
+                ],
+                [
+                    'id' => 'user_data_allow_all',
+                    'label' => __('Allow Access to All User Data', 'contact-form-7-dynamic-text-extension'),
+                    'description' => __('**Use with caution.**  Should only be enabled if all authorized users with editor privileges (Contributor+) are trusted and should have access to this data.  All of the current user\'s data fields will be accessible via the CF7_get_current_user shortcode.  If in doubt, use the Allow List to allow only specific keys.', 'contact-form-7-dynamic-text-extension'),
+                    'type' => 'select',
+                    'options' => [
+                        'disabled' => __('Disabled - Only Allow Access to User Data Key Allow List', 'contact-form-7-dynamic-text-extension'),
+                        'enabled' => __('Enabled - Allow Access to User Data', 'contact-form-7-dynamic-text-extension'),
+                    ],
+                    'section' => 'user_data_access',
+                ],
+            ];
+        }
+        return $this->_fields;
+    }
+
+    private function sections()
+    {
+        if (!is_array($this->_sections)) {
+            $this->_sections = [
+                'post_meta_access' => [
+                    'title' => __('Post Meta Access', 'contact-form-7-dynamic-text-extension'),
+                    'description' => __('Control which post metadata the CF7 DTX shortcodes (CF7_get_custom_field) can access.  By default, all metadata is protected, so you can open up access through these settings.  Keep in mind that users with Contributor+ credentials can add shortcodes and therefore access this data, so make sure not to expose anything sensitive.', 'contact-form-7-dynamic-text-extension') .
+                        ' <a href="' . WPCF7DTX_DATA_ACCESS_KB_URL . '" target="_blank">' . __('More Information', 'contact-form-7-dynamic-text-extension') . '</a>',
+                ],
+                'user_data_access' => [
+                    'title' => __('User Data Access', 'contact-form-7-dynamic-text-extension'),
+                    'description' => __('Control which user data the CF7 DTX shortcodes (CF7_get_current_user) can access.  By default, all user data is protected, so you can open up access through these settings.  Keep in mind that users with Contributor+ credentials can add shortcodes and therefore access this data, so make sure not to expose anything sensitive.', 'contact-form-7-dynamic-text-extension') .
+                        ' <a href="' . WPCF7DTX_DATA_ACCESS_KB_URL . '" target="_blank">' . __('More Information', 'contact-form-7-dynamic-text-extension') . '</a>',
+                ],
+            ];
+        }
+        return $this->_sections;
+    }
+
 
     /**
      * Register the settings and all fields.
@@ -45,7 +113,7 @@ class CF7DTX_Plugin_Settings
         // Register a new setting this page.
         register_setting('cf7dtx_settings', 'cf7dtx_settings');
 
-        foreach ($this->sections as $section_id => $section) {
+        foreach ($this->sections() as $section_id => $section) {
             // Register a new section.
             add_settings_section(
                 $section_id,
@@ -57,7 +125,7 @@ class CF7DTX_Plugin_Settings
 
 
         /* Register All The Fields. */
-        foreach ($this->fields as $field) {
+        foreach ($this->fields() as $field) {
             // Register a new field in the main section.
             add_settings_field(
                 $field['id'], /* ID for the field. Only used internally. To set the HTML ID attribute, use $args['label_for']. */
@@ -109,19 +177,33 @@ class CF7DTX_Plugin_Settings
         }
 
         if (isset($_GET['dismiss-access-keys-notice'])) {
-            wpcf7dtx_set_update_access_scan_check_status('notice_dismissed');
-?>
+            if (!wp_verify_nonce(trim(sanitize_text_field(wpcf7dtx_array_has_key('_wpnonce', $_GET))), 'dtx-dismiss-notice')) {
+                wp_die(__('Security check failed.', 'contact-form-7-dynamic-text-extension'));
+            }
+            wpcf7dtx_set_update_access_scan_check_status('notice_dismissed'); ?>
             <div class="notice notice-success dtx-notice">
                 <p><?php _e('Notice Dismissed.  You can run the scan any time from the CF7 DTX settings page', 'contact-form-7-dynamic-text-extension'); ?></p>
                 <p><?php $this->render_back_to_settings_button(); ?></p>
             </div>
-            <?php
-            return;
+            <?php return;
         }
-        if (isset($_GET['scan-meta-keys'])) {
 
+        /**
+         * Perform Scan
+         */
+        if (array_key_exists('scan-meta-keys', $_GET)) {
 
-            if (isset($_POST['save-allows'])) {
+            // Form submission
+            if (array_key_exists('save-allows', $_POST)) {
+                // Verify options nonce
+                if (!wp_verify_nonce(trim(sanitize_text_field(wpcf7dtx_array_has_key('_wpnonce', $_POST))), 'cf7dtx_settings-options')) {
+                    echo wp_kses_post(sprintf(
+                        '<div class="notice notice-error dtx-notice"><p><strong>%s</strong></p><p>%s</p></div>',
+                        esc_html__('Error saving allowlist.', 'contact-form-7-dynamic-text-extension'),
+                        esc_html__('Please try again. If this continues, contact support.', 'contact-form-7-dynamic-text-extension')
+                    ));
+                    return; // Failed nonce challenge
+                }
                 $r = $this->handle_save_allows();
             ?>
                 <div class="wrap">
@@ -132,7 +214,18 @@ class CF7DTX_Plugin_Settings
                 </div>
             <?php
             } else {
-                $offset = isset($_GET['offset']) ? $_GET['offset'] : 0;
+                // URL query
+                // Verify scan nonce
+                if (!wp_verify_nonce(trim(sanitize_text_field(wpcf7dtx_array_has_key('_wpnonce', $_GET))), 'dtx-scan')) {
+                    echo wp_kses_post(sprintf(
+                        '<div class="notice notice-error dtx-notice"><p><strong>%s</strong></p><p>%s</p></div>',
+                        esc_html__('An unexpected error occurred.', 'contact-form-7-dynamic-text-extension'),
+                        esc_html__('Please try again. If this continues, contact support.', 'contact-form-7-dynamic-text-extension'),
+                    ));
+                    return; // Failed nonce challenge
+                }
+
+                $offset = isset($_GET['offset']) ? max(0, intval($_GET['offset'])) : 0; // [SECURITY FIX] cast to non-negative integer
                 $results = wpcf7dtx_scan_forms_for_access_keys($this->num_forms_to_scan, $offset);
 
             ?>
@@ -168,11 +261,11 @@ class CF7DTX_Plugin_Settings
                     /* (sections are registered for "cf7dtx", each field is registered to a specific section) */
                     do_settings_sections('cf7dtx_settings');
                     /* output save settings button */
-                    submit_button('Save Settings');
+                    submit_button(__( 'Save Settings', 'contact-form-7-dynamic-text-extension' ));
                     ?>
                 </form>
 
-                <a href="<?php echo wpcf7dtx_get_admin_scan_screen_url(); ?>">Scan Forms for Post Meta and User Data Keys</a>
+                <a href="<?php echo wpcf7dtx_get_admin_scan_screen_url(); ?>"><?php esc_html_e( 'Scan Forms for Post Meta and User Data Keys', 'contact-form-7-dynamic-text-extension' ); ?></a>
             </div>
             <?php
         }
@@ -323,9 +416,11 @@ class CF7DTX_Plugin_Settings
      */
     function render_section(array $args): void
     {
-        ?>
-        <p id="<?php echo esc_attr($args['id']); ?>"><?php echo $this->sections[$args['id']]['description']; ?></p>
-    <?php
+        echo sprintf(
+            '<p id="%s">%s</p>',
+            esc_attr($args['id']),
+            wp_kses_data($this->sections()[$args['id']]['description'])
+        );
     }
 
     /**
@@ -351,7 +446,7 @@ class CF7DTX_Plugin_Settings
 
         // Check if we need to scan another batch
         if ($results['forms_scanned'] === $this->num_forms_to_scan) {
-            $offset = isset($_GET['offset']) ? $_GET['offset'] : 0;
+            $offset = isset($_GET['offset']) ? max(0, intval($_GET['offset'])) : 0; // [SECURITY FIX] cast to non-negative integer
             $next_offset = $offset + $this->num_forms_to_scan;
             echo '<div class="notice notice-warning dtx-notice"><p>';
             echo sprintf(
@@ -447,8 +542,8 @@ class CF7DTX_Plugin_Settings
                 ?>
                     <div class="postbox">
                         <div class="postbox-header">
-                            <h2><?php echo $r['title']; ?></h2>
-                            <a href="<?php echo $r['admin_url']; ?>" target="_blank">View form</a>
+                            <h2><?php echo esc_html($r['title']); ?></h2>
+                            <a href="<?php echo esc_url($r['admin_url']); ?>" target="_blank">View form</a>
                         </div>
                         <div class="inside">
                             <?php if (count($r['meta_keys'])) : ?>
@@ -461,8 +556,8 @@ class CF7DTX_Plugin_Settings
                                         ?>
                                             <div>
                                                 <label <?php if ($already_allowed) echo 'class="key-disabled" title="Already in Allow List"'; ?>>
-                                                    <input name="<?php echo $name; ?>" id="<?php echo $name; ?>" type="checkbox" value="1" <?php if ($already_allowed) echo 'checked="checked" disabled'; ?> />
-                                                    <?php echo $key; ?>
+                                                    <input name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($name); ?>" type="checkbox" value="1" <?php if ($already_allowed) echo 'checked="checked" disabled'; ?> />
+                                                    <?php echo esc_html($key); ?>
                                                 </label>
                                             </div>
                                         <?php
@@ -481,8 +576,8 @@ class CF7DTX_Plugin_Settings
                                             ?>
                                                 <div>
                                                     <label <?php if ($already_allowed) echo 'class="key-disabled" title="Already in Allow List"'; ?>>
-                                                        <input name="<?php echo $name; ?>" id="<?php echo $name; ?>" type="checkbox" value="1" <?php if ($already_allowed) echo 'checked="checked" disabled'; ?> />
-                                                        <?php echo $key; ?>
+                                                        <input name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($name); ?>" type="checkbox" value="1" <?php if ($already_allowed) echo 'checked="checked" disabled'; ?> />
+                                                        <?php echo esc_html($key); ?>
                                                     </label>
                                                 </div>
                                             <?php
@@ -510,7 +605,7 @@ class CF7DTX_Plugin_Settings
      *
      * @return array Save results.
      */
-    function handle_save_allows()
+    private function handle_save_allows()
     {
         $user_keys = [];
         $meta_keys = [];
@@ -568,15 +663,15 @@ class CF7DTX_Plugin_Settings
      *
      * @return void
      */
-    function render_allow_keys_submission($r)
+    private function render_allow_keys_submission($r)
     {
 
     ?>
         <?php if (count($r['meta'])) : ?>
-            <p><?php _e('Meta Keys Added', 'contact-form-7-dynamic-text-extension'); ?>: <?php echo implode(', ', $r['meta']); ?></p>
+            <p><?php _e('Meta Keys Added', 'contact-form-7-dynamic-text-extension'); ?>: <?php echo esc_html(implode(', ', $r['meta'])); ?></p>
         <?php endif; ?>
         <?php if (count($r['user'])) : ?>
-            <p><?php _e('User Data Keys Added', 'contact-form-7-dynamic-text-extension'); ?>: <?php echo implode(', ', $r['user']); ?></p>
+            <p><?php _e('User Data Keys Added', 'contact-form-7-dynamic-text-extension'); ?>: <?php echo esc_html(implode(', ', $r['user'])); ?></p>
         <?php endif; ?>
 
         <?php if (!count($r['meta']) && !count($r['user'])) : ?>
@@ -602,76 +697,20 @@ class CF7DTX_Plugin_Settings
     }
 }
 
-
-
-$sections = [
-    'post_meta_access' => [
-        'title' => __('Post Meta Access', 'contact-form-7-dynamic-text-extension'),
-        'description' => __('Control which post metadata the CF7 DTX shortcodes (CF7_get_custom_field) can access.  By default, all metadata is protected, so you can open up access through these settings.  Keep in mind that users with Contributor+ credentials can add shortcodes and therefore access this data, so make sure not to expose anything sensitive.') .
-            ' <a href="' . WPCF7DTX_DATA_ACCESS_KB_URL . '" target="_blank">' . __('More Information', 'contact-form-7-dynamic-text-extension') . '</a>',
-    ],
-    'user_data_access' => [
-        'title' => __('User Data Access', 'contact-form-7-dynamic-text-extension'),
-        'description' => __('Control which user data the CF7 DTX shortcodes (CF7_get_current_user) can access.  By default, all user data is protected, so you can open up access through these settings.  Keep in mind that users with Contributor+ credentials can add shortcodes and therefore access this data, so make sure not to expose anything sensitive.') .
-            ' <a href="' . WPCF7DTX_DATA_ACCESS_KB_URL . '" target="_blank">' . __('More Information', 'contact-form-7-dynamic-text-extension') . '</a>',
-    ],
-];
+new CF7DTX_Plugin_Settings();
 
 /**
- * Array of fields that should be displayed in the settings page.
+ * Get URL to Admin Scan Screen
  *
- * @var array $fields
+ * @param int $offset Optional.
  */
-$fields = [
-    [
-        'id' => 'post_meta_allow_keys',
-        'label' => __('Meta Key Allow List', 'contact-form-7-dynamic-text-extension'),
-        'description' => __('Allow access to these specific post metadata keys.  Enter one per line.', 'contact-form-7-dynamic-text-extension'),
-        'type' => 'textarea',
-        'section' => 'post_meta_access',
-    ],
-    [
-        'id' => 'post_meta_allow_all',
-        'label' => __('Allow Access to All Post Metadata', 'contact-form-7-dynamic-text-extension'),
-        'description' => __('**Use with caution.**  Should only be enabled if all authorized users with editor privileges (Contributor+) are trusted and should have access to this data.  All metadata from any post (including custom post types) will be accessible via the CF7_get_custom_field shortcode.  If in doubt, use the Allow List to allow only specific keys.', 'contact-form-7-dynamic-text-extension'),
-        'type' => 'select',
-        'options' => [
-            'disabled' => __('Disabled - Only Allow Access to Meta Key Allow List', 'contact-form-7-dynamic-text-extension'),
-            'enabled' => __('Enabled - Allow Access to All Post Metadata', 'contact-form-7-dynamic-text-extension'),
-        ],
-        'section' => 'post_meta_access',
-    ],
-    [
-        'id' => 'user_data_allow_keys',
-        'label' => __('User Data Key Allow List', 'contact-form-7-dynamic-text-extension'),
-        'description' => __('Allow access to these specific user data keys.   Enter one per line.', 'contact-form-7-dynamic-text-extension'),
-        'type' => 'textarea',
-        'section' => 'user_data_access',
-    ],
-    [
-        'id' => 'user_data_allow_all',
-        'label' => __('Allow Access to All User Data', 'contact-form-7-dynamic-text-extension'),
-        'description' => __('**Use with caution.**  Should only be enabled if all authorized users with editor privileges (Contributor+) are trusted and should have access to this data.  All of the current user\'s data fields will be accessible via the CF7_get_current_user shortcode.  If in doubt, use the Allow List to allow only specific keys.', 'contact-form-7-dynamic-text-extension'),
-        'type' => 'select',
-        'options' => [
-            'disabled' => __('Disabled - Only Allow Access to User Data Key Allow List', 'contact-form-7-dynamic-text-extension'),
-            'enabled' => __('Enabled - Allow Access to User Data', 'contact-form-7-dynamic-text-extension'),
-        ],
-        'section' => 'user_data_access',
-    ],
-];
-
-
-new CF7DTX_Plugin_Settings($sections, $fields);
-
-
 function wpcf7dtx_get_admin_scan_screen_url($offset = 0)
 {
     $path = 'admin.php?page=cf7dtx_settings&scan-meta-keys';
     if ($offset) {
         $path .= '&offset=' . $offset;
     }
-    return admin_url($path);
+    return wp_nonce_url(admin_url($path), 'dtx-scan');
 }
 function wpcf7dtx_get_admin_settings_screen_url()
 {

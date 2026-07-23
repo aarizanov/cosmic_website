@@ -52,14 +52,14 @@ $dashboard_link = add_query_arg(
 			<div class="content">
 				<h2 class="title"><?php esc_html_e( 'Cookie Scan Results', 'uk-cookie-consent' ); ?></h2>
 				<p>
-				<?php
-					echo sprintf(
+					<?php
+					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html( 'After the scan is complete, you can view your cookie list by going to', 'uk-cookie-consent' ),
+						esc_html__( 'After the scan is complete, you can view your cookie list by going to', 'uk-cookie-consent' ),
 						esc_attr( termly\Urls::get_cookie_management_url() ),
-						esc_html( 'Cookie Management', 'uk-cookie-consent' )
+						esc_html__( 'Cookie Management', 'uk-cookie-consent' )
 					);
-				?>
+					?>
 				</p>
 
 				<h2 class="title"><?php esc_html_e( 'Site Scan Settings', 'uk-cookie-consent' ); ?></h2>
@@ -79,6 +79,8 @@ $dashboard_link = add_query_arg(
 
 			<?php require TERMLY_VIEWS . 'consent-toggle-sidebar.php'; ?>
 			<?php require TERMLY_VIEWS . 'upgrade-notice-sidebar.php'; ?>
+			<?php require TERMLY_VIEWS . 'wp-rocket-notice-sidebar.php'; ?>
+			<?php require TERMLY_VIEWS . 'review-notice-sidebar.php'; ?>
 
 		</div>
 

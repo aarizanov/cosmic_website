@@ -282,6 +282,7 @@ input.warning:hover, a.warning:hover {
     overflow: auto;
     min-height: 600px;
     max-height: 720px;
+    padding-left: 5px;
 }
 
 #ure_caps_list {
@@ -290,5 +291,6 @@ input.warning:hover, a.warning:hover {
     column-count: 1;
     column-width: auto;
     display: inline-block;
-    min-width: 100%;        
+    min-width: 100%;
+    margin-top: 5px;
 }

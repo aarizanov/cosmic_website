@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $holder_classes ); ?>>
 	<?php
 	if ( count( $items ) ) {
@@ -19,7 +26,7 @@
 				)
 			);
 
-
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo apply_filters(
 				'qi_addons_for_elementor_filter_timeline_render_template',
 				qi_addons_for_elementor_get_template_part(

@@ -1,28 +1,28 @@
 <?php return array(
     'root' => array(
-        'name' => 'awesomemotive/aioseo-broken-link-checker',
+        'name' => 'awesomemotive/broken-link-checker-seo',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => 'fa60f717c66f500c5d6d08724637a4615e027ee0',
+        'reference' => '8bab768b0481e6d74523603d632550f50b70a61b',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => false,
     ),
     'versions' => array(
-        'awesomemotive/aioseo-broken-link-checker' => array(
+        'awesomemotive/broken-link-checker-seo' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => 'fa60f717c66f500c5d6d08724637a4615e027ee0',
+            'reference' => '8bab768b0481e6d74523603d632550f50b70a61b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'woocommerce/action-scheduler' => array(
-            'pretty_version' => '3.7.1',
-            'version' => '3.7.1.0',
-            'reference' => 'bdaecb016e0358065a8bf76a41fdd60772cacaa5',
+            'pretty_version' => '3.9.2',
+            'version' => '3.9.2.0',
+            'reference' => 'efbb7953f72a433086335b249292f280dd43ddfe',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../woocommerce/action-scheduler',
             'aliases' => array(),

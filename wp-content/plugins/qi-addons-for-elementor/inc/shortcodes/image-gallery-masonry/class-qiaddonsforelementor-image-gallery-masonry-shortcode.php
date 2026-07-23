@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_image_gallery_masonry_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_image_gallery_masonry_short
 if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 	class QiAddonsForElementor_Image_Gallery_Masonry_Shortcode extends QiAddonsForElementor_List_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_image_gallery_masonry_extra_options', array() ) );
 
@@ -31,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_image_gallery_masonry' );
 			$this->set_name( esc_html__( 'Masonry Image Gallery', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds masonry image gallery element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/masonry-image-gallery/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#masonry_image_gallery' );
@@ -245,7 +254,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 				$image['image_link'] = $item['image_link'];
 
 				$images[ $i ] = $image;
-				$i ++;
+				$i++;
 			}
 
 			return $images;

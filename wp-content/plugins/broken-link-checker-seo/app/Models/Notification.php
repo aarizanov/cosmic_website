@@ -116,9 +116,56 @@ class Notification extends Model {
 	 * @return array List of active notifications.
 	 */
 	public static function getAllActiveNotifications() {
-		$notifications = array_values( json_decode( wp_json_encode( self::getActiveNotifications() ), true ) );
+		$staticNotifications = self::getStaticNotifications();
+		$notifications       = array_values( json_decode( wp_json_encode( self::getActiveNotifications() ), true ) );
 
-		return $notifications;
+		return ! empty( $staticNotifications ) ? array_merge( $staticNotifications, $notifications ) : $notifications;
+	}
+
+	/**
+	 * Returns all static notifications.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return array List of static notifications.
+	 */
+	public static function getStaticNotifications() {
+		$notifications       = [ 'review' ];
+		$staticNotifications = [];
+		foreach ( $notifications as $notification ) {
+			switch ( $notification ) {
+				case 'review':
+					// If dismissed, don't show again.
+					$originalDismissed = get_user_meta( get_current_user_id(), '_aioseo_blc_plugin_review_dismissed', true );
+					if ( '4' !== $originalDismissed ) {
+						break;
+					}
+
+					$dismissed = get_user_meta( get_current_user_id(), '_aioseo_blc_notification_plugin_review_dismissed', true );
+					if ( '3' === $dismissed ) {
+						break;
+					}
+
+					if ( ! empty( $dismissed ) && $dismissed > time() ) {
+						break;
+					}
+
+					$activated = aioseoBrokenLinkChecker()->internalOptions->internal->firstActivated( time() );
+					if ( $activated > strtotime( '-20 days' ) ) {
+						break;
+					}
+
+					$staticNotifications[] = [
+						'slug'      => 'notification-' . $notification,
+						'component' => 'notifications-' . $notification . '2',
+					];
+					break;
+				default:
+					break;
+			}
+		}
+
+		return $staticNotifications;
 	}
 
 	/**
@@ -135,7 +182,8 @@ class Notification extends Model {
 				->where( 'dismissed', 0 )
 				->whereRaw( "(start <= '" . gmdate( 'Y-m-d H:i:s' ) . "' OR start IS NULL)" )
 				->whereRaw( "(end >= '" . gmdate( 'Y-m-d H:i:s' ) . "' OR end IS NULL)" )
-				->orderBy( 'start DESC, created DESC' )
+				->orderBy( 'start DESC' )
+				->orderBy( 'created DESC' )
 				->run()
 				->models( 'AIOSEO\\BrokenLinkChecker\\Models\\Notification' )
 		);
@@ -159,7 +207,8 @@ class Notification extends Model {
 				->where( 'new', 1 )
 				->whereRaw( "(start <= '" . gmdate( 'Y-m-d H:i:s' ) . "' OR start IS NULL)" )
 				->whereRaw( "(end >= '" . gmdate( 'Y-m-d H:i:s' ) . "' OR end IS NULL)" )
-				->orderBy( 'start DESC, created DESC' )
+				->orderBy( 'start DESC' )
+				->orderBy( 'created DESC' )
 				->run()
 				->models( 'AIOSEO\\BrokenLinkChecker\\Models\\Notification' )
 		);

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_shortcod
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Interactive_Banner_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_interactive_banner_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_interactive_banner_extra_options', array(), $this ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_interactive_banner' );
 			$this->set_name( esc_html__( 'Interactive Banners', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds interactive banners element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Business', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/interactive-banners/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#interactive_banners' );
@@ -102,7 +111,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'banner_padding',
 					'title'      => esc_html__( 'Banner Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vw' ),
+					'size_units' => array( 'px', '%', 'vw', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -205,7 +214,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'subtitle_margin_bottom',
 					'title'      => esc_html__( 'Subtitle Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-subtitle' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -290,7 +299,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'text_margin_top',
 					'title'      => esc_html__( 'Text Margin Top', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-content-inner > .qodef-m-text' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -321,7 +330,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'button_margin_top',
 					'title'      => esc_html__( 'Button Margin Top', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-button' => 'padding-top: {{SIZE}}{{UNIT}};',
@@ -337,6 +346,94 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
 				)
 			);
+
+			$show_background_overlay_layouts = array_keys( array_diff_key( $this->get_layouts(), apply_filters( 'qi_addons_for_elementor_filter_interactive_banner_layout_hide_background_style', array() ) ) );
+
+			$this->set_option(
+				array(
+					'field_type' => 'start_controls_tabs',
+					'name'       => 'overlay_style_tabs',
+					'title'      => esc_html__( 'Overlay Start', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+					'dependency' => array(
+						'show' => array(
+							'layout' => array(
+								'values'        => $show_background_overlay_layouts,
+								'default_value' => 'standard',
+							),
+						),
+					),
+				)
+			);
+
+			$this->set_option(
+				array(
+					'field_type' => 'start_controls_tab',
+					'name'       => 'overlay_tab_normal',
+					'title'      => esc_html__( 'Normal', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+				)
+			);
+
+			$this->set_option(
+				array(
+					'field_type' => 'color',
+					'name'       => 'overlay_color',
+					'title'      => esc_html__( 'Overlay Color', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+					'selectors'  => array(
+						'{{WRAPPER}} .qodef-m-image:after' => 'background-color: {{VALUE}};',
+					),
+				)
+			);
+
+			$this->set_option(
+				array(
+					'field_type' => 'end_controls_tab',
+					'name'       => 'overlay_tab_normal_end',
+					'title'      => esc_html__( 'Normal End', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+				)
+			);
+
+			$this->set_option(
+				array(
+					'field_type' => 'start_controls_tab',
+					'name'       => 'overlay_tab_hover',
+					'title'      => esc_html__( 'Hover', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+				)
+			);
+
+			$this->set_option(
+				array(
+					'field_type' => 'color',
+					'name'       => 'overlay_hover_color',
+					'title'      => esc_html__( 'Overlay Hover Color', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+					'selectors'  => array(
+						'{{WRAPPER}} .qodef-qi-interactive-banner:hover .qodef-m-image:after' => 'background-color: {{VALUE}};',
+					),
+				)
+			);
+			$this->set_option(
+				array(
+					'field_type' => 'end_controls_tab',
+					'name'       => 'overlay_tab_hover_end',
+					'title'      => esc_html__( 'Hover End', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+				)
+			);
+
+			$this->set_option(
+				array(
+					'field_type' => 'end_controls_tabs',
+					'name'       => 'overlay_style_tabs_end',
+					'title'      => esc_html__( 'Overlay End', 'qi-addons-for-elementor' ),
+					'group'      => esc_html__( 'Overlay Style', 'qi-addons-for-elementor' ),
+				)
+			);
+
 			$this->map_extra_options();
 		}
 

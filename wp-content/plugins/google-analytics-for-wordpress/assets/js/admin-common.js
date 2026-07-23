@@ -24,11 +24,63 @@ jQuery(document).ready(function ($) {
 
   });
 
-  $('div.wp-menu-name > .monsterinsights-menu-notification-indicator').click(function (event) {
+  /**
+   * WP Consent Notice Dismiss
+   * - Handles the dismissal of the WP Consent notice
+   */
+  $('#monsterinsights-wpconsent-notice-close').on('click', function (e) {
+    e.preventDefault();
+
+    var $notice = $('#monsterinsights-wpconsent-notice');
+
+    // Fade out the notice immediately for better UX
+    $notice.fadeOut();
+
+    // Send AJAX request to dismiss the notice
+    $.post(
+      monsterinsights_admin_common.ajax,
+      {
+        action: 'monsterinsights_dismiss_wpconsent_notice',
+        nonce: monsterinsights_admin_common.dismiss_notice_nonce
+      },
+      function () {},
+      'json'
+    );
+  });
+
+  $('div.wp-menu-name > .monsterinsights-menu-notification-indicator').on('click', function (event) {
     event.preventDefault();
     event.stopPropagation();
 
     location.href = monsterinsights.reports_url + '&open=monsterinsights_notification_sidebar';
+  });
+
+  // Persist dismissal of Ads addon installed notice for 30 days
+  $('#monsterinsights-ads-addon-notice').on('click', 'button.notice-dismiss', function (e) {
+    e.preventDefault();
+    $.post(
+      monsterinsights_admin_common.ajax,
+      {
+        action: 'monsterinsights_dismiss_ads_addon_notice',
+        nonce: monsterinsights_admin_common.dismiss_notice_nonce
+      },
+      function () {},
+      'json'
+    );
+  });
+
+  // Persist dismissal of AI Insights addon notice for 30 days
+  $('#monsterinsights-ai-insights-addon-notice').on('click', 'button.notice-dismiss', function (e) {
+    e.preventDefault();
+    $.post(
+      monsterinsights_admin_common.ajax,
+      {
+        action: 'monsterinsights_dismiss_ai_insights_addon_notice',
+        nonce: monsterinsights_admin_common.dismiss_notice_nonce
+      },
+      function () {},
+      'json'
+    );
   });
 });
 

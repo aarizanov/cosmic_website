@@ -1,11 +1,13 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Role capabilities View class to output HTML with role capabilities
  *
  * @package    User-Role-Editor
  * @subpackage Admin
  * @author     Vladimir Garagulya <support@role-editor.com>
- * @copyright  Copyright (c) 2010 - 2016, Vladimir Garagulya
+ * @copyright  Copyright (c) 2010 - 2024, Vladimir Garagulya
  **/
 class URE_Role_View extends URE_View {
  
@@ -44,7 +46,7 @@ class URE_Role_View extends URE_View {
             $selected = selected($key, $wp_default_role, false);
             $disabled = ($key==='administrator' && $caps_access_restrict_for_simple_admin && !$this->lib->is_super_admin()) ? 'disabled' : '';
             if ($show_admin_role || $key != 'administrator') {
-                $this->role_default_html .= '<option value="' . $key . '" ' . $selected .' '. $disabled .'>'. $value['name'] .' (' . $key . ')</option>';
+                $this->role_default_html .= '<option value="' . $key . '" ' . $selected .' '. $disabled .'>'. esc_html( $value['name'] ) .' (' . $key . ')</option>';
             }
         }
         $this->role_default_html .= '</select>';
@@ -75,7 +77,7 @@ class URE_Role_View extends URE_View {
             $selected1 = selected( $key, $current_role, false );
             $disabled = ( $key==='administrator' && $caps_access_restrict_for_simple_admin && !$this->lib->is_super_admin()) ? 'disabled' : '';
             if ( $show_admin_role || $key != 'administrator' ) {
-                $role_name = $value['name'] .' (' . $key . ')';
+                $role_name = esc_html( $value['name'] ) .' (' . $key . ')';
                 $this->role_select_html .= '<option value="' . $key . '" ' . $selected1 .' '. $disabled .'>' . $role_name . '</option>';
                 $this->role_to_copy_html .= '<option value="' . $key .'" '. $disabled .'>' . $role_name . '</option>';
             }
@@ -93,7 +95,7 @@ class URE_Role_View extends URE_View {
             ksort( $roles_can_delete );
             $this->role_delete_html = '<select id="del_user_role" name="del_user_role" width="250" style="width: 250px">';
             foreach ($roles_can_delete as $key => $value) {
-                $this->role_delete_html .= '<option value="' . $key . '">' . esc_html__($value, 'user-role-editor') . '</option>';
+                $this->role_delete_html .= '<option value="' . $key . '">' . esc_html( $value ) . '</option>';
             }
             $this->role_delete_html .= '<option value="-1" style="color: red;">' . esc_html__('Delete All Unused Roles', 'user-role-editor') . '</option>';
             $this->role_delete_html .= '</select>';
@@ -167,7 +169,7 @@ class URE_Role_View extends URE_View {
     // end of caps_to_remove_html()
 
     
-    public function role_edit_prepare_html( $select_width=200 ) {
+    public function role_edit_prepare_html( $select_width=250 ) {
         
         $this->role_select_copy_prepare_html( $select_width );
         $multisite = $this->lib->get( 'multisite' );
@@ -187,8 +189,8 @@ class URE_Role_View extends URE_View {
 ?>        
 <script language="javascript" type="text/javascript">
 
-  var ure_current_role = '<?php echo $current_role; ?>';
-  var ure_current_role_name  = "<?php echo $current_role_name; ?>";
+  var ure_current_role = <?php echo json_encode( $current_role ); ?>;
+  var ure_current_role_name  = <?php echo json_encode( $current_role_name ); ?>;
 
 </script>
 
@@ -366,7 +368,7 @@ if ($multisite && !is_network_admin()) {
 <?php
         }
         if ($multisite && $active_for_network && !is_network_admin() && is_main_site(get_current_blog_id()) && $this->lib->is_super_admin()) {
-            $hint = esc_html__('If checked, then apply action to ALL sites of this Network');
+            $hint = esc_html__( 'If checked, then apply action to ALL sites of this Network', 'user-role-editor' );
             $apply_to_all = $this->editor->get('apply_to_all');
             if ($apply_to_all) {
                 $checked = 'checked="checked"';

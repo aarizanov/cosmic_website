@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-section-box qodef-section-knowledge">
 	<div class="qodef-section-content">
 		<div class="qodef-section-content-part">

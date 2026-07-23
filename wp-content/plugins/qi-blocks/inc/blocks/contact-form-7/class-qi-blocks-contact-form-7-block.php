@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Contact_Form_7_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'contact-form-7' );
 			$this->set_block_title( esc_html__( 'Contact Form 7', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Form Style', 'qi-blocks' ) );
@@ -2315,13 +2315,15 @@ if ( ! class_exists( 'Qi_Blocks_Contact_Form_7_Block' ) ) {
 
 			$this->set_block_options( $block_options );
 
-			// Override templates
+			// Override templates.
 			$this->override_templates();
 
 			parent::__construct();
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Contact_Form_7_Block
 		 */
 		public static function get_instance() {
@@ -2332,18 +2334,18 @@ if ( ! class_exists( 'Qi_Blocks_Contact_Form_7_Block' ) ) {
 			return self::$instance;
 		}
 
-		function register_block() {
+		public function register_block() {
 			if ( qi_blocks_is_installed( 'contact_form_7' ) ) {
 				parent::register_block();
 			}
 		}
 
-		function override_templates() {
-			// Remove <p> and <br/> from Contact Form 7
+		public function override_templates() {
+			// Remove <p> and <br/> from Contact Form 7.
 			add_filter( 'wpcf7_autop_or_not', '__return_false' );
 		}
 
-		function dynamic_render_callback( $attributes ) {
+		public function dynamic_render_callback( $attributes ) {
 			$block_classes = qi_blocks_get_block_holder_classes( 'contact-form-7', $attributes );
 
 			if ( ! empty( $attributes['buttonFullWidth'] ) ) {

@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div class="qodef-m-item qodef-e">
 	<?php
 	if ( 'icon' === $item['additional'] ) {

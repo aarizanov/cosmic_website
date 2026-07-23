@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_variation_image_switch' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -42,7 +47,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_options_
 			'field_type' => 'slider',
 			'name'       => 'image_switch_image_width',
 			'title'      => esc_html__( 'Image Side Width', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'vw' ),
+			'size_units' => array( 'px', '%', 'vw', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-layout--image-switch .qodef-m-image-holder' => 'width: {{SIZE}}{{UNIT}};',
@@ -62,7 +67,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_options_
 			'field_type' => 'slider',
 			'name'       => 'image_switch_content_margin_right',
 			'title'      => esc_html__( 'Content Margin Right', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-layout--image-switch .qodef-m-content-inner' => 'margin-right: {{SIZE}}{{UNIT}};',
@@ -101,4 +106,14 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_banner_options_
 	}
 
 	add_filter( 'qi_addons_for_elementor_filter_interactive_banner_extra_options', 'qi_addons_for_elementor_add_interactive_banner_options_image_switch' );
+}
+
+if ( ! function_exists( 'qi_addons_for_elementor_interactive_banner_image_switch_hide_option' ) ) {
+	function qi_addons_for_elementor_interactive_banner_image_switch_hide_option( $layouts ) {
+		$layouts['image-switch'] = 'image-switch';
+
+		return $layouts;
+	}
+
+	add_filter( 'qi_addons_for_elementor_filter_interactive_banner_layout_hide_background_style', 'qi_addons_for_elementor_interactive_banner_image_switch_hide_option' );
 }

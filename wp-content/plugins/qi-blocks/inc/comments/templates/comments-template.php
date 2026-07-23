@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $post_ID    = isset( $post_ID ) && ! empty( $post_ID ) ? intval( $post_ID ) : 0;
 $attributes = isset( $attributes ) && ! empty( $attributes ) ? (array) $attributes : array();
 $ajax       = isset( $ajax ) && ! empty( $ajax );
@@ -18,14 +23,14 @@ if ( ! empty( $post_ID ) ) {
 		// Get an array of comments for the current post.
 		$comments = ! empty( $comment_query ) ? $comment_query->get_comments() : 0;
 
-		// Check visibility
+		// Check visibility.
 		$comments_enabled = isset( $attributes['showCommentsList'] ) && ! empty( $attributes['showCommentsList'] );
 		$form_enabled     = isset( $attributes['showCommentsForm'] ) && ! empty( $attributes['showCommentsForm'] );
 
-		// Set default title tag for sections title
+		// Set default title tag for sections title.
 		$title_tag = isset( $attributes['titleTag'] ) && ! empty( $attributes['titleTag'] ) ? $attributes['titleTag'] : 'h3';
 
-		// Include comments form template
+		// Include comments form template.
 		if ( $comments_enabled && count( $comments ) > 0 ) {
 			$comments_number     = get_comments_number( $post_ID );
 			$pagination_comments = $comments;
@@ -35,9 +40,9 @@ if ( ! empty( $post_ID ) ) {
 			}
 			?>
 			<div id="qodef-comments-list">
-				<<?php echo sanitize_key( $title_tag ); ?> class="qodef-m-title"><?php
+				<<?php echo qi_blocks_escape_title_tag( $title_tag ); ?> class="qodef-m-title"><?php
 					echo esc_html( _n( 'Comment', 'Comments', $comments_number, 'qi-blocks' ) );
-				?></<?php echo sanitize_key( $title_tag ); ?>>
+				?></<?php echo qi_blocks_escape_title_tag( $title_tag ); ?>>
 				<ul class="qodef-m-comments">
 					<?php
 					wp_list_comments(
@@ -49,7 +54,7 @@ if ( ! empty( $post_ID ) ) {
 					?>
 				</ul>
 				<?php
-				// Include pagination comments template
+				// Include pagination comments template.
 				if ( get_comment_pages_count( $pagination_comments ) > 1 ) { ?>
 					<div class="qodef-m-pagination qodef--wp">
 						<?php
@@ -80,7 +85,7 @@ if ( ! empty( $post_ID ) ) {
 			<?php
 		}
 
-		// Include comments form template
+		// Include comments form template.
 		if ( $form_enabled ) {
 			?>
 			<div id="qodef-comments-form">

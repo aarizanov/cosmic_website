@@ -17,66 +17,66 @@ abstract class QiAddonsForElementor_Admin_Sub_Pages {
 
 	abstract public function add_sub_page();
 
-	function get_base() {
+	public function get_base() {
 		return $this->base;
 	}
 
-	function set_base( $base ) {
+	public function set_base( $base ) {
 		$this->base = $base;
 	}
 
-	function get_menu_slug() {
+	public function get_menu_slug() {
 		return $this->menu_slag;
 	}
 
-	function set_menu_slug( $menu_slag ) {
+	public function set_menu_slug( $menu_slag ) {
 		$this->menu_slag = $menu_slag;
 	}
 
-	function get_title() {
+	public function get_title() {
 		return $this->title;
 	}
 
-	function set_title( $title ) {
+	public function set_title( $title ) {
 		$this->title = $title;
 	}
 
-	function get_position() {
+	public function get_position() {
 		return $this->position;
 	}
 
-	function set_position( $position ) {
+	public function set_position( $position ) {
 		$this->position = $position;
 	}
 
-	function get_atts() {
+	public function get_atts() {
 		return $this->atts;
 	}
 
-	function set_atts( $atts ) {
+	public function set_atts( $atts ) {
 		$this->atts = $atts;
 	}
 
-	function render() {
+	public function render() {
 
 		$args                = $this->get_atts();
 		$args['this_object'] = $this;
 		qi_addons_for_elementor_framework_template_part( QI_ADDONS_FOR_ELEMENTOR_ADMIN_PATH . '/inc', 'admin-pages', 'templates/holder', '', $args );
 	}
 
-	function get_header() {
+	public function get_header() {
 		QiAddonsForElementor_Admin_General_Page::get_instance()->get_header( $this );
 	}
 
-	function get_footer() {
+	public function get_footer() {
 		QiAddonsForElementor_Admin_General_Page::get_instance()->get_footer();
 	}
 
-	function get_sidebar() {
+	public function get_sidebar() {
 		QiAddonsForElementor_Admin_General_Page::get_instance()->get_sidebar();
 	}
 
-	function get_content() {
+	public function get_content() {
 		qi_addons_for_elementor_framework_template_part( QI_ADDONS_FOR_ELEMENTOR_ADMIN_PATH . '/inc/admin-pages', 'sub-pages/' . $this->get_base(), 'templates/' . $this->get_base(), '', $this->get_atts() );
 	}
 }

@@ -140,7 +140,6 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 		);
 
 		return $html;
-
 	}
 
 	/**
@@ -165,7 +164,6 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 		);
 
 		return $html;
-
 	}
 
 	/**
@@ -319,6 +317,7 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 		// Extra indentation to mimic html tree.
 		if ( ! empty( $social_icons ) ) {
 
+			$fb_script_printed = false;
 			foreach ( $social_icons as $icon => $data ) {
 
 				$type  = isset( $data['type'] ) ? $data['type'] : '';
@@ -327,6 +326,49 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 
 				if ( 'facebook' === $data['platform'] ) {
 					$type = 'click';
+
+					// Build the Facebook share URL when no custom link is provided.
+					if ( '' === $link ) {
+						global $wp;
+						$current_url = home_url( $wp->request );
+
+						if ( ! empty( $data['app_id'] ) && ! $fb_script_printed ) {
+							// Use the Share Dialog when an App ID is available.
+							$link = '#';
+							// Print the Facebook SDK script only once per page.
+							$fb_script_printed = true;
+
+							$script = sprintf(
+								'<script type="text/javascript">
+									window.fbAsyncInit = function() {
+										FB.init({
+										  appId: \'%1$s\',
+										  cookie: true,
+      									  xfbml: true,
+										  version: \'v25.0\'
+										});
+
+										FB.AppEvents.logPageView(); 
+									};
+
+									(function(d, s, id){
+										var js, fjs = d.getElementsByTagName(s)[0];
+										if (d.getElementById(id)) {return;}
+										js = d.createElement(s); js.id = id;
+										js.src = "https://connect.facebook.net/en_US/sdk.js";
+										fjs.parentNode.insertBefore(js, fjs);
+									}(document, \'script\', \'facebook-jssdk\'));
+								</script>',
+								$data['app_id'],
+								$current_url
+							);
+
+							$html .= $script;
+						} else {
+							// Fallback for existing entries saved before the App ID field was added.
+							$link = 'https://www.facebook.com/sharer/sharer.php?u=' . $current_url;
+						}
+					}
 				}
 
 				if ( '' === $link && 'email' !== $icon ) {
@@ -411,7 +453,6 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 		$html .= '</div>';
 
 		return $html;
-
 	}
 
 	/**
@@ -450,5 +491,4 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 
 		return $response;
 	}
-
 }

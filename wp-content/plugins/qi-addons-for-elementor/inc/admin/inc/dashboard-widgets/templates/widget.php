@@ -1,8 +1,15 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div id="qodef-dashboard-widget">
 	<div  class="qodef-dw-header">
 		<div class="qodef-dw-logo">
 			<a href="https://qodeinteractive.com/?utm_source=dash&utm_medium=wp&utm_campaign=widget">
-				<img src="<?php echo QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/dashboard-widgets/assets/img/qode-logo.png'; ?>" alt="<?php esc_attr_e( 'Qode Interactive', 'qi-addons-for-elementor' ); ?>" width="32" />
+				<img src="<?php echo esc_url( QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/dashboard-widgets/assets/img/qode-logo.png' ); ?>" alt="<?php esc_attr_e( 'Qode Interactive', 'qi-addons-for-elementor' ); ?>" width="32" />
 				<?php esc_html_e( 'Qode Interactive', 'qi-addons-for-elementor' ); ?>
 			</a>
 		</div>
@@ -27,11 +34,13 @@
 		<h2><?php esc_html_e( 'Latest Magazine Articles', 'qi-addons-for-elementor' ); ?></h2>
 		<?php foreach ( $magazine_posts as $magazine_post ) : ?>
 			<div class="qodef-dw-news-list-item">
+				<?php if ( isset( $magazine_post['img_url'] ) && ! empty( $magazine_post['img_url'] ) ) { ?>
 				<div class="qodef-dw-news-list-item-image">
 					<a href="<?php echo esc_url( $magazine_post['link'] ); ?>?utm_source=dash&utm_medium=wp&utm_campaign=widget" target="_blank">
 						<img src="<?php echo esc_url( $magazine_post['img_url'] ); ?>" alt="<?php esc_attr( $magazine_post['title'] ); ?>" />
 					</a>
 				</div>
+				<?php } ?>
 				<div class="qodef-dw-news-list-item-text">
 					<h3><a href="<?php echo esc_url( $magazine_post['link'] ); ?>?utm_source=dash&utm_medium=wp&utm_campaign=widget" target="_blank"><?php echo esc_html( $magazine_post['title'] ); ?></a></h3>
 					<p><?php echo wp_kses_post( substr( $magazine_post['excerpt'], 0, 65 ) ); ?><?php echo strlen( $magazine_post['excerpt'] ) > 110 ? '...' : ''; ?></p>

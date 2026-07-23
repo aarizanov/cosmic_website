@@ -1,4 +1,11 @@
-<<?php echo qi_addons_for_elementor_framework_sanitize_tags( $title_tag ); ?> class="qodef-e-title-holder">
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
+<<?php echo qi_addons_for_elementor_framework_sanitize_tags( $title_tag ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> class="qodef-e-title-holder">
 	<span class="qodef-e-title"><?php echo esc_html( $item_title ); ?></span>
 	<span class="qodef-e-mark">
 		<span class="qodef-icon--plus">
@@ -24,9 +31,12 @@
 			?>
 		</span>
 	</span>
-</<?php echo qi_addons_for_elementor_framework_sanitize_tags( $title_tag ); ?>>
+</<?php echo qi_addons_for_elementor_framework_sanitize_tags( $title_tag ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 <div class="qodef-e-content">
 	<div class="qodef-e-content-inner">
-		<?php echo qi_addons_for_elementor_framework_wp_kses_html( 'content', $item_content ); ?>
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo qi_addons_for_elementor_framework_wp_kses_html( 'content', $item_content );
+		?>
 	</div>
 </div>

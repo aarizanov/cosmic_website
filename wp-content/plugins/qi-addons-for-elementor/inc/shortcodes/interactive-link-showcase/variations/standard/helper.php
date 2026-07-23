@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_link_showcase_variation_standard' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -64,7 +69,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_link_showcase_o
 			'field_type' => 'slider',
 			'name'       => 'standard_images_width',
 			'title'      => esc_html__( 'Images Width', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'vw' ),
+			'size_units' => array( 'px', '%', 'vw', 'custom' ),
 			'range'      => array(
 				'px' => array(
 					'min' => 100,

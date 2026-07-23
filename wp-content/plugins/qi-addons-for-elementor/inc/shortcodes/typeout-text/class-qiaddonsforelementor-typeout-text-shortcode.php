@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_typeout_text_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,12 +25,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_typeout_text_shortcode' ) )
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Typeout_Text_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function map_shortcode() {
 			$this->set_shortcode_path( QI_ADDONS_FOR_ELEMENTOR_SHORTCODES_URL_PATH . '/typeout-text' );
 			$this->set_base( 'qi_addons_for_elementor_typeout_text' );
 			$this->set_name( esc_html__( 'Typeout Text', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds typeout text element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Typography', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/typeout-text/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#typeout_text' );
@@ -183,7 +192,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			}
 
 			foreach ( $temp as $key => $value ) {
-				$data[ $key ] = json_encode( $value );
+				$data[ $key ] = wp_json_encode( $value );
 			}
 
 			if ( ! empty( $atts['cursor'] ) ) {

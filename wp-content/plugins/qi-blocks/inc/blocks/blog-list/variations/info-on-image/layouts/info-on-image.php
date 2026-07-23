@@ -8,11 +8,11 @@ if ( ! has_post_thumbnail() ) {
 	<div class="qodef-e-inner">
 		<?php
 		if ( 'no' !== $showMedia && has_post_thumbnail() ) {
-			// Include post media
+			// Include post media.
 			qi_blocks_template_part( 'blog', 'templates/parts/post-info/media', 'image', $params );
 		}
 		if ( 'no' !== $showDate && has_post_thumbnail() ) {
-			// Include post date info
+			// Include post date info.
 			qi_blocks_template_part( 'blog', 'templates/parts/post-info/date', 'boxed', $params );
 		}
 		?>
@@ -22,12 +22,12 @@ if ( ! has_post_thumbnail() ) {
 					<?php
 
 					if ( 'no' !== $showCategory ) {
-						// Include post category info
+						// Include post category info.
 						qi_blocks_template_part( 'blog', 'templates/parts/post-info/category', '', $params );
 					}
 
 					if ( 'no' !== $showAuthor ) {
-						// Include post author info
+						// Include post author info.
 						qi_blocks_template_part( 'blog', 'templates/parts/post-info/author', '', $params );
 					}
 					?>
@@ -35,7 +35,7 @@ if ( ! has_post_thumbnail() ) {
 			<?php } ?>
 			<div class="qodef-e-text">
 				<?php
-				// Include post title
+				// Include post title.
 				qi_blocks_template_part( 'blog', 'templates/parts/post-info/title', '', $params );
 				?>
 			</div>

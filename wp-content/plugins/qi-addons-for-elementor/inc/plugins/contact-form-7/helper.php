@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_get_contact_form_7_forms' ) ) {
 	/**
 	 * Function that return array of contact form 7 forms

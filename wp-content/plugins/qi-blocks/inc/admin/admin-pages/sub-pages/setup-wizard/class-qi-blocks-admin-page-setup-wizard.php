@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_blocks_add_setup_wizard_sub_page_to_list' ) ) {
 	/**
 	 * Function that add additional sub-page item into general page list
@@ -31,7 +36,7 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			add_action( 'wp_ajax_qi_blocks_action_setup_wizard_save_options', array( $this, 'save_options' ) );
 		}
 
-		function add_sub_page() {
+		public function add_sub_page() {
 			$this->set_base( 'setup-wizard' );
 			$this->set_menu_slug( 'qi_blocks_setup_wizard' );
 			$this->set_title( esc_html__( 'Setup Wizard', 'qi-blocks' ) );
@@ -39,10 +44,7 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			$this->set_position( 10 );
 		}
 
-		/**
-		 * @return array
-		 */
-		function set_atributtes() {
+		public function set_atributtes() {
 			$blocks         = $this->sort_blocks_by_subcategory( $this->get_blocks() );
 			$premium_flag   = qi_blocks_is_installed( 'premium' );
 			$templates_flag = qi_blocks_is_installed( 'qi-templates' );
@@ -54,11 +56,11 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			);
 		}
 
-		function get_blocks() {
+		public function get_blocks() {
 			return Qi_Blocks_Blocks_List::get_instance()->get_blocks();
 		}
 
-		function sort_blocks_by_subcategory( $blocks ) {
+		public function sort_blocks_by_subcategory( $blocks ) {
 			$formatted = array();
 
 			foreach ( $blocks as $key => $block ) {
@@ -67,7 +69,7 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 				$formatted[ $subcategory_key ][ $key ] = $block;
 			}
 
-			// Move Before/After Comparison Slider element to the end - designer requests
+			// Move Before/After Comparison Slider element to the end - designer requests.
 			foreach ( $formatted as $formatted_key => $formatted_items ) {
 
 				if ( isset( $formatted_items['before-after'] ) ) {
@@ -82,7 +84,7 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			return $formatted;
 		}
 
-		function remove_notice() {
+		public function remove_notice() {
 
 			if ( isset( $_GET['page'] ) && 'qi_blocks_setup_wizard' === $_GET['page'] ) {
 				remove_all_actions( 'admin_notices' );
@@ -90,7 +92,7 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			}
 		}
 
-		function add_admin_body_classes( $classes ) {
+		public function add_admin_body_classes( $classes ) {
 
 			if ( isset( $_GET['page'] ) && $this->get_menu_slug() === $_GET['page'] ) {
 				$classes = $classes . ' qi-blocks-setup-wizard';
@@ -99,7 +101,7 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			return $classes;
 		}
 
-		function set_additional_scripts( $hook ) {
+		public function set_additional_scripts( $hook ) {
 
 			if ( isset( $hook ) && strpos( $hook, $this->get_menu_slug() ) !== false ) {
 				wp_enqueue_style( 'qi-blocks-setup-wizard', QI_BLOCKS_ASSETS_URL_PATH . '/dist/setup-wizard.css', array( 'qi-blocks-dashboard-style' ) );
@@ -107,13 +109,13 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 			}
 		}
 
-		function render() {
+		public function render() {
 			$args = $this->get_atts();
 
 			qi_blocks_template_part( 'admin/admin-pages/sub-pages/' . $this->get_base(), 'templates/' . $this->get_base(), '', $args );
 		}
 
-		function save_options() {
+		public function save_options() {
 
 			if ( current_user_can( 'edit_theme_options' ) ) {
 				if ( isset( $_REQUEST['action'] ) ) {
@@ -122,9 +124,9 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 
 				check_ajax_referer( 'qi_blocks_setup_wizard_save_nonce', 'qi_blocks_setup_wizard_save_nonce' );
 
-				// Prevent other handles if skip is triggered
+				// Prevent other handles if skip is triggered.
 				if ( isset( $_REQUEST['skip_trigger'] ) && '' === sanitize_text_field( $_REQUEST['skip_trigger'] ) ) {
-					// Set Elements step
+					// Set Elements step.
 					$disabled = array();
 					$blocks   = $this->get_blocks();
 
@@ -136,13 +138,13 @@ if ( class_exists( 'Qi_Blocks_Admin_Sub_Pages' ) ) {
 
 					update_option( QI_BLOCKS_DISABLED_BLOCKS, ! empty( $disabled ) ? $disabled : false );
 
-					// Send User stats
+					// Send User stats.
 					if ( isset( $_REQUEST['user_stats'] ) && 'yes' === sanitize_text_field( $_REQUEST['user_stats'] ) ) {
 						$this->handle_allowed_user_stats();
 					}
 				}
 
-				// Set wizard flag
+				// Set wizard flag.
 				$results = update_option( 'qi_blocks_setup_wizard', 'completed' );
 
 				if ( $results ) {

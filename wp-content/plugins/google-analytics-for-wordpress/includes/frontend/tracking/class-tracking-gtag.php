@@ -109,13 +109,21 @@ class MonsterInsights_Tracking_Gtag extends MonsterInsights_Tracking_Abstract {
 		if ( is_array( $cross_domains ) && ! empty( $cross_domains ) ) {
 			$linker_domains = [];
 			foreach ( $cross_domains as $cross_domain ) {
-				if ( ! empty( $cross_domain['domain'] ) ) {
-					$linker_domains[] = $cross_domain['domain'];
+				if ( empty( $cross_domain['domain'] ) ) {
+					continue;
 				}
+				$domain = str_replace( '!@#', '', (string) $cross_domain['domain'] );
+				$domain = preg_replace( '/[^A-Za-z0-9._-]/', '', $domain );
+				if ( '' === $domain ) {
+					continue;
+				}
+				$linker_domains[] = $domain;
 			}
-			$options['linker'] = [
-				'domains' => $linker_domains,
-			];
+			if ( ! empty( $linker_domains ) ) {
+				$options['linker'] = [
+					'domains' => $linker_domains,
+				];
+			}
 		}
 
 		if ( monsterinsights_is_debug_mode() ) {
@@ -187,6 +195,23 @@ class MonsterInsights_Tracking_Gtag extends MonsterInsights_Tracking_Abstract {
 		$reason         = '';
 		$attr_string    = monsterinsights_get_frontend_analytics_script_atts();
 		$gtag_async     = apply_filters( 'monsterinsights_frontend_gtag_script_async', true ) ? 'async' : '';
+		if ( defined('cmplz_plugin') || defined('cmplz_premium') || defined('cmplz_free') ) {
+			add_filter( 'cmplz_known_script_tags', function( $tags ) {
+				$tags[] = array(
+					'name' => 'google-analytics',
+					'category' => 'statistics',
+					'urls' => array(
+						'www.googletagmanager.com/gtag/js',
+						'googletagmanager.com/gtag/js',
+						'googletagmanager.com',
+						'__gtagTracker',
+						'MonsterInsightsDualTracker',
+						'monsterinsights_frontend_tracking_gtag_after_pageview',
+					),
+				);
+				return $tags;
+			});
+		}
 		ob_start(); ?>
 		<!-- This site uses the Google Analytics by MonsterInsights plugin v<?php echo MONSTERINSIGHTS_VERSION; // phpcs:ignore ?> - Using Analytics tracking - https://www.monsterinsights.com/ -->
 		<?php if ( ! $track_user ) {
@@ -194,7 +219,7 @@ class MonsterInsights_Tracking_Gtag extends MonsterInsights_Tracking_Abstract {
 				$reason = __( 'Note: MonsterInsights is not currently configured on this site. The site owner needs to authenticate with Google Analytics in the MonsterInsights settings panel.', 'google-analytics-for-wordpress' );
 				$output .= '<!-- ' . esc_html( $reason ) . ' -->' . PHP_EOL;
 			} elseif ( current_user_can( 'monsterinsights_save_settings' ) ) {
-				$reason = __( 'Note: MonsterInsights does not track you as a logged-in site administrator to prevent site owners from accidentally skewing their own Google Analytics data.' . PHP_EOL . 'If you are testing Google Analytics code, please do so either logged out or in the private browsing/incognito mode of your web browser.', 'google-analytics-for-wordpress' );
+				$reason = __( 'Note: MonsterInsights does not track you as a logged-in site administrator to prevent site owners from accidentally skewing their own Google Analytics data. If you are testing Google Analytics code, please do so either logged out or in the private browsing/incognito mode of your web browser.', 'google-analytics-for-wordpress' );
 				$output .= '<!-- ' . esc_html( $reason ) . ' -->' . PHP_EOL;
 			} else {
 				$reason = __( 'Note: The site owner has disabled Google Analytics tracking for your user role.', 'google-analytics-for-wordpress' );
@@ -205,13 +230,16 @@ class MonsterInsights_Tracking_Gtag extends MonsterInsights_Tracking_Abstract {
 		<?php if ( ! empty( $v4_id ) ) {
 			do_action( 'monsterinsights_tracking_gtag_frontend_before_script_tag' );
 			?>
-			<script src="<?php echo $src; // phpcs:ignore ?>" <?php echo $attr_string; // phpcs:ignore ?> <?php echo esc_attr( $gtag_async ); ?>></script>
+			<script src="<?php echo esc_url( $src ); ?>" <?php echo $attr_string; // phpcs:ignore ?> <?php echo esc_attr( $gtag_async ); ?>></script>
 			<script<?php echo $attr_string; // phpcs:ignore ?>>
 				var mi_version = '<?php echo MONSTERINSIGHTS_VERSION; // phpcs:ignore ?>';
 				var mi_track_user = <?php echo $track_user ? 'true' : 'false'; ?>;
 				var mi_no_track_reason = <?php echo $reason ? "'" . esc_js( $reason ) . "'" : "''"; ?>;
 				<?php do_action( 'monsterinsights_tracking_gtag_frontend_output_after_mi_track_user' ); ?>
-				var MonsterInsightsDefaultLocations = <?php echo $this->get_default_locations(); ?>;
+				var MonsterInsightsDefaultLocations = <?php echo $this->get_default_locations(); // phpcs:ignore -- JSON ?>;
+				<?php if ( $this->is_utm_stripped_server() ) : ?>
+				MonsterInsightsDefaultLocations.page_location = window.location.href;
+				<?php endif; ?>
 				if ( typeof MonsterInsightsPrivacyGuardFilter === 'function' ) {
 					var MonsterInsightsLocations = (typeof MonsterInsightsExcludeQuery === 'object') ? MonsterInsightsPrivacyGuardFilter( MonsterInsightsExcludeQuery ) : MonsterInsightsPrivacyGuardFilter( MonsterInsightsDefaultLocations );
 				} else {
@@ -315,15 +343,6 @@ class MonsterInsights_Tracking_Gtag extends MonsterInsights_Tracking_Abstract {
 					<?php if (! empty( $v4_id )) { ?>
 					__gtagTracker('config', '<?php echo esc_js( $v4_id ); ?>', <?php echo $options_v4; // phpcs:ignore ?> );
 					<?php } ?>
-					<?php
-					/*
-					 * Extend or enhance the functionality by adding custom code to frontend
-					 * tracking via this hook.
-					 *
-					 * @since 7.15.0
-					 */
-					do_action( 'monsterinsights_frontend_tracking_gtag_after_pageview' );
-					?>
 					<?php echo esc_js( $compat ); ?>
 					<?php if (apply_filters( 'monsterinsights_tracking_gtag_frontend_gatracker_compatibility', true )) { ?>
 					(function () {
@@ -451,6 +470,57 @@ class MonsterInsights_Tracking_Gtag extends MonsterInsights_Tracking_Abstract {
 					<?php } ?>
 				}
 			</script>
+			<?php
+			/*
+			 * New separate script tags for conversion tracking and other post-pageview actions
+			 * Each hook will create its own script tag for better separation and debugging
+			 *
+			 * @since 9.6.2
+			 */
+
+			// Get all actions hooked to this action
+			global $wp_filter;
+			$hook_name = 'monsterinsights_frontend_tracking_gtag_after_pageview';
+
+			if ( isset( $wp_filter[ $hook_name ] ) ) {
+				$callbacks = $wp_filter[ $hook_name ]->callbacks;
+
+				// Sort by priority
+				ksort( $callbacks );
+
+				foreach ( $callbacks as $priority => $priority_callbacks ) {
+					foreach ( $priority_callbacks as $callback_key => $callback_data ) {
+						// Capture output for this specific callback
+						ob_start();
+
+						// Execute this specific callback
+						if ( is_array( $callback_data['function'] ) ) {
+							// Class method
+							if ( is_object( $callback_data['function'][0] ) ) {
+								call_user_func( $callback_data['function'] );
+							} else {
+								// Static method
+								call_user_func( $callback_data['function'] );
+							}
+						} else {
+							// Function
+							call_user_func( $callback_data['function'] );
+						}
+
+						$callback_output = ob_get_clean();
+
+						// Only create script tag if there's output
+						if ( ! empty( trim( $callback_output ) ) ) {
+							?>
+							<script<?php echo $attr_string; // phpcs:ignore ?>>
+								<?php echo $callback_output; // phpcs:ignore ?>
+							</script>
+							<?php
+						}
+					}
+				}
+			}
+			?>
 		<?php } else { ?>
 			<!-- No tracking code set -->
 		<?php } ?>
@@ -472,12 +542,28 @@ class MonsterInsights_Tracking_Gtag extends MonsterInsights_Tracking_Abstract {
 	private function get_default_locations() {
 		global $wp;
 
-		$urls['page_location'] = add_query_arg( $_SERVER['QUERY_STRING'], '', trailingslashit( home_url( $wp->request ) ) );
+		$urls['page_location'] = add_query_arg( !empty($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '', '', trailingslashit( home_url( $wp->request ) ) ); // phpcs:ignore
 
 		if ( $referer = wp_get_referer() ) {
 			$urls['page_referrer'] = $referer;
 		}
 
 		return wp_json_encode( $urls );
+	}
+
+	/**
+	 * Check the server is among them who stripped utm parameters.
+	 * For this kind of server we will get page URL from JS.
+	 *
+	 * @return bool
+	 */
+	private function is_utm_stripped_server() {
+
+		// Is WP Engine server.
+		if ( isset( $_SERVER['IS_WPE'] ) && $_SERVER['IS_WPE'] ) {
+			return true;
+		}
+
+		return apply_filters( 'monsterinsights_is_utm_stripped_server', false );
 	}
 }

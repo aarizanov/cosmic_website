@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Cards_Gallery_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'cards-gallery' );
 			$this->set_block_title( esc_html__( 'Cards Gallery', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Creative', 'qi-blocks' ) );
@@ -20,6 +20,8 @@ if ( ! class_exists( 'Qi_Blocks_Cards_Gallery_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Cards_Gallery_Block
 		 */
 		public static function get_instance() {

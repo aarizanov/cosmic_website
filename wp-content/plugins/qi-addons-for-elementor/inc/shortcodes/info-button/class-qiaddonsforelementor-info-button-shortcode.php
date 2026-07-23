@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_info_button_shortcode' ) ) {
 	/**
 	 * Function that isadding shortcode into shortcodes list for registration
@@ -20,8 +25,8 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_info_button_shortcode' ) ) 
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Info_Button_Shortcode extends QiAddonsForElementor_Shortcode {
 
-		public function __construct() {
-			parent::__construct();
+		protected function is_dynamic_content(): bool {
+			return false;
 		}
 
 		public function map_shortcode() {
@@ -29,7 +34,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_info_button' );
 			$this->set_name( esc_html__( 'Info Button', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays info button with provided parameters', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Typography', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/info-button/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#info_button' );
@@ -293,7 +298,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'info_button_border_radius',
 					'title'      => esc_html__( 'Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-info-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -306,7 +311,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'info_button_padding',
 					'title'      => esc_html__( 'Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-info-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -317,7 +322,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 
-			//Icon options
+			// Icon options.
 			$this->set_option(
 				array(
 					'field_type' => 'icons',
@@ -346,7 +351,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'info_button_icon_size',
 					'title'      => esc_html__( 'Icon Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em', 'rem', 'vw' ),
+					'size_units' => array( 'px', 'em', 'rem', 'vw', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-icon' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -385,7 +390,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 
-			//Icon Background Options (only for icon boxed, when filled and outline layout is chosen)
+			// Icon Background Options (only for icon boxed, when filled and outline layout is chosen).
 			$this->set_option(
 				array(
 					'field_type' => 'color',
@@ -513,11 +518,11 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'name'               => 'info_button_icon_margin',
 					'title'              => esc_html__( 'Icon Margin', 'qi-addons-for-elementor' ),
 					'group'              => esc_html__( 'Icon Style', 'qi-addons-for-elementor' ),
-					'size_units'         => array( 'px', '%', 'em' ),
+					'size_units'         => array( 'px', '%', 'em', 'custom' ),
 					'allowed_dimensions' => array( 'left', 'right' ),
 					'responsive'         => true,
 					'selectors'          => array(
-						'{{WRAPPER}} .qodef-m-icon'   => 'margin: 0 {{RIGHT}}{{UNIT}} 0 {{LEFT}}{{UNIT}};',
+						'{{WRAPPER}} .qodef-m-icon' => 'margin: 0 {{RIGHT}}{{UNIT}} 0 {{LEFT}}{{UNIT}};',
 					),
 				)
 			);
@@ -531,7 +536,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 
-			//Icon Side Border Options (only for icon boxed, when filled and outline layout is chosen)
+			// Icon Side Border Options (only for icon boxed, when filled and outline layout is chosen).
 			$this->set_option(
 				array(
 					'field_type'    => 'select',

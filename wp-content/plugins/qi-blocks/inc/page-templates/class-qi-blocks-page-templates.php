@@ -1,6 +1,9 @@
 <?php
 
-//require_once( ABSPATH . 'wp-admin/includes/taxonomy.php' );
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
 
 if ( ! class_exists( 'Qi_Blocks_Page_Templates' ) ) {
 	/**
@@ -10,20 +13,22 @@ if ( ! class_exists( 'Qi_Blocks_Page_Templates' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Register page template
+			// Register page template.
 			add_filter( 'theme_page_templates', array( $this, 'add_page_template_to_dropdown' ) );
 
-			// Insert FSE custom page template
+			// Insert FSE custom page template.
 			add_action( 'admin_init', array( $this, 'add_full_site_custom_page_template' ) );
 
-			// Include page template
+			// Include page template.
 			add_filter( 'template_include', array( $this, 'include_page_template' ), 30 );
 
-			// Add a filter to the save post to inject out template into the page cache
+			// Add a filter to the save post to inject out template into the page cache.
 			add_filter( 'wp_insert_post_data', array( $this, 'register_project_templates' ) );
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Page_Templates
 		 */
 		public static function get_instance() {
@@ -34,16 +39,16 @@ if ( ! class_exists( 'Qi_Blocks_Page_Templates' ) ) {
 			return self::$instance;
 		}
 
-		function add_page_template_to_dropdown( $templates ) {
+		public function add_page_template_to_dropdown( $templates ) {
 
 			if ( empty( qi_blocks_is_installed( 'full_site_editing' ) ) ) {
-				$templates[ 'qi-blocks-full-width.php' ] = esc_attr__( 'Qi Blocks Full Width', 'qi-blocks' );
+				$templates['qi-blocks-full-width.php'] = esc_attr__( 'Qi Blocks Full Width', 'qi-blocks' );
 			}
 
 			return $templates;
 		}
 
-		function add_full_site_custom_page_template() {
+		public function add_full_site_custom_page_template() {
 			$current_theme      = function_exists( 'wp_get_theme' ) ? wp_get_theme() : '';
 			$current_theme_slug = ! empty( $current_theme ) ? $current_theme->get_stylesheet() : '';
 
@@ -64,7 +69,7 @@ if ( ! class_exists( 'Qi_Blocks_Page_Templates' ) ) {
 
 				if ( empty( $is_custom_template_added ) ) {
 					global $wpdb;
-					// Check is template already created to prevent double creation
+					// Check is template already created to prevent double creation.
 					$check_database_flag    = false;
 					$check_database_flag_id = $wpdb->get_row("SELECT ID FROM {$wpdb->prefix}posts WHERE post_name = 'wp-custom-template-qi-blocks-full-width'");
 
@@ -112,16 +117,16 @@ if ( ! class_exists( 'Qi_Blocks_Page_Templates' ) ) {
 			}
 		}
 
-		function include_page_template( $template ) {
-			// Get global post
+		public function include_page_template( $template ) {
+			// Get global post.
 			global $post;
 
-			// Return template if post is empty
+			// Return template if post is empty.
 			if ( ! $post ) {
 				return $template;
 			}
 
-			// Return default template if we don't have a custom one defined
+			// Return default template if we don't have a custom one defined.
 			$page_template_meta = get_post_meta( $post->ID, '_wp_page_template', true );
 
 			if ( empty( $page_template_meta ) ) {
@@ -130,30 +135,30 @@ if ( ! class_exists( 'Qi_Blocks_Page_Templates' ) ) {
 
 			$file = QI_BLOCKS_INC_PATH . '/page-templates/templates/' . $page_template_meta;
 
-			// Just to be safe, we check if the file exist first
+			// Just to be safe, we check if the file exist first.
 			if ( file_exists( $file ) ) {
 				return $file;
 			}
 
-			// Return template
+			// Return template.
 			return $template;
 		}
 
-		function register_project_templates( $atts ) {
-			// Create the key used for the themes cache
+		public function register_project_templates( $atts ) {
+			// Create the key used for the themes cache.
 			$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
 			// Retrieve the cache list.
-			// If it doesn't exist, or it's empty prepare an array
+			// If it doesn't exist, or it's empty prepare an array.
 			$templates = wp_get_theme()->get_page_templates();
 			if ( empty( $templates ) ) {
 				$templates = array();
 			}
 
-			// New cache, therefore remove the old one
-			wp_cache_delete( $cache_key , 'themes');
+			// New cache, therefore remove the old one.
+			wp_cache_delete( $cache_key, 'themes' );
 
-			// Add our template to the list of templates
+			// Add our template to the list of templates.
 			$templates = array_merge(
 				$templates,
 				array(
@@ -161,7 +166,7 @@ if ( ! class_exists( 'Qi_Blocks_Page_Templates' ) ) {
 				)
 			);
 
-			// Add the modified cache to allow WordPress to pick it up for listing available templates
+			// Add the modified cache to allow WordPress to pick it up for listing available templates.
 			wp_cache_add( $cache_key, $templates, 'themes', 1800 );
 
 			return $atts;

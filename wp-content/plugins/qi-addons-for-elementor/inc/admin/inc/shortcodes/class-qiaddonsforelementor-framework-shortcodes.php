@@ -1,18 +1,21 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 class QiAddonsForElementor_Framework_Shortcodes {
 	private $shortcodes = array();
 
 	public function __construct() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['elementor_updater'] ) && 'continue' === $_GET['elementor_updater'] ) {
-			
-			if ( version_compare( ELEMENTOR_VERSION, '3.5.0', '>' ) ) {
-				add_action( 'elementor/widgets/register', array( $this, 'register' ), 5 ); // Permission 5 is set in order to include shortcode files before register '-elementor.php' files
-			} else {
-				add_action( 'elementor/widgets/widgets_registered', array( $this, 'register' ), 5 ); // Permission 5 is set in order to include shortcode files before register '-elementor.php' files
-			}
+			// Permission 5 is set in order to include shortcode files before register '-elementor.php' files.
+			add_action( 'elementor/widgets/register', array( $this, 'register' ), 5 );
 		} else {
-			add_action( 'init', array( $this, 'register' ), 0 ); // Permission 0 is set in order to register shortcodes before widgets, because widgets using shortcodes options
+			// 'init' changed for 'elementor/init' because in some cases, when elementor update is performed, there is php error that shortcodes bases are not available
+			add_action( 'elementor/init', array( $this, 'register' ) );
 		}
 	}
 

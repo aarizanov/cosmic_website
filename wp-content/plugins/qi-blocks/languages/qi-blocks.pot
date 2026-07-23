@@ -2,87 +2,96 @@
 # This file is distributed under the same license as the Qi Blocks plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Qi Blocks 1.2.6\n"
+"Project-Id-Version: Qi Blocks 1.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/qi-blocks\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-02-13T09:10:27+01:00\n"
+"POT-Creation-Date: 2024-11-27T10:02:25+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: qi-blocks\n"
 
 #. Plugin Name of the plugin
-#: helpers/helper.php:20
-#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:18
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:47
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:173
-#: inc/admin/admin-pages/templates/header.php:15
+#: D:\projects\freemium-gutenberg\app\public\wp-content\plugins\qi-blocks\class-qi-blocks.php
+#: helpers/helper.php:22
+#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:23
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:53
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:179
+#: inc/admin/admin-pages/templates/header.php:22
 msgid "Qi Blocks"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: D:\projects\freemium-gutenberg\app\public\wp-content\plugins\qi-blocks\class-qi-blocks.php
 msgid "https://qodeinteractive.com/qi-blocks-for-gutenberg/"
 msgstr ""
 
 #. Description of the plugin
+#: D:\projects\freemium-gutenberg\app\public\wp-content\plugins\qi-blocks\class-qi-blocks.php
 msgid "A collection of blocks for the Gutenberg block editor, developed by Qode Interactive."
 msgstr ""
 
 #. Author of the plugin
-#: inc/admin/admin-pages/templates/footer.php:6
+#: D:\projects\freemium-gutenberg\app\public\wp-content\plugins\qi-blocks\class-qi-blocks.php
+#: inc/admin/admin-pages/templates/footer.php:13
 msgid "Qode Interactive"
 msgstr ""
 
 #. Author URI of the plugin
+#: D:\projects\freemium-gutenberg\app\public\wp-content\plugins\qi-blocks\class-qi-blocks.php
 msgid "https://qodeinteractive.com/"
 msgstr ""
 
-#: class-qi-blocks.php:225
+#: class-qi-blocks.php:136
+msgid "Please upload a valid SVG file."
+msgstr ""
+
+#: class-qi-blocks.php:276
 msgid "Example Title Text"
 msgstr ""
 
-#: class-qi-blocks.php:226
+#: class-qi-blocks.php:277
 msgid "Example Subtitle Text"
 msgstr ""
 
-#: class-qi-blocks.php:227
+#: class-qi-blocks.php:278
 msgid "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et eros eu felis."
 msgstr ""
 
-#: class-qi-blocks.php:228
+#: class-qi-blocks.php:279
 msgid "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus nisl vitae magna pulvinar laoreet. Nullam erat ipsum, mattis nec mollis ac, accumsan a enim. Nunc at euismod arcu. Aliquam ullamcorper eros justo, vel mollis neque facilisis vel. Proin augue tortor, condimentum id sapien a, tempus venenatis massa. Aliquam egestas eget diam sed sagittis. Vivamus consectetur purus vel felis molestie sollicitudin. Vivamus sit amet enim nisl. Cras vitae varius metus, a hendrerit ex. Sed in mi dolor. Proin pretium nibh non volutpat efficitur."
 msgstr ""
 
-#: class-qi-blocks.php:231
+#: class-qi-blocks.php:282
 msgid "Placeholder Image"
 msgstr ""
 
-#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:90
-#: inc/admin/admin-pages/templates/parts/sidebar/help-center.php:3
+#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:97
+#: inc/admin/admin-pages/templates/parts/sidebar/help-center.php:10
 #: inc/blocks/helper.php:302
 msgid "Help Center"
 msgstr ""
 
-#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:91
-#: inc/admin/admin-pages/templates/parts/video-tutorials.php:3
-#: inc/admin/admin-pages/templates/parts/video-tutorials.php:6
+#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:98
+#: inc/admin/admin-pages/templates/parts/video-tutorials.php:10
+#: inc/admin/admin-pages/templates/parts/video-tutorials.php:13
 msgid "Video Tutorials"
 msgstr ""
 
-#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:92
-#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:148
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:7
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:136
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:153
-#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:4
-#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:8
+#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:99
+#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:155
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:13
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:142
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:159
+#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:11
+#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:15
 msgid "Qi Templates"
 msgstr ""
 
-#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:99
+#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:106
 #: assets/dist/accordion.js:1
 #: assets/dist/advanced-column.js:1
 #: assets/dist/advanced-text.js:1
@@ -134,55 +143,55 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:139
+#: inc/admin/admin-pages/class-qi-blocks-admin-general-page.php:146
 msgid "Qi Blocks Premium"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/class-qi-blocks-admin-page-setup-wizard.php:37
+#: inc/admin/admin-pages/sub-pages/setup-wizard/class-qi-blocks-admin-page-setup-wizard.php:42
 msgid "Setup Wizard"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/class-qi-blocks-admin-page-setup-wizard.php:149
+#: inc/admin/admin-pages/sub-pages/setup-wizard/class-qi-blocks-admin-page-setup-wizard.php:151
 msgid "Success"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:4
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:10
 msgid "Configuration"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:5
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:11
 msgid "Elements"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:6
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:12
 msgid "Go PRO"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:8
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:14
 msgid "Finalize"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:22
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:28
 msgid "Quick Setup Wizard - Qi Blocks for Gutenberg"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:48
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:54
 msgid "Get Started with Qi Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:49
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:55
 msgid "Pick an installation method that suits your requirements"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:57
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:63
 msgid "All (Recommended)"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:58
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:64
 msgid "Start off with all Qi Blocks for Gutenberg enabled."
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:67
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:73
 #: assets/dist/accordion.js:1
 #: assets/dist/advanced-column.js:1
 #: assets/dist/advanced-columns.js:1
@@ -236,130 +245,130 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:68
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:74
 msgid "Select which custom blocks you wish to enable/disable."
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:75
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:81
 msgid "Choose the Elements You Wish to Use"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:77
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:83
 msgid "Preview All Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:110
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:116
 msgid "Unlock 30+ Premium Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:112
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:118
 msgid "Preview Premium Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:118
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:124
 msgid "Qi Premium Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:119
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:125
 msgid "Get Premium"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:126
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:132
 msgid "Get Qi Templates with 550+ modern, prebuilt layouts"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:128
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:134
 msgid "- 60 Qi Demos"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:129
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:135
 msgid "- 265 Qi Templates"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:130
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:136
 msgid "- 232 Qi Patterns"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:131
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:137
 msgid "- 32 Qi Wireframes"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:133
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:139
 msgid "Get Qi Templates"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:144
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:150
 msgid "Collection of diagnostic data & information"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:145
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:151
 msgid "We collect non-sensitive diagnostic data and plugin usage information. This information consists of your website URL, language, WordPress and PHP versions, active plugins and themes, and the email you provided. This data allows us to ensure that the plugin stays compatible with the most popular plugins and themes at all times."
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:147
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:153
 msgid "Allow"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:148
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:154
 msgid "No Thanks"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:161
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:167
 msgid "Skip All"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:166
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:172
 msgid "Previous"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:167
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:173
 msgid "Next"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:174
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:180
 msgid "Thank You for Choosing Qi!"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:175
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/setup-wizard.php:181
 msgid "All set! Enjoy creating your new website"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/widget.php:24
-#: inc/admin/admin-pages/sub-pages/widgets/templates/item.php:23
+#: inc/admin/admin-pages/sub-pages/setup-wizard/templates/widget.php:30
+#: inc/admin/admin-pages/sub-pages/widgets/templates/item.php:29
 msgid "Premium"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/welcome/class-qi-blocks-admin-page-welcome.php:32
+#: inc/admin/admin-pages/sub-pages/welcome/class-qi-blocks-admin-page-welcome.php:37
 msgid "Welcome Page"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/class-qi-blocks-admin-page-widgets.php:36
+#: inc/admin/admin-pages/sub-pages/widgets/class-qi-blocks-admin-page-widgets.php:41
 msgid "Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/class-qi-blocks-admin-page-widgets.php:136
+#: inc/admin/admin-pages/sub-pages/widgets/class-qi-blocks-admin-page-widgets.php:138
 msgid "Saved"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/demo.php:2
+#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/demo.php:10
 msgid "Demo"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/documentation.php:2
-#: inc/admin/admin-pages/templates/parts/knowledge-base.php:9
+#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/documentation.php:10
+#: inc/admin/admin-pages/templates/parts/knowledge-base.php:16
 #: inc/blocks/helper.php:294
 msgid "Documentation"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/search.php:3
+#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/search.php:10
 msgid "Search Options"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/section-title.php:4
+#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/section-title.php:11
 msgid "Activate All"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/video.php:2
+#: inc/admin/admin-pages/sub-pages/widgets/templates/parts/video.php:10
 #: assets/dist/accordion.js:1
 #: assets/dist/advanced-column.js:1
 #: assets/dist/advanced-columns.js:1
@@ -412,7 +421,7 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:17
+#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:24
 #: assets/dist/accordion.js:1
 #: assets/dist/author-info.js:1
 #: assets/dist/banner.js:1
@@ -430,190 +439,191 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:23
-#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:26
+#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:30
+#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:33
 msgid "Disable Google Fonts"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:29
+#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:36
 msgid "Enabling this option will disallow the Google Font list inside blocks Typography options."
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:33
-#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:36
+#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:40
+#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:43
 msgid "Upgrade Swiper Library"
 msgstr ""
 
-#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:39
+#: inc/admin/admin-pages/sub-pages/widgets/templates/widgets.php:46
 msgid "Upgrade the Swiper library script from v5.4.5 to v8.4.5. This upgrade might require updating custom code and cause compatibility issues with third party plugins."
 msgstr ""
 
-#: inc/admin/admin-pages/templates/footer.php:3
-#: inc/admin/admin-pages/templates/header.php:6
+#: inc/admin/admin-pages/templates/footer.php:10
+#: inc/admin/admin-pages/templates/header.php:13
 msgid "Qode Interactive Logo"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/footer.php:7
+#: inc/admin/admin-pages/templates/footer.php:14
 msgid "Copyright &copy; 2022 Qode Interactive, All rights reserved"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/header.php:16
+#: inc/admin/admin-pages/templates/header.php:23
 msgid " / "
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:3
+#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:10
 msgid "All Qi Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:4
+#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:11
 msgid "Browse the entire custom block collection"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:5
+#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:12
 msgid "View Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:8
-#: inc/admin/admin-pages/templates/parts/free-demos.php:3
+#: inc/admin/admin-pages/templates/parts/all-qi-blocks.php:15
+#: inc/admin/admin-pages/templates/parts/free-demos.php:10
 msgid "Qi Blocks for Gutenberg"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/footer-text.php:2
+#: inc/admin/admin-pages/templates/parts/footer-text.php:9
 msgid "We hope you're having a great time using the Qi Blocks for Gutenberg"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/footer-text.php:7
+#. translators: WordPress rating plugins url
+#: inc/admin/admin-pages/templates/parts/footer-text.php:15
 msgid "Leave a %s let us know about your experience!"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/footer-text.php:8
+#: inc/admin/admin-pages/templates/parts/footer-text.php:16
 msgid "rating"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/free-demos.php:6
+#: inc/admin/admin-pages/templates/parts/free-demos.php:13
 msgid "Qi Logo"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/free-demos.php:7
+#: inc/admin/admin-pages/templates/parts/free-demos.php:14
 #: inc/blocks/helper.php:308
 msgid "Premium Qi Blocks for Gutenberg"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/free-demos.php:8
+#: inc/admin/admin-pages/templates/parts/free-demos.php:15
 msgid "Huge collection of modern & versatile blocks, demos, patterns & wireframes"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/free-demos.php:9
+#: inc/admin/admin-pages/templates/parts/free-demos.php:16
 msgid "Upgrade Now"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/knowledge-base.php:4
-#: inc/admin/admin-pages/templates/parts/knowledge-base.php:15
+#: inc/admin/admin-pages/templates/parts/knowledge-base.php:11
+#: inc/admin/admin-pages/templates/parts/knowledge-base.php:22
 msgid "Knowledge Base"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/knowledge-base.php:5
+#: inc/admin/admin-pages/templates/parts/knowledge-base.php:12
 msgid "Find answers to WP-related questions"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/knowledge-base.php:6
-#: inc/admin/admin-pages/templates/parts/knowledge-base.php:11
+#: inc/admin/admin-pages/templates/parts/knowledge-base.php:13
+#: inc/admin/admin-pages/templates/parts/knowledge-base.php:18
 msgid "view more"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/knowledge-base.php:10
+#: inc/admin/admin-pages/templates/parts/knowledge-base.php:17
 msgid "Detailed Qi Blocks user guide"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/save.php:8
+#: inc/admin/admin-pages/templates/parts/save.php:14
 msgid "Successfully saved!"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/save.php:14
+#: inc/admin/admin-pages/templates/parts/save.php:20
 msgid "Save"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/help-center.php:4
+#: inc/admin/admin-pages/templates/parts/sidebar/help-center.php:11
 msgid "Find answers to your questions or reach out to our support."
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/help-center.php:5
+#: inc/admin/admin-pages/templates/parts/sidebar/help-center.php:12
 msgid "Submit A Ticket"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/rate.php:3
+#: inc/admin/admin-pages/templates/parts/sidebar/rate.php:10
 msgid "Rate Qi Blocks"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/rate.php:4
+#: inc/admin/admin-pages/templates/parts/sidebar/rate.php:11
 msgid "Let us know about your experience with Qi Blocks."
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/rate.php:5
+#: inc/admin/admin-pages/templates/parts/sidebar/rate.php:12
 msgid "Rate US"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/social-behance.php:20
+#: inc/admin/admin-pages/templates/parts/sidebar/social-behance.php:27
 msgid "Behance"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/social-dribbble.php:26
+#: inc/admin/admin-pages/templates/parts/sidebar/social-dribbble.php:33
 msgid "Dribbble"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/social-facebook.php:10
+#: inc/admin/admin-pages/templates/parts/sidebar/social-facebook.php:17
 msgid "Facebook"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/social-instagram.php:20
+#: inc/admin/admin-pages/templates/parts/sidebar/social-instagram.php:27
 msgid "Instagram"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/social-linkedin.php:13
+#: inc/admin/admin-pages/templates/parts/sidebar/social-linkedin.php:20
 msgid "LinkedIn"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/social-pinterest.php:21
+#: inc/admin/admin-pages/templates/parts/sidebar/social-pinterest.php:28
 msgid "Pinterest"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/social-twitter.php:17
+#: inc/admin/admin-pages/templates/parts/sidebar/social-twitter.php:24
 msgid "Twitter"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:9
+#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:16
 msgid "60+ demos, 265+ templates, 232+ patterns, 32+ wireframes"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:10
+#: inc/admin/admin-pages/templates/parts/sidebar/templates.php:17
 msgid "View More"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/subscribe.php:3
+#: inc/admin/admin-pages/templates/parts/subscribe.php:10
 msgid "Subscribe"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/subscribe.php:6
+#: inc/admin/admin-pages/templates/parts/subscribe.php:13
 msgid "Qode Newsletter"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/subscribe.php:7
+#: inc/admin/admin-pages/templates/parts/subscribe.php:14
 msgid "Subscribe to get all our news & updates"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/subscribe.php:11
+#: inc/admin/admin-pages/templates/parts/subscribe.php:18
 msgid "Your Email..."
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/video-tutorials.php:7
+#: inc/admin/admin-pages/templates/parts/video-tutorials.php:14
 msgid "Step-by-step Qi Blocks tutorials"
 msgstr ""
 
-#: inc/admin/admin-pages/templates/parts/video-tutorials.php:8
+#: inc/admin/admin-pages/templates/parts/video-tutorials.php:15
 msgid "See Videos"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:30
+#: inc/admin/fonts/class-qi-blocks-fonts.php:37
 #: assets/dist/accordion.js:1
 #: assets/dist/advanced-column.js:1
 #: assets/dist/advanced-columns.js:1
@@ -667,15 +677,15 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:34
+#: inc/admin/fonts/class-qi-blocks-fonts.php:41
 msgid "System Fonts"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:38
+#: inc/admin/fonts/class-qi-blocks-fonts.php:45
 msgid "Inherit"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:42
+#: inc/admin/fonts/class-qi-blocks-fonts.php:49
 #: assets/dist/accordion.js:1
 #: assets/dist/banner.js:1
 #: assets/dist/comments-template.js:1
@@ -686,109 +696,109 @@ msgstr ""
 msgid "Initial"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:46
+#: inc/admin/fonts/class-qi-blocks-fonts.php:53
 msgid "Arial"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:50
+#: inc/admin/fonts/class-qi-blocks-fonts.php:57
 msgid "Arial Black"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:54
+#: inc/admin/fonts/class-qi-blocks-fonts.php:61
 msgid "Comic Sans MS"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:58
+#: inc/admin/fonts/class-qi-blocks-fonts.php:65
 msgid "Courier New"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:62
+#: inc/admin/fonts/class-qi-blocks-fonts.php:69
 msgid "Georgia"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:66
+#: inc/admin/fonts/class-qi-blocks-fonts.php:73
 msgid "Impact"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:70
+#: inc/admin/fonts/class-qi-blocks-fonts.php:77
 msgid "Lucida Console"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:74
+#: inc/admin/fonts/class-qi-blocks-fonts.php:81
 msgid "Lucida Sans Unicode"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:78
+#: inc/admin/fonts/class-qi-blocks-fonts.php:85
 msgid "Palatino Linotype"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:82
+#: inc/admin/fonts/class-qi-blocks-fonts.php:89
 msgid "Tahoma"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:86
+#: inc/admin/fonts/class-qi-blocks-fonts.php:93
 msgid "Times New Roman"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:90
+#: inc/admin/fonts/class-qi-blocks-fonts.php:97
 msgid "Trebuchet MS"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:94
+#: inc/admin/fonts/class-qi-blocks-fonts.php:101
 msgid "Verdana"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:98
+#: inc/admin/fonts/class-qi-blocks-fonts.php:105
 msgid "Sans-Serif"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:102
+#: inc/admin/fonts/class-qi-blocks-fonts.php:109
 msgid "Serif"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:106
+#: inc/admin/fonts/class-qi-blocks-fonts.php:113
 msgid "Serif Alternative"
 msgstr ""
 
-#: inc/admin/fonts/class-qi-blocks-fonts.php:110
+#: inc/admin/fonts/class-qi-blocks-fonts.php:117
 msgid "Monospace"
 msgstr ""
 
-#: inc/admin/global-settings/typography/class-qi-blocks-global-settings-typography.php:190
+#: inc/admin/global-settings/typography/class-qi-blocks-global-settings-typography.php:194
 msgid "Global Typography Settings"
 msgstr ""
 
-#: inc/admin/global-settings/typography/class-qi-blocks-global-settings-typography.php:219
+#: inc/admin/global-settings/typography/class-qi-blocks-global-settings-typography.php:223
 msgid "Global Typography Settings Styles"
 msgstr ""
 
-#: inc/admin/global-settings/typography/class-qi-blocks-global-settings-typography.php:231
+#: inc/admin/global-settings/typography/class-qi-blocks-global-settings-typography.php:235
 msgid "Global Typography Settings Apply To"
 msgstr ""
 
-#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:93
-#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:55
-#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:56
+#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:97
+#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:62
+#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:72
 msgid "Get method is invalid"
 msgstr ""
 
-#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:101
-#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:103
 #: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:105
 #: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:107
+#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:109
+#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:111
 msgid "Options are successfully returned"
 msgstr ""
 
-#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:110
-#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:141
+#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:114
+#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:145
 msgid "Options are invalid"
 msgstr ""
 
-#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:118
+#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:122
 msgid "Options can't be updated"
 msgstr ""
 
-#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:139
+#: inc/admin/global-styles/class-qi-blocks-framework-global-styles.php:143
 msgid "Options are saved"
 msgstr ""
 
@@ -997,8 +1007,8 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: inc/blocks/categories/class-qi-blocks-categories-block.php:134
-#: inc/blocks/tag-cloud/class-qi-blocks-tag-cloud-block.php:187
+#: inc/blocks/categories/class-qi-blocks-categories-block.php:136
+#: inc/blocks/tag-cloud/class-qi-blocks-tag-cloud-block.php:189
 #: assets/dist/categories.js:1
 #: assets/dist/tag-cloud.js:1
 msgid "No terms were found for provided query parameters."
@@ -1291,7 +1301,7 @@ msgstr ""
 msgid "Post Terms"
 msgstr ""
 
-#: inc/blocks/post-terms/class-qi-blocks-post-terms-block.php:233
+#: inc/blocks/post-terms/class-qi-blocks-post-terms-block.php:235
 msgid "Post term items not found."
 msgstr ""
 
@@ -1391,19 +1401,19 @@ msgstr ""
 msgid "Timeline Showcase"
 msgstr ""
 
-#: inc/blog/class-qi-blocks-blog-rest-api.php:49
-#: inc/comments/class-qi-blocks-comments-rest-api.php:52
-#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:86
-#: inc/media/class-qi-blocks-media.php:131
-#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:95
+#: inc/blog/class-qi-blocks-blog-rest-api.php:56
+#: inc/comments/class-qi-blocks-comments-rest-api.php:59
+#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:93
+#: inc/media/class-qi-blocks-media.php:135
+#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:111
 msgid "Rest is invalid"
 msgstr ""
 
-#: inc/blog/class-qi-blocks-blog-rest-api.php:120
+#: inc/blog/class-qi-blocks-blog-rest-api.php:127
 msgid "Posts are successfully returned"
 msgstr ""
 
-#: inc/blog/class-qi-blocks-blog-rest-api.php:122
+#: inc/blog/class-qi-blocks-blog-rest-api.php:129
 msgid "No posts matching query!"
 msgstr ""
 
@@ -1412,68 +1422,68 @@ msgstr ""
 msgid "Read More"
 msgstr ""
 
-#: inc/blog/templates/parts/posts-not-found.php:1
-#: inc/woocommerce/templates/parts/posts-not-found.php:1
+#: inc/blog/templates/parts/posts-not-found.php:8
+#: inc/woocommerce/templates/parts/posts-not-found.php:8
 #: assets/dist/blog-list.js:1
 #: assets/dist/product-list.js:1
 msgid "No posts were found for provided query parameters."
 msgstr ""
 
-#: inc/comments/class-qi-blocks-comments-rest-api.php:65
+#: inc/comments/class-qi-blocks-comments-rest-api.php:72
 msgid "Returned comments HTML content"
 msgstr ""
 
-#: inc/comments/class-qi-blocks-comments-rest-api.php:67
-#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:96
-#: inc/media/class-qi-blocks-media.php:151
+#: inc/comments/class-qi-blocks-comments-rest-api.php:74
+#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:103
+#: inc/media/class-qi-blocks-media.php:159
 msgid "Parameters are invalid"
 msgstr ""
 
-#: inc/comments/helper.php:168
+#: inc/comments/helper.php:170
 msgid "Reply to %s"
 msgstr ""
 
-#: inc/comments/helper.php:173
-#: inc/comments/templates/comments-template.php:39
+#: inc/comments/helper.php:175
+#: inc/comments/templates/comments-template.php:44
 msgid "Comment"
 msgid_plural "Comments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/comments/templates/comments-template.php:11
+#: inc/comments/templates/comments-template.php:16
 msgid "Comments for this post are not enabled."
 msgstr ""
 
-#: inc/comments/templates/comments-template.php:73
+#: inc/comments/templates/comments-template.php:78
 msgid "Comments navigation"
 msgstr ""
 
-#: inc/comments/templates/comments-template.php:74
+#: inc/comments/templates/comments-template.php:79
 #: assets/dist/comments-template.js:1
 msgid "Comments"
 msgstr ""
 
-#: inc/comments/templates/comments-template.php:97
+#: inc/comments/templates/comments-template.php:102
 msgid "Comments on this post are not allowed."
 msgstr ""
 
-#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:76
+#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:83
 msgid "Contact forms are successfully returned"
 msgstr ""
 
-#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:78
+#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:85
 msgid "No available contact forms"
 msgstr ""
 
-#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:94
+#: inc/contact-form-7/class-qi-blocks-contact-form-7-rest-api.php:101
 msgid "Returned contact form HTML content"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:46
+#: inc/media/class-qi-blocks-media.php:50
 msgid "Qi Square Size"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:47
+#: inc/media/class-qi-blocks-media.php:51
 #: assets/dist/accordion.js:1
 #: assets/dist/advanced-column.js:1
 #: assets/dist/advanced-columns.js:1
@@ -1527,11 +1537,11 @@ msgstr ""
 msgid "Square"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:55
+#: inc/media/class-qi-blocks-media.php:59
 msgid "Qi Landscape Size"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:56
+#: inc/media/class-qi-blocks-media.php:60
 #: assets/dist/accordion.js:1
 #: assets/dist/advanced-column.js:1
 #: assets/dist/advanced-columns.js:1
@@ -1585,11 +1595,11 @@ msgstr ""
 msgid "Landscape"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:64
+#: inc/media/class-qi-blocks-media.php:68
 msgid "Qi Portrait Size"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:65
+#: inc/media/class-qi-blocks-media.php:69
 #: assets/dist/accordion.js:1
 #: assets/dist/advanced-column.js:1
 #: assets/dist/advanced-columns.js:1
@@ -1643,67 +1653,71 @@ msgstr ""
 msgid "Portrait"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:73
+#: inc/media/class-qi-blocks-media.php:77
 msgid "Qi Huge Square Size"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:74
+#: inc/media/class-qi-blocks-media.php:78
 msgid "Huge Square"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:140
+#: inc/media/class-qi-blocks-media.php:148
 msgid "Image rotation is not supported by your web host."
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:146
+#: inc/media/class-qi-blocks-media.php:154
 msgid "Image is resized"
 msgstr ""
 
-#: inc/media/class-qi-blocks-media.php:148
+#: inc/media/class-qi-blocks-media.php:156
 msgid "Image can not be resized"
 msgstr ""
 
-#: inc/page-templates/class-qi-blocks-page-templates.php:40
-#: inc/page-templates/class-qi-blocks-page-templates.php:83
-#: inc/page-templates/class-qi-blocks-page-templates.php:160
+#: inc/page-templates/class-qi-blocks-page-templates.php:45
+#: inc/page-templates/class-qi-blocks-page-templates.php:88
+#: inc/page-templates/class-qi-blocks-page-templates.php:165
 msgid "Qi Blocks Full Width"
 msgstr ""
 
-#: inc/page-templates/class-qi-blocks-page-templates.php:85
+#: inc/page-templates/class-qi-blocks-page-templates.php:90
 msgid "Custom full width page template created by Qi Blocks team"
 msgstr ""
 
-#: inc/pagination/templates/pagination-standard.php:3
+#: inc/pagination/templates/pagination-standard.php:11
 #: assets/dist/blog-list.js:1
 #: assets/dist/product-list.js:1
 msgid "Posts"
 msgstr ""
 
-#: inc/pagination/templates/pagination-standard.php:4
+#: inc/pagination/templates/pagination-standard.php:12
 #: assets/dist/blog-list.js:1
 #: assets/dist/product-list.js:1
 msgid "Posts navigation"
 msgstr ""
 
-#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:84
-#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:167
+#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:100
+#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:183
 msgid "Products are successfully returned"
 msgstr ""
 
-#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:86
+#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:102
 msgid "No available products"
 msgstr ""
 
-#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:169
+#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:185
 msgid "No products matching query!"
 msgstr ""
 
-#: inc/woocommerce/helper.php:107
+#: inc/woocommerce/class-qi-blocks-woocommerce-rest-api.php:203
+msgid "View Cart"
+msgstr ""
+
+#: inc/woocommerce/helper.php:172
 #: assets/dist/product-list.js:1
 msgid "Sold"
 msgstr ""
 
-#: inc/woocommerce/helper.php:121
+#: inc/woocommerce/helper.php:186
 #: assets/dist/product-list.js:1
 msgid "Sale"
 msgstr ""

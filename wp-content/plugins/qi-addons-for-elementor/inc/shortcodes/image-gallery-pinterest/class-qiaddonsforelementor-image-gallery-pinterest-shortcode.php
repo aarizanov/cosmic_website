@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_image_gallery_pinterest_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_image_gallery_pinterest_sho
 if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 	class QiAddonsForElementor_Image_Gallery_Pinterest_Shortcode extends QiAddonsForElementor_List_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_image_gallery_pinterest_extra_options', array() ) );
 
@@ -31,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_image_gallery_pinterest' );
 			$this->set_name( esc_html__( 'Pinterest Image Gallery', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds pinterest image gallery element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/pinterest-image-gallery/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#pinterest_image_gallery' );
@@ -219,6 +228,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			parent::render( $options );
 			$atts = $this->get_atts();
 
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.rand_rand
 			$atts['unique']         = rand( 0, 999 );
 			$atts['holder_classes'] = $this->get_holder_classes( $atts );
 			$atts['item_classes']   = $this->get_item_classes( $atts );
@@ -279,7 +289,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					}
 
 					$images[ $i ] = $image;
-					$i ++;
+					$i++;
 				}
 			}
 

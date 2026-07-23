@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_dual_image_with_content_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -25,12 +30,12 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_dual_image_with_content' );
 			$this->set_name( esc_html__( 'Dual Image with Content', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds dual image with content element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/dual-image-with-content/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#dual_image_with_content' );
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -353,7 +358,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'second_image_max_width',
 					'title'      => esc_html__( 'Second Image Max Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'vw' ),
+					'size_units' => array( 'px', '%', 'vw', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -409,7 +414,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'top_content_width',
 					'title'      => esc_html__( 'Top Content Width', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'responsive' => true,
 					'range'      => array(
 						'px' => array(
@@ -538,7 +543,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'title_margin_bottom',
 					'title'      => esc_html__( 'Title Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-inner-content > .qodef-m-title' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -551,7 +556,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'text_margin_bottom',
 					'title'      => esc_html__( 'Text Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-m-inner-content > .qodef-m-text' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -564,7 +569,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'content_padding',
 					'title'      => esc_html__( 'Content Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-dual-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -578,8 +583,12 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			parent::render( $options );
 			$atts = $this->get_atts();
 
+			$allowed_template_ids = qi_addons_for_elementor_return_elementor_templates();
+
 			$atts['holder_classes'] = $this->get_holder_classes( $atts );
 			$atts['title']          = $this->get_modified_title( $atts );
+
+			$atts['bottom_section'] = qi_addons_for_elementor_check_elementor_template( $atts['bottom_section'], $allowed_template_ids );
 
 			return qi_addons_for_elementor_get_template_part( 'shortcodes/dual-image-with-content', 'templates/dual-image-with-content', '', $atts );
 		}

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_parallax_images_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_parallax_images_shortcode' 
 if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 	class QiAddonsForElementor_Parallax_Images_Shortcode extends QiAddonsForElementor_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_parallax_images_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_parallax_images_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_parallax_images' );
 			$this->set_name( esc_html__( 'Parallax Image Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds parallax image showcase element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Creative', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/parallax-image-showcase/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#parallax_image_showcase' );
@@ -126,7 +135,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'main_padding',
 					'title'      => esc_html__( 'Main Image Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-parallax-images' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -161,7 +170,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 				)
 			);
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -221,7 +230,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 							'field_type' => 'slider',
 							'name'       => 'parallax_image_max_width',
 							'title'      => esc_html__( 'Image Max Width', 'qi-addons-for-elementor' ),
-							'size_units' => array( 'px', '%', 'em' ),
+							'size_units' => array( 'px', '%', 'em', 'custom' ),
 							'range'      => array(
 								'px' => array(
 									'min' => 0,
@@ -249,7 +258,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 							'field_type' => 'slider',
 							'name'       => 'parallax_image_vertical_offset',
 							'title'      => esc_html__( 'Vertical Offset', 'qi-addons-for-elementor' ),
-							'size_units' => array( 'px', 'vh', '%' ),
+							'size_units' => array( 'px', 'vh', '%', 'custom' ),
 							'range'      => array(
 								'px' => array(
 									'min' => - 200,
@@ -276,7 +285,7 @@ if ( class_exists( 'QiAddonsForElementor_Shortcode' ) ) {
 							'field_type' => 'slider',
 							'name'       => 'parallax_image_horizontal_offset',
 							'title'      => esc_html__( 'Horizontal Offset', 'qi-addons-for-elementor' ),
-							'size_units' => array( 'px', 'vw', '%' ),
+							'size_units' => array( 'px', 'vw', '%', 'custom' ),
 							'range'      => array(
 								'px' => array(
 									'min' => - 200,

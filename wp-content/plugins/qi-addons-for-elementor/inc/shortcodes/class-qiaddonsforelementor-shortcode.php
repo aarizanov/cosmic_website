@@ -1,12 +1,13 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 abstract class QiAddonsForElementor_Shortcode extends QiAddonsForElementor_Framework_Shortcode {
 	private $layouts       = array();
 	private $extra_options = array();
-
-	public function __construct() {
-		parent::__construct();
-	}
 
 	public function get_layouts() {
 		return $this->layouts;

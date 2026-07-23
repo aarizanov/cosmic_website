@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_framework_get_attachment_id_from_url' ) ) {
 	/**
 	 * Function that retrieves attachment id for passed attachment url
@@ -13,14 +18,15 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_get_attachment_id_fro
 		$attachment_id = '';
 
 		if ( '' !== $attachment_url ) {
-
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid=%s", $attachment_url ) );
 
-			// Additional check for undefined reason when guid is not image src
+			// Additional check for undefined reason when guid is not image src.
 			if ( empty( $attachment_id ) ) {
 				$modified_url = substr( $attachment_url, strrpos( $attachment_url, '/' ) + 1 );
 
-				//get attachment id
+				// Get attachment id.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key='_wp_attached_file' AND meta_value LIKE %s", '%' . $modified_url . '%' ) );
 			}
 		}
@@ -100,33 +106,33 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_resize_image' ) ) {
 
 			if ( ! empty( $attachment_id ) && ( isset( $width ) && isset( $height ) ) ) {
 
-				//get file path of the attachment
+				// Get file path of the attachment.
 				$img_path = get_attached_file( $attachment_id );
 
-				//get attachment url
+				// Get attachment url.
 				$img_url = qi_addons_for_elementor_get_attachment_url( $attachment_id );
 
-				//break down img path to array so we can use it's components in building thumbnail path
+				// Break down img path to array so we can use it's components in building thumbnail path.
 				$img_path_array = pathinfo( $img_path );
 
-				//build thumbnail path
+				// Build thumbnail path.
 				$new_img_path = $img_path_array['dirname'] . '/' . $img_path_array['filename'] . '-' . $width . 'x' . $height . '.' . $img_path_array['extension'];
 
-				//build thumbnail url
+				// Build thumbnail url.
 				$new_img_url = str_replace( $img_path_array['filename'], $img_path_array['filename'] . '-' . $width . 'x' . $height, $img_url );
 
-				//check if thumbnail exists by it's path
+				// Check if thumbnail exists by it's path.
 				if ( ! file_exists( $new_img_path ) ) {
-					//get image manipulation object
+					// Get image manipulation object.
 					$image_object = wp_get_image_editor( $img_path );
 
 					if ( ! is_wp_error( $image_object ) ) {
-						//resize image and save it new to path
+						// Resize image and save it new to path.
 						$image_object->resize( $width, $height, $crop );
 						$image_object->save( $new_img_path );
 
-						//get sizes of newly created thumbnail.
-						///we don't use $width and $height because those might differ from end result based on $crop parameter
+						// Get sizes of newly created thumbnail.
+						// we don't use $width and $height because those might differ from end result based on $crop parameter.
 						$image_sizes = $image_object->get_size();
 
 						$width  = $image_sizes['width'];
@@ -134,16 +140,16 @@ if ( ! function_exists( 'qi_addons_for_elementor_framework_resize_image' ) ) {
 					}
 				}
 
-				//generate data to be returned
+				// Generate data to be returned.
 				$return_array = array(
 					'img_url'    => $new_img_url,
 					'img_width'  => $width,
 					'img_height' => $height,
 				);
 
-				//attachment wasn't found in gallery but it is not empty
+				// Attachment wasn't found in gallery but it is not empty.
 			} elseif ( '' !== $attachment && ( isset( $width ) && isset( $height ) ) ) {
-				//generate data to be returned
+				// Generate data to be returned.
 				$return_array = array(
 					'img_url'    => $attachment,
 					'img_width'  => $width,

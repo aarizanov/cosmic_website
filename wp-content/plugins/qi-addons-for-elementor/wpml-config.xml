@@ -2,25 +2,19 @@
     <elementor-widgets>
         <widget name="qi_addons_for_elementor_button">
             <fields>
-                <field>custom_class</field>
                 <field>button_text</field>
+                <field>button_link>url</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_info_button">
             <fields>
-                <field>custom_class</field>
                 <field>info_button_text</field>
                 <field>info_button_subtext</field>
-            </fields>
-        </widget>
-        <widget name="qi_addons_for_elementor_separator">
-            <fields>
-                <field>custom_class</field>
+                <field>info_button_link>url</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_blog_list">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
                 <field>posts_per_page</field>
@@ -34,7 +28,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_blog_slider">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
                 <field>posts_per_page</field>
@@ -48,13 +41,11 @@
         </widget>
         <widget name="qi_addons_for_elementor_add_to_cart_button">
             <fields>
-                <field>custom_class</field>
                 <field>product_id</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_product_category_list">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
                 <field>posts_per_page</field>
@@ -64,7 +55,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_product_list">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
                 <field>posts_per_page</field>
@@ -76,7 +66,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_product_slider">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
                 <field>posts_per_page</field>
@@ -87,9 +76,6 @@
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_accordion">
-            <fields>
-                <field>custom_class</field>
-            </fields>
             <fields-in-item items_of="children">
                 <field>item_title</field>
                 <field>item_content</field>
@@ -97,13 +83,12 @@
         </widget>
         <widget name="qi_addons_for_elementor_animated_text">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_banner">
             <fields>
-                <field>custom_class</field>
+                <field>link_url>url</field>
                 <field>title</field>
                 <field>subtitle</field>
                 <field>text_field</field>
@@ -112,20 +97,17 @@
         </widget>
         <widget name="qi_addons_for_elementor_before_after">
             <fields>
-                <field>custom_class</field>
                 <field>handle_text</field>
                 <field>offset</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_blockquote">
             <fields>
-                <field>custom_class</field>
                 <field>text</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_business_hours">
             <fields>
-                <field>custom_class</field>
                 <field>subtitle</field>
                 <field>title</field>
                 <field>text</field>
@@ -137,25 +119,24 @@
         </widget>
         <widget name="qi_addons_for_elementor_call_to_action">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>text</field>
                 <field>button_text</field>
+                <field>button_link>url</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_cards_gallery">
-            <fields>
-                <field>custom_class</field>
-            </fields>
+            <fields-in-item items_of="children">
+                <field type="Cards Gallery: url" key_of="item_link">url</field>
+            </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_cards_slider">
-            <fields>
-                <field>custom_class</field>
-            </fields>
+            <fields-in-item items_of="children">
+                <field type="Cards Slider: url" key_of="item_link">url</field>
+            </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_charts">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>text</field>
             </fields>
@@ -165,28 +146,27 @@
         </widget>
         <widget name="qi_addons_for_elementor_clients_list">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
             <fields-in-item items_of="children">
-                <field>client_title</field>
-                <field>client_text</field>
+                <field type="Client's list: title">client_title</field>
+                <field type="Client's list: Description">client_text</field>
+                <field type="Client's list: url" key_of="client_link">url</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_clients_slider">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
             <fields-in-item items_of="children">
-                <field>client_title</field>
+                <field type="Client's slider: title">client_title</field>
+                <field type="Client's slider: url" key_of="client_link">url</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_countdown">
             <fields>
-                <field>custom_class</field>
                 <field>month_label</field>
                 <field>day_label</field>
                 <field>hour_label</field>
@@ -201,7 +181,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_counter">
             <fields>
-                <field>custom_class</field>
                 <field>step_delay</field>
                 <field>digit_label</field>
                 <field>title</field>
@@ -210,14 +189,12 @@
         </widget>
         <widget name="qi_addons_for_elementor_device_carousel">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_device_slider">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
                 <field>custom_links</field>
@@ -225,24 +202,20 @@
         </widget>
         <widget name="qi_addons_for_elementor_dropcaps">
             <fields>
-                <field>custom_class</field>
                 <field>text</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_dual_image_with_content">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>decoration_positions</field>
                 <field>color_positions</field>
                 <field>link_positions</field>
                 <field>text</field>
+                <field>link>url</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_faq">
-            <fields>
-                <field>custom_class</field>
-            </fields>
             <fields-in-item items_of="children">
                 <field>item_title</field>
                 <field>item_content</field>
@@ -250,7 +223,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_graphs">
             <fields>
-                <field>custom_class</field>
                 <field>data_labels</field>
             </fields>
             <fields-in-item items_of="children">
@@ -261,14 +233,12 @@
         </widget>
         <widget name="qi_addons_for_elementor_highlight">
             <fields>
-                <field>custom_class</field>
                 <field>text</field>
                 <field>highlight_position</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_how_to">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>subtitle</field>
                 <field>text</field>
@@ -280,15 +250,15 @@
         </widget>
         <widget name="qi_addons_for_elementor_icon_with_text">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>text</field>
+                <field>link>url</field>
                 <field>button_text</field>
+                <field>button_link>url</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_image_gallery">
             <fields>
-                <field>custom_class</field>
                 <field>custom_links</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
@@ -296,14 +266,12 @@
         </widget>
         <widget name="qi_addons_for_elementor_image_gallery_masonry">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_image_gallery_pinterest">
             <fields>
-                <field>custom_class</field>
                 <field>custom_links</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
@@ -311,7 +279,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_image_slider">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
                 <field>custom_links</field>
@@ -319,64 +286,59 @@
         </widget>
         <widget name="qi_addons_for_elementor_info_cards">
             <fields>
-                <field>custom_class</field>
                 <field>subtitle</field>
                 <field>title</field>
                 <field>text</field>
                 <field>button_text</field>
+                <field>link>url</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_interactive_banner">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>subtitle</field>
                 <field>text_field</field>
                 <field>button_text</field>
+                <field>link_url>url</field>
             </fields>
+            <fields-in-item items_of="children">
+                <field>item_title</field>
+                <field>item_description</field>
+            </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_interactive_link_showcase">
             <fields>
-                <field>custom_class</field>
                 <field>inline_separator</field>
             </fields>
             <fields-in-item items_of="children">
-                <field>item_title</field>
-                <field>item_text</field>
+                <field type="Interactive link showcase: title">item_title</field>
+                <field type="Interactive link showcase: text">item_text</field>
+                <field type="Interactive link showcase: url" key_of="item_link">url</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_item_showcase">
-            <fields>
-                <field>custom_class</field>
-            </fields>
             <fields-in-item items_of="children">
-                <field>item_title</field>
-                <field>item_text</field>
+                <field type="Item showcase: title">item_title</field>
+                <field type="Item showcase: text">item_text</field>
+                <field type="Item showcase: url" key_of="item_link">url</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_message_box">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>text</field>
             </fields>
         </widget>
-        <widget name="qi_addons_for_elementor_parallax_images">
-            <fields>
-                <field>custom_class</field>
-            </fields>
-        </widget>
         <widget name="qi_addons_for_elementor_preview_slider">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_pricing_list">
             <fields>
-                <field>custom_class</field>
                 <field>button_text</field>
+                <field>button_link>url</field>
             </fields>
             <fields-in-item items_of="children">
                 <field>item_title</field>
@@ -387,12 +349,12 @@
         </widget>
         <widget name="qi_addons_for_elementor_pricing_table">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>currency</field>
                 <field>period</field>
                 <field>label</field>
                 <field>button_text</field>
+                <field>button_link>url</field>
             </fields>
             <fields-in-item items_of="children">
                 <field>item_text</field>
@@ -400,7 +362,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_process">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
@@ -411,7 +372,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_progress_bar_circle">
             <fields>
-                <field>custom_class</field>
                 <field>duration</field>
                 <field>title</field>
                 <field>text</field>
@@ -419,21 +379,18 @@
         </widget>
         <widget name="qi_addons_for_elementor_progress_bar_horizontal">
             <fields>
-                <field>custom_class</field>
                 <field>duration</field>
                 <field>title</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_progress_bar_vertical">
             <fields>
-                <field>custom_class</field>
                 <field>duration</field>
                 <field>title</field>
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_section_title">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>subtitle</field>
                 <field>text</field>
@@ -446,18 +403,17 @@
         </widget>
         <widget name="qi_addons_for_elementor_slider_switch">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
             <fields-in-item items_of="children">
-                <field>item_title</field>
-                <field>item_text</field>
+                <field type="Slider switch: title">item_title</field>
+                <field type="Slider switch: text">item_text</field>
+                <field type="Slider switch: url" key_of="item_link">url</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_table_of_contents">
             <fields>
-                <field>custom_class</field>
                 <field>title</field>
                 <field>subtitle</field>
                 <field>text</field>
@@ -465,18 +421,12 @@
             </fields>
         </widget>
         <widget name="qi_addons_for_elementor_tabs_horizontal">
-            <fields>
-                <field>custom_class</field>
-            </fields>
             <fields-in-item items_of="children">
                 <field>item_title</field>
                 <field>item_content</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_tabs_vertical">
-            <fields>
-                <field>custom_class</field>
-            </fields>
             <fields-in-item items_of="children">
                 <field>item_title</field>
                 <field>item_content</field>
@@ -484,15 +434,16 @@
         </widget>
         <widget name="qi_addons_for_elementor_team_member">
             <fields>
-                <field>custom_class</field>
                 <field>name</field>
                 <field>role</field>
                 <field>info_on_hover_inset_text</field>
             </fields>
+            <fields-in-item items_of="children">
+                <field type="Team member: url" key_of="link">url</field>
+            </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_testimonials_list">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
@@ -505,7 +456,6 @@
         </widget>
         <widget name="qi_addons_for_elementor_testimonials_slider">
             <fields>
-                <field>custom_class</field>
                 <field>slider_speed</field>
                 <field>slider_speed_animation</field>
             </fields>
@@ -517,26 +467,20 @@
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_text_marquee">
-            <fields>
-                <field>custom_class</field>
-            </fields>
             <fields-in-item items_of="children">
                 <field>item_text</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_timeline">
-            <fields>
-                <field>custom_class</field>
-            </fields>
             <fields-in-item items_of="children">
-                <field>title</field>
-                <field>date</field>
-                <field>text</field>
+                <field type="Timeline: title">title</field>
+                <field type="Timeline: date">date</field>
+                <field type="Timeline: text">text</field>
+                <field type="Timeline: url" key_of="link">url</field>
             </fields-in-item>
         </widget>
         <widget name="qi_addons_for_elementor_typeout_text">
             <fields>
-                <field>custom_class</field>
                 <field>text</field>
                 <field>cursor</field>
             </fields>

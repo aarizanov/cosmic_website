@@ -44,6 +44,44 @@ $global_placeholders = Opt_In_Utils::get_global_placeholders();
 
 		<div class="sui-accordion-item-body">
 
+			<# if ( 'facebook' === platform ) { #>
+
+			<div class="sui-form-field hustle-facebook-app-id-field">
+
+				<label for="hustle-{{platform}}-app-id" class="sui-label">
+					<?php esc_html_e( 'Facebook App ID', 'hustle' ); ?>
+					<span class="sui-label-note"><?php esc_html_e( '(required)', 'hustle' ); ?></span>
+				</label>
+
+				<input
+					type="text"
+					id="hustle-{{platform}}-app-id"
+					name="{{platform}}_app_id"
+					data-attribute="{{platform}}_app_id"
+					value="{{app_id}}"
+					placeholder="<?php esc_html_e( 'E.g. 123456789012345', 'hustle' ); ?>"
+					class="sui-form-control"
+					aria-required="true"
+					aria-describedby="hustle-{{platform}}-app-id-desc"
+				/>
+
+				<p class="sui-error-message" style="display: none;" role="alert"><?php esc_html_e( 'Facebook App ID is required.', 'hustle' ); ?></p>
+
+				<span class="sui-description" id="hustle-{{platform}}-app-id-desc">
+					<?php
+					printf(
+						/* translators: 1. opening 'a' tag, 2. closing 'a' tag */
+						esc_html__( 'Enter your Facebook App ID to enable the Share Dialog. You can create one at the %1$sFacebook Developer Portal%2$s.', 'hustle' ),
+						'<a href="https://developers.facebook.com/apps/" target="_blank" rel="noopener noreferrer">',
+						'</a>'
+					);
+					?>
+				</span>
+
+			</div>
+
+			<# } #>
+
 			<div class="sui-form-field" data-toggle-content="counter-enabled">
 
 				<label class="sui-label"><?php esc_html_e( 'Counter type', 'hustle' ); ?></label>

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 class QiAddonsForElementor_FrameworkRoot {
 	private static $instance;
 	private $shortcodes;
@@ -49,11 +54,11 @@ class QiAddonsForElementor_FrameworkRoot {
 		$this->image_sizes = new QiAddonsForElementor_Framework_Image_Sizes();
 	}
 
-	function get_shortcodes() {
+	public function get_shortcodes() {
 		return $this->shortcodes;
 	}
 
-	function add_shortcode( QiAddonsForElementor_Framework_Shortcode $shortcode ) {
+	public function add_shortcode( QiAddonsForElementor_Framework_Shortcode $shortcode ) {
 		if ( $shortcode ) {
 			$this->get_shortcodes()->add_shortcode( $shortcode );
 		}

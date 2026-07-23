@@ -62,7 +62,6 @@ final class TWAE_Free_Main {
 	public function __construct() {
 
 		if ( $this->is_compatible() ) {
-			$twae_ads_close = get_option( 'twae_ads_close', false );
 			add_action( 'elementor/init', array( $this, 'init' ) );
 			// Add a custom category for panel widgets
 			add_action( 'elementor/init', array( $this, 'register_timeline_category' ) );
@@ -75,7 +74,8 @@ final class TWAE_Free_Main {
 			\Elementor\Plugin::$instance->elements_manager->add_category(
 				'twae',              // the name of the category
 				array(
-					'title' => esc_html__( 'Timeline Widgets', 'twae' ),
+					
+					'title' => esc_html__( 'Timeline Widgets', 'timeline-widget-addon-for-elementor'),
 					'icon'  => 'fa fa-header', // default icon
 				),
 				1 // position
@@ -111,19 +111,24 @@ final class TWAE_Free_Main {
 	 */
 	public function admin_notice_minimum_php_version() {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Cleaning up WordPress core activate parameter from URL
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
 
-		$message = sprintf(
-			/* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'twae' ),
-			'<strong>' . esc_html__( 'Timeline Widget Pro For Elementor', 'twae' ) . '</strong>',
-			'<strong>' . esc_html__( 'PHP', 'twae' ) . '</strong>',
-			self::MINIMUM_PHP_VERSION
-		);
+	$message = sprintf(
+		
+		/* translators: 1: Plugin name 2: PHP 3: Required PHP version */ esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'timeline-widget-addon-for-elementor'),
 
-		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
+	'<strong>' . 
+	
+	esc_html__( 'Timeline Widget Pro For Elementor', 'timeline-widget-addon-for-elementor') . '</strong>',
+	
+	'<strong>' . esc_html__( 'PHP', 'timeline-widget-addon-for-elementor') . '</strong>',
+		esc_html( self::MINIMUM_PHP_VERSION ) // Escape output
+	);
+
+		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', wp_kses_post( $message ) );
 
 	}
 

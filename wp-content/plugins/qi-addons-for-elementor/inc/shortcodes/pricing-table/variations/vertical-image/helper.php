@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_pricing_table_variation_vertical_image' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -58,7 +63,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_pricing_table_vertical_image_ad
 			'field_type' => 'slider',
 			'name'       => 'vertical_image_width',
 			'title'      => esc_html__( 'Vertical Image Width', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'vw' ),
+			'size_units' => array( 'px', '%', 'vw', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-m-vertical-image-holder' => 'width: {{SIZE}}{{UNIT}};',

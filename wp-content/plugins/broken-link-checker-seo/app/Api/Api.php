@@ -31,8 +31,8 @@ class Api {
 	private $routes = [
 		// phpcs:disable WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 		'GET'    => [
-			'options' => [ 'callback' => [ 'VueSettings', 'getOptions' ], 'access' => 'everyone' ],
-			'ping'    => [ 'callback' => [ 'Ping', 'ping' ], 'access' => 'everyone' ]
+			'options' => [ 'callback' => [ 'Options', 'getOptions' ], 'access' => 'any' ],
+			'ping'    => [ 'callback' => [ 'Ping', 'ping' ], 'access' => 'any' ]
 		],
 		'POST'   => [
 			'broken-links/scan'            => [ 'callback' => [ 'BrokenLinks', 'getScanPercent' ], 'access' => [ 'aioseo_blc_broken_links_page' ] ],
@@ -52,9 +52,10 @@ class Api {
 			'link-status-detail'           => [ 'callback' => [ 'LinkStatusDetail', 'getLinkStatusData' ], 'access' => [ 'aioseo_blc_broken_links_page' ] ],
 			'notifications/dismiss'        => [ 'callback' => [ 'Notifications', 'dismissNotifications' ], 'access' => 'any' ],
 			'objects'                      => [ 'callback' => [ 'PostsTerms', 'searchForObjects' ], 'access' => [ 'aioseo_blc_broken_links_page' ] ],
-			'options'                      => [ 'callback' => [ 'VueSettings', 'saveChanges' ], 'access' => 'aioseo_blc_broken_links_page' ],
-			'plugins/deactivate'           => [ 'callback' => [ 'Plugins', 'deactivatePlugins' ], 'access' => 'install_plugins' ],
+			'options'                      => [ 'callback' => [ 'Options', 'saveChanges' ], 'access' => 'aioseo_blc_broken_links_page' ],
+			'plugins/deactivate'           => [ 'callback' => [ 'Plugins', 'deactivatePlugins' ], 'access' => 'deactivate_plugins' ],
 			'plugins/install'              => [ 'callback' => [ 'Plugins', 'installPlugins' ], 'access' => 'install_plugins' ],
+			'redirects/url'                => [ 'callback' => [ 'Redirects', 'getRedirectUrl' ], 'access' => [ 'aioseo_blc_broken_links_page' ] ],
 			'settings/toggle-card'         => [ 'callback' => [ 'VueSettings', 'toggleCard' ], 'access' => 'aioseo_blc_broken_links_page' ],
 			'settings/toggle-radio'        => [ 'callback' => [ 'VueSettings', 'toggleRadio' ], 'access' => 'aioseo_blc_broken_links_page' ],
 			'settings/items-per-page'      => [ 'callback' => [ 'VueSettings', 'changeItemsPerPage' ], 'access' => 'aioseo_blc_broken_links_page' ]
@@ -160,14 +161,11 @@ class Api {
 		}
 
 		switch ( $routeData['access'] ) {
-			case 'everyone':
-				// All users are able to access the route.
-				return true;
 			case 'any':
 				// Users with any Broken Link Checker permission can access the route.
 				$user = wp_get_current_user();
 				foreach ( $user->get_role_caps() as $capability => $enabled ) {
-					if ( $enabled && preg_match( '/^aioseo_blc_/', $capability ) ) {
+					if ( $enabled && preg_match( '/^aioseo_blc_/', (string) $capability ) ) {
 						return true;
 					}
 				}
@@ -209,7 +207,7 @@ class Api {
 		if ( empty( $routeData ) ) {
 			foreach ( $this->routes[ $request->get_method() ] as $routeRegex => $routeInfo ) {
 				$routeRegex = str_replace( '@', '\@', $routeRegex );
-				if ( preg_match( "@{$routeRegex}@", $route ) ) {
+				if ( preg_match( "@{$routeRegex}@", (string) $route ) ) {
 					$routeData = $routeInfo;
 					break;
 				}

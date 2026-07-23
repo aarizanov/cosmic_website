@@ -1,64 +1,123 @@
 === Redirection for Contact Form 7 ===
-Tags: CF7 redirect, CF7 thank you page, redirect cf7, redirect CF7, CF7 success page, cf7 redirect, registration form, mailchimp, login form, conditional redirect, cms integration, conversions, save leads, paypal
+Tags: contact form 7, cf7 redirect, redirect, mailchimp, webhook
 Contributors: codeinwp, themeisle, yuvalsabar, regevlio
 Requires at least: 5.2.0
-Tested up to: 6.5
-Stable tag: 3.1.5
+Tested up to: 7.0
+Stable tag: 3.2.10
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-The ultimate add-on for CF7 - redirect to any page you choose after mail sent successfully, firing scripts after submission, save submissions in database, and much more options to make CF7 poweful then ever.
+Redirect to any page or URL, execute scripts after submission, save data to the database, and unlock additional submission actions for Contact Form 7.
 
 == Description ==
 
-The ultimate add-on for CF7 - redirect to any page you choose after mail sent successfully, firing scripts after submission, save submissions in database, and much more options to make CF7 poweful then ever.
-NOTE: This plugin requires CF7 version 4.8 or later.
+Redirection for Contact Form 7 enhances your forms with essential post-submission actions all in one plugin. Store form entries in your database, redirect users to any page or URL, send email notifications, block spam with honeypot protection, and help with GDPR compliance through data export/erase requests.
 
-== Usage ==
+Want more power? Our PRO version includes JavaScript execution after submission, webhook integration for third-party services, conditional logic based on user input, frontend post creation, PDF generation from form data, and seamless integrations with popular services like Mailchimp, PayPal, Stripe, HubSpot, Salesforce, and Twilio.
 
-Simply go to your form settings, choose the "Redirect Settings" tab and set the page you want to be redirected to.
+== 🔗 HELPFUL LINKS: ==
 
-== Features ==
+- Need any help with setup? [CHECK DOCUMENTATION](https://docs.themeisle.com/collection/2014-redirection-for-contact-form-7)
 
-* Redirect to any URL
-* Open page in a new tab
-* Run JavaScript after form submission (great for conversion management)
-* Pass fields from the form as URL query parameters
-* Add Honeypot to minimize spam
-* Save form submissions to your database
-* GDPR create erase personal data request
-* GDPR create export personal data request
+- Interested in Redirection For CF7 Pro? [LEARN MORE](https://themeisle.com/plugins/wpcf7-redirect/upgrade/?utm_source=wordpressorg&utm_medium=wpcf-7readme&utm_campaign=pro-cta)
 
-== Our Extensions ==
+== USAGE ==
 
-*** Free Trial ***
+Simply go to your form settings, select the "Action" tab, and add additional Submission Actions based on your requirements.
 
-* **[Extension]** [Conditional logic for each action]
-* **[Extension]** [Integrate with monday]
-* **[Extension]** [Multi step form]
-* **[Extension]** [Send SMS messages with twilio]
-* **[Extension]** [Integrate with Salesforce]
-* **[Extension]** [Integrate with Hubspot CRM]
-* **[Extension]** [Frontend Publishing - Allow your visitors to submit post types]
-* **[Extension]** [Integrate with Mailchimp - Automatically add form submissions to your predefined list]
-* **[Extension]** [Frontend Registration - Use CF7 as a registration form]
-* **[Extension]** [Frontend Login - Use CF7 to login users to your website]
-* **[Extension]** [Conditional form validations (custom error messages)]
-* **[Extension]** [Manage email notifications by conditional logic]
-* **[Extension]** [Fire custom JavaScript events by conditional logic]
-* **[Extension]** [Send data to remote servers (3rd-party integration)]
-* **[Extension]** [Send submissions to API Json/XML to remote servers]
-* **[Extension]** [Send submissions to API POST/GET to remote servers]
-* **[Extension]** [Integrate with paypal]
-* **[Extension]** [Integrate with stripe]
-* **[Extension]** [Create and send PDF]
-* **[Extension]** [Send Slack Message]
-* **[Extension]** [Eliminate Duplicates]
-* **[Extension]** [Thank You Popup Message]
+**NOTE:** This plugin requires CF7 version 4.8 or later.
 
-> Note: some features are availible only as an extension. Which means you need an extension to unlock those features.
+== 🤝 HOW REDIRECTION FOR CF7 CAN HELP YOU: ==
 
-More info and documentation on [https://redirection-for-cf7.com](https://redirection-for-cf7.com)
+- **Redirect to Any URL:** Easily redirect users to any specific webpage after form submission, enhancing user navigation and experience.
+
+- **Open Page in a New Tab:** Configure forms to open the target URL in a new tab, keeping your site accessible to users post-submission.
+
+- **Pass Fields from the Form as URL Query Parameters:** Seamlessly append submitted form data to the URL as query parameters, enabling personalized follow-up pages.
+
+- **Add Honeypot to Minimize Spam:** Integrate a honeypot technique in your forms to prevent spam without affecting user experience.
+
+- **Save Form Submissions to Your Database:** Automatically store all form submissions in your database, ensuring no data loss and facilitating easy back-referencing.
+
+- **GDPR Compliance - Create Erase Personal Data Request:** Allow users to initiate requests for erasing their personal data, ensuring compliance with GDPR mandates.
+
+- **GDPR Compliance - Create Export Personal Data Request:** Enable users to request exports of their personal data, supporting transparency and adherence to GDPR guidelines.
+
+== 🤩 GET MORE FEATURES WITH REDIRECTION FOR CF7 PRO ==
+
+- **Add Conditional Logic:** Enhance your submission actions with the Conditional Logic of Actions Extension. Set If/Or rules based on user inputs to manage powerful conditional rules effectively.
+
+- **Run JavaScript After Form Submission:** Execute custom JavaScript code after a form is submitted, ideal for tracking conversions and integrating with analytics tools.
+
+- **Create and Send PDF:** Add the option to generate and send PDF using the submitted form fields. 
+
+- **Frontend Publishing:** Add the ability to allow your users to publish posts from your website front-end.
+
+- **Webhook Integration:** Supercharge your forms with advanced Webhook support—seamlessly connect to third-party apps using POST, GET, DELETE, and PATCH methods, with full compatibility for PARAMS, JSON, and XML formats.Empower your forms with advanced Webhook integration, supporting POST, GET, DELETE, PATCH methods and PARAMS, JSON, and XML formats for comprehensive connectivity with third party apps.
+
+- **Add a Thank You Popup:** Add the ability to thank your users with a noticeably designed thank-you popup.
+
+- **Integrate with Mailchimp:** Add the ability to register submitted forms to any of your MailChimp lists.
+
+- **Integrate PayPal & Stripe:** Collect payments from your users by redirecting them to PayPal or Stripe.
+
+- **Integrate with HubSpot CRM:** Add the ability to send form submissions from Contact Form 7 to HubSpot CRM.
+
+- **Integrate with Salesforce CRM:** Add the ability to send submission forms from Contact Form 7 to Salesforce CRM.
+
+- **SMS with Twilio Integration:** Add the ability to send SMS messages to your users or notifications to yourself using Twilio.
+
+Unlock these premium features and more with **[Redirection for CF7 PRO](https://themeisle.com/plugins/wpcf7-redirect/upgrade/?utm_source=wordpressorg&utm_medium=wpcf-7readme&utm_campaign=unlock-pro-cta)!**
+
+**Still have questions?** Ask your pre-sales questions **[here](https://themeisle.com/contact/?utm_source=wordpressorg&utm_medium=wpcf-7readme&utm_campaign=pre-sales)**, and we will get back to you promptly. Or, purchase with confidence and try it for yourself—we offer a **30-day no-questions-asked 100% money-back guarantee**.
+
+== 🤔 WHAT YOU CAN DO WITH REDIRECTION FOR CF7: ==
+
+Redirection for Contact Form 7 opens up a world of opportunities! Explore how different audiences can leverage its features:
+
+- **📦 E-commerce Sites:** Automate order confirmations and updates through SMS with the Twilio integration, providing customers with real-time updates directly on their phones.
+
+- **🫶 Non-Profit Organizations:** Enhance donor engagement by redirecting donors to personalized thank you pages using Conditional Logic, and manage GDPR compliance with data export and erase requests.
+
+- **🏠 Real Estate Agencies:** Direct potential clients to a customized URL after form submission, showcasing specific property details or offers based on the input from inquiry forms.
+
+- **🛠️ Tech Support Services:** Link form submissions with Salesforce or HubSpot CRM to automatically create support tickets and manage follow-up actions efficiently.
+
+- **📚 Education Providers:** Implement the Frontend Publishing feature to allow students to submit assignments and projects directly through forms, making submission processes smoother and more organized.
+
+- **📈 Marketing Teams:** Capture lead information and automatically add it to a Mailchimp email list for subsequent marketing campaigns, ensuring seamless integration with your digital marketing strategies.
+
+- **💵 Freelancers and Consultants:** Offer a streamlined payment process by integrating with PayPal and Stripe, allowing clients to pay for services directly through the submission form.
+
+- **📝 Bloggers and Influencers:** Manage user-generated content by enabling frontend post submissions, allowing followers to contribute stories, photos, or feedback directly on the website.
+
+== ✨ YOU SHOULD USE REDIRECTION WITH CF7 IF: ==
+
+- **You Want to Personalize User Journeys:** Provide a tailored experience by redirecting users to pages that fit their needs.
+
+- **You Aim to Automate Processes:** Simplify workflows by directing users to relevant resources or actions after form submission.
+
+- **You Seek to Increase Engagement:** Capture user interest by guiding them to content or offers that resonate with them.
+
+- **You Need to Optimize Conversions:** Redirect users to strategically designed pages to maximize conversion opportunities.
+
+- **You Plan to Manage Leads Efficiently:** Ensure leads are channeled to the right destination for effective handling and follow-up.
+
+== 👋 WE’RE HERE FOR YOU, AND WE TAKE ALL FEEDBACK SERIOUSLY ==
+
+- **📚 Knowledge Base:** We’ve created a complete [documentation](https://docs.themeisle.com/collection/2014-redirection-for-contact-form-7) library and we’re still constantly updating with new tutorials.
+
+- **🦸 Support forum:** We’re here to help. Feel free to open a new thread on the [Support Forum](https://wordpress.org/support/plugin/wpcf7-redirect/).
+
+== 🎙️ SEE WHAT REAL USERS TALK ABOUT US ==
+
+- [Very nice and helpful plugin](https://wordpress.org/support/topic/very-nice-and-helpful-plugin-5/) - "This is a very helpful plugin. It makes my task much easier and it is also very nice for website users to be redirected to the summary page of their entries."
+
+- [Works like a charm :)](https://wordpress.org/support/topic/works-like-a-charm-2147/) - "What else to say? When a customer submits a form, it fluently redirects him/her to specific url when I say “Thank you for submitting the form, we will contact you later…”. So thank you very much creators!"
+
+- [5 star](https://wordpress.org/support/topic/5-stars-533/) - "Working with Conversion tracking and I like the fact that you can pull the contact form fields in that you want to show on the Thank you page. Everything works fantatic."
+
+- [Really useful!](https://wordpress.org/support/topic/really-useful-311/) - "Just chiming in with a positive review. Works great, and has been for a while now. Thanks so much!!"
 
 == Installation ==
 
@@ -71,9 +130,9 @@ Installing Redirection for CF7 can be done either by searching for "Redirection 
 
 == Frequently Asked Questions ==
 
-= Does the plugin disables CF7 Ajax? =
+= Does the plugin disable CF7 Ajax? =
 
-No, it doesn't. The plugin does not disables any of CF7 normal behavior, unlike all other plugins that do the same.
+No, it doesn't. The plugin does not disable any of Contact Form 7 normal behavior, unlike all other plugins that do the same.
 
 = Does this plugin uses "on_sent_ok" additional setting? =
 
@@ -84,15 +143,162 @@ No. One of the reasons we developed this plugin, is because on_send_ok is now de
 [{field_name}-base_64_file] - will replace the shortcode with a base64 representation of a file
 [{field_name}-path] - will replace the shortcode with the file path on the server
 
+= How to report a security issue? =
+ 
+Plugin security is a core priority for us. If you identify a potential vulnerability, we ask that you disclose it responsibly.
+
+Please follow the reporting protocols outlined on our [Security Page](https://themeisle.com/security/).
+
 == Screenshots ==
 
-1. Actions tab
-2. Redirect Action
-3. Fire JavaScript Action
-4. Save Lead Actions
-5. Extensions tab
+1. Dashboard
+2. Add Actions
+3. Actions tab
+4. Redirection Action
+5. Save Entries Action
 
 == Changelog ==
+
+#####   Version 3.2.10 (2026-05-12)
+
+- Fixed fatal error occuring when using conditional logic module
+- Fixed default dropdown selection
+- Update dependencies
+
+
+
+
+#####   Version 3.2.9 (2026-02-10)
+
+- Enhanced security
+
+
+
+
+#####   Version 3.2.8 (2025-12-19)
+
+- Enhanced security
+
+
+
+
+#####   Version 3.2.7 (2025-10-15)
+
+- Updated dependencies
+- Enhanced security
+
+
+
+
+#####   Version 3.2.6 (2025-09-11)
+
+- Updated dependencies
+
+
+
+
+#####   Version 3.2.5 (2025-08-07)
+
+- Enhanced security
+
+
+
+
+#####   Version 3.2.4 (2025-07-25)
+
+- Fixed visibility for hidden elements
+- Updated dependencies
+
+
+
+
+#####   Version 3.2.3 (2025-06-11)
+
+- Added auto-open action dropdown
+- Increased action dropdown height
+
+
+
+
+#####   Version 3.2.2 (2025-05-23)
+
+- Updated dependencies
+
+
+
+
+#####   Version 3.2.1 (2025-04-28)
+
+- [Feat] Add wpcf7r_get_actions_categories hook for developers to extend the available actions in UI.
+- [Fix] Errors when using Multi Step by Ninja.
+- [Fix] Small PHP warnings.
+- [Fix] Salesforce connection error.
+
+
+
+
+####   Version 3.2.0 (2025-04-23)
+
+- [Feat] Introduced a new dashboard
+- [Feat] Improved Add to action interface to showcase available actions better
+- [Feat] Improved layout for Actions list, with a toggle to update the status and new Edit/Delete/Duplicate buttons
+- [Feat] Open the action options by default when a new action is added
+- [Feat] Rename Leads to Entries and improved the layout of the Entries List
+- [Feat] Improved Conditional Logic layout
+- [Feat] Added a Learn about Pro button in the plugins listing page
+- [Feat] Moved Fire JavaScript action to a separate premium add-on for new users
+- [Feat] Rename API Request action to Webhook to better showcase its options
+- [Fix] Removed dashboard notice for rating
+- [Fix] Make Contact Form 7 required for plugin activation
+- [Fix] Enhance Twilio API key validation and improve field labels in settings
+- [Fix] HubSpot connection validation and AJAX handling
+- [Fix] Add utility functions to save the files in a custom upload folder, and added security similar to Contact Form 7.
+- [Fix] Delete the uploaded files when an entry is deleted.
+- [Fix] Added a preview feature for uploaded images.
+- [Fix] Fix various broken links and UI inconsistencies
+
+
+
+
+#####   Version 3.1.10 (2025-01-10)
+
+- Fixed compatibility issue with WordPress 6.7
+- Fixed deprecated error with latest CF7 plugin
+
+
+
+
+#####   Version 3.1.9 (2024-11-11)
+
+- Fixed issue with multiple add actions
+- Fixed integration issue with Mailchimp causing PHP error
+- Updated dependencies
+
+
+
+
+#####   Version 3.1.8 (2024-08-09)
+
+- Changed wording on the upgrade button
+- Implemented a user satisfaction survey
+
+
+
+
+#####   Version 3.1.7 (2024-06-20)
+
+- Fix compatibility with Freemius
+
+
+
+
+#####   Version 3.1.6 (2024-06-20)
+
+- Update internal dependencies
+- Improve compatibility for Add-ons
+
+
+
 
 ##### Version 3.1.5 (2024-06-04)
 

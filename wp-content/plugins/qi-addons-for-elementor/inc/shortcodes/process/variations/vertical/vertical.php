@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_process_variation_vertical' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -25,7 +30,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_process_vertical_add_extra_opti
 			'field_type' => 'slider',
 			'name'       => 'vertical_space_between',
 			'title'      => esc_html__( 'Space Between Items', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-qi-process.qodef-item-layout--vertical .qodef-process-item:not(:last-child) .qodef-e-icon-holder' => 'padding-bottom: {{SIZE}}{{UNIT}};',

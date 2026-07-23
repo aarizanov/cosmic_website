@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_image_gallery_shortcode' ) ) {
 	/**
 	 * Function that add shortcode into shortcodes list for registration
@@ -9,7 +14,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_image_gallery_shortcode' ) 
 	 * @return array
 	 */
 	function qi_addons_for_elementor_add_image_gallery_shortcode( $shortcodes ) {
-		$shortcodes[] = 'QiAddonsForElementor_ImageGallery_Shortcode';
+		$shortcodes[] = 'QiAddonsForElementor_Image_Gallery_Shortcode';
 
 		return $shortcodes;
 	}
@@ -18,7 +23,11 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_image_gallery_shortcode' ) 
 }
 
 if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
-	class QiAddonsForElementor_ImageGallery_Shortcode extends QiAddonsForElementor_List_Shortcode {
+	class QiAddonsForElementor_Image_Gallery_Shortcode extends QiAddonsForElementor_List_Shortcode {
+
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
 
 		public function __construct() {
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_image_gallery_extra_options', array() ) );
@@ -31,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_image_gallery' );
 			$this->set_name( esc_html__( 'Image Gallery', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that adds image gallery element', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Showcase', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/image-gallery/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#image_gallery' );
@@ -59,6 +68,13 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'name'       => 'images',
 					'multiple'   => 'yes',
 					'title'      => esc_html__( 'Images', 'qi-addons-for-elementor' ),
+				)
+			);
+			$this->set_option(
+				array(
+					'field_type' => 'checkbox',
+					'name'       => 'disable_lazy_loading',
+					'title'      => esc_html__( 'Disable Lazy Load for images', 'qi-addons-for-elementor' ),
 				)
 			);
 			$this->set_option(
@@ -141,7 +157,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'image_border_radius',
 					'title'      => esc_html__( 'Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-inner' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -234,6 +250,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			parent::render( $options );
 			$atts = $this->get_atts();
 
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.rand_rand
 			$atts['unique']         = rand( 0, 999 );
 			$atts['holder_classes'] = $this->get_holder_classes( $atts );
 			$atts['item_classes']   = $this->get_item_classes( $atts );
@@ -293,7 +310,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 
 					$images[ $i ] = $image;
 
-					$i ++;
+					$i++;
 				}
 			}
 

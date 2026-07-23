@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php qi_addons_for_elementor_framework_class_attribute( $holder_classes ); ?>>
 	<?php if ( isset( $icon_type ) && ! empty( $icon_type['value'] ) ) { ?>
 		<div class="qodef-m-icon-wrapper">
@@ -11,6 +18,6 @@
 	</div>
 	<?php qi_addons_for_elementor_template_part( 'shortcodes/info-cards', 'templates/parts/button', '', $params ); ?>
 	<?php if ( 'yes' === $enable_link_overlay && ! empty( $link['url'] ) ) { ?>
-		<a class="qodef-m-link" href="<?php echo esc_url( $link['url'] ); ?>" <?php echo qi_addons_for_elementor_framework_get_inline_attrs( qi_addons_for_elementor_get_link_attributes( $link ) ); ?>></a>
+		<a class="qodef-m-link" href="<?php echo esc_url( $link['url'] ); ?>" <?php qi_addons_for_elementor_framework_inline_attrs( qi_addons_for_elementor_get_link_attributes( $link ) ); ?>></a>
 	<?php } ?>
 </div>

@@ -34,6 +34,7 @@ function wpcf7_swv_available_rules() {
 		'maxdate' => 'Contactable\SWV\MaxDateRule',
 		'minfilesize' => 'Contactable\SWV\MinFileSizeRule',
 		'maxfilesize' => 'Contactable\SWV\MaxFileSizeRule',
+		'stepnumber' => 'Contactable\SWV\StepNumberRule',
 		'all' => 'Contactable\SWV\AllRule',
 		'any' => 'Contactable\SWV\AnyRule',
 	);
@@ -66,7 +67,7 @@ function wpcf7_swv_load_rules() {
  *
  * @param string $rule_name Rule name.
  * @param string|array $properties Optional. Rule properties.
- * @return Rule|null The rule object, or null if it failed.
+ * @return \Contactable\SWV\Rule|null The rule object, or null if it failed.
  */
 function wpcf7_swv_create_rule( $rule_name, $properties = '' ) {
 	$rules = wpcf7_swv_available_rules();
@@ -115,6 +116,13 @@ function wpcf7_swv_get_meta_schema() {
 								'type' => 'string',
 							),
 						),
+						'base' => array(
+							'type' => 'string',
+						),
+						'interval' => array(
+							'type' => 'number',
+							'minimum' => 0,
+						),
 						'threshold' => array(
 							'type' => 'string',
 						),
@@ -135,7 +143,7 @@ class WPCF7_SWV_Schema extends \Contactable\SWV\CompositeRule {
 	/**
 	 * The human-readable version of the schema.
 	 */
-	const version = 'Contact Form 7 SWV Schema 2024-02';
+	const version = 'Contact Form 7 SWV Schema 2024-10';
 
 
 	/**

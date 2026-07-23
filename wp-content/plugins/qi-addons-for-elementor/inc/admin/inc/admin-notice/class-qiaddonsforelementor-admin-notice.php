@@ -1,12 +1,17 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 class QiAddonsForElementor_Admin_Notice {
 	private static $instance;
 
-	// Used to determine after how many days of plugin usage review notice will show up
+	// Used to determine after how many days of plugin usage review notice will show up.
 	private $days_after_plugin_activation = 7;
 
-	// Used to determine number of days after which review notice will show up again if customer clicked "Maybe Later" option
+	// Used to determine number of days after which review notice will show up again if customer clicked "Maybe Later" option.
 	private $review_maybe_later_postponement_days = 1;
 
 	public $plugin_slug = 'qi-addons-for-elementor';
@@ -14,19 +19,19 @@ class QiAddonsForElementor_Admin_Notice {
 	public $plugin_name = 'Qi Addons for Elementor';
 
 
-	function __construct() {
+	public function __construct() {
 
-		// Include scripts for plugin notice
+		// Include scripts for plugin notice.
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_script' ) );
 
-		// Add admin notice
+		// Add admin notice.
 		add_action( 'admin_notices', array( $this, 'add_notice' ) );
 		add_action( 'admin_notices', array( $this, 'add_review_notice' ) );
 
-		// Add plugin deactivation notice
+		// Add plugin deactivation notice.
 		add_action( 'current_screen', array( $this, 'add_deactivation_notice' ) );
 
-		// Function that handles plugin notice
+		// Function that handles plugin notice.
 		add_action( 'wp_ajax_qi_addons_for_elementor_notice', array( $this, 'handle_notice' ) );
 		add_action( 'wp_ajax_qi_addons_for_elementor_review_notice', array( $this, 'handle_review_notice' ) );
 		add_action( 'wp_ajax_qi_addons_for_elementor_deactivation', array( $this, 'handle_deactivation' ) );
@@ -41,7 +46,9 @@ class QiAddonsForElementor_Admin_Notice {
 	}
 
 	public function register_script() {
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion
 		wp_register_script( 'qi-addons-for-elementor-notice', QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/admin-notice/assets/js/admin-notice.min.js', array( 'jquery' ), false, false );
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_register_style( 'qi-addons-for-elementor-notice', QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/admin-notice/assets/css/admin-notice.min.css' );
 	}
 
@@ -62,7 +69,7 @@ class QiAddonsForElementor_Admin_Notice {
 
 		if ( 'allowed' == $params['notice_action'] ) {
 			$this->handle_allowed_notice();
-		} else if ( 'disallowed' == $params['notice_action'] ) {
+		} elseif ( 'disallowed' === $params['notice_action'] ) {
 			$this->handle_disallowed_notice();
 		} else {
 			qi_addons_for_elementor_framework_get_ajax_status( 'fail', esc_html__( 'Something went wrong.', 'qi-addons-for-elementor' ) );
@@ -75,7 +82,7 @@ class QiAddonsForElementor_Admin_Notice {
 		$data = array(
 			'plugin'      => 'qi-addons-for-elementor',
 			'domain'      => get_site_url(),
-			'date'        => date( 'Y-m-d H:i:s' ),
+			'date'        => gmdate( 'Y-m-d H:i:s' ),
 			'wp_version'  => $wp_version,
 			'wp_language' => get_bloginfo( 'language' ),
 			'php_version' => phpversion(),
@@ -88,11 +95,13 @@ class QiAddonsForElementor_Admin_Notice {
 
 		$theme = $this->get_theme_info();
 		if ( is_array( $theme ) && count( $theme ) > 0 ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 			$data['active_theme'] = serialize( $theme );
 		}
 
 		$plugins = $this->get_active_plugins();
 		if ( is_array( $plugins ) && count( $plugins ) > 0 ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 			$data['active_plugins'] = serialize( $plugins );
 		}
 
@@ -150,6 +159,7 @@ class QiAddonsForElementor_Admin_Notice {
 	}
 
 	public function add_review_notice() {
+		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 		$current_date                       = current_time( 'timestamp' );
 		$review_option                      = get_option( 'qi_addons_for_elementor_review_status' );
 		$plugin_install_date                = get_option( 'qi_addons_for_elementor_install_date' );
@@ -181,11 +191,12 @@ class QiAddonsForElementor_Admin_Notice {
 	public function handle_review_notice() {
 		check_ajax_referer( 'qi-addons-for-elementor-review-notice-nonce', 'nonce' );
 
-		$params = $_POST;
+		$params        = $_POST;
 		$review_action = $params['review_action'];
-		$current_date = current_time( 'timestamp' );
+		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		$current_date        = current_time( 'timestamp' );
 		$postponement_buffer = $this->geneterate_number_of_seconds_from_days( $this->review_maybe_later_postponement_days );
-        $reminder_date = $current_date + $postponement_buffer;
+		$reminder_date       = $current_date + $postponement_buffer;
 
 		switch ( $review_action ) {
 			case 'review':
@@ -205,11 +216,11 @@ class QiAddonsForElementor_Admin_Notice {
 				qi_addons_for_elementor_framework_get_ajax_status( 'fail', esc_html__( 'Something went wrong.', 'qi-addons-for-elementor' ) );
 				break;
 		}
-
 	}
 
 	public function geneterate_number_of_seconds_from_days( $days ) {
-		return $days * 24 * 60 * 60; // each day has 24 hours where each have 60 minutes and each minute has 60 seconds
+		// each day has 24 hours when each have 60 minutes and each minute has 60 seconds.
+		return $days * 24 * 60 * 60;
 	}
 
 	public function add_deactivation_notice() {
@@ -235,21 +246,21 @@ class QiAddonsForElementor_Admin_Notice {
 	}
 
 	private function is_plugins_screen() {
-		return in_array( get_current_screen()->id, array( 'plugins', 'plugins-network' ) );
+		return in_array( get_current_screen()->id, array( 'plugins', 'plugins-network' ), true );
 	}
 
 	public function handle_deactivation() {
 		check_ajax_referer( 'qi-addons-for-elementor-deactivation-nonce', 'nonce' );
 
 		$data = array(
-			'plugin' => $this->plugin_slug,
-			'site_lang' => get_bloginfo( 'language' ),
-			'reason' => $_POST['reason'],
-			'reason_additional_info' => $_POST['additionalInfo'],
-			'date' => date( 'Y-m-d H:i:s' )
+			'plugin'                 => $this->plugin_slug,
+			'site_lang'              => get_bloginfo( 'language' ),
+			'reason'                 => isset( $_POST['reason'] ) ? sanitize_text_field( wp_unslash( $_POST['reason'] ) ) : '',
+			'reason_additional_info' => isset( $_POST['additionalInfo'] ) ? sanitize_text_field( wp_unslash( $_POST['additionalInfo'] ) ) : '',
+			'date'                   => gmdate( 'Y-m-d H:i:s' ),
 		);
 
-        $request_handler_url = 'https://api.qodeinteractive.com/plugin-deactivation-feedback.php';
+		$request_handler_url = 'https://api.qodeinteractive.com/plugin-deactivation-feedback.php';
 
 		$response = wp_remote_post(
 			$request_handler_url,

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_blog_slider_shortcode' ) ) {
 	/**
 	 * Function that isadding shortcode into shortcodes slider for registration
@@ -35,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_blog_slider' );
 			$this->set_name( esc_html__( 'Blog Carousel', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays carousel of blog posts', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Business', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/blog-carousel/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#blog_carousel' );
@@ -277,7 +282,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'name'       => 'post_info_margin_bottom',
 					'title'      => esc_html__( 'Post Info Margin Bottom', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Layout Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-blog-item .qodef-e-info.qodef-info--top' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -309,7 +314,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'image_border_radius',
 					'title'      => esc_html__( 'Image Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-media-image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -385,7 +390,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 					'name'       => 'title_margin_bottom',
 					'title'      => esc_html__( 'Title Margin Bottom', 'qi-addons-for-elementor' ),
 					'group'      => esc_html__( 'Layout Spacing Style', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-shortcode .qodef-e-title' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -433,7 +438,7 @@ if ( class_exists( 'QiAddonsForElementor_Slider_Shortcode' ) ) {
 
 			$atts['post_type'] = $this->get_post_type();
 
-			// Additional query args
+			// Additional query args.
 			$atts['additional_query_args'] = $this->get_additional_query_args( $atts );
 
 			$atts['unique']         = wp_unique_id();

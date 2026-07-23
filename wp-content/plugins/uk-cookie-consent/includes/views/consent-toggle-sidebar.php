@@ -12,6 +12,10 @@ $display_banner = ( 'yes' === get_option( 'termly_display_banner', 'no' ) );
 ?>
 <div class="termly-consent-sidebar">
 
+	<div id="termly-consent-toggle-setting-error">
+		<p><strong><?php esc_html_e( 'Settings saved.', 'uk-cookie-consent' ); ?></strong></p>
+	</div>
+
 	<div class="consent-header">
 
 		<label class="toggle" for="termly-display-banner-toggle">
@@ -26,7 +30,7 @@ $display_banner = ( 'yes' === get_option( 'termly_display_banner', 'no' ) );
 			<span class="toggle-track">
 				<span class="toggle-indicator"></span>
 			</span>
-			<?php esc_html_e( 'Consent Banner', 'uk-cookie-consent' ); ?>
+			<span class="title"><?php esc_html_e( 'Consent banner', 'uk-cookie-consent' ); ?></span>
 		</label>
 	</div>
 

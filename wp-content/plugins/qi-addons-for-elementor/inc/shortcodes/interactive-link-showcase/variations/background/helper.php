@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_link_showcase_variation_background' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -53,4 +58,3 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_interactive_link_showcase_o
 
 	add_filter( 'qi_addons_for_elementor_filter_interactive_link_showcase_extra_options', 'qi_addons_for_elementor_add_interactive_link_showcase_options_background' );
 }
-

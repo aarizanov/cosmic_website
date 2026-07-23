@@ -1,3 +1,10 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+?>
 <div <?php wc_product_class( $item_classes ); ?>>
 	<div class="qodef-e-product-inner">
 		<?php if ( has_post_thumbnail() ) { ?>
@@ -19,7 +26,7 @@
 					<div class="qodef-e-product-bottom">
 						<?php qi_addons_for_elementor_template_part( 'plugins/woocommerce/shortcodes/product-slider', 'templates/post-info/add-to-cart', '', $params ); ?>
 						<?php
-						// Hook to include additional content inside product list item image
+						// Hook to include additional content inside product list item image.
 						do_action( 'qi_addons_for_elementor_action_product_slider_item_additional_image_content', $params );
 						?>
 					</div>

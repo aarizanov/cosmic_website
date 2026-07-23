@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_variation_standard' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -106,7 +111,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_standard'
 			'field_type' => 'slider',
 			'name'       => 'standard_image_margin_bottom',
 			'title'      => esc_html__( 'Image Margin Bottom', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--standard .qodef-e-media' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -126,7 +131,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_blog_list_options_standard'
 			'field_type' => 'slider',
 			'name'       => 'standard_text_margin_bottom',
 			'title'      => esc_html__( 'Text Margin Bottom', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--standard .qodef-e-text' => 'margin-bottom: {{SIZE}}{{UNIT}};',

@@ -1,4 +1,12 @@
-<?php if ( 'yes' === $enablePagination && ! is_singular( 'post' ) && isset( $query_result ) && intval( $query_result->max_num_pages ) > 1 ) { ?>
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
+if ( 'yes' === $enablePagination && ! is_singular( 'post' ) && isset( $query_result ) && intval( $query_result->max_num_pages ) > 1 ) {
+	?>
 	<div class="qodef-m-pagination qodef--standard">
 		<nav class="navigation pagination" role="navigation" aria-label="<?php esc_attr_e( 'Posts', 'qi-blocks' ); ?>">
 			<h2 class="screen-reader-text"><?php esc_html_e( 'Posts navigation', 'qi-blocks' ); ?></h2>

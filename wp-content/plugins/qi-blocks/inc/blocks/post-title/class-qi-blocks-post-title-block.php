@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Post_Title_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'post-title' );
 			$this->set_block_title( esc_html__( 'Post Title', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Content', 'qi-blocks' ) );
@@ -81,6 +81,8 @@ if ( ! class_exists( 'Qi_Blocks_Post_Title_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Post_Title_Block
 		 */
 		public static function get_instance() {
@@ -91,7 +93,7 @@ if ( ! class_exists( 'Qi_Blocks_Post_Title_Block' ) ) {
 			return self::$instance;
 		}
 
-		function dynamic_render_callback( $attributes, $content, $block ) {
+		public function dynamic_render_callback( $attributes, $content, $block ) {
 			$html = '';
 
 			if ( ! empty( $block ) && empty( $block->context['postId'] ) ) {
@@ -108,7 +110,7 @@ if ( ! class_exists( 'Qi_Blocks_Post_Title_Block' ) ) {
 				$html .= '<div ' . qi_blocks_get_block_container_html_attributes_string( $attributes ) . '>';
 				$html .= '<div class="' . implode( ' ', $block_classes ) . '">';
 
-				$html .= '<' . sanitize_key( $title_tag ) . ' class="qodef-m-title">';
+				$html .= '<' . qi_blocks_escape_title_tag( $title_tag ) . ' class="qodef-m-title">';
 
 					if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {
 						$html .= '<a class="qodef-m-link" href="' . get_the_permalink( $post_ID ) . '">';
@@ -120,7 +122,7 @@ if ( ! class_exists( 'Qi_Blocks_Post_Title_Block' ) ) {
 						$html .= '</a>';
 					}
 
-				$html .= '</' . sanitize_key( $title_tag ) . '>';
+				$html .= '</' . qi_blocks_escape_title_tag( $title_tag ) . '>';
 
 				$html .= '</div>';
 				$html .= '</div>';

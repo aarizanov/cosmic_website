@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Search_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'search' );
 			$this->set_block_title( esc_html__( 'Search', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Content', 'qi-blocks' ) );
@@ -898,6 +898,8 @@ if ( ! class_exists( 'Qi_Blocks_Search_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Search_Block
 		 */
 		public static function get_instance() {
@@ -908,7 +910,7 @@ if ( ! class_exists( 'Qi_Blocks_Search_Block' ) ) {
 			return self::$instance;
 		}
 
-		function dynamic_render_callback( $attributes ) {
+		public function dynamic_render_callback( $attributes ) {
 			$html = '';
 
 			$block_classes   = qi_blocks_get_block_holder_classes( 'search', $attributes );
@@ -921,9 +923,9 @@ if ( ! class_exists( 'Qi_Blocks_Search_Block' ) ) {
 
 			if ( $attributes['showWidgetTitle'] && ! empty( $attributes['widgetTitle'] ) ) {
 				$html .= '<div class="qodef-m-search-title-holder">';
-				$html .= '<' . esc_attr( $attributes['widgetTitleTag'] ) . ' class="qodef-m-search-title">';
+				$html .= '<' . qi_blocks_escape_title_tag( $attributes['widgetTitleTag'] ) . ' class="qodef-m-search-title">';
 				$html .= wp_kses_post( $attributes['widgetTitle'] );
-				$html .= '</' . esc_attr( $attributes['widgetTitleTag'] ) . '>';
+				$html .= '</' . qi_blocks_escape_title_tag( $attributes['widgetTitleTag'] ) . '>';
 				$html .= '</div>';
 			}
 

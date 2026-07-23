@@ -1,4 +1,10 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 $nav_index = 1;
 $nav_items = array(
 	'configuration' => esc_attr__( 'Configuration', 'qi-blocks' ),

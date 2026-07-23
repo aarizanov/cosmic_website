@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_list_shortcode' ) ) {
 	/**
 	 * Function that is adding shortcode into shortcodes list for registration
@@ -20,6 +25,10 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_list_shortcode
 if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 	class QiAddonsForElementor_Testimonials_List_Shortcode extends QiAddonsForElementor_List_Shortcode {
 
+		protected function is_dynamic_content(): bool {
+			return false;
+		}
+
 		public function __construct() {
 			$this->set_layouts( apply_filters( 'qi_addons_for_elementor_filter_testimonials_list_layouts', array() ) );
 			$this->set_extra_options( apply_filters( 'qi_addons_for_elementor_filter_testimonials_list_extra_options', array() ) );
@@ -32,7 +41,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_testimonials_list' );
 			$this->set_name( esc_html__( 'Testimonials', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays list of testimonials', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'Business', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/testimonials/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#testimonials' );
@@ -50,7 +59,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 				)
 			);
 
-			$placeholder = get_option( 'qi_addons_for_elementor_placeholder_image' );
+			$placeholder = qi_addons_for_elementor_get_placeholder_image();
 
 			$this->set_option(
 				array(
@@ -190,7 +199,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'item_quote_font_size',
 					'title'      => esc_html__( 'Quote Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => 0,
@@ -243,7 +252,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'title_margin_bottom',
 					'title'      => esc_html__( 'Title Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-title' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -345,7 +354,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'text_margin_bottom',
 					'title'      => esc_html__( 'Item Text Margin Bottom', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-text' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -359,7 +368,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'text_padding',
 					'title'      => esc_html__( 'Item Text padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-text' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',

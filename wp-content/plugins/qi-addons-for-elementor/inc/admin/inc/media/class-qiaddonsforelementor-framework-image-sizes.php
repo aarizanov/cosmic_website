@@ -1,13 +1,18 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! class_exists( 'QiAddonsForElementor_Framework_Image_Sizes' ) ) {
 	class QiAddonsForElementor_Framework_Image_Sizes {
 
 		private $image_sizes;
 
-		function __construct() {
+		public function __construct() {
 
-			// Initialize variables
+			// Initialize variables.
 			$this->image_sizes = array();
 
 			add_action( 'after_setup_theme', array( $this, 'populate_image_sizes' ), 6 );
@@ -21,7 +26,7 @@ if ( ! class_exists( 'QiAddonsForElementor_Framework_Image_Sizes' ) ) {
 			add_filter( 'qi_addons_for_elementor_filter_framework_pool_list_image_dimension', array( $this, 'register_pool_list_image_dimension' ) );
 		}
 
-		function populate_image_sizes() {
+		public function populate_image_sizes() {
 			do_action( 'qi_addons_for_elementor_action_framework_before_images_register' );
 
 			$this->image_sizes = apply_filters( 'qi_addons_for_elementor_filter_framework_populate_image_sizes', array() );

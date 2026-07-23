@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_include_blog_shortcodes' ) ) {
 	/**
 	 * Function that includes shortcodes
@@ -53,8 +58,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_get_blog_list_excerpt_length' )
 if ( ! function_exists( 'qi_addons_for_elementor_get_post_image' ) ) {
 
 	function qi_addons_for_elementor_get_post_image( $post_id, $images_proportion, $custom_image_width, $custom_image_height ) {
-
-		$image_id = apply_filters( 'qi_addons_for_elementor_filter_get_post_image_id', get_post_thumbnail_id(), $post_id );
+		$image_id = apply_filters( 'qi_addons_for_elementor_filter_get_post_image_id', get_post_thumbnail_id( $post_id ), $post_id );
 
 		$image = qi_addons_for_elementor_get_list_shortcode_item_image( $images_proportion, $image_id, intval( $custom_image_width ), intval( $custom_image_height ) );
 

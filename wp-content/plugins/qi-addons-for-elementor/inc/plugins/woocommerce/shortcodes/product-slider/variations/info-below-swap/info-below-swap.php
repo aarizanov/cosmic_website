@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_variation_info_below_swap' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -32,7 +37,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_options_info
 			'field_type' => 'dimensions',
 			'name'       => 'info_below_swap_item_padding',
 			'title'      => esc_html__( 'Item Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-below-swap .qodef-e-product-inner' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -89,7 +94,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_options_info
 			'name'       => 'info_below_swap_category_margin_top',
 			'title'      => esc_html__( 'Category Margin Top', 'qi-addons-for-elementor' ),
 			'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-below-swap .qodef-e-product-categories' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -109,7 +114,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_options_info
 			'name'       => 'info_below_swap_swap_margin_top',
 			'title'      => esc_html__( 'Swap Holder Margin Top', 'qi-addons-for-elementor' ),
 			'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-below-swap .qodef-e-swap-holder' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -129,7 +134,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_options_info
 			'name'       => 'info_below_swap_price_margin_top',
 			'title'      => esc_html__( 'Price Margin Top', 'qi-addons-for-elementor' ),
 			'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-below-swap .qodef-woo-product-price' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -149,7 +154,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_options_info
 			'name'       => 'info_below_swap_rating_margin_top',
 			'title'      => esc_html__( 'Rating Margin Top', 'qi-addons-for-elementor' ),
 			'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-below-swap .qodef-e-ratings' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -169,7 +174,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_options_info
 			'name'       => 'info_below_swap_button_margin_top',
 			'title'      => esc_html__( 'Button Margin Top', 'qi-addons-for-elementor' ),
 			'group'      => esc_html__( 'Spacing Style', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--info-below-swap .qodef-e-product-content .qodef-qi-button' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -190,8 +195,6 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_product_slider_options_info
 		$info_below_swap_options[] = $category_margin_top;
 		$info_below_swap_options[] = $swap_margin_top;
 		$info_below_swap_options[] = $rating_margin_top;
-//		$info_below_swap_options[] = $price_margin_top;
-//		$info_below_swap_options[] = $button_margin_top; //add it if necessary
 
 		return array_merge( $options, $info_below_swap_options );
 	}

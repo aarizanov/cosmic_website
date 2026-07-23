@@ -8,14 +8,14 @@ if ( ! class_exists( 'Qi_Blocks_Product_List_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'product-list' );
 			$this->set_block_title( esc_html__( 'Product List', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'WooCommerce', 'qi-blocks' ) );
 			$this->set_block_demo_url( 'https://qodeinteractive.com/qi-blocks-for-gutenberg/product-list/' );
 			$this->set_block_documentation( 'https://qodeinteractive.com/qi-blocks-for-gutenberg/documentation/#product_list' );
 
-			// Set block 3rd party scripts
+			// Set block 3rd party scripts.
 			$this->set_block_3rd_party_scripts(
 				array(
 					'isotope'    => array(
@@ -2515,6 +2515,8 @@ if ( ! class_exists( 'Qi_Blocks_Product_List_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Product_List_Block
 		 */
 		public static function get_instance() {
@@ -2525,13 +2527,13 @@ if ( ! class_exists( 'Qi_Blocks_Product_List_Block' ) ) {
 			return self::$instance;
 		}
 
-		function register_block() {
+		public function register_block() {
 			if ( qi_blocks_is_installed( 'woocommerce' ) ) {
 				parent::register_block();
 			}
 		}
 
-		function dynamic_render_callback( $attributes ) {
+		public function dynamic_render_callback( $attributes ) {
 			$attributes['post_type']             = 'product';
 			$attributes['additional_query_args'] = qi_blocks_get_additional_product_query_args( $attributes );
 			$attributes['query_result']          = new WP_Query( qi_blocks_get_query_params( $attributes ) );

@@ -47,7 +47,7 @@ class Model implements \JsonSerializable {
 	 *
 	 * @var array
 	 */
-	protected $numericFields = [];
+	protected $integerFields = [];
 
 	/**
 	 * Fields that should be hidden when serialized.
@@ -178,7 +178,7 @@ class Model implements \JsonSerializable {
 				continue;
 			}
 
-			if ( in_array( $key, $this->numericFields, true ) ) {
+			if ( in_array( $key, $this->integerFields, true ) ) {
 				$this->$key = (int) $value;
 			}
 		}
@@ -235,7 +235,7 @@ class Model implements \JsonSerializable {
 			return $data;
 		}
 
-		foreach ( $this->numericFields as $field ) {
+		foreach ( $this->integerFields as $field ) {
 			if ( isset( $data[ $field ] ) ) {
 				$data[ $field ] = (int) $data[ $field ];
 			}
@@ -390,7 +390,9 @@ class Model implements \JsonSerializable {
 	 * @return void
 	 */
 	public function reset( $id = null ) {
-		$id = ! empty( $id ) ? $id : $this->{$this->pk};
+		// A failed insert (e.g. a duplicate post_id rejected by the UNIQUE index) never sets the PK,
+		// so fall back to null instead of reading an undefined property.
+		$id = ! empty( $id ) ? $id : ( $this->{$this->pk} ?? null );
 		$this->__construct( $id );
 	}
 

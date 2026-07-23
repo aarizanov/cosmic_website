@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_welcome_sub_page_to_list' ) ) {
 	/**
 	 * Function that add additional sub page item into general page list
@@ -27,7 +32,7 @@ if ( class_exists( 'QiAddonsForElementor_Admin_Sub_Pages' ) ) {
 			add_action( 'qi_addons_for_elementor_action_additional_scripts', array( $this, 'set_additional_scripts' ) );
 		}
 
-		function add_sub_page() {
+		public function add_sub_page() {
 			$this->set_base( 'welcome' );
 			$this->set_menu_slug( 'qi_addons_for_elementor_welcome' );
 			$this->set_title( esc_html__( 'Welcome Page', 'qi-addons-for-elementor' ) );
@@ -35,18 +40,19 @@ if ( class_exists( 'QiAddonsForElementor_Admin_Sub_Pages' ) ) {
 			$this->set_atts( $this->set_atributtes() );
 		}
 
-		function set_atributtes() {
-
+		public function set_atributtes() {
 			$atts = array();
+
 			return $atts;
 		}
 
-		function set_additional_scripts() {
+		public function set_additional_scripts() {
 
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( isset( $_GET['page'] ) && $_GET['page'] === $this->get_menu_slug() ) {
+				// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NoExplicitVersion
 				wp_enqueue_script( 'mailchimp', QI_ADDONS_FOR_ELEMENTOR_ADMIN_URL_PATH . '/inc/admin-pages/assets/plugins/mailchimp/mailchimp.min.js', array( 'jquery' ), false, true );
 			}
 		}
-
 	}
 }

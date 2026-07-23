@@ -19,7 +19,7 @@ namespace PHPInsight;
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>
+  along with this program.  If not, see <https://www.gnu.org/licenses/>
 
  */
 
@@ -227,9 +227,9 @@ class Sentiment {
 
 		if ( file_exists( $fn ) && is_readable( $fn ) ) {
 			$temp  = file_get_contents( $fn );
-			$words = unserialize( $temp );
+			$words = unserialize( trim( $temp ) );
 		} else {
-			echo 'File does not exist: ' . $fn;
+			echo 'File does not exist: ' . $fn; // phpcs:ignore
 			$words = array();
 		}
 
@@ -275,7 +275,7 @@ class Sentiment {
 			if ( file_exists( $dataFolder ) ) {
 				$this->dataFolder = $dataFolder;
 			} else {
-				echo 'Error: could not find the directory - ' . $dataFolder;
+				echo 'Error: could not find the directory - ' . $dataFolder; // phpcs:ignore
 			}
 		}
 
@@ -292,7 +292,7 @@ class Sentiment {
 		// Load and cache dictionaries
 		foreach ( $this->classes as $class ) {
 			if ( ! $this->setDictionary( $class ) ) {
-				echo "Error: Dictionary for class '$class' could not be loaded";
+				echo "Error: Dictionary for class '$class' could not be loaded"; // phpcs:ignore
 			}
 		}
 
@@ -357,7 +357,7 @@ class Sentiment {
 		$fn = "{$this->dataFolder}data.{$type}.php";;
 		if ( file_exists( $fn ) ) {
 			$temp  = file_get_contents( $fn );
-			$words = unserialize( $temp );
+			$words = unserialize( trim( $temp ) );
 		} else {
 			return 'File does not exist: ' . $fn;
 		}
@@ -446,4 +446,4 @@ class Sentiment {
 
 }
 
-?>
+

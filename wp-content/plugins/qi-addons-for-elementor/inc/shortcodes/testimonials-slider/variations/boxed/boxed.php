@@ -1,5 +1,11 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_slider_variation_boxed' ) ) {
 	/**
 	 * Function that add variation layout for this module
@@ -32,7 +38,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_slider_boxed_o
 			'field_type' => 'slider',
 			'name'       => 'boxed_author_position_margin_top',
 			'title'      => esc_html__( 'Item Author Occupation Margin Top', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--boxed .qodef-e-author-job' => 'margin-top: {{SIZE}}{{UNIT}};',
@@ -52,7 +58,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_slider_boxed_o
 			'field_type' => 'slider',
 			'name'       => 'boxed_image_margin_bottom',
 			'title'      => esc_html__( 'Item Image Margin Bottom', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--boxed .qodef-e-media-image' => 'margin-bottom: {{SIZE}}{{UNIT}};',
@@ -72,7 +78,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_slider_boxed_o
 			'field_type'         => 'dimensions',
 			'name'               => 'boxed_quote_position',
 			'title'              => esc_html__( 'Quote Position', 'qi-addons-for-elementor' ),
-			'size_units'         => array( 'px', '%', 'em' ),
+			'size_units'         => array( 'px', '%', 'em', 'custom' ),
 			'allowed_dimensions' => array( 'top', 'right' ),
 			'responsive'         => true,
 			'selectors'          => array(
@@ -93,7 +99,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_slider_boxed_o
 			'field_type' => 'dimensions',
 			'name'       => 'boxed_padding',
 			'title'      => esc_html__( 'Boxed Padding', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%', 'em' ),
+			'size_units' => array( 'px', '%', 'em', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--boxed .qodef-e-inner' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -113,7 +119,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_slider_boxed_o
 			'field_type' => 'dimensions',
 			'name'       => 'boxed_image_border_radius',
 			'title'      => esc_html__( 'Image Border Radius', 'qi-addons-for-elementor' ),
-			'size_units' => array( 'px', '%' ),
+			'size_units' => array( 'px', '%', 'custom' ),
 			'responsive' => true,
 			'selectors'  => array(
 				'{{WRAPPER}} .qodef-item-layout--boxed .qodef-e-media-image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};;',
@@ -133,7 +139,7 @@ if ( ! function_exists( 'qi_addons_for_elementor_add_testimonials_slider_boxed_o
 			'field_type' => 'background',
 			'name'       => 'boxed_item_background',
 			'title'      => esc_html__( 'Item Background', 'qi-addons-for-elementor' ),
-			'types'      => array( 'classic', 'gradient', 'video' ),
+			'types'      => array( 'classic', 'gradient' ),
 			'selector'   => '{{WRAPPER}} .qodef-item-layout--boxed .qodef-e-inner',
 			'dependency' => array(
 				'show' => array(

@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_product_category_list_shortcode' ) ) {
 	/**
 	 * Function that is adding shortcode into shortcodes list for registration
@@ -34,7 +39,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_product_category_list' );
 			$this->set_name( esc_html__( 'Product Category List', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays list of product categories', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'WooCommerce', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/product-category-list/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#4_product_category_list' );
@@ -216,7 +221,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'border_radius',
 					'title'      => esc_html__( 'Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; overflow: hidden; z-index: 1;',

@@ -8,14 +8,14 @@ if ( ! class_exists( 'Qi_Blocks_Blog_List_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'blog-list' );
 			$this->set_block_title( esc_html__( 'Blog List', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Business', 'qi-blocks' ) );
 			$this->set_block_demo_url( 'https://qodeinteractive.com/qi-blocks-for-gutenberg/blog-list/' );
 			$this->set_block_documentation( 'https://qodeinteractive.com/qi-blocks-for-gutenberg/documentation/#blog_list' );
 
-			// Set block 3rd party scripts
+			// Set block 3rd party scripts.
 			$this->set_block_3rd_party_scripts(
 				array(
 					'isotope'       => array(
@@ -2243,6 +2243,8 @@ if ( ! class_exists( 'Qi_Blocks_Blog_List_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Blog_List_Block
 		 */
 		public static function get_instance() {
@@ -2253,7 +2255,7 @@ if ( ! class_exists( 'Qi_Blocks_Blog_List_Block' ) ) {
 			return self::$instance;
 		}
 
-		function dynamic_render_callback( $attributes ) {
+		public function dynamic_render_callback( $attributes ) {
 			$inherit_global_query = isset( $attributes['inheritGlobalQuery'] ) && ! empty( $attributes['inheritGlobalQuery'] );
 
 			if ( $inherit_global_query ) {

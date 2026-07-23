@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_add_product_list_shortcode' ) ) {
 	/**
 	 * Function that is adding shortcode into shortcodes list for registration
@@ -35,7 +40,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			$this->set_base( 'qi_addons_for_elementor_product_list' );
 			$this->set_name( esc_html__( 'Product List', 'qi-addons-for-elementor' ) );
 			$this->set_description( esc_html__( 'Shortcode that displays list of products', 'qi-addons-for-elementor' ) );
-			$this->set_category( esc_html__( 'Qi Addons For Elementor', 'qi-addons-for-elementor' ) );
+			$this->set_category( esc_html__( 'Qi Addons for Elementor', 'qi-addons-for-elementor' ) );
 			$this->set_subcategory( esc_html__( 'WooCommerce', 'qi-addons-for-elementor' ) );
 			$this->set_demo( 'https://qodeinteractive.com/qi-addons-for-elementor/product-list/' );
 			$this->set_documentation( 'https://qodeinteractive.com/qi-addons-for-elementor/documentation/#5_product_list' );
@@ -120,7 +125,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'content_padding',
 					'title'      => esc_html__( 'Content Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-product-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -239,7 +244,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'currency_font_size',
 					'title'      => esc_html__( 'Currency Font Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .woocommerce-Price-currencySymbol' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -253,7 +258,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'currency_offset',
 					'title'      => esc_html__( 'Currency Top Offset', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'range'      => array(
 						'px' => array(
 							'min' => -30,
@@ -297,7 +302,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'slider',
 					'name'       => 'rating_size',
 					'title'      => esc_html__( 'Rating Icons Size', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', 'em' ),
+					'size_units' => array( 'px', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-ratings .qodef-m-star' => 'font-size: {{SIZE}}{{UNIT}};',
@@ -329,7 +334,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'image_border_radius',
 					'title'      => esc_html__( 'Image Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%' ),
+					'size_units' => array( 'px', '%', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-e-product-image' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -458,7 +463,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'mark_padding',
 					'title'      => esc_html__( 'Mark Padding', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-woo-product-mark' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -578,7 +583,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'field_type' => 'dimensions',
 					'name'       => 'mark_border_radius',
 					'title'      => esc_html__( 'Mark Border Radius', 'qi-addons-for-elementor' ),
-					'size_units' => array( 'px', '%', 'em' ),
+					'size_units' => array( 'px', '%', 'em', 'custom' ),
 					'responsive' => true,
 					'selectors'  => array(
 						'{{WRAPPER}} .qodef-qi-woo-product-mark' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -600,7 +605,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 					'name'               => 'mark_offset',
 					'title'              => esc_html__( 'Mark Offset', 'qi-addons-for-elementor' ),
 					'allowed_dimensions' => array( 'top', 'right' ),
-					'size_units'         => array( 'px', '%' ),
+					'size_units'         => array( 'px', '%', 'custom' ),
 					'responsive'         => true,
 					'selectors'          => array(
 						'{{WRAPPER}} .qodef-qi-woo-product-mark' => 'top: {{TOP}}{{UNIT}}; right: {{RIGHT}}{{UNIT}};',
@@ -639,7 +644,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 
 			$atts['post_type'] = $this->get_post_type();
 
-			// Additional query args
+			// Additional query args.
 			$atts['additional_query_args'] = $this->get_additional_query_args( $atts );
 
 			$atts['holder_classes'] = $this->get_holder_classes( $atts );
@@ -661,6 +666,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 						$args['post__in']      = array_merge( array( 0 ), wc_get_product_ids_on_sale() );
 						break;
 					case 'featured':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 						$args['tax_query'] = WC()->query->get_tax_query();
 
 						$args['tax_query'][] = array(
@@ -672,11 +678,13 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 						);
 						break;
 					case 'top_rated':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						$args['meta_key'] = '_wc_average_rating';
 						$args['order']    = 'DESC';
 						$args['orderby']  = 'meta_value_num';
 						break;
 					case 'best_selling':
+						// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 						$args['meta_key'] = 'total_sales';
 						$args['order']    = 'DESC';
 						$args['orderby']  = 'meta_value_num';
@@ -685,6 +693,7 @@ if ( class_exists( 'QiAddonsForElementor_List_Shortcode' ) ) {
 			}
 
 			if ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				$args['meta_query']   = array( 'relation' => 'AND' );
 				$args['meta_query'][] = array(
 					'key'   => '_stock_status',

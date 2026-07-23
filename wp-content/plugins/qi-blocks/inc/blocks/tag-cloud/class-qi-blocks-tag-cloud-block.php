@@ -8,7 +8,7 @@ if ( ! class_exists( 'Qi_Blocks_Tag_Cloud_Block' ) ) {
 		private static $instance;
 
 		public function __construct() {
-			// Set block data
+			// Set block data.
 			$this->set_block_name( 'tag-cloud' );
 			$this->set_block_title( esc_html__( 'Tag Cloud', 'qi-blocks' ) );
 			$this->set_block_subcategory( esc_html__( 'Content', 'qi-blocks' ) );
@@ -139,6 +139,8 @@ if ( ! class_exists( 'Qi_Blocks_Tag_Cloud_Block' ) ) {
 		}
 
 		/**
+		 * Module class instance
+		 *
 		 * @return Qi_Blocks_Tag_Cloud_Block
 		 */
 		public static function get_instance() {
@@ -149,7 +151,7 @@ if ( ! class_exists( 'Qi_Blocks_Tag_Cloud_Block' ) ) {
 			return self::$instance;
 		}
 
-		function dynamic_render_callback( $attributes ) {
+		public function dynamic_render_callback( $attributes ) {
 			$html = '';
 
 			$args = array(

@@ -1,12 +1,17 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	// Exit if accessed directly.
+	exit;
+}
+
 if ( ! function_exists( 'qi_addons_for_elementor_register_masonry_scripts' ) ) {
 	/**
 	 * Function that include modules 3rd party scripts
 	 */
 	function qi_addons_for_elementor_register_masonry_scripts() {
-		wp_register_script( 'isotope', QI_ADDONS_FOR_ELEMENTOR_INC_URL_PATH . '/masonry/assets/js/plugins/isotope.pkgd.min.js', array( 'jquery' ), false, true );
-		wp_register_script( 'packery', QI_ADDONS_FOR_ELEMENTOR_INC_URL_PATH . '/masonry/assets/js/plugins/packery-mode.pkgd.min.js', array( 'jquery' ), false, true );
+		wp_register_script( 'isotope', QI_ADDONS_FOR_ELEMENTOR_INC_URL_PATH . '/masonry/assets/js/plugins/isotope.pkgd.min.js', array( 'jquery' ), '3.0.6', true );
+		wp_register_script( 'packery', QI_ADDONS_FOR_ELEMENTOR_INC_URL_PATH . '/masonry/assets/js/plugins/packery-mode.pkgd.min.js', array( 'jquery' ), '2.0.1', true );
 	}
 
 	add_action( 'qi_addons_for_elementor_action_before_main_js', 'qi_addons_for_elementor_register_masonry_scripts' );
